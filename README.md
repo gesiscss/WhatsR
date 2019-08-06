@@ -23,7 +23,7 @@ Currently, the parser extracts the following information from an updated WhatsAp
  
  ### 1) Install it
  ```R
- devtools::install_github("gesiscss/WhatsR/WhatsR")
+ devtools::install_github("gesiscss/WhatsR")
  ```
  
  ### 2) Extract a Chatlog on your phone
