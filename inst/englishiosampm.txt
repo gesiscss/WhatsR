@@ -1,0 +1,37 @@
+[1/29/18, 12:24:03 PM] Messages to this group are now secured with end-to-end encryption. Tap for more info.
+[1/29/18, 12:24:05 PM] You created group "WhatsAppParserTest🙈"
+[1/29/18, 12:24:07 PM] You added Mallory
+[1/29/18, 12:24:12 PM] Mallory: Hey! :)
+[1/29/18, 12:24:15 PM] You removed Mallory
+[1/29/18, 12:25:03 PM] You added Alice
+[1/29/18, 12:24:16 PM] You added Bob
+[1/29/18, 12:26:03 PM] You changed the subject from "WhatsAppParserTest🙈" to "Whatsappparsertest2"
+﻿[1/29/18, 12:26:03 PM] You changed this group's icon
+[1/29/18, 12:26:03 PM] Dave: Test test
+[1/29/18, 11:33:03 PM] Alice: Is this a chat log?
+[1/29/18, 11:45:03 PM] Bob: Yes it is!
+[1/29/18, 11:45:03 PM] Carol: I think so too
+[1/29/18, 11:45:03 PM] Bob: It's for demonstrating how this parser works!
+[1/29/18, 11:46:03 PM] Alice: ‎‎<attached: ‎PTT-20180129-WA0025.opus>
+[1/29/18, 11:46:03 PM] Bob: Neat, it also recognizes when voicemails have been send
+[1/29/18, 11:46:03 PM] Bob: Thats handy!
+[1/29/18, 11:47:03 PM] Bob: Isn't it?
+[1/29/18, 11:47:03 PM] Alice: yes😄
+[1/29/18, 11:47:03 PM] Bob: <MediA omitted>
+[1/29/18, 11:47:03 PM] Alice: and Emoji work too!
+[1/29/18, 11:47:03 PM] Bob: What about regular smilies?
+[1/29/18, 11:49:03 PM] Alice: ‎No idea, lets try it out!
+[1/29/18, 11:50:03 PM] Bob: alright :) :D
+[1/29/18, 11:51:03 PM] Alice: Seems to work!:P
+[1/29/18, 11:51:03 PM] Bob: Do you think it also recognizes URLs?
+[1/29/18, 11:52:03 PM] Bob: Can you send one to try?
+[1/29/18, 11:53:03 PM] Alice: https://github.com/JuKo007
+[1/29/18, 11:58:03 PM] Alice: Works! But does it also recognize multiple links? https://github.com/JuKo007 https://github.com/JuKo007
+[1/29/18, 11:59:03 PM] Alice: Cool :)
+[1/29/18, 11:59:03 PM] Bob: ‎How about Locations?
+[1/29/18, 11:59:03 PM] Bob: Location: https://maps.google.com/?q=50.9425526,6.9523387
+[1/29/18, 11:59:03 PM] Alice: live location shared
+[1/29/18, 11:59:03 PM] Bob: Works, nice! :)
+[1/30/18, 12:00:03 AM] Alice: This should help to better quantify WhatsApp chat logs!
+[1/30/18, 12:02:03 AM] Bob: ‎‎Alright, lets go 😌😄
+

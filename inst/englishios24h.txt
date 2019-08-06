@@ -1,0 +1,37 @@
+[1/29/18, 12:24:03] Messages to this group are now secured with end-to-end encryption. Tap for more info.
+[1/29/18, 12:24:05] You created group "WhatsAppParserTest🙈"
+[1/29/18, 12:24:07] You added Mallory
+[1/29/18, 12:24:12] Mallory: Hey! :)
+[1/29/18, 12:24:15] You removed Mallory
+[1/29/18, 12:25:03] You added Alice
+[1/29/18, 12:24:16] You added Bob
+[1/29/18, 12:26:03] You changed the subject from "WhatsAppParserTest🙈" to "Whatsappparsertest2"
+﻿[1/29/18, 12:26:03] You changed this group's icon
+[1/29/18, 12:26:03] Dave: Test test
+[1/29/18, 23:33:03] Alice: Is this a chat log?
+[1/29/18, 23:45:03] Bob: Yes it is!
+[1/29/18, 23:45:03] Carol: I think so too
+[1/29/18, 23:45:03] Bob: It's for demonstrating how this parser works!
+[1/29/18, 23:46:03] Alice: ‎‎<attached: ‎PTT-20180129-WA0025.opus>
+[1/29/18, 23:46:03] Bob: Neat, it also recognizes when voicemails have been send
+[1/29/18, 23:46:03] Bob: Thats handy!
+[1/29/18, 23:47:03] Bob: Isn't it?
+[1/29/18, 23:47:03] Alice: yes😄
+[1/29/18, 23:47:03] Bob: <Medien ausgeschlossen>
+[1/29/18, 23:47:03] Alice: and Emoji work too!
+[1/29/18, 23:47:03] Bob: What about regular smilies?
+[1/29/18, 23:49:03] Alice: ‎No idea, lets try it out!
+[1/29/18, 23:50:03] Bob: alright :) :D
+[1/29/18, 23:51:03] Alice: Seems to work!:P
+[1/29/18, 23:51:03] Bob: Do you think it also recognizes URLs?
+[1/29/18, 23:52:03] Bob: Can you send one to try?
+[1/29/18, 23:53:03] Alice: https://github.com/JuKo007
+[1/29/18, 23:58:03] Alice: Works! But does it also recognize multiple links? https://github.com/JuKo007 https://github.com/JuKo007
+[1/29/18, 23:59:03] Alice: Cool :)
+[1/29/18, 23:59:03] Bob: ‎How about Locations?
+[1/29/18, 23:59:03] Bob: Location: https://maps.google.com/?q=50.9425526,6.9523387
+[1/29/18, 23:59:03] Alice: live location shared
+[1/29/18, 23:59:03] Bob: Works, nice! :)
+[1/30/18, 00:00:03] Alice: This should help to better quantify WhatsApp chat logs!
+[1/30/18, 00:02:03] Bob: ‎‎Alright, lets go 😌😄
+
