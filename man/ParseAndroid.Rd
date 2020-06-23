@@ -4,13 +4,19 @@
 \alias{ParseAndroid}
 \title{Parsing raw WhatsApp Chat Textfiles accoring to Android text structure}
 \usage{
-ParseAndroid(UnparsedChat, nl = "\\n",
-  mediaomitted = "<media omitted>", mediaindicator = "(file attached)",
+ParseAndroid(
+  UnparsedChat,
+  nl = "\\n",
+  mediaomitted = "<media omitted>",
+  mediaindicator = "(file attached)",
   sentlocation = paste0("Location: (?=https:\\\\/\\\\/maps\\\\.google\\\\.com\\\\/",
-  "\\\\?q=\\\\d\\\\d.\\\\d{6}\\\\,\\\\d\\\\.\\\\d{6})"),
+    "\\\\?q=\\\\d\\\\d.\\\\d{6}\\\\,\\\\d\\\\.\\\\d{6})"),
   livelocation = "^live location shared$",
-  datetimeindicator = paste0("(?!^)(?=((\\\\d{2}\\\\.\\\\d{2}\\\\.\\\\d{2})|(\\\\d{1,2}\\\\/\\\\d{1,2}\\\\/\\\\d{2})),\\\\s\\\\d{2}\\\\:\\\\d{2}((\\\\s\\\\-)|(\\\\s(?i:(am|pm))\\\\s\\\\-)))"),
-  nlreplace = " start_newline ", mediareplace = " media_omitted ")
+ 
+    datetimeindicator = paste0("(?!^)(?=((\\\\d{2}\\\\.\\\\d{2}\\\\.\\\\d{2})|(\\\\d{1,2}\\\\/\\\\d{1,2}\\\\/\\\\d{2})),\\\\s\\\\d{2}\\\\:\\\\d{2}((\\\\s\\\\-)|(\\\\s(?i:(am|pm))\\\\s\\\\-)))"),
+  nlreplace = " start_newline ",
+  mediareplace = " media_omitted "
+)
 }
 \arguments{
 \item{UnparsedChat}{the name of the exported Whatsapp textfile to be parsed as a character string}
@@ -29,7 +35,7 @@ ParseAndroid(UnparsedChat, nl = "\\n",
 
 \item{nlreplace}{replacement string for a newline character in parsed message. Default is " START_NEWLINE "}
 
-\item{mediareplace}{replacement string for omitted media files. Default is " MEDIA_OMITTED "}
+\item{mediareplace}{replacement string for omitted media files. Default is " media_omitted "}
 }
 \value{
 A dataframe containing the timestamp, name of the sender and message body
@@ -39,5 +45,5 @@ Creates a dataframe from an exported WhatsApp textfile containing one row per me
 and a column for DateTime when the message was send, name of the sender and body of the message.
 }
 \examples{
-ParsedChat <- ParseAndroid("29.01.18, 23:33 - Alice: Hi?\\n 29.01.18, 23:45 - Bob: Hi\\n")
+ParsedChat <- ParseAndroid("29.01.18, 23:33 - Alice: Hi?\n 29.01.18, 23:45 - Bob: Hi\n")
 }

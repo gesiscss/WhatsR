@@ -4,8 +4,14 @@
 \alias{ReplaceEmoji}
 \title{Replacing Emoji with Text or Unicode}
 \usage{
-ReplaceEmoji(string, replacement = "text", start = " |Emoji_",
-  end = "| ", EmojiDictionary = "internal", ...)
+ReplaceEmoji(
+  string,
+  replacement = "text",
+  start = " |Emoji_",
+  end = "| ",
+  EmojiDictionary = "internal",
+  ...
+)
 }
 \arguments{
 \item{string}{a character string containing the Emojis to be replaced}
@@ -28,5 +34,8 @@ a character string containing textual descriptions or unicode instead of emoji
 Replaces all instances of Emoji in a textstring with a textual description or their unicode equivalent
 }
 \examples{
- ReplaceEmoji("I'm on the Highway to hell! 😈")
+example <- readRDS(system.file("EmojiExample.rds", package = "WhatsR"))
+print(example)
+Replacement <- ReplaceEmoji(example)
+print(Replacement)
 }

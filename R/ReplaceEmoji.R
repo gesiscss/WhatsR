@@ -9,10 +9,14 @@
 #' an updated dataframe created by \code{\link[WhatsR]{FetchEmojis}}
 #' @param ... arguments passed from other functions
 #' @export
-#' @import qdapRegex
+#' @importFrom qdapRegex rm_default
+#' @importFrom utils read.csv
 #' @return a character string containing textual descriptions or unicode instead of emoji
 #' @examples
-#'  ReplaceEmoji("I'm on the Highway to hell! 😈")
+#' example <- readRDS(system.file("EmojiExample.rds", package = "WhatsR"))
+#' print(example)
+#' Replacement <- ReplaceEmoji(example)
+#' print(Replacement)
 
 # Function for replacing the Emojis
 ReplaceEmoji <- function(string,
@@ -28,7 +32,8 @@ ReplaceEmoji <- function(string,
                          header = TRUE,
                          stringsAsFactors = FALSE,
                          strip.white = FALSE,
-                         colClasses = "character")
+                         colClasses = "character",
+                         blank.lines.skip = TRUE)
   }
 
   # rm_default throws a useless warning on each iteration that we can ignore

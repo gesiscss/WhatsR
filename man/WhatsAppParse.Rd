@@ -4,10 +4,20 @@
 \alias{WhatsAppParse}
 \title{Parsing exported WhatsApp Textfiles as Dataframes}
 \usage{
-WhatsAppParse(name, EmojiDic = "internal", smilies = 2, anon = "add",
-  media = TRUE, web = "domain", order = "both",
-  language = "german", os = "android", rpnl = " start_newline ",
-  rpom = " media_omitted ", ...)
+WhatsAppParse(
+  name,
+  EmojiDic = "internal",
+  smilies = 2,
+  anon = "add",
+  media = TRUE,
+  web = "domain",
+  order = "both",
+  language = "german",
+  os = "android",
+  rpnl = " start_newline ",
+  rpom = " media_omitted ",
+  ...
+)
 }
 \arguments{
 \item{name}{the name of the exported Whatsapp textfile to be parsed as a character string}
@@ -36,7 +46,7 @@ it changes the structure of date/time columns and indicators for sent media. Cur
 
 \item{os}{operating system of the phone the chat was exported from. Supports "android" or "iOS"}
 
-\item{rpnl}{newline replace. A character string for replacing linebreaks within messages for the parsed message for better readibility}
+\item{rpnl}{replace newline. A character string for replacing linebreaks within messages for the parsed message for better readibility}
 
 \item{rpom}{replace omitted media. A character string replacing the indicator for omitted media files for better readibility}
 
@@ -44,13 +54,22 @@ it changes the structure of date/time columns and indicators for sent media. Cur
 }
 \value{
 A dataframe containing:
-     1) A timestamp of when the message was sent
-     2) The name of the sender (can be anonymized)
-     3) The body of the message. Linebreaks and Emojis are replaced with textual indicators
-     4) A list of Emojis contained in the message
-     5) A list of ASCII smilies contained in the message
-     6) An indicator stating whether media files were included in the message
-     7) A list of domains/webpages from sent links contained in the message
+
+     1) A column to indicate the date and time when the message was send \cr
+     2) A column containing the anonimized name of the sender \cr
+     3) A column to indicate the name of the sender \cr
+     4) A column containing the raw message body (Emoji are replaced with textual representation) \cr
+     5) A column containgin a "flat" message, stripped of Emoji, numbers, special characters, file attachments, sent Locations etc. \cr
+     6) A column containing a tokenized version of the flat message \cr
+     7) A column containing only URLs that were contained in the messages (optional: can be shortend to only display domains) \cr
+     8) A column containing only the names of attached meda files \cr
+     9) A column containing only sent locations and indicators for shared live locations \cr
+     10) A column containing only Emoji that were used in the message \cr
+     11) A column containing only Emoticons (e.g. ":-)") that were used in the message \cr
+     12) A column containing the number of tokens per message, derived from the "flattened" message \cr
+     13) A column containing WhatsApp System Messages in group chats (e.g."You added Frank to the group") \cr
+     14) A column specifying the order of the rows according to the timestamp the messages have on the phone used for extracting the chatlog \cr
+     15) A column for specifying the order of the rows as they are displayed on the phone used for extracting the chatlog \cr
 }
 \description{
 Creates a dataframe from an exported WhatsApp textfile containing one row per message. Some columns
@@ -58,7 +77,7 @@ were saved as lists using the I() function so that multiple elements could be st
 the general structure of one row per message. In your analysis, you should treat these columns as lists or unlist them first.
 }
 \examples{
- Df <- WhatsAppParse(system.file("englishandroid24h.txt", package = "WhatsR"),
-                    media = TRUE,
-                    language = "english")
+data <- WhatsAppParse(system.file("englishandroid24h.txt", package = "WhatsR"),
+                      media = TRUE,
+                      language = "english")
 }

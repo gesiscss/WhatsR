@@ -4,20 +4,20 @@
 \alias{FetchEmojis}
 \title{Fetching Emoji Dictionary from Emojipedia.org}
 \usage{
-FetchEmojis(pages = c("https://emojipedia.org/people/",
-  "https://emojipedia.org/nature/", "https://emojipedia.org/food-drink/",
-  "https://emojipedia.org/activity/",
-  "https://emojipedia.org/travel-places/",
-  "https://emojipedia.org/objects/", "https://emojipedia.org/symbols/",
-  "https://emojipedia.org/flags/"),
+FetchEmojis(
+  pages = c("https://emojipedia.org/people/", "https://emojipedia.org/nature/",
+    "https://emojipedia.org/food-drink/", "https://emojipedia.org/activity/",
+    "https://emojipedia.org/travel-places/", "https://emojipedia.org/objects/",
+    "https://emojipedia.org/symbols/", "https://emojipedia.org/flags/"),
   skinpages = c("https://emojipedia.org/emoji-modifier-fitzpatrick-type-1-2/",
-  "https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/",
-  "https://emojipedia.org/emoji-modifier-fitzpatrick-type-4/",
-  "https://emojipedia.org/emoji-modifier-fitzpatrick-type-5/",
-  "https://emojipedia.org/emoji-modifier-fitzpatrick-type-6/"),
-  RegularXpath = "/html/body/div[3]/div[1]/ul",
-  SkinXpath = "/html/body/div[3]/div[1]/article/section[1]/ul",
-  ExceptionXpath = "/html/body/div[3]/div[1]/article/section[1]/ul[2]")
+    "https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/",
+    "https://emojipedia.org/emoji-modifier-fitzpatrick-type-4/",
+    "https://emojipedia.org/emoji-modifier-fitzpatrick-type-5/",
+    "https://emojipedia.org/emoji-modifier-fitzpatrick-type-6/"),
+  RegularXpath = "/html/body/div[2]/div[1]/ul",
+  SkinXpath = "/html/body/div[2]/div[1]/article/section[1]/ul",
+  ExceptionXpath = "/html/body/div[2]/div[1]/article/section[1]/ul[2]"
+)
 }
 \arguments{
 \item{pages}{A character vector containing the URLs of the emoji categories you want to fetch}
@@ -32,15 +32,15 @@ FetchEmojis(pages = c("https://emojipedia.org/people/",
 }
 \value{
 A dataframe containing:
-     1) The native representation of all Emoji in R
-     2) A textual description of what the Emoji is displaying
-     3) The body of the message. Linebreaks and Emojis are replaced with textual indicators
+     1) The native representation of all Emoji in R \cr
+     2) A textual description of what the Emoji is displaying \cr
+     3) The body of the message. Linebreaks and Emojis are replaced with textual indicators \cr
      4) Original Order of HTML table that the Emojis were fetched from
 }
 \description{
-Fetches a dictionary of emojis from www.emojipedia.org, given that the websites structure does not change.
+Fetches a dictionary of emojis from www.emojipedia.org, assuming that the websites structure does not change.
 Can be used to update Emoji dictionary contained in this package. The dictionary is ordered according to the length
-the emojis' byte representation (longer ones first) to prevent partial matching of shorter strings when iteration from
+the emojis' byte representation (longer ones first) to prevent partial matching of shorter strings when iterating
 trough the dataframe from top to bottom.
 }
 \examples{

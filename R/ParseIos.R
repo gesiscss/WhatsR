@@ -12,7 +12,11 @@
 #' @param nlreplace replacement string for a newline character in parsed message. Default is " START_NEWLINE "
 #' @param mediareplace replacement string for omitted media files. Default is " MEDIA_OMITTED "
 #' @export
-#' @import stringi stringr qdapRegex lubridate
+#' @importFrom qdapRegex rm_default
+#' @importFrom stringi stri_split_fixed
+#' @importFrom lubridate parse_date_time
+#' @importFrom stringi stri_split_regex
+#' @importFrom stringr str_extract_all
 #' @return A dataframe containing the timestamp, name of the sender and message body
 #' @examples
 #' ParsedChat <- ParseIos("[29.01.18, 23:33:00] Alice: Hello?\\n [29.01.18, 23:45:01] Bob: Hello")

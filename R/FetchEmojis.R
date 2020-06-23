@@ -1,8 +1,8 @@
 #' @title Fetching Emoji Dictionary from Emojipedia.org
 #'
-#' @description Fetches a dictionary of emojis from www.emojipedia.org, given that the websites structure does not change.
+#' @description Fetches a dictionary of emojis from www.emojipedia.org, assuming that the websites structure does not change.
 #' Can be used to update Emoji dictionary contained in this package. The dictionary is ordered according to the length
-#' the emojis' byte representation (longer ones first) to prevent partial matching of shorter strings when iteration from
+#' the emojis' byte representation (longer ones first) to prevent partial matching of shorter strings when iterating
 #' trough the dataframe from top to bottom.
 #' @param pages A character vector containing the URLs of the emoji categories you want to fetch
 #' @param skinpages A character vector containing the URLs of the skintone modifier categories you want to fetch
@@ -15,9 +15,9 @@
 #' @importFrom xml2 read_html
 #' @importFrom pryr bytes
 #' @return A dataframe containing:
-#'      1) The native representation of all Emoji in R
-#'      2) A textual description of what the Emoji is displaying
-#'      3) The body of the message. Linebreaks and Emojis are replaced with textual indicators
+#'      1) The native representation of all Emoji in R \cr
+#'      2) A textual description of what the Emoji is displaying \cr
+#'      3) The body of the message. Linebreaks and Emojis are replaced with textual indicators \cr
 #'      4) Original Order of HTML table that the Emojis were fetched from
 #'
 #' @examples
@@ -38,9 +38,9 @@ FetchEmojis <- function(pages =         c("https://emojipedia.org/people/",
                                           "https://emojipedia.org/emoji-modifier-fitzpatrick-type-4/",
                                           "https://emojipedia.org/emoji-modifier-fitzpatrick-type-5/",
                                           "https://emojipedia.org/emoji-modifier-fitzpatrick-type-6/"),
-                        RegularXpath =    "/html/body/div[3]/div[1]/ul",
-                        SkinXpath =       "/html/body/div[3]/div[1]/article/section[1]/ul",
-                        ExceptionXpath =  "/html/body/div[3]/div[1]/article/section[1]/ul[2]"){
+                        RegularXpath =    "/html/body/div[2]/div[1]/ul", # this keeps changing occasionally
+                        SkinXpath =       "/html/body/div[2]/div[1]/article/section[1]/ul",# this keeps changing occasionally
+                        ExceptionXpath =  "/html/body/div[2]/div[1]/article/section[1]/ul[2]"){ # this keeps changing occasionally
 
 
   # function to scrape and parse XML tables

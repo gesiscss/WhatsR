@@ -4,13 +4,19 @@
 \alias{ParseIos}
 \title{Parsing raw WhatsApp Chat Textfiles accoring to iOs text structure}
 \usage{
-ParseIos(UnparsedChat, nl = "\\n", mediaomitted = "<media omitted>",
+ParseIos(
+  UnparsedChat,
+  nl = "\\n",
+  mediaomitted = "<media omitted>",
   mediaindicator = "^<attached:\\\\s(.)*?\\\\.(.)*?>$",
   sentlocation = paste0("Location: (?=https:\\\\/\\\\/maps\\\\.google\\\\.com\\\\/",
-  "\\\\?q=\\\\d\\\\d.\\\\d{6}\\\\,\\\\d\\\\.\\\\d{6})"),
+    "\\\\?q=\\\\d\\\\d.\\\\d{6}\\\\,\\\\d\\\\.\\\\d{6})"),
   livelocation = "^live location shared$",
-  datetimeindicator = "(?!^)(?=\\\\[((\\\\d{2}\\\\.\\\\d{2}\\\\.\\\\d{2})|(\\\\d{1,2}\\\\/\\\\d{1,2}\\\\/\\\\d{2})),\\\\s\\\\d{1,2}\\\\:\\\\d{2}((\\\\:\\\\d{2}\\\\s(?i:(pm|am)))|(\\\\s(?i:(pm|am)))|(\\\\:\\\\d{2}\\\\])|(\\\\:\\\\d{2})|(\\\\s))\\\\])",
-  nlreplace = " start_newline ", mediareplace = " media_omitted ")
+ 
+    datetimeindicator = "(?!^)(?=\\\\[((\\\\d{2}\\\\.\\\\d{2}\\\\.\\\\d{2})|(\\\\d{1,2}\\\\/\\\\d{1,2}\\\\/\\\\d{2})),\\\\s\\\\d{1,2}\\\\:\\\\d{2}((\\\\:\\\\d{2}\\\\s(?i:(pm|am)))|(\\\\s(?i:(pm|am)))|(\\\\:\\\\d{2}\\\\])|(\\\\:\\\\d{2})|(\\\\s))\\\\])",
+  nlreplace = " start_newline ",
+  mediareplace = " media_omitted "
+)
 }
 \arguments{
 \item{UnparsedChat}{the name of the exported Whatsapp textfile to be parsed as a character string}
