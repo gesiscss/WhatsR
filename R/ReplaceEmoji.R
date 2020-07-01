@@ -6,7 +6,7 @@
 #' @param start a character string for pasted to the beginning of the replacement, default is " |Emoji_"
 #' @param end charactaer string pasted to the end of the replacement, default is "| "
 #' @param EmojiDictionary Dictionary for Emoji matching. Can use a version included in this package when set to "interal" or
-#' an updated dataframe created by \code{\link[WhatsR]{FetchEmojis}}
+#' an updated dataframe created by \code{\link[WhatsR]{download_emoji}}
 #' @param ... arguments passed from other functions
 #' @export
 #' @importFrom qdapRegex rm_default

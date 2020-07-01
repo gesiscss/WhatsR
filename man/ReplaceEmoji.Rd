@@ -23,7 +23,7 @@ ReplaceEmoji(
 \item{end}{charactaer string pasted to the end of the replacement, default is "| "}
 
 \item{EmojiDictionary}{Dictionary for Emoji matching. Can use a version included in this package when set to "interal" or
-an updated dataframe created by \code{\link[WhatsR]{FetchEmojis}}}
+an updated dataframe created by \code{\link[WhatsR]{download_emoji}}}
 
 \item{...}{arguments passed from other functions}
 }
