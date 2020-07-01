@@ -105,7 +105,7 @@ plot_tokens(data)
 <a href="https://ibb.co/VqYyTby"><img src="https://i.ibb.co/jrkKDqK/plot-tokens1.png" alt="plot-tokens1" border="0"></a>
 <a href="https://ibb.co/n0t1KdS"><img src="https://i.ibb.co/X4M5G0T/plot-tokens2.png" alt="plot-tokens2" border="0"></a>
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/k00W4nq/plot-tokens3.png" alt="plot-tokens3" border="0"></a>
-<a href="https://ibb.co/cQVvSX5"><img src="https://i.ibb.co/GRNJ43w/plot-tokens4.png" alt="plot-tokens4" border="0"></a>
+<a href="https://ibb.co/cQVvSX5"><img src="https://i.ibb.co/GRNJ43w/plot-tokens4.png" alt="plot-tokens4" border="0" /></a>
 
 ### Tokens over Time
 Destribution of sent Tokens per Person over time
