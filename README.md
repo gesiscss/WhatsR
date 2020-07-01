@@ -1,5 +1,5 @@
 # WhatsR
-This is a first beta version of an R-package to import exported WhatsApp chatlogs, parse them into a usable dataframe format and thereby enable further analysis. This parser was built with the goal to work with chatlogs extracted on Android as well as iOS devices, run on Linux, MAc and Windows and to be able to handle multiple languages. Currently, only English and German are supported, but in principle, other languages could be added relatively easily (see below). The repo also contains a function to scrape and update the Emoji dictionary, should new Emoji be added to WhatsApp in the meantime.
+This is a first beta version of an R-package to import exported WhatsApp chatlogs, parse them into a usable dataframe format and thereby enable further analysis. This parser was built with the goal to work with chatlogs extracted on Android as well as iOS devices, run on Linux, Mac and Windows and to be able to handle multiple languages. Currently, only English and German are supported, but in principle, other languages could be added relatively easily (see below). The repo also contains a function to scrape and update the Emoji dictionary, should new Emoji be added to WhatsApp in the meantime.
 
 
 ## What does this parser extract?
