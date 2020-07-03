@@ -157,8 +157,6 @@ plot_links(data, plot = "cumsum")
 ```
 plot_links(data, plot = "bar", min.occur=10)
 ```
-<a href="https://ibb.co/jvsW0Pj"><img src="https://i.ibb.co/SXGdY4Z/plot-links3.png" alt="plot-links3" border="0"></a>
-<a href="https://ibb.co/dLKqq34"><img src="https://i.ibb.co/ww6XXbh/plot-links4.png" alt="plot-links4" border="0"></a>
 <a href="https://ibb.co/CK2q6mD"><img src="https://i.ibb.co/Ld5MrYH/plot-links5.png" alt="plot-links5" border="0"></a>
 
 ### Sent Smilies
