@@ -266,25 +266,26 @@ The previous example chat was exported without mediafiles and only includes two 
 
 ### Sent Media
 Amount of sent Media files per person and over time
+
 ```
 plot_media(data, plot = "cumsum")
 ```
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/7jZVLJf/plot-media2.png" alt="plot-media2" border="0"></a>
-
-```
-plot_media(data, plot = "bar")
-```
-<a href="https://ibb.co/NSm9SPd"><img src="https://i.ibb.co/L5Jx5WX/plot-media1.png" alt="plot-media1" border="0"></a>
-
-```
-plot_media(data, plot = "splitbar")
-```
-<a href="https://ibb.co/bXm2Wx1"><img src="https://i.ibb.co/YhQyR62/plot-media4.png" alt="plot-media4" border="0"></a>
+<a href="https://ibb.co/W5Fxk36"><img src="https://i.ibb.co/fFt1kS2/plot-media2.png" alt="plot-media2" border="0"></a>
 
 ```
 plot_media(data, plot = "heatmap")
 ```
-<a href="https://ibb.co/Kb5WLT0"><img src="https://i.ibb.co/S56BdFs/plot-media3.png" alt="plot-media3" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/LdR4XYb/plot-media4.png" alt="plot-media4" border="0"></a>
+
+```
+plot_media(data, plot = "bar")
+```
+<a href="https://ibb.co/DG746PX"><img src="https://i.ibb.co/GsV71fw/plot-media1.png" alt="plot-media1" border="0"></a>
+
+```
+plot_media(data, plot = "splitbar")
+```
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/LdR4XYb/plot-media4.png" alt="plot-media4" border="0"></a>
 
 
 ### Interactive Network
