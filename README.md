@@ -240,8 +240,7 @@ plot_emoji(data, plot = "splitbar", min.occur = 50)
 ```
 plot_emoji(data, plot = "heatmap")
 ```
-
-PLOT MISSING UPLOAD NEW VERSION
+<a href="https://ibb.co/YQb1Fm1"><img src="https://i.ibb.co/vqDT6pT/plot-emoji2.png" alt="plot-emoji2" border="0"></a>
 
 ### Location Visualization
 Plotting mentioned locations by person
