@@ -35,15 +35,15 @@ Currently, the parser extracts the following information from an updated WhatsAp
  ### 3) Parse the Chat according to your settings
  
  ```R
- Dataframe <- WhatsAppParse(PathToYourTxTFile,
-                            EmojiDic = "internal",
-                            smilies = 2,
-                            anon = TRUE,
-                            media = TRUE,
-                            web = "domain",
-                            order = "both",
-                            language = "english",
-                            os = "android")                               
+ Dataframe <- parse_chat(PathToYourTxTFile,
+                         EmojiDic = "internal",
+                         smilies = 2,
+                         anon = TRUE,
+                         media = TRUE,
+                         web = "domain",
+                         order = "both",
+                         language = "english",
+                         os = "android")                               
 ```
 
 ## Does this parser work with other languages too?
@@ -94,7 +94,13 @@ Destribution of sent Messages.
 ```
 plot_messages(data)
 ```
+
 <a href="https://ibb.co/SQ7pmT4"><img src="https://i.ibb.co/0BV39NR/plot-messages1.png" alt="plot-messages1" border="0"></a>
+
+```
+plot_messages(data, plot = "pie")
+```
+
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/ngwjWgQ/plot-messages2.png" alt="plot-messages2" border="0"></a>
 
 ### Token Distribution
@@ -103,9 +109,24 @@ Destribution of sent Tokens (words).
 plot_tokens(data)
 ```
 <a href="https://ibb.co/VqYyTby"><img src="https://i.ibb.co/jrkKDqK/plot-tokens1.png" alt="plot-tokens1" border="0"></a>
-<a href="https://ibb.co/n0t1KdS"><img src="https://i.ibb.co/X4M5G0T/plot-tokens2.png" alt="plot-tokens2" border="0"></a>
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/k00W4nq/plot-tokens3.png" alt="plot-tokens3" border="0"></a>
+
+```
+plot_tokens(data, plot = "cumsum")
+```
+
 <a href="https://ibb.co/cQVvSX5"><img src="https://i.ibb.co/YhwWFT9/plot-tokens4.png" alt="plot-tokens4" border="0" /></a>
+
+```
+plot_tokens(data, plot = "box")
+```
+<a href="https://ibb.co/n0t1KdS"><img src="https://i.ibb.co/X4M5G0T/plot-tokens2.png" alt="plot-tokens2" border="0"></a>
+
+```
+plot_tokens(data, plot = "violin")
+```
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/k00W4nq/plot-tokens3.png" alt="plot-tokens3" border="0"></a>
+
 
 ### Tokens over Time
 Destribution of sent Tokens per Person over time
@@ -114,14 +135,28 @@ plot_tokens_over_time(data)
 ```
 <a href="https://ibb.co/Gpkb12y"><img src="https://i.ibb.co/Kh73Qqd/plot-tokens-over-time1.png" alt="plot-tokens-over-time1" border="0"></a>
 
-
 ```
 TokensOverTime(data, plot = "heatmap")
 ```
+
+<a href="https://ibb.co/6r0h3JH"><img src="https://i.ibb.co/MZkTY5c/plot-tokens-over-time5.png" alt="plot-tokens-over-time5" border="0"></a>
+
+```
+TokensOverTime(data, plot = "year")
+```
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/gjHZVJH/plot-tokens-over-time2.png" alt="plot-tokens-over-time2" border="0"></a>
+
+```
+TokensOverTime(data, plot = "weekday")
+```
+
 <a href="https://ibb.co/xFccHqM"><img src="https://i.ibb.co/FHffV4B/plot-tokens-over-time3.png" alt="plot-tokens-over-time3" border="0"></a>
+
+```
+TokensOverTime(data, plot = "hours")
+```
+
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/VwGSJfd/plot-tokens-over-time4.png" alt="plot-tokens-over-time4" border="0"></a>
-<a href="https://ibb.co/6r0h3JH"><img src="https://i.ibb.co/MZkTY5c/plot-tokens-over-time5.png" alt="plot-tokens-over-time5" border="0"></a
 
 ### Wordcloud
 Wordcloud of sent tokens, for all chat participants overall - and seperately for each participant.
@@ -133,7 +168,7 @@ plot_wordcloud(data)
 ```
 plot_wordcloud(data, comparison = TRUE)
 ```
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/5TSfhNy/plot-wordcloud2.png" alt="plot-wordcloud2" border="0"></a><br /><a target='_blank' href='https://de.imgbb.com/'>www bild e</a><br />
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/5TSfhNy/plot-wordcloud2.png" alt="plot-wordcloud2" border="0"></a>
 
 ### Lexical Dispersion Plot
 Occurances of keywords in the chat with. Example keyword is "Weihnachten" (Christmas).
@@ -144,10 +179,6 @@ plot_lexical_dispersion(data,keywords = c("weihnachten"))
 
 ### Sent Links
 Amount of sent Links per person and over time
-```
-plot_links(data)
-```
-<a href="https://ibb.co/mHbgVFp"><img src="https://i.ibb.co/197jtJc/plot-links1.png" alt="plot-links1" border="0"></a>
 
 ```
 plot_links(data, plot = "cumsum")
@@ -155,7 +186,12 @@ plot_links(data, plot = "cumsum")
 <a href="https://ibb.co/58Cc1jB"><img src="https://i.ibb.co/SnHv6mR/plot-links2.png" alt="plot-links2" border="0"></a>
 
 ```
-plot_links(data, plot = "bar", min.occur=10)
+plot_links(data, plot = "heatmap")
+```
+<a href="https://ibb.co/mHbgVFp"><img src="https://i.ibb.co/197jtJc/plot-links1.png" alt="plot-links1" border="0"></a>
+
+```
+plot_links(data, plot = "bar", min.occur = 10)
 ```
 <a href="https://ibb.co/CK2q6mD"><img src="https://i.ibb.co/Ld5MrYH/plot-links5.png" alt="plot-links5" border="0"></a>
 
@@ -165,16 +201,22 @@ Amount of sent Smilies per person and over time
 plot_smilies(data, plot = "cumsum")
 ```
 
+IMAGE MISSING, UPLOAD NWE VERSION
+
 ```
 plot_smilies(data, plot = "bar")
 ```
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/7N0zJhQ/plot-smilies2.png" alt="plot-smilies2" border="0"></a>
 
 ```
-plot_smilies(data, plot = "splitbar", SmilieVec = c(":)",":>",":D",":p",":("))
+plot_smilies(data, plot = "splitbar")
 ```
 <a href="https://ibb.co/bmd1sSQ"><img src="https://i.ibb.co/zxfsXyQ/plot-smilies3.png" alt="plot-smilies3" border="0"></a>
-<a href="https://ibb.co/wwF7kKz"><img src="https://i.ibb.co/pRBQ73L/plot-smilies4.png" alt="plot-smilies4" border="0"></a>
+
+```
+plot_smilies(data, plot = "splitbar", SmilieVec = c(":)",":>",":D",":p",":("))
+```
+
 <a href="https://ibb.co/m5NnSWJ"><img src="https://i.ibb.co/9HZxG5n/plot-smilies5.png" alt="plot-smilies5" border="0"></a>
 
 ### Sent Emojis
@@ -188,16 +230,18 @@ plot_emoji(data, plot = "cumsum")
 plot_emoji(data, plot = "bar", min.occur = 50)
 ```
 
+<a href="https://ibb.co/0FwBr15"><img src="https://i.ibb.co/QC58Mh0/plot-emoji3.png" alt="plot-emoji3" border="0"></a>
+
 ```
 plot_emoji(data, plot = "splitbar", min.occur = 50
 ```
-<a href="https://ibb.co/0FwBr15"><img src="https://i.ibb.co/QC58Mh0/plot-emoji3.png" alt="plot-emoji3" border="0"></a>
+<a href="https://ibb.co/GJHc16c"><img src="https://i.ibb.co/sPWyDfy/plot-emoji4.png" alt="plot-emoji4" border="0"></a>
 
 ```
 plot_emoji(data, plot = "heatmap")
 ```
-<a href="https://ibb.co/GJHc16c"><img src="https://i.ibb.co/sPWyDfy/plot-emoji4.png" alt="plot-emoji4" border="0"></a>
-<a href="https://ibb.co/c6hw7n8"><img src="https://i.ibb.co/X7xDvR5/plot-emoji-4.png" alt="plot-emoji-4" border="0"></a>
+
+PLOT MISSING UPLOAD NEW VERSION
 
 ### Location Visualization
 Plotting mentioned locations by person
@@ -211,37 +255,38 @@ Plotting time it takes to respond and be responded to by person.
 ```
 plot_reply_times(data, type = "replytime")
 ```
-<a href="https://ibb.co/MGZQVNB"><img src="https://i.ibb.co/QCptNmD/plot-replytime1.png" alt="plot-replytime1" border="0"></a>
 <a href="https://ibb.co/RD6Y5Wm"><img src="https://i.ibb.co/P6WFS8n/plot-replytimes1.png" alt="plot-replytimes1" border="0"></a>
 
 ```
 plot_reply_times(data, type = "reactiontime")
 ```
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/9ZhL7Xc/plot-replytime2.png" alt="plot-replytime2" border="0"></a>
 <a href="https://ibb.co/3WrCXWD"><img src="https://i.ibb.co/BjzCDjX/plot-replytimes2.png" alt="plot-replytimes2" border="0"></a>
 
 ## Group Chat
+The previous example chat was exported without mediafiles and only includes two people chatting. To demonstrate the visualization of different media files and the network of chat participants, we will thus use a different example file, exported from a groupchat.
 
 ### Sent Media
 Amount of sent Media files per person and over time
-```
-plot_media(data, plot = "bar")
-```
-<a href="https://ibb.co/NSm9SPd"><img src="https://i.ibb.co/L5Jx5WX/plot-media1.png" alt="plot-media1" border="0"></a>
-
 ```
 plot_media(data, plot = "cumsum")
 ```
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/7jZVLJf/plot-media2.png" alt="plot-media2" border="0"></a>
 
 ```
-plot_media(data, plot = "heatmap")
+plot_media(data, plot = "bar")
 ```
-<a href="https://ibb.co/Kb5WLT0"><img src="https://i.ibb.co/S56BdFs/plot-media3.png" alt="plot-media3" border="0"></a>
+<a href="https://ibb.co/NSm9SPd"><img src="https://i.ibb.co/L5Jx5WX/plot-media1.png" alt="plot-media1" border="0"></a>
+
 ```
 plot_media(data, plot = "splitbar")
 ```
 <a href="https://ibb.co/bXm2Wx1"><img src="https://i.ibb.co/YhQyR62/plot-media4.png" alt="plot-media4" border="0"></a>
+
+```
+plot_media(data, plot = "heatmap")
+```
+<a href="https://ibb.co/Kb5WLT0"><img src="https://i.ibb.co/S56BdFs/plot-media3.png" alt="plot-media3" border="0"></a>
+
 
 ### Interactive Network
 Interactive network of chat participants. A connection represents a response to a message. Each Message is interpreted as a response to the previous message. Consecutrive messages by the same chat participant are summarized into one "session". The shown plot is a low quality GIF, the actual output is an interactive HTML object that GitHub does not permit in Readme files.
