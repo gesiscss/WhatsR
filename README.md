@@ -14,7 +14,7 @@ Currently, the parser extracts the following information from an updated WhatsAp
  - A column containing only the names of attached meda files
  - A column containing only sent locations and indicators for shared live locations
  - A column containing only Emoji that were used in the message
- - A column containing only Emoticons (e.g. ":-)") that were used in the message
+ - A column containing only Smilies (e.g. ":-)") that were used in the message
  - A column containing WhatsApp System Messages (e.g."You added Frank to the group"), these do not appear in the Message and       Flat column and get recognized as "WhatsApp System" in the Sender column
  - A column specifying the order of the rows according to the timestamp the messages have on the phone used for extracting the    chatlog
  - A column for specifying the order of the rows as they are displayed on the phone used for extracting the chatlog (this is      not necessarily the same order as the one for the timestamps, for example, when messages are written and send but there is      no internet conenction)
@@ -136,24 +136,24 @@ plot_tokens_over_time(data)
 <a href="https://ibb.co/Gpkb12y"><img src="https://i.ibb.co/Kh73Qqd/plot-tokens-over-time1.png" alt="plot-tokens-over-time1" border="0"></a>
 
 ```
-TokensOverTime(data, plot = "heatmap")
+plot_tokens_over_time(data, plot = "heatmap")
 ```
 
 <a href="https://ibb.co/6r0h3JH"><img src="https://i.ibb.co/MZkTY5c/plot-tokens-over-time5.png" alt="plot-tokens-over-time5" border="0"></a>
 
 ```
-TokensOverTime(data, plot = "year")
+plot_tokens_over_time(data, plot = "year")
 ```
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/gjHZVJH/plot-tokens-over-time2.png" alt="plot-tokens-over-time2" border="0"></a>
 
 ```
-TokensOverTime(data, plot = "weekday")
+plot_tokens_over_time(data, plot = "weekday")
 ```
 
 <a href="https://ibb.co/xFccHqM"><img src="https://i.ibb.co/FHffV4B/plot-tokens-over-time3.png" alt="plot-tokens-over-time3" border="0"></a>
 
 ```
-TokensOverTime(data, plot = "hours")
+plot_tokens_over_time(data, plot = "hours")
 ```
 
 <a href="https://imgbb.com/"><img src="https://i.ibb.co/VwGSJfd/plot-tokens-over-time4.png" alt="plot-tokens-over-time4" border="0"></a>
@@ -233,7 +233,7 @@ plot_emoji(data, plot = "bar", min.occur = 50)
 <a href="https://ibb.co/0FwBr15"><img src="https://i.ibb.co/QC58Mh0/plot-emoji3.png" alt="plot-emoji3" border="0"></a>
 
 ```
-plot_emoji(data, plot = "splitbar", min.occur = 50
+plot_emoji(data, plot = "splitbar", min.occur = 50)
 ```
 <a href="https://ibb.co/GJHc16c"><img src="https://i.ibb.co/sPWyDfy/plot-emoji4.png" alt="plot-emoji4" border="0"></a>
 
