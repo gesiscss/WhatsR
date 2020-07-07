@@ -275,7 +275,7 @@ plot_media(data, plot = "cumsum")
 ```
 plot_media(data, plot = "heatmap")
 ```
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/LdR4XYb/plot-media4.png" alt="plot-media4" border="0"></a>
+<a href="https://ibb.co/Fg6Mtk8"><img src="https://i.ibb.co/XSXgTfF/plot-media3.png" alt="plot-media3" border="0" /></a>
 
 ```
 plot_media(data, plot = "bar")
