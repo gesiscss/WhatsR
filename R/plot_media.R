@@ -18,7 +18,7 @@
 #' @return Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' plot_media(data)
+#' plot_media(data, plot = "heatmap")
 
 # Visualizing sent Media files
 plot_media <- function(data,
@@ -32,7 +32,7 @@ plot_media <- function(data,
                        plot = "bar") {
 
   # First of all, we assign local variables with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  day <- hour <- n <- `Number of Media files` <- ave <- total <- Var1 <- Freq.Freq <- n <-  NULL
+  Dates <- Sender <- Media <- Frequency <- day <- hour <- n <- `Number of Media files` <- ave <- total <- Var1 <- Freq.Freq <- n <-  NULL
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
@@ -237,8 +237,10 @@ plot_media <- function(data,
     NewFrame$counter <- rep(1,length(NewFrame$NewMedia))
     NewFrame$total <- ave(NewFrame$counter,NewFrame$NewSender,FUN = cumsum)
 
+    names(NewFrame) <- c("Dates","Sender","Media","hour","year","day","counter","total")
+
     # constructing graph
-    out <- ggplot(NewFrame, aes(x = NewDates, y = total, color = NewSender)) +
+    out <- ggplot(NewFrame, aes(x = Dates, y = total, color = Sender)) +
       geom_line() +
       labs(title = "Cumulative number of Media files sent",
            subtitle = paste(starttime, " - ", endtime))  +
@@ -262,7 +264,7 @@ plot_media <- function(data,
   if (plot == "bar") {
 
     # Converting to dataframe to make it usable by ggplot
-    df <- cbind.data.frame(Var1 = names(sort(table(NewFrame$NewMedia))), Freq = sort(table(NewFrame$NewMedia)))
+    df <- cbind.data.frame(Media = names(sort(table(NewFrame$NewMedia))), Frequency = sort(table(NewFrame$NewMedia)))
 
     if (dim(df)[1] == 0) {
 
@@ -273,7 +275,7 @@ plot_media <- function(data,
     }
 
     # Visualizig the distribution of Mdia file types (file types sent more than x)
-    out <- ggplot(df[df$Freq.Freq >= min.occur,],aes(x = Var1,y = Freq.Freq, fill = Var1)) +
+    out <- ggplot(df[df$Frequency >= min.occur,],aes(x = Media, y = Frequency, fill = Media)) +
             geom_bar(stat = "identity") +
             labs(title = "Distribution of sent Media files",
                  subtitle = paste(starttime, " - ", endtime),
@@ -290,6 +292,7 @@ plot_media <- function(data,
 
       # returning
       return(df)
+
     }
 
   }
@@ -300,8 +303,10 @@ plot_media <- function(data,
     SumFrame <-  group_by(NewFrame, NewSender, NewMedia) %>% summarise(n = n())
     SumFrame <- SumFrame[SumFrame$n >= min.occur,]
 
+    names(SumFrame) <- c("Sender","Media","Frequency")
+
     # building graph object
-    out <-   ggplot(SumFrame, aes(x = NewSender, y = n,fill = NewMedia)) +
+    out <-   ggplot(SumFrame, aes(x = Sender, y = Frequency,fill = Media)) +
       geom_bar(stat = "identity", position = position_dodge()) +
       labs(title = "Media files sent per Person",
            subtitle = paste(starttime, " - ", endtime),
@@ -310,7 +315,7 @@ plot_media <- function(data,
       theme(legend.title = element_text("Media"))
 
     # only printing legend if we have 20 unique Emoji or less
-    if (length(unique(SumFrame$NewMedia)) <= 20) {
+    if (length(unique(SumFrame$Media)) <= 20) {
 
       print(out)
 

@@ -37,7 +37,7 @@ plot_links <- function(data,
                        plot = "heatmap") {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  day <- hour <- n <- `Number of Links` <- ave <- total <- Var1 <- Freq <-  NULL
+  Date <- Sender <- Links <- URL <- day <- hour <- n <- `Number of Links` <- ave <- total <- Var1 <- Freq <-  NULL
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {

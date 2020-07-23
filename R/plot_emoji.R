@@ -34,7 +34,7 @@ plot_emoji <- function(data,
                        HeightAdjuster = 25) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- NULL
+  Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- NULL
 
   # importing Emoji dictionary
   Dictionary <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
