@@ -24,7 +24,7 @@
 #' @return html file with network visualization of authors in WhatsApp chatlog
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' animate_network(data)
+#' #animate_network(data)
 
 ### visualizing Distribution of reply times (only possible between multiple senders and recipients: n > 2)
 animate_network <- function(data,
@@ -201,7 +201,7 @@ animate_network <- function(data,
   # Calculate how to plot an animated version of the dynamic network
     compute.animation(
     dynamicWA,
-    animation.mode = "kamadakawai",
+    animation.mode = "MDSJ",
     slice.par = list(
       start = 0,
       end = nrow(DynamicEdges) + 1,

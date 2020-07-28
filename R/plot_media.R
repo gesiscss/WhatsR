@@ -145,6 +145,12 @@ plot_media <- function(data,
 
     # factor ordering
     weekdays <- rev(c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"))
+
+    # transalte to english for better compatibility
+    helperframe2$day <- mgsub(helperframe2$day,
+                              pattern = c("Sonntag","Samstag","Freitag","Donnerstag","Mittwoch","Dienstag","Montag"),
+                              replacement = weekdays)
+
     helperframe2$day <- as.factor(helperframe2$day)
 
     if (sum(weekdays %in% levels(helperframe2$day)) == 7) {

@@ -18,6 +18,6 @@ in plots instead of their textual description only. The procedure was adapted fr
 This only needs to be done when new emoji are added to www.emojipedia.org and the emoji dictionary needed to be updated.
 }
 \examples{
-EmojiDic <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
-EmojiDic2 <- add_emoji_links(EmojiDic[1:20,])
+EmojiDic <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"),stringsAsFactors = FALSE)
+#EmojiDic2 <- add_emoji_links(EmojiDic[1:20,])
 }

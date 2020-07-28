@@ -11,8 +11,8 @@
 #' @importFrom rvest html_node
 #' @export
 #' @examples
-#' EmojiDic <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
-#' EmojiDic2 <- add_emoji_links(EmojiDic[1:20,])
+#' EmojiDic <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"),stringsAsFactors = FALSE)
+#' #EmojiDic2 <- add_emoji_links(EmojiDic[1:20,])
 
 # function for getting Emoji links and html tags
 add_emoji_links <- function(emojidict) {

@@ -71,7 +71,8 @@ parse_chat <- function(name,
 
         # loading language indicators
         WAStrings <- read.csv(system.file("Languages.csv", package = "WhatsR"),
-                              stringsAsFactors = F)
+                              stringsAsFactors = F,
+                              fileEncoding = "UTF-8")
 
         # selecting indicators based on language
         Indicators <- WAStrings[WAStrings$Settings == paste0(language,os),]
@@ -386,12 +387,6 @@ parse_chat <- function(name,
                                seq(1,length(unique(DF$Sender)),1),
                                sep = "_")
 
-                DF$Sender <- factor(DF$Sender, levels = unique(DF$Sender))
-                levels(DF$Sender) <- Anons
-
-                # printing info
-                cat("Anonymized names of chat participants \U2713 \n")
-
                 # create Anon Lookup table
                 AnonLookupTable <- cbind.data.frame(Sender = unique(DF$Sender),Anon = Anons,stringsAsFactors = FALSE)
 
@@ -400,6 +395,12 @@ parse_chat <- function(name,
                 DF$SystemMessage <- gsub("\\+Person","Person",DF$SystemMessage, perl = TRUE)
                 # There is still an issue with People who are added to the conversation but never send a message: We cannot anonymize them
                 # because they do not show up in the Sender column, the anonimization breaks down for these cases!
+
+                DF$Sender <- factor(DF$Sender, levels = unique(DF$Sender))
+                levels(DF$Sender) <- Anons
+
+                # printing info
+                cat("Anonymized names of chat participants \U2713 \n")
 
         }
 

@@ -37,5 +37,5 @@ Plots a network for replies between authors in chatlogs
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-animate_network(data)
+# animate_network(data)
 }
