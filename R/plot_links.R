@@ -180,7 +180,7 @@ plot_links <- function(data,
 
     # plotting Heatmap
     out <- ggplot(helperframe2, aes(hour, day)) +
-      geom_tile(aes(fill = `Number of Links`), colour = "black") +
+      geom_tile(aes(fill = `Number of Links`), colour = "black", width = 1) +
       labs(title = "Links by Weekday and Hour",
            subtitle = paste(starttime, " - ", endtime),
            x = "",

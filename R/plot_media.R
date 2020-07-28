@@ -270,7 +270,8 @@ plot_media <- function(data,
   if (plot == "bar") {
 
     # Converting to dataframe to make it usable by ggplot
-    df <- cbind.data.frame(Media = names(sort(table(NewFrame$NewMedia))), Frequency = sort(table(NewFrame$NewMedia)))
+    df <- cbind.data.frame(sort(table(NewFrame$NewMedia)))
+    names(df) <- c("Media","Frequency")
 
     if (dim(df)[1] == 0) {
 
