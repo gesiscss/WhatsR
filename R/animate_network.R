@@ -33,7 +33,8 @@ animate_network <- function(data,
                             endtime = Sys.time(),
                             return.data = FALSE,
                             save = "html",
-                            filename = "whatsapp_network") {
+                            filename = "whatsapp_network",
+                            animationLayout = "kamadakawai") {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   `.` <- WAnetwork <- `%v%<-` <- `%e%<-` <- NULL
@@ -201,7 +202,7 @@ animate_network <- function(data,
   # Calculate how to plot an animated version of the dynamic network
     compute.animation(
     dynamicWA,
-    animation.mode = "MDSJ",
+    animation.mode = animationLayout,
     slice.par = list(
       start = 0,
       end = nrow(DynamicEdges) + 1,
