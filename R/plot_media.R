@@ -271,6 +271,17 @@ plot_media <- function(data,
 
     # Converting to dataframe to make it usable by ggplot
     df <- cbind.data.frame(sort(table(NewFrame$NewMedia)))
+
+    # restructuring when we have only 1 type
+    if (nrow(df) == 1) {
+
+      names <- rownames(df)
+      rownames(df) <- NULL
+      df <- cbind(names,df)
+
+    }
+
+    # setting names
     names(df) <- c("Media","Frequency")
 
     if (dim(df)[1] == 0) {
