@@ -190,7 +190,7 @@ plot_tokens_over_time <- function(data,
                   legend.key.width = unit(2, "cm"),
                   panel.grid = element_blank()) +
             coord_equal() +
-            scale_x_continuous(breaks = seq(-0.5,23.5,1),
+            scale_x_binned(breaks = seq(-0.5,23.5,1),
                                limits = c(-0.5,23.5),
                                labels = c("00:00",
                                           "01:00",
