@@ -27,7 +27,10 @@ plot_lexical_dispersion <- function(data,
                                     keywords = c("hello","world")) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  keyword <- NULL
+  keywords <- NULL
+
+  # transferring keywords to lowercase to make it non case-sensitive
+  keywords <- tolower(keywords)
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
