@@ -27,7 +27,7 @@ plot_lexical_dispersion <- function(data,
                                     keywords = c("hello","world")) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  keywords <- NULL
+  keyword <- NULL
 
   # transferring keywords to lowercase to make it non case-sensitive
   keywords <- tolower(keywords)
@@ -74,8 +74,11 @@ plot_lexical_dispersion <- function(data,
   docvars(NewCorp, "Sender") <- names(listframe)
   docnames(NewCorp) <- names(listframe)
 
+  # transferring corpus to lowercase for comparison
+  NewCorp <- tolower(NewCorp)
 
-  ### check if the keywords are contains in the corpus at all
+
+  ### check if the keywords are contained in the corpus at all
 
   indicator <- vector()
 
