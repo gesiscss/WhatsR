@@ -1,10 +1,10 @@
 #' @title Visualize Smilies used in Whatsapp chatlogs
 #' @description Plots the emilies used in WhatsApp chatlogs
-#' @param data A WhatsApp chatlog that was parsed with WhatsAppParse()
+#' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the plots will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param min.occur The minimum number of occurances a Smiley has to have to be included in the Visualization. Default is 1
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
 #' @param return.data If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param SmilieVec A vector of Smilies that the visualizations will be restricted to.
 #' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"

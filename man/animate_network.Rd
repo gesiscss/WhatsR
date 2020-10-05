@@ -11,7 +11,8 @@ animate_network(
   endtime = Sys.time(),
   return.data = FALSE,
   save = "html",
-  filename = "whatsapp_network"
+  filename = "whatsapp_network",
+  animationLayout = "kamadakawai"
 )
 }
 \arguments{
@@ -37,5 +38,5 @@ Plots a network for replies between authors in chatlogs
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-# animate_network(data)
+#animate_network(data)
 }

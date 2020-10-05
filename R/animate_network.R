@@ -1,9 +1,9 @@
 #' @title Visualize the Network of replies in Whatsapp chatlogs
 #' @description Plots a network for replies between authors in chatlogs
-#' @param data A WhatsApp chatlog that was parsed with WhatsAppParse()
+  #' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the visulaization will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Input is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Input is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
 #' @param return.data If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param save If FALSE, does not save the network visualization in a file. Any other value saves the visualization as an html file.
 #' @param filename filename for the saved network visualization, default is "whatsapp_network"
@@ -24,7 +24,7 @@
 #' @return html file with network visualization of authors in WhatsApp chatlog
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' #animate_network(data)
+#' animate_network(data)
 
 ### visualizing Distribution of reply times (only possible between multiple senders and recipients: n > 2)
 animate_network <- function(data,

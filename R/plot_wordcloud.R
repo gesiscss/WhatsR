@@ -1,10 +1,10 @@
 #' @title Wordclouds for WhatsApp chatlogs
-#' @description Creates awordcloud by author for WhatsApp chatlogs
-#' @param data A WhatsApp chatlog that was parsed with parse_chat()
+#' @description Creates a wordcloud by author for WhatsApp chatlogs
+#' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the Plots will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
-#' @param stop The language of the chat for stopword removal, passed down to quanteda::stopwords(). default is "german"
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param stop The language of the chat for stopword removal, passed down to code{\link[quanteda]{stopwords}}. default is "german"
 #' @param maxwords Maximum number of words to display in the wordcloud. Default is 100.
 #' @param mincount Minimum number of occurances a word has to have to be included in the wordplot. Default is 1
 #' @param comparison If TRUE, compares the unique wordclouds for different authors for a maximum of 8 authors. Default is FALSE

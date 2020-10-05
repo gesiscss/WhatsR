@@ -1,9 +1,9 @@
 #' @title Visualizing media files in WhatsApp chatlogs
 #' @description Creates a list of basic information about a single WhatsApp chatlog
-#' @param data A WhatsApp chatlog that was parsed with WhatsAppParse()
+#' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the Plots will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param use.type If TRUE, shortens links to domain names.
 #' @param min.occur The minimum number of occurances a media type has to have to be included in the Visualization. Default is 1
 #' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.

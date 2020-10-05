@@ -1,9 +1,9 @@
 #' @title Visualizing links in WhatsApp chatlogs
-#' @description Creates a list of basic information about a single WhatsApp chatlog
-#' @param data A WhatsApp chatlog that was parsed with WhatsAppParse()
+#' @description Visualizes the occurance of links in a WhatsApp chatlog
+#' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the Plots will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param use.domains If TRUE, links are shortend to domains. Default is TRUE.
 #' @param exclude.long If TRUE, links that are longer than length will be exlcuded. Default is TRUE.
 #' @param length Gives the number of maximum characters for exlcude.long. Default is 50.

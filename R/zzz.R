@@ -1,5 +1,4 @@
 # Welcome message
-# Welcome message
 .onLoad <- function(...){
   quietly <- getOption('quietly')
   options(quietly = T)

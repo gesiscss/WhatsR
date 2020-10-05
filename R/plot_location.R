@@ -1,9 +1,9 @@
 #' @title Plotting Locations sent in WhatsApp chatlogs on maps
 #' @description Plots the location data that is sent in the WhatsApp Cchatlog on an autoscaled map
-#' @param data A WhatsApp chatlog that was parsed with WhatsAppParse()
+#' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the plots will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param mapzoom Value for zoom into the map passed down to get_map. default value is 5. Higher zoom will auto-download more mapfiles which can take a while.
 #' @param return.data If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param add.jitter IF TRUE, adds some random jitter to geolocations to obscure exact locations

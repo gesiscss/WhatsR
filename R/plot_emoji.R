@@ -1,9 +1,9 @@
-#' @title Basic WhatsApp Chatlog Statistics
+  #' @title Basic WhatsApp Chatlog Statistics
 #' @description Creates a list of basic information about a single WhatsApp chatlog
-#' @param data A WhatsApp chatlog that was parsed with WhatsAppParse()
+  #' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the Plots will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param min.occur Minimum number of occurances for Emoji to be included in the plots. Default is 1.
 #' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.
 #' @param EmojiVec A vector of Emoji that the visualizations will be restricted to
@@ -37,7 +37,7 @@ plot_emoji <- function(data,
   Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- NULL
 
   # importing Emoji dictionary
-  Dictionary <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
+    Dictionary <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
@@ -115,7 +115,7 @@ plot_emoji <- function(data,
 
   }
 
-  # restricting to LinkVec range
+  # restricting to EmojiVec range
   NewFrame <- NewFrame[is.element(NewFrame$NewEmoji,EmojiVec),]
 
   if (dim(NewFrame)[1] == 0) {
@@ -278,7 +278,7 @@ plot_emoji <- function(data,
 
     }
 
-    # Visualizig the distribution of Emoji and putting the emoji into the plots intop of the bars
+    # Visualizig the distribution of Emoji and putting the emoji into the plots ontop of the bars
     out <- ggplot(df,aes(x = Emoji,y = Freq, fill = Emoji, label = Dictionary$HTML[indicator])) +
                     geom_bar(stat = "identity") +
                     labs(title = "Distribution of sent Emoji",

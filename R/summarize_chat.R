@@ -1,6 +1,6 @@
 #' @title Basic WhatsApp Chatlog Statistics
 #' @description Creates a list of basic information about a single WhatsApp chatlog
-#' @param data A WhatsApp chatlog that was parsed with WhatsAppParse()
+#' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param excludeSM If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is TRUE.
 #' @export
 #' @return A list containing:

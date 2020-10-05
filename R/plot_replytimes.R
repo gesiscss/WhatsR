@@ -1,12 +1,12 @@
 #' @title Plotting replytimes in WhatsApp chatlogs
-#' @description visualizes the replytimes and reactiontimes to messages per author
-#' @param data A WhatsApp chatlog that was parsed with WhatsAppParse()
+#' @description Visualizes the replytimes and reactiontimes to messages per author
+#' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the plots will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param return.data If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param aggregate.sessions If TRUE, concurrend messages of the same author are aggregated into one session. Default is TRUE.
-#' @param plot box, dist, heatmap
+#' @param plot Type of plot to be returned, options include "box", "dist" and "heatmap"
 #' @param type If "replytime", plots display how much time it takes authors to reply to previous message, if "reactiontime", plots display how much time it takes for authors to get responded to
 #' @import ggplot2
 #' @importFrom anytime anytime
