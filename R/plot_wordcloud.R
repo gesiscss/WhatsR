@@ -4,15 +4,15 @@
 #' @param names A vector of author names that the Plots will be restricted to
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param stop The language of the chat for stopword removal, passed down to code{\link[quanteda]{stopwords}}. default is "german"
-#' @param maxwords Maximum number of words to display in the wordcloud. Default is 100.
-#' @param mincount Minimum number of occurances a word has to have to be included in the wordplot. Default is 1
-#' @param comparison If TRUE, compares the unique wordclouds for different authors for a maximum of 8 authors. Default is FALSE
-#' @import quanteda
+#' @param stop The language for stopword removal. Stopwords are taken from code{\link[tm]{stopwords}}. Default is "english".
+#' @param comparison Must be TRUE or FALSE. If TRUE, will split up wordcloud by sender. Default is FALSE.
+#' @param return.data Will the dataframe used to create the plot if TRUE. Default is FALSE
+#' @param font.size Size of the words in the wordcloud, passed to code{\link[ggwordcloud]{scale_size_area}}. Default is 5, a good starting value is 0.0125 * number of messages in dataframe
+#' @import ggplot2
+#' @import ggwordcloud
 #' @importFrom anytime anytime
-#' @importFrom quanteda textplot_wordcloud
-#' @importFrom quanteda stopwords
-#' @importFrom quanteda dfm_group
+#' @importFrom dplyr bind_rows
+#' @importFrom tm stopwords
 #' @export
 #' @return A wordcloud plot per author for WhatsApp chatlogs
 #' @examples
@@ -24,10 +24,12 @@ plot_wordcloud <- function(data,
                            names = "all",
                            starttime = anytime("1960-01-01 00:00"),
                            endtime = Sys.time(),
-                           stop = "german",
-                           maxwords = 100,
-                           mincount = 1,
-                           comparison = FALSE){
+                           remove.stops = TRUE,
+                           stop = "english",
+                           comparison = FALSE,
+                           return.data = FALSE,
+                           font.size = 10,
+                           min.freq = 5){
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
@@ -54,35 +56,112 @@ plot_wordcloud <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
 
-  # creating wordcloud
-  Messages <- corpus(data$Flat)
 
-  # setting Sender and Timestamp as docvars for easier accessibility
-  docvars(Messages, "Sender") <- data$Sender
-  docvars(Messages, "Timestamp") <- data$DateTime
-
+  ###### New Solution
   if (comparison == FALSE) {
 
-    # wordcloud for all tokens
-    textplot_wordcloud(dfm(Messages, remove = stopwords(stop)),
-                       random_order = FALSE,
-                       max_words = maxwords,
-                       min_count = mincount)
+    words <- data.frame(tolower(unlist(data$TokVec)[unlist(data$TokVec) != "NA"]))
+    colnames(words) <- "tokens"
+
+    # Setting Size as time of occurance
+    words <- as.data.frame(table(words$tokens))
+    words <- words[order(-words$Freq),]
+    colnames(words) <- c("tokens","freq")
+
+    # removing stopwords if desired
+    if (remove.stops == TRUE) {
+
+      # computing intersection and excluding rows
+      words <- words[-which(words$tokens %in% tm::stopwords(kind = stop)),]
+
+    }
+
+    # removing everything below min.freq
+    index <- which(words$freq < min.freq)
+    if (length(index) != 0) {words <- words[-c(index),]}
+
+    if (dim(words)[1] == 0) {
+
+      warnings("No words are used at least min.freq number of times. Try lowering min.freq.")
+      stop("No words are used at least min.freq number of times. Try lowering min.freq.")
+
+    }
+
+    # plotting basic wordcloud
+    plot <- ggplot(words, aes(label = tokens, size = freq)) +
+      geom_text_wordcloud_area(rm_outside = TRUE) +
+      scale_size_area(max_size = font.size) +
+      theme_minimal() +
+      labs(title = "Wordcloud", subtitle = paste("Including words occuring at least ",min.freq," times", sep = "")) +
+      theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5))
 
   }
 
   if (comparison == TRUE) {
 
-    if (length(unique(data$Sender)) >= 8) {
+    # Split dataframe by sender
+    words <-split(data, data$Sender)
 
-      warning("Comparing Senders in wordclouds only works for up to 8 senders")
+    # function to get word frequencies per sneder
+    GetWordFreq <- function(x) {
+
+      WordFreq <- as.data.frame(table(tolower(unlist(x$TokVec)[unlist(x$TokVec) != "NA"])))
+
+      if(dim(WordFreq)[1] != 0) {
+
+        WordFreq <- WordFreq[order(-WordFreq$Freq),]
+        colnames(WordFreq) <- c("word","freq")
+        WordFreq$sender <- rep(unique(x$Sender),dim(WordFreq)[1])
+
+      }
+
+      return(WordFreq)
+
+    }
+
+    # Excluding System Messages
+    FreqList <- lapply(words,GetWordFreq)
+    FreqList["WhatsApp System Message"] <- NULL
+    FreqFrame <- dplyr::bind_rows(FreqList)
+
+    # removing stopwords if desired
+    if (remove.stops == TRUE) {
+
+      # computing intersection and excluding rows
+      FreqFrame <- FreqFrame[-which(FreqFrame$word %in% tm::stopwords(kind = stop)),]
+
+    }
+
+    # removing everything below min.freq
+    index <- which(FreqFrame$freq < min.freq)
+    if (length(index) != 0) {FreqFrame <- FreqFrame[-c(index),]}
+
+    if (dim(FreqFrame)[1] == 0) {
+
+      warnings("No words are used at least min.freq number of times. Try lowering min.freq.")
       stop()
 
     }
 
-    # comparison Wordcloud
-    SenderDFM <- dfm_group(dfm(Messages, remove = stopwords(stop)), groups = "Sender")
-    textplot_wordcloud(SenderDFM, comparison = TRUE, min_count = mincount,max_words = maxwords)
+    # Plotting facetted plot
+    plot <- ggplot(FreqFrame, aes(label = word, size = freq)) +
+      geom_text_wordcloud_area() +
+      scale_size_area(max_size = font.size) +
+      theme_minimal() +
+      labs(title = "Wordclouds by Sender", subtitle = paste("Including words occuring at least ",min.freq," times", sep = "")) +
+      theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) +
+      facet_wrap(~sender)
+
+  }
+
+  # returning data if desired
+  if (return.data == TRUE) {
+
+    return(words)
+
+  } else {
+
+    return(plot)
 
   }
 
