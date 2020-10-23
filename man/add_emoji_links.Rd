@@ -13,11 +13,11 @@ add_emoji_links(emojidict)
 A dictionary of emojis inlcuding two new columns with links to the pictures and html tags of those links respectively.
 }
 \description{
-Fetches links to picture of emojis from www.emojipedia.org, which can be used to plot the actual emojis
+Fetches links to pictures of emojis from www.emojipedia.org, which can be used to plot the actual emojis
 in plots instead of their textual description only. The procedure was adapted from: https://www.hvitfeldt.me/blog/real-emojis-in-ggplot2/.
 This only needs to be done when new emoji are added to www.emojipedia.org and the emoji dictionary needed to be updated.
 }
 \examples{
-EmojiDic <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"),stringsAsFactors = FALSE)
-#EmojiDic2 <- add_emoji_links(EmojiDic[1:20,])
+EmojiDic <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"),stringsAsFactors = FALSE)[,-c(1:2)]
+EmojiDic2 <- add_emoji_links(EmojiDic[1:20,])
 }

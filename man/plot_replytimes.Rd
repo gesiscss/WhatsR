@@ -16,19 +16,19 @@ plot_replytimes(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with WhatsAppParse()}
+\item{data}{A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}}
 
 \item{names}{A vector of author names that the plots will be restricted to}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
 \item{return.data}{If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.}
 
 \item{aggregate.sessions}{If TRUE, concurrend messages of the same author are aggregated into one session. Default is TRUE.}
 
-\item{plot}{box, dist, heatmap}
+\item{plot}{Type of plot to be returned, options include "box", "dist" and "heatmap"}
 
 \item{type}{If "replytime", plots display how much time it takes authors to reply to previous message, if "reactiontime", plots display how much time it takes for authors to get responded to}
 }
@@ -36,7 +36,7 @@ plot_replytimes(
 Plots for Replytimes of Reactiontimes of authors
 }
 \description{
-visualizes the replytimes and reactiontimes to messages per author
+Visualizes the replytimes and reactiontimes to messages per author
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

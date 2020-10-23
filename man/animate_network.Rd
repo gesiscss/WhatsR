@@ -16,13 +16,13 @@ animate_network(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with WhatsAppParse()}
+\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}}
 
 \item{names}{A vector of author names that the visulaization will be restricted to}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Input is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Input is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
 
 \item{return.data}{If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.}
 
@@ -38,5 +38,5 @@ Plots a network for replies between authors in chatlogs
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#animate_network(data)
+animate_network(data)
 }

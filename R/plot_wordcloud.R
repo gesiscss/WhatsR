@@ -6,13 +6,13 @@
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param stop The language for stopword removal. Stopwords are taken from code{\link[tm]{stopwords}}. Default is "english".
 #' @param comparison Must be TRUE or FALSE. If TRUE, will split up wordcloud by sender. Default is FALSE.
-#' @param return.data Will the dataframe used to create the plot if TRUE. Default is FALSE
-#' @param font.size Size of the words in the wordcloud, passed to code{\link[ggwordcloud]{scale_size_area}}. Default is 5, a good starting value is 0.0125 * number of messages in dataframe
+#' @param return.data Will return the dataframe used to create the plot if TRUE. Default is FALSE
+#' @param font.size Size of the words in the wordcloud, passed to code{\link[ggwordcloud]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in dataframe
 #' @import ggplot2
-#' @import ggwordcloud
 #' @importFrom anytime anytime
 #' @importFrom dplyr bind_rows
 #' @importFrom tm stopwords
+#' @importFrom ggwordcloud geom_text_wordcloud_area
 #' @export
 #' @return A wordcloud plot per author for WhatsApp chatlogs
 #' @examples

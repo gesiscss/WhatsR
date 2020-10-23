@@ -16,13 +16,13 @@ plot_smilies(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with WhatsAppParse()}
+\item{data}{A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}}
 
 \item{names}{A vector of author names that the plots will be restricted to}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
 \item{min.occur}{The minimum number of occurances a Smiley has to have to be included in the Visualization. Default is 1}
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse_chat.R
 \name{parse_chat}
 \alias{parse_chat}
-\title{Parsing exported WhatsApp Textfiles as Dataframes}
+\title{Parsing exported WhatsApp Textfiles as a Dataframe}
 \usage{
 parse_chat(
   name,
@@ -37,20 +37,20 @@ attached mediafiles will be extracted into a seperate column.}
 
 \item{web}{"domain" will shorten sent links to domains, "url" will display the full URL}
 
-\item{order}{determines how the messages are ordered. "display" order them in the same order that they appear on the phone
+\item{order}{determines how the messages are ordered. "display" orders them in the same order that they appear on the phone
 that the messages were exported from. "time" orders the messages according to the WhatsApp Timestamp the message received while it was sent.
 Due to internet problems, these orders are not necessarily interchangeable. "both" gives two columns with the respective orders}
 
-\item{language}{indicates the language of WhatsApp on the phone with which the messages were exported. This is important because
+\item{language}{Indicates the language of WhatsApp on the phone with which the messages were exported. This is important because
 it changes the structure of date/time columns and indicators for sent media. Currently, "english" and "german" are available.}
 
 \item{os}{operating system of the phone the chat was exported from. Supports "android" or "iOS"}
 
-\item{rpnl}{replace newline. A character string for replacing linebreaks within messages for the parsed message for better readibility}
+\item{rpnl}{Replace newline. A character string for replacing linebreaks within messages for the parsed message for better readibility. Default is " start_newline "}
 
-\item{rpom}{replace omitted media. A character string replacing the indicator for omitted media files for better readibility}
+\item{rpom}{Replace omitted media. A character string replacing the indicator for omitted media files for better readibility. Default is " media_omitted "}
 
-\item{...}{further arguments passed down to ReplaceEmoji()}
+\item{...}{Further arguments passed down to ReplaceEmoji()}
 }
 \value{
 A dataframe containing:
@@ -73,8 +73,8 @@ A dataframe containing:
 }
 \description{
 Creates a dataframe from an exported WhatsApp textfile containing one row per message. Some columns
-were saved as lists using the I() function so that multiple elements could be stored per message, while still maintaining
-the general structure of one row per message. In your analysis, you should treat these columns as lists or unlist them first.
+are saved as lists using the I() function so that multiple elements can be stored per message, while still maintaining
+the general structure of one row per message. These columns should be trated as lists or unlisted first.
 }
 \examples{
 data <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"),

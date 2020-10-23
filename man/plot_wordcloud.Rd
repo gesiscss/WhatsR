@@ -9,34 +9,36 @@ plot_wordcloud(
   names = "all",
   starttime = anytime("1960-01-01 00:00"),
   endtime = Sys.time(),
-  stop = "german",
-  maxwords = 100,
-  mincount = 1,
-  comparison = FALSE
+  remove.stops = TRUE,
+  stop = "english",
+  comparison = FALSE,
+  return.data = FALSE,
+  font.size = 10,
+  min.freq = 5
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with parse_chat()}
+\item{data}{A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}}
 
 \item{names}{A vector of author names that the Plots will be restricted to}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{stop}{The language of the chat for stopword removal, passed down to quanteda::stopwords(). default is "german"}
+\item{stop}{The language for stopword removal. Stopwords are taken from code{\link[tm]{stopwords}}. Default is "english".}
 
-\item{maxwords}{Maximum number of words to display in the wordcloud. Default is 100.}
+\item{comparison}{Must be TRUE or FALSE. If TRUE, will split up wordcloud by sender. Default is FALSE.}
 
-\item{mincount}{Minimum number of occurances a word has to have to be included in the wordplot. Default is 1}
+\item{return.data}{Will return the dataframe used to create the plot if TRUE. Default is FALSE}
 
-\item{comparison}{If TRUE, compares the unique wordclouds for different authors for a maximum of 8 authors. Default is FALSE}
+\item{font.size}{Size of the words in the wordcloud, passed to code{\link[ggwordcloud]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in dataframe}
 }
 \value{
 A wordcloud plot per author for WhatsApp chatlogs
 }
 \description{
-Creates awordcloud by author for WhatsApp chatlogs
+Creates a wordcloud by author for WhatsApp chatlogs
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
