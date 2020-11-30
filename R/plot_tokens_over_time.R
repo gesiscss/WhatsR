@@ -82,7 +82,7 @@ plot_tokens_over_time <- function(data,
             labs(title = "Tokens by Years",
                  subtitle = paste(starttime, " - ", endtime)) +
             xlab("Year") +
-            scale_x_discrete(limits = unique(helperframe$year)))
+            scale_x_discrete(limits = as.factor(unique(helperframe$year))))
   }
 
   if (plot == "weekday") {
@@ -93,13 +93,13 @@ plot_tokens_over_time <- function(data,
             labs(title = "Tokens by day of the week",
                  subtitle = paste(starttime, " - ", endtime)) +
             xlab("Weekday")  +
-            scale_x_discrete(limits = c("Monday",
+            scale_x_discrete(limits = as.factor(c("Monday",
                                         "Tuesday",
                                         "Wednesday",
                                         "Thursday",
                                         "Friday",
                                         "Saturday",
-                                        "Sunday")))
+                                        "Sunday"))))
   }
 
   if (plot == "hours") {
