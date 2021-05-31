@@ -37,7 +37,7 @@ plot_emoji <- function(data,
   Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- NULL
 
   # importing Emoji dictionary
-    Dictionary <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
+  Dictionary <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
@@ -64,7 +64,7 @@ plot_emoji <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
 
-  # This tells us if at least one link is present (if it's TRUE then theres at least one link)
+  # This tells us if at least one emoji is present (if it's TRUE then theres at least one link)
   EmojiPresent <- !sapply(sapply(data$Emoji, is.na),sum)
 
   # This tells us how many elements are in each list element (includes NA aswell)

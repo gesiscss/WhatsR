@@ -37,9 +37,9 @@ download_emoji <- function(pages =         c("https://emojipedia.org/people/",
                                              "https://emojipedia.org/emoji-modifier-fitzpatrick-type-4/",
                                              "https://emojipedia.org/emoji-modifier-fitzpatrick-type-5/",
                                              "https://emojipedia.org/emoji-modifier-fitzpatrick-type-6/"),
-                           RegularXpath =    "/html/body/div[2]/div[1]/ul", # this keeps changing occasionally
-                           SkinXpath =       "/html/body/div[2]/div[1]/article/section[1]/ul",# this keeps changing occasionally
-                           ExceptionXpath =  "/html/body/div[2]/div[1]/article/section[1]/ul[2]"){ # this keeps changing occasionally
+                           RegularXpath =    "/html/body/div[3]/div[1]/ul", # this keeps changing occasionally
+                           SkinXpath =       "/html/body/div[3]/div[1]/article/section[1]/ul",# this keeps changing occasionally
+                           ExceptionXpath =  "/html/body/div[3]/div[1]/article/section[1]/ul[2]"){ # this keeps changing occasionally
 
 
   # function to scrape and parse XML tables

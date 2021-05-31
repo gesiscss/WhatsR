@@ -104,7 +104,7 @@ plot_smilies <- function(data,
 
   }
 
-  # restricting to LinkVec range
+  # restricting to SmilieVec range
   NewFrame <- NewFrame[is.element(NewFrame$NewSmilies,SmilieVec),]
 
   if (dim(NewFrame)[1] == 0) {
@@ -125,7 +125,7 @@ plot_smilies <- function(data,
     # factor ordering
     weekdays <- rev(c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"))
 
-    # transalte to english for better compatibility
+    # translate to english for better compatibility
     helperframe2$day <- mgsub(helperframe2$day,
                               pattern = c("Sonntag","Samstag","Freitag","Donnerstag","Mittwoch","Dienstag","Montag"),
                               replacement = weekdays)
