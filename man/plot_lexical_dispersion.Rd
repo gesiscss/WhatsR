@@ -28,7 +28,7 @@ plot_lexical_dispersion(
 \item{...}{Further arguments passed down to code{\link[qdap]{dispersion_plot}}}
 }
 \value{
-Lexical Disperson plots for specified keywords
+Lexical Dispersion plots for specified keywords
 }
 \description{
 Visualizes the occurance of specific keywords within the chat
