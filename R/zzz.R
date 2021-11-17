@@ -17,7 +17,7 @@
                "ggtext"),
              requireNamespace, quietly = TRUE)))
 
-  pkg_info <- "Welcome to WhatsR - A package for parsing and visualizing WhatsApp Chatlogs! For the latest version and to file issues, please see: https://github.com/gesiscss/WhatsR"
+  pkg_info <- "Welcome to WhatsR - A package for parsing and visualizing WhatsApp Chatlogs! \n For the latest version and to file issues, please see: https://github.com/gesiscss/WhatsR"
   packageStartupMessage(pkg_info)
   options(quietly = quietly)
 }

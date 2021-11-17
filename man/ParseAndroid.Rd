@@ -13,7 +13,9 @@ ParseAndroid(
     "\\\\?q=\\\\d\\\\d.\\\\d{6}\\\\,\\\\d\\\\.\\\\d{6})"),
   livelocation = "^live location shared$",
  
-    datetimeindicator = paste0("(?!^)(?=((\\\\d{2}\\\\.\\\\d{2}\\\\.\\\\d{2})|(\\\\d{1,2}\\\\/\\\\d{1,2}\\\\/\\\\d{2})),\\\\s\\\\d{2}\\\\:\\\\d{2}((\\\\s\\\\-)|(\\\\s(?i:(am|pm))\\\\s\\\\-)))"),
+    datetimeindicator = paste("(?!^)(?=((\\\\d{2}\\\\.\\\\d{2}\\\\.\\\\d{2})|(\\\\d{1,2}",
+    "\\\\/\\\\d{1,2}\\\\/\\\\d{2})),\\\\s\\\\d{2}\\\\:\\\\d{2}((\\\\s\\\\-)|(\\\\s(?i:(am|pm))\\\\s\\\\-)))",
+    sep = ""),
   nlreplace = " start_newline ",
   mediareplace = " media_omitted "
 )
