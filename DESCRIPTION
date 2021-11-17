@@ -11,7 +11,9 @@ Description: Package for importing WhatsApp Chatlogs and parsing them into
     from the messages, extracting urls and domains from the messages, extracting names and types of send media-files
     from the messages, extracting timestamps from messages, extracting and anonmizing author names from messages.
 License: MIT + file LICENSE
-Imports: stringi, stringr, qdapRegex, readr, tokenizers, rvest, pryr, XML, xml2, lubridate, data.table, ggplot2, anytime, dplyr, network, quanteda, ggmap, networkDynamic, mgsub, dplyr, ggplot2, network, stats, ndtv, devtools, ggtext
+Imports: ndtv, stringi, stringr, qdapRegex, readr, tokenizers, rvest, pryr, XML, xml2, lubridate, data.table, ggplot2, anytime, dplyr, network, quanteda, ggmap, networkDynamic, mgsub, dplyr, ggplot2, network, stats, devtools, ggtext, qdap, tm, ggwordcloud, sna
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
+Depends:
+Suggests:

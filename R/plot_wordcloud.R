@@ -6,8 +6,10 @@
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param stop The language for stopword removal. Stopwords are taken from code{\link[tm]{stopwords}}. Default is "english".
 #' @param comparison Must be TRUE or FALSE. If TRUE, will split up wordcloud by sender. Default is FALSE.
-#' @param return.data Will return the dataframe used to create the plot if TRUE. Default is FALSE
-#' @param font.size Size of the words in the wordcloud, passed to code{\link[ggwordcloud]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in dataframe
+#' @param return.data Will return the dataframe used to create the plot if TRUE. Default is FALSE.
+#' @param font.size Size of the words in the wordcloud, passed to code{\link[ggplot2]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in dataframe
+#' @param remove.stops Either TRUE or FALSE, default is TRUE. Configures whether stopwords from code{\link[tm]{stopwords}} are removed from the text strings.
+#' @param min.freq Sets the minimum frequency a token must occur in the chat for it to be included in the plot.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr bind_rows
@@ -17,7 +19,7 @@
 #' @return A wordcloud plot per author for WhatsApp chatlogs
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' plot_wordcloud(data, comparison = TRUE)
+#' plot_wordcloud(data, comparison = TRUE, min.freq=1)
 
 ################## Function to make a wordcloud
 plot_wordcloud <- function(data,
@@ -30,6 +32,9 @@ plot_wordcloud <- function(data,
                            return.data = FALSE,
                            font.size = 10,
                            min.freq = 5){
+
+  # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
+  `tokens` <- `freq` <- `word` <- NULL
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {

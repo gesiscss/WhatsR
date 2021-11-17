@@ -26,13 +26,17 @@ plot_wordcloud(
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
+\item{remove.stops}{Either TRUE or FALSE, default is TRUE. Configures whether stopwords from code{\link[tm]{stopwords}} are removed from the text strings.}
+
 \item{stop}{The language for stopword removal. Stopwords are taken from code{\link[tm]{stopwords}}. Default is "english".}
 
 \item{comparison}{Must be TRUE or FALSE. If TRUE, will split up wordcloud by sender. Default is FALSE.}
 
-\item{return.data}{Will return the dataframe used to create the plot if TRUE. Default is FALSE}
+\item{return.data}{Will return the dataframe used to create the plot if TRUE. Default is FALSE.}
 
-\item{font.size}{Size of the words in the wordcloud, passed to code{\link[ggwordcloud]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in dataframe}
+\item{font.size}{Size of the words in the wordcloud, passed to code{\link[ggplot2]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in dataframe}
+
+\item{min.freq}{Sets the minimum frequency a token must occur in the chat for it to be included in the plot.}
 }
 \value{
 A wordcloud plot per author for WhatsApp chatlogs
@@ -42,5 +46,5 @@ Creates a wordcloud by author for WhatsApp chatlogs
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-plot_wordcloud(data, comparison = TRUE)
+plot_wordcloud(data, comparison = TRUE, min.freq=1)
 }

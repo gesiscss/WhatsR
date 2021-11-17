@@ -24,7 +24,7 @@ plot_tokens <- function(data,
                         plot = "bar"){
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  Sender <- TokCount <- DateTime <- total <- NULL
+  tokens <- freq <- word <- Sender <- TokCount <- DateTime <- total <- NULL
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {

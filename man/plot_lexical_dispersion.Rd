@@ -23,6 +23,8 @@ plot_lexical_dispersion(
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
+\item{palettes}{empty argument. Remove after testing}
+
 \item{keywords}{A vector of keywords to be displayed, default is c("hello",world")}
 
 \item{...}{Further arguments passed down to code{\link[qdap]{dispersion_plot}}}

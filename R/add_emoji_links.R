@@ -7,12 +7,12 @@
 #' @return A dictionary of emojis inlcuding two new columns with links to the pictures and html tags of those links respectively.
 #' @importFrom xml2 read_html
 #' @importFrom rvest html_nodes
-#' @importFrom rvest html_attrs
+#' @importFrom rvest html_attr
 #' @importFrom rvest html_node
 #' @export
 #' @examples
 #' EmojiDic <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"),stringsAsFactors = FALSE)[,-c(1:2)]
-#' EmojiDic2 <- add_emoji_links(EmojiDic[1:20,])
+#' EmojiDic2 <- add_emoji_links(EmojiDic[1,])
 
 # function for getting Emoji links and html tags
 add_emoji_links <- function(emojidict) {

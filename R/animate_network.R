@@ -1,12 +1,15 @@
 #' @title Visualize the Network of replies in Whatsapp chatlogs
 #' @description Plots a network for replies between authors in chatlogs
-  #' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}
+#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the visulaization will be restricted to
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Input is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Input is parsed with anytime(). Standard format is "yyyy-mm-dd hh:mm".
 #' @param return.data If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param save If FALSE, does not save the network visualization in a file. Any other value saves the visualization as an html file.
 #' @param filename filename for the saved network visualization, default is "whatsapp_network"
+#' @param animationLayout Defines the layout for animated plots, possible values are listed in code{\link[ndtv]{compute.animation}}.
+#' @param fixBug A switch for jumping over some buggy lines of code.
+#' @import ndtv
 #' @importFrom anytime anytime
 #' @importFrom data.table .I
 #' @importFrom data.table .N
@@ -24,7 +27,7 @@
 #' @return html file with network visualization of authors in WhatsApp chatlog
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' animate_network(data)
+#' animate_network(data,fixBug=TRUE)
 
 ### visualizing Distribution of reply times (only possible between multiple senders and recipients: n > 2)
 animate_network <- function(data,
@@ -34,10 +37,11 @@ animate_network <- function(data,
                             return.data = FALSE,
                             save = "html",
                             filename = "whatsapp_network",
-                            animationLayout = "kamadakawai") {
+                            animationLayout = "kamadakawai",
+                            fixBug = TRUE) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  `.` <- WAnetwork <- `%v%<-` <- `%e%<-` <- NULL
+  `animationLayout` <- `.` <- WAnetwork <- `%v%<-` <- `%e%<-` <- NULL
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
@@ -199,21 +203,31 @@ animate_network <- function(data,
   # dynamicWA %e% "amount" <- DynamicEdges$IncreasingCounter
   set.edge.attribute(dynamicWA,"amount",DynamicEdges$IncreasingCounter)
 
-  # Calculate how to plot an animated version of the dynamic network
-    compute.animation(
-    dynamicWA,
-    animation.mode = animationLayout,
-    slice.par = list(
-      start = 0,
-      end = nrow(DynamicEdges) + 1,
-      interval = 1,
-      aggregate.dur = 1,
-      rule = "any"
-    )
-  )
+  # trying to fix issue with unavaiable animation.mode:
+  # There is an error where animationLayout can't be found: https://github.com/statnet/ndtv/issues/23
+  # requireNamespace(ndtv)
+  library(ndtv)
 
-  # Render the animation and open it in a web brower
-    render.d3movie(
+  if (fixBug == FALSE) {
+
+    # Calculate how to plot an animated version of the dynamic network
+    # There is an error where animationLayout can't be found: https://github.com/statnet/ndtv/issues/23
+     ndtv::compute.animation(
+       dynamicWA,
+       animation.mode = animationLayout,
+       slice.par = list(
+         start = 0,
+         end = nrow(DynamicEdges) + 1,
+         interval = 1,
+         aggregate.dur = 1,
+         rule = "any"
+       )
+     )
+
+  }
+
+  # Render the animation and open it in a web browser
+    ndtv::render.d3movie(
     dynamicWA,
     displaylabels = FALSE,
     main = "Visualization of WhatsApp Network Dynamic",
