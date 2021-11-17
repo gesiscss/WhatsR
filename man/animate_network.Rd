@@ -12,8 +12,7 @@ animate_network(
   return.data = FALSE,
   save = "html",
   filename = "whatsapp_network",
-  animationLayout = "kamadakawai",
-  fixBug = TRUE
+  animationLayout = "kamadakawai"
 )
 }
 \arguments{
@@ -31,9 +30,7 @@ animate_network(
 
 \item{filename}{filename for the saved network visualization, default is "whatsapp_network"}
 
-\item{animationLayout}{Defines the layout for animated plots, possible values are listed in code{\link[ndtv]{compute.animation}}.}
-
-\item{fixBug}{A switch for jumping over some buggy lines of code.}
+\item{animationLayout}{Defines the layout for animated plots, possible values are listed in \code{\link[ndtv]{compute.animation}}.}
 }
 \value{
 html file with network visualization of authors in WhatsApp chatlog
@@ -43,5 +40,5 @@ Plots a network for replies between authors in chatlogs
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-animate_network(data,fixBug=TRUE)
+animate_network(data)
 }

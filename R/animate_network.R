@@ -7,8 +7,7 @@
 #' @param return.data If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param save If FALSE, does not save the network visualization in a file. Any other value saves the visualization as an html file.
 #' @param filename filename for the saved network visualization, default is "whatsapp_network"
-#' @param animationLayout Defines the layout for animated plots, possible values are listed in code{\link[ndtv]{compute.animation}}.
-#' @param fixBug A switch for jumping over some buggy lines of code.
+#' @param animationLayout Defines the layout for animated plots, possible values are listed in \code{\link[ndtv]{compute.animation}}.
 #' @import ndtv
 #' @importFrom anytime anytime
 #' @importFrom data.table .I
@@ -27,7 +26,7 @@
 #' @return html file with network visualization of authors in WhatsApp chatlog
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' animate_network(data,fixBug=TRUE)
+#' animate_network(data)
 
 ### visualizing Distribution of reply times (only possible between multiple senders and recipients: n > 2)
 animate_network <- function(data,
@@ -37,8 +36,7 @@ animate_network <- function(data,
                             return.data = FALSE,
                             save = "html",
                             filename = "whatsapp_network",
-                            animationLayout = "kamadakawai",
-                            fixBug = TRUE) {
+                            animationLayout = "kamadakawai") {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   `animationLayout` <- `.` <- WAnetwork <- `%v%<-` <- `%e%<-` <- NULL
@@ -203,58 +201,52 @@ animate_network <- function(data,
   # dynamicWA %e% "amount" <- DynamicEdges$IncreasingCounter
   set.edge.attribute(dynamicWA,"amount",DynamicEdges$IncreasingCounter)
 
-  # trying to fix issue with unavaiable animation.mode:
-  # There is an error where animationLayout can't be found: https://github.com/statnet/ndtv/issues/23
-  # requireNamespace(ndtv)
-  library(ndtv)
+   #library(ndtv) # UNCOMMENT THIS TO MAKE uncommented stuff work
 
-  if (fixBug == FALSE) {
-
-    # Calculate how to plot an animated version of the dynamic network
-    # There is an error where animationLayout can't be found: https://github.com/statnet/ndtv/issues/23
-     ndtv::compute.animation(
-       dynamicWA,
-       animation.mode = animationLayout,
-       slice.par = list(
-         start = 0,
-         end = nrow(DynamicEdges) + 1,
-         interval = 1,
-         aggregate.dur = 1,
-         rule = "any"
-       )
-     )
-
-  }
+   # Calculate how to plot an animated version of the dynamic network
+   # Function seems to work even when this is commented out
+   # There is an error where animationLayout can't be found: https://github.com/statnet/ndtv/issues/23
+   # ndtv::compute.animation(
+   #       dynamicWA,
+   #       animation.mode = animationLayout,
+   #       slice.par = list(
+   #         start = 0,
+   #         end = nrow(DynamicEdges) + 1,
+   #         interval = 1,
+   #         aggregate.dur = 1,
+   #         rule = "any"
+   #       )
+   #  )
 
   # Render the animation and open it in a web browser
-    ndtv::render.d3movie(
-    dynamicWA,
-    displaylabels = FALSE,
-    main = "Visualization of WhatsApp Network Dynamic",
-    usearrows = TRUE,
+    render.d3movie(
+        dynamicWA,
+        displaylabels = FALSE,
+        main = "Visualization of WhatsApp Network Dynamic",
+        usearrows = TRUE,
 
-    # This slice function makes the vertex labels work
-    vertex.tooltip = function(slice) {
-      paste(
-        "<b>Name:</b>", (get.vertex.attribute(slice,"name"))
-      )
-    },
+        # This slice function makes the vertex labels work
+        vertex.tooltip = function(slice) {
+          paste(
+           "<b>Name:</b>", (get.vertex.attribute(slice,"name"))
+          )
+        },
 
-    # This slice function makes the edge labels work
-    edge.tooltip = function(slice) {
-      paste(
-        "<b>Message Amount:</b>", (get.edge.attribute(slice,"amount"))
-      )
-    },
+       # This slice function makes the edge labels work
+       edge.tooltip = function(slice) {
+         paste(
+           "<b>Message Amount:</b>", (get.edge.attribute(slice,"amount"))
+          )
+        },
 
-    # This makes edges thicker the more exchanges happen
-    edge.lwd = DynamicEdges$IncreasingCounter,
+       # This makes edges thicker the more exchanges happen
+        edge.lwd = DynamicEdges$IncreasingCounter,
 
-    # saving the object
-    if (save != FALSE){file = "WANetworkAnimation.html"})
+       # saving the object
+        if (save != FALSE){file = "WANetworkAnimation.html"})
 
-  # returning the Network object(s)
-  if (return.data == TRUE) {
+    # returning the Network object(s)
+    if (return.data == TRUE) {
 
     # putting together output list
     out <- list(NetworkDataFrame = NetFrame, DynamicNodeList = DynamicNodes, DynamicEdgeList = DynamicEdges, DynamicNetwork = dynamicWA)
