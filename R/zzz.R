@@ -10,9 +10,9 @@
                "pryr", "XML", "xml2",
                "lubridate", "data.table",
                "ggplot2", "anytime", "dplyr",
-               "network", "quanteda", "ggmap",
+               "quanteda", "ggmap",
                "networkDynamic", "mgsub",
-               "dplyr", "ggplot2", "network",
+               "network",
                "stats", "ndtv", "devtools",
                "ggtext"),
              requireNamespace, quietly = TRUE)))
