@@ -289,7 +289,7 @@ plot_media(data, plot = "splitbar")
 
 
 ### Interactive Network
-Interactive network of chat participants. A connection represents a response to a message. Each Message is interpreted as a response to the previous message. Consecutrive messages by the same chat participant are summarized into one "session". The shown plot is a low quality GIF, the actual output is an interactive HTML object that GitHub does not permit in Readme files.
+Interactive network of chat participants. A connection represents a response to a message. Each Message is interpreted as a response to the previous message. Consecutive messages by the same chat participant are summarized into one "session". The shown plot is a low quality GIF, the actual output is an interactive HTML object that GitHub does not permit in Readme files. Click to play GIF.
 ```
 animate_network(data)
 ```
