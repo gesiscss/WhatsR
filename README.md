@@ -201,7 +201,7 @@ Amount of sent Smilies per person and over time
 plot_smilies(data, plot = "cumsum")
 ```
 
-IMAGE MISSING, UPLOAD NWE VERSION
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/PG9N8yT/plot-smilies1.png" alt="plot-smilies1" border="0"></a>
 
 ```
 plot_smilies(data, plot = "bar")
@@ -262,7 +262,7 @@ plot_reply_times(data, type = "reactiontime")
 <a href="https://ibb.co/3WrCXWD"><img src="https://i.ibb.co/BjzCDjX/plot-replytimes2.png" alt="plot-replytimes2" border="0"></a>
 
 ## Group Chat
-The previous example chat was exported without mediafiles and only includes two people chatting. To demonstrate the visualization of different media files and the network of chat participants, we will thus use a different example file, exported from a groupchat.
+The previous example chat was exported without media files and only includes two people chatting. To demonstrate the visualization of different media files and the network of chat participants, we will use a different example file, exported from a group chat.
 
 ### Sent Media
 Amount of sent Media files per person and over time
@@ -293,5 +293,5 @@ Interactive network of chat participants. A connection represents a response to 
 ```
 animate_network(data)
 ```
-![Network Visualization](https://s7.gifyu.com/images/WANetworkAnimation.gif)
+<a href="https://ibb.co/bbNKnjg"><img src="https://i.ibb.co/BnTCRHV/Whats-App-Network.gif" alt="Whats-App-Network" border="0"></a>
 
