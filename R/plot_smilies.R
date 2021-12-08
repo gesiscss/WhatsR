@@ -53,16 +53,16 @@ plot_smilies <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
 
-  # This tells us if at least one link is present (if it's TRUE then theres at least one link)
+  # This tells us if at least one link is present (if it's TRUE then theres at least one smiley)
   SmiliesPresent <- !sapply(sapply(data$Smilies, is.na),sum)
 
   # This tells us how many elements are in each list element (includes NA aswell)
   NoElements <- lengths(data$Smilies)
 
-  # We take the New counter and set it to zero where-ever no links are present
+  # We take the New counter and set it to zero where-ever no smilies are present
   NoElements[SmiliesPresent == FALSE] <- 0
 
-  # URLS
+  # Smilies
   UnlistedSmilies <- unlist(data$Smilies)
   NewSmilies <- UnlistedSmilies[!is.na(UnlistedSmilies)]
 
@@ -143,6 +143,36 @@ plot_smilies <- function(data,
 
     }
 
+    # adjusting helperframe
+    helperframe2$hour <- factor(helperframe2$hour,
+                                levels = 0:24,
+                                labels = c("00:00",
+                                           "01:00",
+                                           "02:00",
+                                           "03:00",
+                                           "04:00",
+                                           "05:00",
+                                           "06:00",
+                                           "07:00",
+                                           "08:00",
+                                           "09:00",
+                                           "10:00",
+                                           "11:00",
+                                           "12:00",
+                                           "13:00",
+                                           "14:00",
+                                           "15:00",
+                                           "16:00",
+                                           "17:00",
+                                           "18:00",
+                                           "19:00",
+                                           "20:00",
+                                           "21:00",
+                                           "22:00",
+                                           "23:00",
+                                           "24:00"),
+                                ordered = T)
+
     # plotting Heatmap
     out <- ggplot(helperframe2, aes(hour, day)) +
       geom_tile(aes(fill = `Number of Smilies`), colour = "black") +
@@ -158,34 +188,33 @@ plot_smilies <- function(data,
             legend.position = "bottom",
             legend.key.width = unit(2, "cm"),
             panel.grid = element_blank()) +
-      coord_equal() +
-      scale_x_continuous(breaks = seq(-0.5,23.5,1),
-                         limits = c(-0.5,23.5),
-                         labels = c("00:00",
-                                    "01:00",
-                                    "02:00",
-                                    "03:00",
-                                    "04:00",
-                                    "05:00",
-                                    "06:00",
-                                    "07:00",
-                                    "08:00",
-                                    "09:00",
-                                    "10:00",
-                                    "11:00",
-                                    "12:00",
-                                    "13:00",
-                                    "14:00",
-                                    "15:00",
-                                    "16:00",
-                                    "17:00",
-                                    "18:00",
-                                    "19:00",
-                                    "20:00",
-                                    "21:00",
-                                    "22:00",
-                                    "23:00",
-                                    "24:00"))
+      coord_equal()+
+      scale_x_discrete(limits = c("00:00",
+                                  "01:00",
+                                  "02:00",
+                                  "03:00",
+                                  "04:00",
+                                  "05:00",
+                                  "06:00",
+                                  "07:00",
+                                  "08:00",
+                                  "09:00",
+                                  "10:00",
+                                  "11:00",
+                                  "12:00",
+                                  "13:00",
+                                  "14:00",
+                                  "15:00",
+                                  "16:00",
+                                  "17:00",
+                                  "18:00",
+                                  "19:00",
+                                  "20:00",
+                                  "21:00",
+                                  "22:00",
+                                  "23:00",
+                                  "24:00"))
+
 
     # print top ten Smilies at bottom of heatmap
     if (length(SmilieVec) == 1 && SmilieVec == "all") {
