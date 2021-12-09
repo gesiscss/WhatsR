@@ -164,6 +164,38 @@ plot_media <- function(data,
 
     }
 
+    # formatting helperframe
+    helperframe2$hour <- factor(helperframe2$hour,
+                               levels = 0:24,
+                               labels = c("00:00",
+                                          "01:00",
+                                          "02:00",
+                                          "03:00",
+                                          "04:00",
+                                          "05:00",
+                                          "06:00",
+                                          "07:00",
+                                          "08:00",
+                                          "09:00",
+                                          "10:00",
+                                          "11:00",
+                                          "12:00",
+                                          "13:00",
+                                          "14:00",
+                                          "15:00",
+                                          "16:00",
+                                          "17:00",
+                                          "18:00",
+                                          "19:00",
+                                          "20:00",
+                                          "21:00",
+                                          "22:00",
+                                          "23:00",
+                                          "24:00"),
+                               ordered = T)
+
+
+
     # plotting Heatmap
     out <- ggplot(helperframe2, aes(hour, day)) +
       geom_tile(aes(fill = `Number of Media files`), colour = "black") +
@@ -180,7 +212,7 @@ plot_media <- function(data,
             legend.key.width = unit(2, "cm"),
             panel.grid = element_blank()) +
       coord_equal() +
-      scale_x_continuous(breaks = seq(-0.5,23.5,1),
+      scale_x_discrete(breaks = seq(-0.5,23.5,1),
                          limits = c(-0.5,23.5),
                          labels = c("00:00",
                                     "01:00",
