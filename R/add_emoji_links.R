@@ -12,7 +12,7 @@
 #' @export
 #' @examples
 #' EmojiDic <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"),
-#' stringsAsFactors = FALSE)[,-c(1:2)]
+#' stringsAsFactors = FALSE)[,-c(1)]
 #' EmojiDic2 <- add_emoji_links(EmojiDic[1,])
 
 # function for getting Emoji links and html tags

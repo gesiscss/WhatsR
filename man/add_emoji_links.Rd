@@ -19,6 +19,6 @@ This only needs to be done when new emoji are added to www.emojipedia.org and th
 }
 \examples{
 EmojiDic <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"),
-stringsAsFactors = FALSE)[,-c(1:2)]
+stringsAsFactors = FALSE)[,-c(1)]
 EmojiDic2 <- add_emoji_links(EmojiDic[1,])
 }
