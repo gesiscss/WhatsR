@@ -2,14 +2,15 @@
 #' @description Creates a list of basic information about a single WhatsApp chatlog
   #' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the Plots will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param min.occur Minimum number of occurances for Emoji to be included in the plots. Default is 1.
 #' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.
 #' @param EmojiVec A vector of Emoji that the visualizations will be restricted to
 #' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"
-#' @param HeightAdjuster Fraction of maximum y-value for heigh-adjusting emoji on bars. Positive value shifts up, negative value shifts down. Default is 25.
-#' @import ggplot2
+#' @param EmojiSize Determines the size of the Emoji displayed on top of the bars for "bar" and "splitbar", default is 10.
+#' @param FontFamily Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see {\link[extrafont]{font_import}}
+#' @import ggplot2 ragg extrafont
 #' @importFrom anytime anytime
 #' @importFrom dplyr group_by
 #' @importFrom dplyr summarise
@@ -20,7 +21,6 @@
 #'
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' plot_emoji(data)
 
 # Visualizing sent Emoji
 plot_emoji <- function(data,
@@ -31,10 +31,11 @@ plot_emoji <- function(data,
                        return.data = FALSE,
                        EmojiVec = "all",
                        plot = "bar",
-                       HeightAdjuster = 25) {
+                       EmojiSize = 10,
+                       FontFamily = "Noto Color Emoji") {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- NULL
+  Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- Glyph <-  NULL
 
   # importing Emoji dictionary
   Dictionary <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
@@ -125,6 +126,7 @@ plot_emoji <- function(data,
     stop()
 
   }
+
 
   if (plot == "heatmap") {
 
@@ -260,6 +262,11 @@ plot_emoji <- function(data,
 
   if (plot == "bar") {
 
+    # installing "Segoe MDL2 Assets" font if not installed yet
+    #font_location <- gsub("/SegMDL2.ttf","",system.file("SegMDL2.ttf", package = "WhatsR"))
+    #font_import(paths = font_location, prompt=FALSE)
+
+
     # Converting to dataframe to make it usable by ggplot
     df <- as.data.frame(sort(table(NewFrame$NewEmoji),decreasing = TRUE))
 
@@ -278,15 +285,25 @@ plot_emoji <- function(data,
 
     }
 
+    # retranslating emoji to description
+    #df$Emoji <- factor(gsub("Emoji_","",df$Emoji),levels = df$Emoji)
+
+    # retranslating emoji to description
+    df$Glyph <- sapply(gsub("Emoji_","",df$Emoji), function(x){Dictionary[x == Dictionary$Desc,]$R.native})
+
     # Visualizig the distribution of Emoji and putting the emoji into the plots ontop of the bars
-    out <- ggplot(df,aes(x = Emoji,y = Freq, fill = Emoji, label = Dictionary$HTML[indicator])) +
-                    geom_bar(stat = "identity") +
-                    labs(title = "Distribution of sent Emoji",
-                    subtitle = paste(starttime, " - ", endtime),
-                               x = "Emojis",
-                               y = "Frequency") +
-                    theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2), legend.position = "none") +
-                    geom_richtext(aes(y = Freq), fill = NA, label.color = NA,label.padding = grid::unit(rep(0, 4), "pt"), nudge_y = max(df$Freq)/HeightAdjuster)
+    out <- ggplot(df,aes(x = as.factor(Emoji),y = Freq, fill = Emoji, label = Dictionary$HTML[indicator])) +
+      geom_bar(stat = "identity") +
+      labs(title = "Distribution of sent Emoji",
+           subtitle = paste(starttime, " - ", endtime),
+           x = "Emojis",
+           y = "Frequency") +
+      theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2), legend.position = "none") +
+      geom_label(aes(label = Glyph),
+                 family=FontFamily,
+                 label.size = NA,
+                 fill = alpha(c("white"),0),
+                 size = EmojiSize)
 
     # printing
     print(out)
@@ -301,6 +318,11 @@ plot_emoji <- function(data,
   }
 
   if ( plot == "splitbar") {
+
+    # installing "Segoe MDL2 Assets" fonr if not installed yet
+    #font_location <- gsub("/SegMDL2.ttf","",system.file("SegMDL2.ttf", package = "WhatsR"))
+    #print(fonts()[17])
+    #font_import(paths = font_location, prompt=FALSE)
 
     ## Summarize per Sender who often each domain was sent
     SumFrame <-  group_by(NewFrame, NewSender, NewEmoji) %>% summarise(n = n())
@@ -318,15 +340,23 @@ plot_emoji <- function(data,
 
     }
 
+    # retranslating emoji to description
+    SumFrame$Glyph <- sapply(gsub("Emoji_","",SumFrame$Emoji), function(x){Dictionary[x == Dictionary$Desc,]$R.native})
+
     # building graph object
-    out <-   ggplot(SumFrame, aes(x = Sender, y = n,fill = Emoji, label = Dictionary$HTML[indicator])) +
-                      geom_bar(stat = "identity", position = position_dodge()) +
-                      labs(title = "Emoji sent per Person",
-                           subtitle = paste(starttime, " - ", endtime),
-                           x = "Sender",
-                           y = "Frequency") +
-                     theme(legend.title = element_text("Emoji")) +
-                    geom_richtext(aes(y = n), fill = NA, label.color = NA,label.padding = grid::unit(rep(0, 4), "pt"),position = position_dodge2(width = 0.9, preserve = "total"))
+    out <-   ggplot(SumFrame, aes(x = Sender, y = n,fill = Emoji, label = Glyph)) +
+      geom_bar(stat = "identity", position = position_dodge()) +
+      labs(title = "Emoji sent per Person",
+           subtitle = paste(starttime, " - ", endtime),
+           x = "Sender",
+           y = "Frequency") +
+      theme(legend.title = element_text("Emoji")) +
+      geom_label(aes(label = Glyph, fill = Emoji),
+                 family=FontFamily,
+                 label.size = NA,
+                 fill = alpha(c("white"),0),
+                 size = EmojiSize,
+                 position = position_dodge2(width = 0.9, preserve = "single"))
 
 
     # only printing legend if we have 20 unique Emoji or less

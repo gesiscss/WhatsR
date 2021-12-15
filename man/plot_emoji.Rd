@@ -13,7 +13,8 @@ plot_emoji(
   return.data = FALSE,
   EmojiVec = "all",
   plot = "bar",
-  HeightAdjuster = 25
+  EmojiSize = 10,
+  FontFamily = "Noto Color Emoji"
 )
 }
 \arguments{
@@ -21,9 +22,9 @@ plot_emoji(
 
 \item{names}{A vector of author names that the Plots will be restricted to}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
 \item{min.occur}{Minimum number of occurances for Emoji to be included in the plots. Default is 1.}
 
@@ -33,7 +34,9 @@ plot_emoji(
 
 \item{plot}{The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"}
 
-\item{HeightAdjuster}{Fraction of maximum y-value for heigh-adjusting emoji on bars. Positive value shifts up, negative value shifts down. Default is 25.}
+\item{EmojiSize}{Determines the size of the Emoji displayed on top of the bars for "bar" and "splitbar", default is 10.}
+
+\item{FontFamily}{Character string for indicating font family used to plot emoji. Fonts need to be installed manually, see code{\link[extrafont]{font_import}}}
 }
 \value{
 Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance
@@ -43,5 +46,4 @@ Creates a list of basic information about a single WhatsApp chatlog
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-plot_emoji(data)
 }
