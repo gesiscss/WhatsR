@@ -36,7 +36,7 @@ plot_emoji(
 
 \item{EmojiSize}{Determines the size of the Emoji displayed on top of the bars for "bar" and "splitbar", default is 10.}
 
-\item{FontFamily}{Character string for indicating font family used to plot emoji. Fonts need to be installed manually, see code{\link[extrafont]{font_import}}}
+\item{FontFamily}{Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see {\link[extrafont]{font_import}}}
 }
 \value{
 Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance
