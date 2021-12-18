@@ -1,4 +1,4 @@
-[﻿29.01.18, 12:24:03 PM] Nachrichten an diese Gruppe sind jetzt mit Ende-zu-Ende-Verschlüsselung geschützt. Tippe für mehr Infos.
+[﻿29.01.18, 12:24:03 PM] Nachrichten und Anrufe sind Ende-zu-Ende verschlüsselt. Niemand außerhalb dieses Chats kann sie lesen oder anhören, nicht einmal WhatsApp. Tippe, um mehr zu erfahren.
 ﻿﻿[29.01.18, 12:24:03 PM] Du hast die Gruppe "WhatsAppParserTest🙈" erstellt.
 ﻿﻿[29.01.18, 12:24:03 PM] Du hast Mallory hinzugefügt.
 ﻿﻿[29.01.18, 12:24:03 PM] Mallory: Hey! :)
@@ -32,5 +32,19 @@
 ﻿[29.01.18, 11:59:03 PM] Bob: Standort: https://maps.google.com/?q=50.9425526,6.9523387
 ﻿[29.01.18, 11:59:03 PM] Alice: Live-Standort wird geteilt.
 ﻿[29.01.18, 11:59:03 PM] Bob: Klappt, cool! :)
+﻿﻿[29.01.18, 11:59:03 PM] Bob: Carol, kannst du ein selbst-löschendes Foto posten um zu schauen wie das im log aussieht?
+﻿[29.01.18, 11:59:03 PM] Carol:
 ﻿[30.01.18, 12:00:03 AM] Alice: Damit sollten sich WhatsApp Verläufe besser quantifizieren lassen!
 ﻿[30.01.18, 12:02:03 AM] Bob: ‎Alles klar, los gehts 😌😄
+﻿[30.01.18, 00:04:03 AM] Bob: Wäre es für euch okay wenn wir diesen Chatverlauf für die Forschung spenden?
+﻿[30.01.18, 00:10:03 AM] Alice: Klar, das klingt mega cool!
+﻿[30.01.18, 00:11:03 AM] Carol: Hm, ich weiß ja nicht...können die Forscher dann unsere Nachrichten lesen?
+﻿[30.01.18, 00:11:04 AM] Bob: Nee, dabei gehts nur um Metadata, die Nachrichten, Medien und Sprachnachrichten werden nicht gespeichert!
+﻿[30.01.18, 00:11:25 AM] Carol: Dann geht das für mich in Ordnung!
+﻿[30.01.18, 00:12:03 AM] Dave: Sorry aber ich fühl mich damit nicht wohl.
+﻿[30.01.18, 00:13:03 AM] Bob: Kein Problem Dave! Ich füge hier gleich eine Consent-message ein und nur die Daten der Personen die diese message kopieren und in den chat posten werden gespeichert!
+﻿[30.01.18, 00:13:05 AM] Dave: cool, danke!
+﻿[30.01.18, 00:13:54 AM] Bob: Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.
+﻿[30.01.18, 00:14:03 AM] Alice: Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.
+﻿[30.01.18, 00:15:03 AM] Carol: Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.
+﻿[30.01.18, 00:23:03 AM] Dave: Vielleicht bin ich beim nächsten mal dabei!

@@ -1,4 +1,4 @@
-[1/29/18, 12:24:03 PM] Messages to this group are now secured with end-to-end encryption. Tap for more info.
+[1/29/18, 12:24:03 PM] Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Tap to learn more.
 [1/29/18, 12:24:05 PM] You created group "WhatsAppParserTest🙈"
 [1/29/18, 12:24:07 PM] You added Mallory
 [1/29/18, 12:24:12 PM] Mallory: Hey! :)
@@ -32,6 +32,20 @@
 [1/29/18, 11:59:03 PM] Bob: Location: https://maps.google.com/?q=50.9425526,6.9523387
 [1/29/18, 11:59:03 PM] Alice: live location shared
 [1/29/18, 11:59:03 PM] Bob: Works, nice! :)
+[1/29/18, 11:59:03 PM] Bob: Carol, can you post a self-deleting photo to show how this shows up in the logs?
+[1/29/18, 11:59:03 PM] Carol:
 [1/30/18, 12:00:03 AM] Alice: This should help to better quantify WhatsApp chat logs!
 [1/30/18, 12:02:03 AM] Bob: ‎‎Alright, lets go 😌😄
+[1/30/18, 00:04:03 AM] Bob: ‎‎By the way, are you all okay with  being analyzed for research purposes?
+[1/30/18, 00:10:03 AM] Alice: Sure thing, sounds cool!
+[1/30/18, 00:11:03 AM] Carol: Hm, I don't know, can the researchers see what we've been writing then?
+[1/30/18, 00:11:20 AM] Bob: No, it's only metadata, no media, voice messages or text messages are donated.
+[1/30/18, 00:11:26 AM] Carol: Then I'm okay with it!
+[1/30/18, 00:12:03 AM] Dave: Sorry guys, I'm not comfortabl with this.
+[1/30/18, 00:13:03 AM] Bob: No problem Dave! I'll paste a consent form after this message, if you want to donate your metadata, just copy the message exactly and post it into the chat. If you don't post the message, your data will be deleted.
+[1/30/18, 00:13:04 AM] Dave: Cool, thanks!
+[1/30/18, 00:13:03 AM] Bob: I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.
+[1/30/18, 00:14:03 AM] Alice: I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.
+[1/30/18, 00:15:03 AM] Carol: I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.
+[1/30/18, 00:23:03 AM] Dave: Maybe next time!
 

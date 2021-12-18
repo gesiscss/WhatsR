@@ -23,6 +23,7 @@
 #' it changes the structure of date/time columns and indicators for sent media. Currently, "english" and "german" are available.
 #' @param rpnl Replace newline. A character string for replacing linebreaks within messages for the parsed message for better readibility. Default is " start_newline "
 #' @param rpom Replace omitted media. A character string replacing the indicator for omitted media files for better readibility. Default is " media_omitted "
+#' @param consent String containng a consent message. All messages from users who have not posted this exact message into the chat will be deleted. Default is NA.
 #' @importFrom readr parse_character
 #' @importFrom qdapRegex rm_url
 #' @importFrom qdapRegex rm_between
@@ -63,10 +64,11 @@ parse_chat <- function(name,
                        media = TRUE,
                        web = "domain",
                        order = "both",
-                       language = "german",
+                       language = "english",
                        os = "android",
                        rpnl = " start_newline ",
                        rpom = " media_omitted ",
+                       consent = NA,
                        ...){
 
   # loading language indicators
@@ -174,6 +176,59 @@ parse_chat <- function(name,
 
     # printing info
     cat("Parsed chat according to iOS document structure \U2713 \n")
+
+  }
+
+  # Extracting WhatsApp System Messages and removing them from Message and flattened Message body
+  WAStrings <- c(StartMessage,
+                 StartMessageGroup,
+                 GroupCreateSelf,
+                 GroupCreateOther,
+                 GroupRenameSelf,
+                 GroupPicChange,
+                 GroupRenameOther,
+                 UserRemoveSelf,
+                 UserAddSelf,
+                 UserLeft,
+                 UserRemoveOther,
+                 UserAddOther,
+                 GroupPicChangeOther,
+                 UserNumberChangeKnown,
+                 UserNumberChangeUnknown,
+                 DeletedMessage,
+                 SafetyNumberChange)
+
+  # checking whether a WhatsApp Message was parsed into the sender column
+  WAMessagePresent <- unlist(stri_extract_all_regex(str = ParsedChat$Sender, pattern = paste(WAStrings, collapse = "|")))
+  ParsedChat$SystemMessage <- WAMessagePresent
+  ParsedChat$Sender[!is.na(WAMessagePresent)] <- "WhatsApp System Message"
+
+  # printing info
+  cat("Differentiated System Messages from User generated content \U2713 \n")
+
+  # fixing parsing of messages with self-deleting photos:
+  # selecting rows with no content where the senders contain a ":"
+  ParsedChat[grepl(":",ParsedChat$Sender) &
+               is.na(ParsedChat$Message) &
+               is.na(ParsedChat$SystemMessage) &
+               is.na(ParsedChat$Media) &
+               is.na(ParsedChat$Location),]$Sender <-  gsub(":",
+                                                            "",
+                                                            ParsedChat[grepl(":",ParsedChat$Sender) &
+                                                                         is.na(ParsedChat$Message) &
+                                                                         is.na(ParsedChat$SystemMessage) &
+                                                                         is.na(ParsedChat$Media) &
+                                                                         is.na(ParsedChat$Location),]$Sender)
+
+
+
+  if (!is.na(consent)) {
+
+    # getting vector with names of consenting chat participants
+    consentintg_ppts <- c(na.omit(ParsedChat$Sender[ParsedChat$Message == consent]),"WhatsApp System Message")
+
+    # removing all messages from non-consenting participants
+    ParsedChat <- ParsedChat[is.element(ParsedChat$Sender,consentintg_ppts),]
 
   }
 
@@ -342,6 +397,7 @@ parse_chat <- function(name,
                    I(Smilies),
                    stringsAsFactors = FALSE)
 
+
   # Creating new variable for number of Tokens
   DF$TokCount <- sapply(DF$TokVec,function(x){length(unlist(x))})
   DF[which(DF$TokVec == "NA"),"TokCount"] <- 0
@@ -352,37 +408,6 @@ parse_chat <- function(name,
 
   # printing info
   cat("Created Dataframe containing all columns \U2713 \n")
-
-  # Extracting WhatsApp System Messages and removing them from Message and flattened Message body
-  WAStrings <- c(StartMessage,
-                 StartMessageGroup,
-                 GroupCreateSelf,
-                 GroupCreateOther,
-                 GroupRenameSelf,
-                 GroupPicChange,
-                 GroupRenameOther,
-                 UserRemoveSelf,
-                 UserAddSelf,
-                 UserLeft,
-                 UserRemoveOther,
-                 UserAddOther,
-                 GroupPicChangeOther,
-                 UserNumberChangeKnown,
-                 UserNumberChangeUnknown,
-                 DeletedMessage,
-                 SafetyNumberChange)
-
-  # checking whether a WhatsApp Message was parsed into the sender column
-  WAMessagePresent <- unlist(stri_extract_all_regex(str = DF$Sender, pattern = paste(WAStrings, collapse = "|")))
-  DF$SystemMessage <- WAMessagePresent
-  DF$Sender[!is.na(WAMessagePresent)] <- "WhatsApp System Message"
-
-  # printing info
-  cat("Differentiated System Messages from User generated content \U2713 \n")
-
-  # fixing parsing of messages with self-deleting photos:
-  # selecting rows with no content where the senders contain a ":"
-  DF[grepl(":",DF$Sender) & is.na(DF$Message) & is.na(DF$Flat) & is.na(DF$URL) & is.na(DF$Media) & is.na(DF$Location),]$Sender <-  gsub(":","",DF[grepl(":",DF$Sender) & is.na(DF$Message) & is.na(DF$Flat) & is.na(DF$URL) & is.na(DF$Media) & is.na(DF$Location),]$Sender)
 
   # anonymizing chat participants
   if (anon == TRUE) {
