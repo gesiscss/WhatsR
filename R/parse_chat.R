@@ -447,7 +447,6 @@ parse_chat <- function(name,
     cat("Anonymized names of chat participants \U2713 \n")
   }
 
-
   if (anon == "add") {
 
     DF <- cbind.data.frame(DF[1],Anonymous,DF[2:ncol(DF)])
