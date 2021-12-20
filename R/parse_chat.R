@@ -384,6 +384,7 @@ parse_chat <- function(name,
   Message <- ParsedChat$Message
   Media <- ParsedChat$Media
   Location <- ParsedChat$Location
+  SystemMessage <- ParsedChat$SystemMessage
 
   # Including everything in dataframe
   DF <- data.frame(DateTime,
