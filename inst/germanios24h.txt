@@ -32,6 +32,8 @@
 ﻿[29.01.18, 23:59:03] Bob: Standort: https://maps.google.com/?q=50.9425526,6.9523387
 ﻿[29.01.18, 23:59:03] Alice: Live-Standort wird geteilt.
 ﻿[29.01.18, 23:59:03] Bob: Klappt, cool! :)
+[29.01.18, 23:59:03] Bob: Carol, kannst du ein selbst-löschendes Foto posten um zu schauen wie das im log aussieht?
+[29.01.18, 23:59:04] Carol:
 ﻿[30.01.18, 00:00:03] Alice: Damit sollten sich WhatsApp Verläufe besser quantifizieren lassen!
 ﻿[30.01.18, 00:02:03] Bob: ‎Alles klar, los gehts 😌😄
 ﻿[30.01.18, 00:04:03] Bob: Wäre es für euch okay wenn wir diesen Chatverlauf für die Forschung spenden?

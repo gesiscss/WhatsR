@@ -26,6 +26,7 @@
 #' @param consent String containng a consent message. All messages from users who have not posted this exact message into the chat will be deleted. Default is NA.
 #' @importFrom readr parse_character
 #' @importFrom qdapRegex rm_url
+#' @importFrom stats na.omit
 #' @importFrom qdapRegex rm_between
 #' @importFrom qdapRegex ex_emoticon
 #' @importFrom stringr str_replace_all

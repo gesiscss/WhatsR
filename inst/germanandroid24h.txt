@@ -32,12 +32,14 @@
 29.01.18, 23:59 - Bob: Standort: https://maps.google.com/?q=50.9425526,6.9523387
 29.01.18, 23:59 - Alice: Live-Standort wird geteilt.
 29.01.18, 23:59 - Bob: Klappt, cool! :)
+29.01.18, 23:59 - Bob: Carol, kannst du ein selbst-löschendes Foto posten um zu schauen wie das im log aussieht?
+29.01.18, 23:59 - Carol:
 30.01.18, 00:00 - Alice: Damit sollten sich WhatsApp Verläufe besser quantifizieren lassen!
 30.01.18, 00:02 - Bob: ‎Alles klar, los gehts 😌😄
-﻿30.01.18, 00:04:03] Bob: Wäre es für euch okay wenn wir diesen Chatverlauf für die Forschung spenden?
-﻿30.01.18, 00:10:03] Alice: Klar, das klingt mega cool!
-﻿30.01.18, 00:11:03] Carol: Hm, ich weiß ja nicht...können die Forscher dann unsere Nachrichten lesen?
-﻿30.01.18, 00:11:03] Bob: Nee, dabei gehts nur um Metadata, die Nachrichten, Medien und Sprachnachrichten werden nicht gespeichert!
+﻿30.01.18, 00:04 - Bob: Wäre es für euch okay wenn wir diesen Chatverlauf für die Forschung spenden?
+﻿30.01.18, 00:10 - Alice: Klar, das klingt mega cool!
+﻿30.01.18, 00:11 - Carol: Hm, ich weiß ja nicht...können die Forscher dann unsere Nachrichten lesen?
+﻿30.01.18, 00:11 - Bob: Nee, dabei gehts nur um Metadata, die Nachrichten, Medien und Sprachnachrichten werden nicht gespeichert!
 ﻿30.01.18, 00:11 - Carol: Dann geht das für mich in Ordnung!
 ﻿30.01.18, 00:12 - Dave: Sorry aber ich fühl mich damit nicht wohl.
 ﻿30.01.18, 00:13 - Bob: Kein Problem Dave! Ich füge hier gleich eine Consent-message ein und nur die Daten der Personen die diese message kopieren und in den chat posten werden gespeichert!

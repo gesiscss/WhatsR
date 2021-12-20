@@ -12,10 +12,11 @@ parse_chat(
   media = TRUE,
   web = "domain",
   order = "both",
-  language = "german",
+  language = "english",
   os = "android",
   rpnl = " start_newline ",
   rpom = " media_omitted ",
+  consent = NA,
   ...
 )
 }
@@ -49,6 +50,8 @@ it changes the structure of date/time columns and indicators for sent media. Cur
 \item{rpnl}{Replace newline. A character string for replacing linebreaks within messages for the parsed message for better readibility. Default is " start_newline "}
 
 \item{rpom}{Replace omitted media. A character string replacing the indicator for omitted media files for better readibility. Default is " media_omitted "}
+
+\item{consent}{String containng a consent message. All messages from users who have not posted this exact message into the chat will be deleted. Default is NA.}
 
 \item{...}{Further arguments passed down to ReplaceEmoji()}
 }
