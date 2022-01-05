@@ -1,4 +1,4 @@
-[﻿29.01.18, 12:24:03 PM] Nachrichten und Anrufe sind Ende-zu-Ende verschlüsselt. Niemand außerhalb dieses Chats kann sie lesen oder anhören, nicht einmal WhatsApp. Tippe, um mehr zu erfahren.
+[﻿29.01.18, 12:24:03 PM] Nachrichten und Anrufe sind Ende-zu-Ende-verschlüsselt. Niemand außerhalb dieses Chats kann sie lesen oder anhören, nicht einmal WhatsApp. Tippe, um mehr zu erfahren.
 ﻿﻿[29.01.18, 12:24:03 PM] Du hast die Gruppe "WhatsAppParserTest🙈" erstellt.
 ﻿﻿[29.01.18, 12:24:03 PM] Du hast Mallory hinzugefügt.
 ﻿﻿[29.01.18, 12:24:03 PM] Mallory: Hey! :)
