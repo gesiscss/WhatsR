@@ -199,6 +199,9 @@ parse_chat <- function(name,
                  DeletedMessage,
                  SafetyNumberChange)
 
+
+
+
   # checking whether a WhatsApp Message was parsed into the sender column
   WAMessagePresent <- unlist(stri_extract_all_regex(str = ParsedChat$Sender, pattern = paste(WAStrings, collapse = "|")))
   ParsedChat$SystemMessage <- WAMessagePresent
@@ -387,16 +390,17 @@ parse_chat <- function(name,
   SystemMessage <- ParsedChat$SystemMessage
 
   # Including everything in dataframe
-  DF <- data.frame(DateTime,
-                   Sender,
-                   Message,
-                   Flat,
-                   I(TokVec),
-                   I(URL),
-                   Media,
-                   Location,
-                   I(Emoji),
-                   I(Smilies),
+  DF <- data.frame(DateTime=DateTime,
+                   Sender=Sender,
+                   Message=Message,
+                   Flat=Flat,
+                   TokVec=I(TokVec),
+                   URL=I(URL),
+                   Media=Media,
+                   Location=Location,
+                   Emoji=I(Emoji),
+                   Smilies=I(Smilies),
+                   SystemMessage = SystemMessage,
                    stringsAsFactors = FALSE)
 
 
@@ -411,7 +415,11 @@ parse_chat <- function(name,
   # printing info
   cat("Created Dataframe containing all columns \U2713 \n")
 
-  # anonymizing chat participants
+
+  ##### This is where things break for anon = TRUE
+
+
+  # anonymizing chat participant names and mentions in SystemMesssages
   if (anon == TRUE) {
 
     Anons <- paste(rep("Person", length(unique(DF$Sender))),
@@ -448,6 +456,7 @@ parse_chat <- function(name,
     # printing info
     cat("Anonymized names of chat participants \U2713 \n")
   }
+
 
   if (anon == "add") {
 
