@@ -416,27 +416,29 @@ parse_chat <- function(name,
   cat("Created Dataframe containing all columns \U2713 \n")
 
 
-  ##### This is where things break for anon = TRUE
-
-
   # anonymizing chat participant names and mentions in SystemMesssages
   if (anon == TRUE) {
 
-    Anons <- paste(rep("Person", length(unique(DF$Sender))),
-                   seq(1,length(unique(DF$Sender)),1),
+    Anons <- paste(rep("Person", length(unique(DF$Sender[DF$Sender != "WhatsApp System Message"]))),
+                   seq(1,length(unique(DF$Sender[DF$Sender != "WhatsApp System Message"])),1),
                    sep = "_")
 
     # create Anon Lookup table
-    AnonLookupTable <- cbind.data.frame(Sender = unique(DF$Sender),Anon = Anons,stringsAsFactors = FALSE)
+    AnonLookupTable <- cbind.data.frame(Sender = unique(DF$Sender[DF$Sender != "WhatsApp System Message"]),Anon = Anons,stringsAsFactors = FALSE)
 
-    # Replacing names in SystemMessage Column
+    # Replacing names in SystemMesage Column
     DF$SystemMessage <- mgsub(DF$SystemMessage, AnonLookupTable$Sender, AnonLookupTable$Anon, recycle = FALSE)
     DF$SystemMessage <- gsub("\\+Person","Person",DF$SystemMessage, perl = TRUE)
     # There is still an issue with People who are added to the conversation but never send a message: We cannot anonymize them
     # because they do not show up in the Sender column, the anonimization breaks down for these cases!
+    # This might be solved by applying RegEx to system messages to replace everything between certain patterns that is not Person_x
+    # To_do
 
+    # factorizing
     DF$Sender <- factor(DF$Sender, levels = unique(DF$Sender))
-    levels(DF$Sender) <- Anons
+
+    # changing levels forcing the vlaues to take over the anons
+    levels(DF$Sender)[levels(DF$Sender) != "WhatsApp System Message"] <- AnonLookupTable$Anon
 
     # printing info
     cat("Anonymized names of chat participants \U2713 \n")
@@ -445,16 +447,26 @@ parse_chat <- function(name,
 
   if (anon == "add") {
 
-    Anons <- paste(rep("Person", length(unique(DF$Sender))),
-                   seq(1,length(unique(DF$Sender)),1),
+    Anons <- paste(rep("Person", length(unique(DF$Sender[DF$Sender != "WhatsApp System Message"]))),
+                   seq(1,length(unique(DF$Sender[DF$Sender != "WhatsApp System Message"])),1),
                    sep = "_")
 
-    Anonymous <- DF$Sender
-    Anonymous <- factor(Anonymous, levels = unique(Anonymous))
-    levels(Anonymous) <- Anons
+    # create Anon Lookup table
+    AnonLookupTable <- cbind.data.frame(Sender = unique(DF$Sender[DF$Sender != "WhatsApp System Message"]),Anon = Anons,stringsAsFactors = FALSE)
+
+    # Replacing names in SystemMesage Column
+    DF$SystemMessage <- mgsub(DF$SystemMessage, AnonLookupTable$Sender, AnonLookupTable$Anon, recycle = FALSE)
+    DF$SystemMessage <- gsub("\\+Person","Person",DF$SystemMessage, perl = TRUE)
+
+    # factorizing
+    Anonymous <- factor(DF$Sender, levels = unique(DF$Sender))
+
+    # changing levels forcing the vlaues to take over the anons
+    levels(Anonymous)[levels(Anonymous) != "WhatsApp System Message"] <- AnonLookupTable$Anon
 
     # printing info
     cat("Anonymized names of chat participants \U2713 \n")
+
   }
 
 
