@@ -4,7 +4,7 @@
 #' are saved as lists using the I() function so that multiple elements can be stored per message, while still maintaining
 #' the general structure of one row per message. These columns should be trated as lists or unlisted first.
 #' @param name the name of the exported Whatsapp textfile to be parsed as a character string
-#' @param os operating system of the phone the chat was exported from. Supports "android" or "iOS"
+#' @param os operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the os. Also manually upports "android" or "iOS"
 #' @param EmojiDic Dictionary for Emoji matching. Can use a version included in this package when set to "interal" or
 #' an updated dataframe created by \code{\link[WhatsR]{download_emoji}}
 #' @param smilies 1 uses \code{\link[qdapRegex]{ex_emoticon}} to extract smilies, 2 uses a more inclusive custom list
@@ -19,8 +19,8 @@
 #' @param order determines how the messages are ordered. "display" orders them in the same order that they appear on the phone
 #' that the messages were exported from. "time" orders the messages according to the WhatsApp Timestamp the message received while it was sent.
 #' Due to internet problems, these orders are not necessarily interchangeable. "both" gives two columns with the respective orders
-#' @param language Indicates the language of WhatsApp on the phone with which the messages were exported. This is important because
-#' it changes the structure of date/time columns and indicators for sent media. Currently, "english" and "german" are available.
+#' @param language Indicates the language setting of the phone with which the messages were exported. This is important because
+#' it changes the structure of date/time columns and indicators for sent media. Default is "auto" trying to match either English or German. More languages might be supported in the future.
 #' @param rpnl Replace newline. A character string for replacing linebreaks within messages for the parsed message for better readibility. Default is " start_newline "
 #' @param rpom Replace omitted media. A character string replacing the indicator for omitted media files for better readibility. Default is " media_omitted "
 #' @param consent String containng a consent message. All messages from users who have not posted this exact message into the chat will be deleted. Default is NA.
@@ -57,7 +57,7 @@
 #'                       language = "english")
 #' @export
 
-# Function to import a WhatsApp Textmessage and parse it into a readable dataframe
+## Function to import a WhatsApp Textmessage and parse it into a readable dataframe
 parse_chat <- function(name,
                        EmojiDic = "internal",
                        smilies = 2,
@@ -65,17 +65,110 @@ parse_chat <- function(name,
                        media = TRUE,
                        web = "domain",
                        order = "both",
-                       language = "english",
-                       os = "android",
+                       language = "auto",
+                       os = "auto",
                        rpnl = " start_newline ",
                        rpom = " media_omitted ",
                        consent = NA,
                        ...){
 
+  # Importing raw chat file
+  # We use readChar so that we can do the splitting manually after replacing the
+  # Emojis, special characters and newlines
+  RawChat <- readChar(name,file.info(name)$size)
+
+  # printing info
+  cat("Imported raw chat file \U2713 \n")
+
+  # Regex that detects 24h/ampm, american date format, european date format and all combinations for ios and android
+  TimeRegex_android <- c("(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2})),\\s\\d{2}\\:\\d{2}((\\s\\-)|(\\s(?i:(am|pm))\\s\\-)))")
+  TimeRegex_ios <- c("(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2})),\\s\\d{1,2}\\:\\d{2}((\\:\\d{2}\\s(?i:(pm|am)))|(\\s(?i:(pm|am)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])")
+
+  # trying to automatically detect operating system
+  if (os == "auto") {
+
+    # getting number of os-specific timestamps from chat
+    android_stamps <- length(unlist(str_extract_all(RawChat,TimeRegex_android)))
+    ios_stamps <- length(unlist(str_extract_all(RawChat,TimeRegex_ios)))
+
+    # selecting operations system
+    if (android_stamps > ios_stamps) {
+
+      os <- "android"
+      cat("Operating System was automatically detected: android \U2713 \n")
+      TimeRegex <- TimeRegex_android
+
+
+    } else if (android_stamps == ios_stamps) {
+
+      cat("Operating System could not be detected automatically, please enter either 'ios' or 'android' without quatation marks and press enter")
+      os <- readline(prompt="Enter operating system: ")
+
+      if (os == "android") {
+
+        cat("Operating System was set to: android \U2713 \n")
+        TimeRegex <- TimeRegex_android
+
+      } else if (os == "ios") {
+
+        cat("Operating System was set to: ios \U2713 \n")
+        TimeRegex <- TimeRegex_ios
+
+      } else if (os != "android" & os != "ios") {
+
+        warning("Parameter os must be either 'android', 'ios' or 'auto'")
+        break()
+
+      }
+
+    } else if (android_stamps < ios_stamps) {
+
+      os <- "ios"
+      cat("Operating System was automatically detected: ios \U2713 \n")
+      TimeRegex <- TimeRegex_ios
+
+    }
+  } else if (os == "ios") {
+
+    TimeRegex <- TimeRegex_ios
+
+  } else if (os == "android") {
+
+    TimeRegex <- TimeRegex_android
+
+  }
+
+
   # loading language indicators
   WAStrings <- read.csv(system.file("Languages.csv", package = "WhatsR"),
                         stringsAsFactors = F,
                         fileEncoding = "UTF-8")
+
+
+  # trying to auto-detect language
+  if (language == "auto"){
+
+    # checking presence of indicator strings (We need to delete ^ and $ from the regexes because the chat is not cut into pieces yet)
+    german_a <- length(unlist(sapply(gsub("$","",gsub("^","",WAStrings[1,], fixed = TRUE),fixed=TRUE)[3:24],str_extract_all,string=RawChat)))
+    german_i <- length(unlist(sapply(gsub("$","",gsub("^","",WAStrings[2,], fixed = TRUE),fixed=TRUE)[3:24],str_extract_all,string=RawChat)))
+    english_a <- length(unlist(sapply(gsub("$","",gsub("^","",WAStrings[3,], fixed = TRUE),fixed=TRUE)[3:24],str_extract_all,string=RawChat)))
+    english_i <- length(unlist(sapply(gsub("$","",gsub("^","",WAStrings[4,], fixed = TRUE),fixed=TRUE)[3:24],str_extract_all,string=RawChat)))
+
+    # Best guess about language based on presence of indicator strings
+    guess <- WAStrings[which(c(german_a,german_i,english_a,english_i) == max(c(german_a,german_i,english_a,english_i))),1]
+
+    # setting auto-detected language
+    language <- unlist(str_extract_all(guess,pattern=c("german","english")))[1]
+
+    # printing info
+    cat(paste0("Auto-detected language setting of exporting phone: ", language," \U2713 \n"))
+
+  } else if (language != "english" & language != "german") {
+
+    cat ("Language was set incorrectly or could not automatically be detected. Please set language to either 'german' or 'english' without the quatation marks below")
+    language <- readline(prompt="Enter the phone's language setting from which the chat was exported: ")
+
+  }
 
   # selecting indicators based on language
   Indicators <- WAStrings[WAStrings$Settings == paste0(language,os),]
@@ -107,26 +200,8 @@ parse_chat <- function(name,
   UserLeft <- Indicators$UserLeft
   SafetyNumberChange <- Indicators$SafetyNumberChange
 
-  # New ultimate time Regex that detects 24h/ampm, american date format, european date format and all combinations
-  if (os == "android") {
-
-    TimeRegex <- c("(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2})),\\s\\d{2}\\:\\d{2}((\\s\\-)|(\\s(?i:(am|pm))\\s\\-)))")
-
-  } else if (os == "ios") {
-
-    TimeRegex <- c("(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2})),\\s\\d{1,2}\\:\\d{2}((\\:\\d{2}\\s(?i:(pm|am)))|(\\s(?i:(pm|am)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])")
-
-  }
-
   # print info
   cat(paste("Imported matching strings for: ", paste(language, os, sep = " ") ," \U2713 \n", sep = ""))
-
-  # We use readChar so that we can do the splitting manually after replacing the
-  # Emojis, special characters and newlines
-  RawChat <- readChar(name,file.info(name)$size)
-
-  # printing info
-  cat("Imported raw chat file \U2713 \n")
 
   # replacing EMOJI with text representations
   ReplacedEmojiChat <- ReplaceEmoji(RawChat, EmojiDictionary = EmojiDic)
@@ -432,7 +507,6 @@ parse_chat <- function(name,
     # There is still an issue with People who are added to the conversation but never send a message: We cannot anonymize them
     # because they do not show up in the Sender column, the anonimization breaks down for these cases!
     # This might be solved by applying RegEx to system messages to replace everything between certain patterns that is not Person_x
-    # To_do
 
     # factorizing
     DF$Sender <- factor(DF$Sender, levels = unique(DF$Sender))
