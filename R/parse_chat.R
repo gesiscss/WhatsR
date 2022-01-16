@@ -117,7 +117,7 @@ parse_chat <- function(name,
       } else if (os != "android" & os != "ios") {
 
         warning("Parameter os must be either 'android', 'ios' or 'auto'")
-        break()
+        return(NULL)
 
       }
 
