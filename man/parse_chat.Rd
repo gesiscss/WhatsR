@@ -12,8 +12,8 @@ parse_chat(
   media = TRUE,
   web = "domain",
   order = "both",
-  language = "english",
-  os = "android",
+  language = "auto",
+  os = "auto",
   rpnl = " start_newline ",
   rpom = " media_omitted ",
   consent = NA,
@@ -42,10 +42,10 @@ attached mediafiles will be extracted into a seperate column.}
 that the messages were exported from. "time" orders the messages according to the WhatsApp Timestamp the message received while it was sent.
 Due to internet problems, these orders are not necessarily interchangeable. "both" gives two columns with the respective orders}
 
-\item{language}{Indicates the language of WhatsApp on the phone with which the messages were exported. This is important because
-it changes the structure of date/time columns and indicators for sent media. Currently, "english" and "german" are available.}
+\item{language}{Indicates the language setting of the phone with which the messages were exported. This is important because
+it changes the structure of date/time columns and indicators for sent media. Default is "auto" trying to match either English or German. More languages might be supported in the future.}
 
-\item{os}{operating system of the phone the chat was exported from. Supports "android" or "iOS"}
+\item{os}{operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the os. Also manually upports "android" or "iOS"}
 
 \item{rpnl}{Replace newline. A character string for replacing linebreaks within messages for the parsed message for better readibility. Default is " start_newline "}
 
