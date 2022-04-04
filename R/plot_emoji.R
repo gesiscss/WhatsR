@@ -21,6 +21,7 @@
 #'
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
+#' plot_emoji(data,FontFamily="Times") # Set FontFamily = "Noto Color Emoji" for best results
 
 # Visualizing sent Emoji
 plot_emoji <- function(data,
@@ -262,11 +263,6 @@ plot_emoji <- function(data,
 
   if (plot == "bar") {
 
-    # installing "Segoe MDL2 Assets" font if not installed yet
-    #font_location <- gsub("/SegMDL2.ttf","",system.file("SegMDL2.ttf", package = "WhatsR"))
-    #font_import(paths = font_location, prompt=FALSE)
-
-
     # Converting to dataframe to make it usable by ggplot
     df <- as.data.frame(sort(table(NewFrame$NewEmoji),decreasing = TRUE))
 
@@ -318,11 +314,6 @@ plot_emoji <- function(data,
   }
 
   if ( plot == "splitbar") {
-
-    # installing "Segoe MDL2 Assets" fonr if not installed yet
-    #font_location <- gsub("/SegMDL2.ttf","",system.file("SegMDL2.ttf", package = "WhatsR"))
-    #print(fonts()[17])
-    #font_import(paths = font_location, prompt=FALSE)
 
     ## Summarize per Sender who often each domain was sent
     SumFrame <-  group_by(NewFrame, NewSender, NewEmoji) %>% summarise(n = n())

@@ -46,4 +46,5 @@ Creates a list of basic information about a single WhatsApp chatlog
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
+plot_emoji(data,FontFamily="Times")
 }
