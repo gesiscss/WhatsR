@@ -18,6 +18,7 @@ create_chatlog(
   syslang = "german",
   time_format = "24h",
   os = "android",
+  save_txt = FALSE,
   chatname = "WhatsApp Chat with WhatsR"
 )
 }
@@ -47,6 +48,8 @@ create_chatlog(
 \item{time_format}{Parameter for the time format setting of the exporting phone (am/pm vs. 24h). Influences the structure of timestamps}
 
 \item{os}{Parameter for the operating system setting of the exporting phone. Influences the structure of timestamps and WhatsApp system messages}
+
+\item{save_txt}{Either TRUE or FALSE. Saves a .txt file in the working directory when TRUE.}
 
 \item{chatname}{Name for the created .txt file}
 }

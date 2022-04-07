@@ -19,9 +19,9 @@
 #' @importFrom stringr str_extract_all
 #' @return A dataframe containing the timestamp, name of the sender and message body
 #' @examples
-#' ParsedChat <- ParseIos("[29.01.18, 23:33:00] Alice: Hello?\\n [29.01.18, 23:45:01] Bob: Hello")
+#' ParsedChat <- parse_ios("[29.01.18, 23:33:00] Alice: Hello?\\n [29.01.18, 23:45:01] Bob: Hello")
 
-ParseIos <- function(UnparsedChat,
+parse_ios <- function(UnparsedChat,
                      nl = "\n",
                      mediaomitted = "<media omitted>",
                      mediaindicator =	"^<attached:\\s(.)*?\\.(.)*?>$",

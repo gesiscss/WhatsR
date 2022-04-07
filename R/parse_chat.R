@@ -224,7 +224,7 @@ parse_chat <- function(name,
   if (os == "android") {
 
     # Parsing the message according to android text structure
-    ParsedChat <- ParseAndroid(ReplacedSpecialCharactersChat,
+    ParsedChat <- parse_android(ReplacedSpecialCharactersChat,
                                nl = "\n",
                                nlreplace = rpnl,
                                mediaomitted = OmittanceIndicator,
@@ -240,7 +240,7 @@ parse_chat <- function(name,
   } else if (os == "ios") {
 
     # Parsing the message according to android text structure
-    ParsedChat <- ParseIos(ReplacedSpecialCharactersChat,
+    ParsedChat <- parse_ios(ReplacedSpecialCharactersChat,
                            nl = "\n",
                            nlreplace = rpnl,
                            mediaomitted = OmittanceIndicator,

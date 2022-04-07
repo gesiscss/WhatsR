@@ -16,6 +16,7 @@
 #' @param syslang Parameter for the language setting of the exporting phone. Influences structure of system messages
 #' @param time_format Parameter for the time format setting of the exporting phone (am/pm vs. 24h). Influences the structure of timestamps
 #' @param os Parameter for the operating system setting of the exporting phone. Influences the structure of timestamps and WhatsApp system messages
+#' @param save_txt Either TRUE or FALSE. Saves a .txt file in the working directory when TRUE.
 #' @param chatname Name for the created .txt file
 #' @export
 #' @importFrom checkmate assert_numeric
@@ -40,6 +41,7 @@ create_chatlog <- function(n_messages = 150,
                            syslang = "german",
                            time_format = "24h",
                            os = "android",
+                           save_txt = FALSE,
                            chatname="WhatsApp Chat with WhatsR"
                            ) {
 
@@ -414,7 +416,12 @@ create_chatlog <- function(n_messages = 150,
   Messages[c(1,sm_rows)] <- paste0(ts[c(1,sm_rows)],Messages[c(1,sm_rows)],"\n")
 
   # writing to file
-  writeLines(Messages, paste0(chatname,".txt"))
+  if(save_txt == TRUE){
+
+    writeLines(Messages, paste0(chatname,".txt"))
+
+  }
+
 
   ##### Returning Results #####
   return(Messages)
