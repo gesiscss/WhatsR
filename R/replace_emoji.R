@@ -15,11 +15,11 @@
 #' @examples
 #' example <- readRDS(system.file("EmojiExample.rds", package = "WhatsR"))
 #' print(example)
-#' Replacement <- ReplaceEmoji(example)
+#' Replacement <- replace_emoji(example)
 #' print(Replacement)
 
 # Function for replacing the Emojis
-ReplaceEmoji <- function(string,
+replace_emoji <- function(string,
                          replacement = "text",
                          start = " |Emoji_",
                          end =  "| ",

@@ -14,11 +14,18 @@ summarize_chat(data, excludeSM = TRUE)
 \value{
 A list containing:
 
-     1) The number of participants in the chat \cr
-     2) The Author of the first message \cr
-     3) The body of the first message \cr
-     4) The date of the first message and the last message \cr
-     6) The total duration of the chat
+     1) The number of messages in the chat \cr
+     2) The number of tokens in the chat  \cr
+     3) The number of participants in the chat  \cr
+     4) The date of the first message\cr
+     6) The date of the  last message\cr
+     7) The total duration of the chat \cr
+     8) The number of system messages in the chat \cr
+     9) The number of Emoji in the chat \cr
+     10) The number of Smilies in the chat \cr
+     11) The number of Links in the chat\cr
+     12) The number of Media in the chat\cr
+     12) The number of Locations in the chat\cr
 }
 \description{
 Creates a list of basic information about a single WhatsApp chatlog

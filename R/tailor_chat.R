@@ -1,9 +1,9 @@
-#' @title Basic WhatsApp Chatlog Statistics
+#' @title Restricting Chatlogs to certain authors or timeframes.
 #' @description Excluding parts of the chat by senders or timestamps
-#' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
-#' @param names If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is TRUE.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param data A WhatsApp chatlog that was parsed with {\link[WhatsR]{parse_chat}}
+#' @param names A vector of names that the output is restricted to. Messages from other authors are excluded.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param excludeSM If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is TRUE.
 #' @importFrom anytime anytime
 #' @export

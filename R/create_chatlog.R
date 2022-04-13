@@ -20,9 +20,8 @@
 #' @param chatname Name for the created .txt file
 #' @export
 #' @importFrom checkmate assert_numeric
-#' @importFrom randomNames randomNames
 #' @importFrom lorem ipsum
-#' @importFrom stats rlnorm
+#' @importFrom stats rlnorm rnorm
 #' @return A .txt file with a simulated WhatsApp chat containing lorem ipsum but all structural properties of actual chats.
 #'
 #' @examples
@@ -128,15 +127,20 @@ create_chatlog <- function(n_messages = 150,
                         stringsAsFactors = F,
                         fileEncoding = "UTF-8")
 
+  # Importing Names
+  ExampleNames <- read.csv(system.file("ExampleNames.csv", package = "WhatsR"),
+                        stringsAsFactors = F,
+                        fileEncoding = "UTF-8")
+
   if (syslang == "english") {
 
     if (os == 'android') {
 
-      WAStrings <- WAStrings[3,2:24]
+      WAStrings <- WAStrings[3,2:25]
 
     } else {
 
-      WAStrings <- WAStrings[4,2:24]
+      WAStrings <- WAStrings[4,2:25]
     }
 
 
@@ -144,11 +148,11 @@ create_chatlog <- function(n_messages = 150,
 
     if (os == 'android') {
 
-      WAStrings <- WAStrings[1,2:24]
+      WAStrings <- WAStrings[1,2:25]
 
     } else {
 
-      WAStrings <- WAStrings[2,2:24]
+      WAStrings <- WAStrings[2,2:25]
 
     }
 
@@ -232,7 +236,8 @@ create_chatlog <- function(n_messages = 150,
 
   #### Creating names ####
 
-  Names <- randomNames(n_chatters,which.names="first")
+  #Names <- randomNames(n_chatters,which.names="first")
+  Names <- sample(ExampleNames$x,n_chatters)
   Names <- paste(Names,": ",sep="")
   Names <- sample(Names,n_messages, replace=TRUE)
 
@@ -324,10 +329,11 @@ create_chatlog <- function(n_messages = 150,
       # deleting/replacing unnecessary parts
       WAStrings[6] <- locations[1]
       WAString <- WAStrings[-c(4),]
+      WAStrings[20] <- "+ 49 000 000 hat zu 004900000000 gewechselt."
       WAStrings[3] <- "2 Kontakte.vcf (Datei angeh\u0061\u0308ngt)"
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[3:23]
+      Messages[sm_rows] <- WAStrings[c(3,5:24)]
 
 
     } else {
@@ -345,7 +351,7 @@ create_chatlog <- function(n_messages = 150,
       WAStrings <- WAStrings[-c(4)]
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[3:23]
+      Messages[sm_rows] <- WAStrings[c(3,5:24)]
 
     }
 
@@ -366,7 +372,7 @@ create_chatlog <- function(n_messages = 150,
       WAStrings[20] <- "+ 49 000 000 changed to 004900000000."
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[3:23]
+      Messages[sm_rows] <- WAStrings[c(3,5:24)]
 
 
     } else {
@@ -384,7 +390,8 @@ create_chatlog <- function(n_messages = 150,
       WAStrings <- WAStrings[-c(4)]
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[3:23]
+      Messages[sm_rows] <- WAStrings[c(3,5:24)]
+
 
     }
 
@@ -393,7 +400,6 @@ create_chatlog <- function(n_messages = 150,
 
 
   ### Add linebreaks & non-breaking space characters
-  sample(Messages[-sm_rows],5)
 
   # taken from: https://statisticsglobe.com/insert-character-pattern-in-string-r
   fun_insert <- function(x, pos, insert) {
@@ -402,18 +408,28 @@ create_chatlog <- function(n_messages = 150,
          x)
   }
 
-  for (i in sample(c(1:n_messages)[-c(1,sm_rows)],round(0.05*n_messages,0))){ # only use a sample
+  # don't insert in system messages!!
+  for (i in sample(c(1:n_messages)[-c(1,sm_rows)],round(0.05*n_messages,0))){
 
-    print(i)# debugger
-    Messages[i] <- fun_insert(Messages[i], pos = sample(c(1:20),1)," \n ")
+    Messages[i] <- fun_insert(Messages[i], pos = sample(c(1:20),1)," \n \n ")
 
 
   }
 
 
-  #### Pasting timestamps, names and messages
-  Messages[-c(1,sm_rows)] <- paste0(ts[-c(1,sm_rows)],Names[-c(1,sm_rows)],Messages[-c(1,sm_rows)],"\n")
-  Messages[c(1,sm_rows)] <- paste0(ts[c(1,sm_rows)],Messages[c(1,sm_rows)],"\n")
+  #### Pasting timestamps, names and messages (this is where we need to adapt!)
+
+  # system messages with names
+  Messages[sm_rows][c(1:4,15,18,21)] <- paste0(ts[sm_rows][c(1:4,15,18,21)],Names[sm_rows][c(1:4,15,18,21)], Messages[sm_rows][c(1:4,15,18,21)])
+
+  # system messages without names
+  Messages[sm_rows][c(5:14,16,17,19,20)] <- paste0(ts[sm_rows][c(5:14,16,17,19,20)], Messages[sm_rows][c(5:14,16,17,19,20)])
+
+  # other messages (with names)
+  Messages[-c(1,sm_rows)] <- paste0(ts[-c(1,sm_rows)],Names[c(-c(1,sm_rows))],Messages[c(-c(1,sm_rows))])
+
+  # first message
+  Messages[1] <- paste0(ts[1],Messages[1])
 
   # writing to file
   if(save_txt == TRUE){

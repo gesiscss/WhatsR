@@ -13,10 +13,8 @@
 #' @param mediareplace replacement string for omitted media files. Default is " media_omitted "
 #' @export
 #' @importFrom qdapRegex rm_default
-#' @importFrom stringi stri_split_fixed
+#' @importFrom stringi stri_split_fixed stri_split_regex stri_split stri_extract_all
 #' @importFrom lubridate parse_date_time
-#' @importFrom stringi stri_split_regex
-#' @importFrom stringr str_extract_all
 #' @return A dataframe containing the timestamp, name of the sender and message body
 #' @examples
 #' ParsedChat <- parse_android("29.01.18, 23:33 - Alice: Hi?\n 29.01.18, 23:45 - Bob: Hi\n")
@@ -39,9 +37,8 @@ parse_android <- function(UnparsedChat,
                 replacement = mediareplace,
                 perl = TRUE)
 
-  # Cutting the messages in front of the datetime indicator
-  chat4 <- unlist(strsplit(str_replace_all(chatA,datetimeindicator,"SPLIT-INDICATOR"),
-                           "SPLIT-INDICATOR"))
+  # replaced for reducing pacakge dependency number
+  chat4 <- unlist(stri_split(chatA,regex=datetimeindicator))
 
   # deleting trailing Linebreakes (simply deletes the last character)
   chat5 <- substr(chat4,1,nchar(as.character(chat4))-1)
@@ -96,7 +93,7 @@ parse_android <- function(UnparsedChat,
   Media[!is.na(Media)] <- substr(Media[!is.na(Media)],1,nchar(Media[!is.na(Media)])-2)
 
   # extract location to column
-  Location <- str_extract_all(Message, pattern = paste(c(livelocation,sentlocation), collapse = "|"))
+  Location <- stri_extract_all(Message, regex = paste(c(livelocation,sentlocation), collapse = "|"))
   Location[sapply(Location, length) == 0] <- NA
   Location <- unlist(Location)
 

@@ -17,6 +17,7 @@
 #' @importFrom ggmap get_map
 #' @importFrom ggmap ggmap
 #' @importFrom stats runif
+#' @importFrom stringi stri_extract_all
 #' @export
 #' @return Plots for geolocation and/or a dataframe of LatLon coordinates
 #' @examples
@@ -64,11 +65,11 @@ plot_location <- function(data,
   data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
 
   # extracting locations with geocoordinates
-  Places <- unlist(str_extract_all(data$Location, pattern = "(<?)https.*"))
+  Places <- unlist(stri_extract_all(data$Location, regex = "(<?)https.*"))
   Places <- Places[!is.na(Places)]
 
   # extracting latitude and longitude
-  LatLong <- unlist(str_extract_all(Places, pattern = "(?<=q=).*$"))
+  LatLong <- unlist(stri_extract_all(Places, regex = "(?<=q=).*$"))
   LatLong <- strsplit(LatLong,",")
   LatLong <- cbind.data.frame(Lat = sapply(LatLong, `[[`, 1), Lon = sapply(LatLong, `[[`, 2))
   LatLong[,1] <- as.numeric(as.character(LatLong[,1]))

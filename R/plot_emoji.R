@@ -1,4 +1,4 @@
-  #' @title Basic WhatsApp Chatlog Statistics
+  #' @title Plotting Emoji distributions in whatSapp chatlogs
 #' @description Creates a list of basic information about a single WhatsApp chatlog
   #' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the Plots will be restricted to
@@ -66,13 +66,13 @@ plot_emoji <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
 
-  # This tells us if at least one emoji is present (if it's TRUE then theres at least one link)
+  # This tells us if at least one emoji is present (if it's TRUE then theres at least one emoji)
   EmojiPresent <- !sapply(sapply(data$Emoji, is.na),sum)
 
   # This tells us how many elements are in each list element (includes NA aswell)
   NoElements <- lengths(data$Emoji)
 
-  # We take the New counter and set it to zero where-ever no links are present
+  # We take the New counter and set it to zero where-ever no emoji are present
   NoElements[EmojiPresent == FALSE] <- 0
 
   # Emoji
@@ -266,11 +266,11 @@ plot_emoji <- function(data,
     # Converting to dataframe to make it usable by ggplot
     df <- as.data.frame(sort(table(NewFrame$NewEmoji),decreasing = TRUE))
 
+    # renaming to fix plot legend
+    if(dim(df)[2] == 1) {names(df) <- c("Freq")} else{names(df) <- c("Emoji","Freq")}
+
     # restricting dataframe to min.occur
     df <- df[df$Freq >= min.occur,]
-
-    # renaming to fix plot legend
-    names(df)[1] <- c("Emoji")
 
     # matching Emoji contained in the data with rownumber of dictionary
     indicator <- NULL
@@ -280,9 +280,6 @@ plot_emoji <- function(data,
       indicator[i] <- which(Dictionary$Desc == gsub("Emoji_","",i))
 
     }
-
-    # retranslating emoji to description
-    #df$Emoji <- factor(gsub("Emoji_","",df$Emoji),levels = df$Emoji)
 
     # retranslating emoji to description
     df$Glyph <- sapply(gsub("Emoji_","",df$Emoji), function(x){Dictionary[x == Dictionary$Desc,]$R.native})

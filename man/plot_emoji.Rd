@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_emoji.R
 \name{plot_emoji}
 \alias{plot_emoji}
-\title{Basic WhatsApp Chatlog Statistics}
+\title{Plotting Emoji distributions in whatSapp chatlogs}
 \usage{
 plot_emoji(
   data,

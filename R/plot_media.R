@@ -14,6 +14,7 @@
 #' @importFrom dplyr %>%
 #' @importFrom dplyr group_by
 #' @importFrom dplyr summarise
+#' @importFrom stringi stri_extract_all
 #' @export
 #' @return Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance
 #' @examples
@@ -116,7 +117,7 @@ plot_media <- function(data,
     # function for shortening filenames to filetypes
     shortener <- function(x){
 
-      stringr::str_extract_all(unlist(x), "[^.]+$", simplify = FALSE)
+      stri_extract_all(unlist(x), regex="[^.]+$", simplify = FALSE)
 
     }
 

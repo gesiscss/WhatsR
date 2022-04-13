@@ -38,7 +38,7 @@ attached mediafiles will be extracted into a seperate column.}
 
 \item{web}{"domain" will shorten sent links to domains, "url" will display the full URL}
 
-\item{order}{determines how the messages are ordered. "display" orders them in the same order that they appear on the phone
+\item{order}{Can be "time" or "both". Whether an indicator column for the order of messages is added
 that the messages were exported from. "time" orders the messages according to the WhatsApp Timestamp the message received while it was sent.
 Due to internet problems, these orders are not necessarily interchangeable. "both" gives two columns with the respective orders}
 
@@ -80,7 +80,5 @@ are saved as lists using the I() function so that multiple elements can be store
 the general structure of one row per message. These columns should be trated as lists or unlisted first.
 }
 \examples{
-data <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"),
-                      media = TRUE,
-                      language = "english")
+data <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"))
 }

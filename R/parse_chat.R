@@ -15,8 +15,7 @@
 #' @param media TRUE/FALSE indicates whether the chatlog was downloaded with or without mediafiles. If TRUE, names of
 #' attached mediafiles will be extracted into a seperate column.
 #' @param web  "domain" will shorten sent links to domains, "url" will display the full URL
-#' @param ... Further arguments passed down to ReplaceEmoji()
-#' @param order determines how the messages are ordered. "display" orders them in the same order that they appear on the phone
+#' @param order Can be "time" or "both". Whether an indicator column for the order of messages is added
 #' that the messages were exported from. "time" orders the messages according to the WhatsApp Timestamp the message received while it was sent.
 #' Due to internet problems, these orders are not necessarily interchangeable. "both" gives two columns with the respective orders
 #' @param language Indicates the language setting of the phone with which the messages were exported. This is important because
@@ -24,14 +23,12 @@
 #' @param rpnl Replace newline. A character string for replacing linebreaks within messages for the parsed message for better readibility. Default is " start_newline "
 #' @param rpom Replace omitted media. A character string replacing the indicator for omitted media files for better readibility. Default is " media_omitted "
 #' @param consent String containng a consent message. All messages from users who have not posted this exact message into the chat will be deleted. Default is NA.
+#' @param ... Further arguments passed down to ReplaceEmoji()
 #' @importFrom readr parse_character
-#' @importFrom qdapRegex rm_url
+#' @importFrom qdapRegex rm_url rm_between ex_emoticon
 #' @importFrom stats na.omit
-#' @importFrom qdapRegex rm_between
-#' @importFrom qdapRegex ex_emoticon
-#' @importFrom stringr str_replace_all
 #' @importFrom tokenizers tokenize_words
-#' @importFrom stringi stri_extract_all_regex
+#' @importFrom stringi stri_extract_all_regex  stri_replace_all stri_extract_all
 #' @importFrom mgsub mgsub
 #' @return A dataframe containing:
 #'
@@ -52,9 +49,7 @@
 #'      15) A column for specifying the order of the rows as they are displayed on the phone used for extracting the chatlog \cr
 #'
 #' @examples
-#' data <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"),
-#'                       media = TRUE,
-#'                       language = "english")
+#' data <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"))
 #' @export
 
 ## Function to import a WhatsApp Textmessage and parse it into a readable dataframe
@@ -88,8 +83,8 @@ parse_chat <- function(name,
   if (os == "auto") {
 
     # getting number of os-specific timestamps from chat
-    android_stamps <- length(unlist(str_extract_all(RawChat,TimeRegex_android)))
-    ios_stamps <- length(unlist(str_extract_all(RawChat,TimeRegex_ios)))
+    android_stamps <- length(unlist(stri_extract_all(RawChat,regex=TimeRegex_android)))
+    ios_stamps <- length(unlist(stri_extract_all(RawChat,regex=TimeRegex_ios)))
 
     # selecting operations system
     if (android_stamps > ios_stamps) {
@@ -149,16 +144,17 @@ parse_chat <- function(name,
   if (language == "auto"){
 
     # checking presence of indicator strings (We need to delete ^ and $ from the regexes because the chat is not cut into pieces yet)
-    german_a <- length(unlist(sapply(gsub("$","",gsub("^","",WAStrings[1,], fixed = TRUE),fixed=TRUE)[3:24],str_extract_all,string=RawChat)))
-    german_i <- length(unlist(sapply(gsub("$","",gsub("^","",WAStrings[2,], fixed = TRUE),fixed=TRUE)[3:24],str_extract_all,string=RawChat)))
-    english_a <- length(unlist(sapply(gsub("$","",gsub("^","",WAStrings[3,], fixed = TRUE),fixed=TRUE)[3:24],str_extract_all,string=RawChat)))
-    english_i <- length(unlist(sapply(gsub("$","",gsub("^","",WAStrings[4,], fixed = TRUE),fixed=TRUE)[3:24],str_extract_all,string=RawChat)))
+    german_a <- sum(!is.na(unlist(stri_extract_all(RawChat, regex=gsub("$","",gsub("^","",WAStrings[1,], fixed = TRUE),fixed=TRUE)[3:25]))))
+    german_i <- sum(!is.na(unlist(stri_extract_all(RawChat, regex=gsub("$","",gsub("^","",WAStrings[2,], fixed = TRUE),fixed=TRUE)[3:25]))))
+    english_a <- sum(!is.na(unlist(stri_extract_all(RawChat, regex=gsub("$","",gsub("^","",WAStrings[3,], fixed = TRUE),fixed=TRUE)[3:25]))))
+    english_i <- sum(!is.na(unlist(stri_extract_all(RawChat, regex=gsub("$","",gsub("^","",WAStrings[4,], fixed = TRUE),fixed=TRUE)[3:25]))))
 
     # Best guess about language based on presence of indicator strings
     guess <- WAStrings[which(c(german_a,german_i,english_a,english_i) == max(c(german_a,german_i,english_a,english_i))),1]
 
     # setting auto-detected language
-    language <- unlist(str_extract_all(guess,pattern=c("german","english")))[1]
+    language <- unlist(stri_extract_all(guess,fixed=c("german","english")))
+    language <- language[!is.na(language)]
 
     # printing info
     cat(paste0("Auto-detected language setting of exporting phone: ", language," \U2713 \n"))
@@ -204,7 +200,7 @@ parse_chat <- function(name,
   cat(paste("Imported matching strings for: ", paste(language, os, sep = " ") ," \U2713 \n", sep = ""))
 
   # replacing EMOJI with text representations
-  ReplacedEmojiChat <- ReplaceEmoji(RawChat, EmojiDictionary = EmojiDic)
+  ReplacedEmojiChat <- replace_emoji(RawChat, EmojiDictionary = EmojiDic)
 
   # printing info
   cat("Replaced emoji with text representations \U2713 \n")
@@ -347,7 +343,7 @@ parse_chat <- function(name,
   # removing Emojis,newlines, media indicators
   Flat <- rm_between(ParsedChat$Message," |Emoji_","| ",replacement = "")
   Flat <- rm_between(Flat," start_newlin","e ",replacement = "")
-  Flat <- str_replace_all(Flat,pattern = OmittanceIndicator, replacement = "")
+  Flat <- stri_replace_all(Flat,regex = OmittanceIndicator, replacement = "")
 
   # printing info
   cat("Removed emoji, newlines and media file indicators from text column \U2713 \n")

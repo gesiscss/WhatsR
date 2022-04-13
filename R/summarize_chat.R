@@ -5,11 +5,18 @@
 #' @export
 #' @return A list containing:
 #'
-#'      1) The number of participants in the chat \cr
-#'      2) The Author of the first message \cr
-#'      3) The body of the first message \cr
-#'      4) The date of the first message and the last message \cr
-#'      6) The total duration of the chat
+#'      1) The number of messages in the chat \cr
+#'      2) The number of tokens in the chat  \cr
+#'      3) The number of participants in the chat  \cr
+#'      4) The date of the first message\cr
+#'      6) The date of the  last message\cr
+#'      7) The total duration of the chat \cr
+#'      8) The number of system messages in the chat \cr
+#'      9) The number of Emoji in the chat \cr
+#'      10) The number of Smilies in the chat \cr
+#'      11) The number of Links in the chat\cr
+#'      12) The number of Media in the chat\cr
+#'      12) The number of Locations in the chat\cr
 #'
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
@@ -17,42 +24,72 @@
 
 
 ###### Basic statistics
-# TODO: Add number of links, number of emoji, number of smilies, number of locations
+
 summarize_chat <- function(data, excludeSM = TRUE) {
 
-  # creating list object
-  Basics <- list(1,2,3,4)
-  names(Basics) <- c("Participants","FirstSender","FirstMessage","TimeSpan")
-
-  # Number of unique participants
-  Basics$Participants <- length(unique(data$Sender[data$Sender != "WhatsApp System Message"]))
+  # getting existing column names
+  vars <- colnames(data)
 
   if (excludeSM == TRUE) {
 
-    # First sender
-    Basics$FirstSender <- unique(data$Sender[data$Sender != "WhatsApp System Message"])[1]
-
-    # First message
-    Basics$FirstMessage <- data$Message[data$Sender != "WhatsApp System Message"][1]
+    data <- data[data$Sender !="WhatsApp System Message",]
 
   }
 
-  if (excludeSM == FALSE) {
+  # creating list object
+  Basics <- as.list(rep(NA,12))
+  names(Basics) <- c("NumberOfMessages",
+                     "NumberOfTokens",
+                     "NumberOfParticipants",
+                     "StartDate",
+                     "EndDate",
+                     "TimeSpan",
+                     "NumberOfSystemMessages",
+                     "NumberOfEmoji",
+                     "NumberOfSmilies",
+                     "NumberOfLinks",
+                     "NumberOfMedia",
+                     "NumberOfLocation")
 
-    # First Sender
-    Basics$FirstSender <- data$Sender[1]
+  # NumberOfMessages
+  Basics$NumberOfMessages <- dim(data)[1]
 
-    # First Message
-    if (is.na(data$Message[1])) {
+  # NumberOfTokens
+  if ("TokCount" %in% vars) {Basics$NumberOfTokens <- sum(data$TokCount)}
 
-      Basics$FirstMessage <- data$SystemMessage[1]
+  # NumberOfParticipants
+  if ("Sender" %in% vars) {Basics$NumberOfParticipants <- length(unique(data$Sender))} else{
 
-    } else {Basics$FirstMessage <- data$Message[1]}
+    if ("Anonymous" %in% vars)  {Basics$NumberOfParticipants <- length(unique(data$Anonymous))}
 
   }
 
-  # Time span
-  Basics$TimeSpan <- list("FirstMessage" = min(data$DateTime), "LastMessage" = max(data$DateTime), "Duration" = difftime(max(data$DateTime),min(data$DateTime)))
+  # StartingDate
+  if ("DateTime" %in% vars) {Basics$StartDate <- min(data$DateTime)}
+
+  # EndingDate
+  if ("DateTime" %in% vars) {Basics$EndDate <- max(data$DateTime)}
+
+  # TimeSpan
+  if ("DateTime" %in% vars) {Basics$TimeSpan <- difftime(max(data$DateTime),min(data$DateTime))}
+
+  # NumberOfSystemMessages
+  if ("SystemMessage" %in% vars) {Basics$NumberOfSystemMessages <- sum(!is.na(data$SystemMessage))}
+
+  #NumberOfEmoji
+  if ("Emoji" %in% vars) {Basics$NumberOfEmoji <- sum(!is.na(unlist(data$Emoji)))}
+
+  #NumberOfSmilies
+  if ("Smilies" %in% vars) {Basics$NumberOfSmilies <- sum(!is.na(unlist(data$Smilies)))}
+
+  #NumberOfLinks
+  if ("URL"%in% vars) {Basics$NumberOfLinks <- sum(!is.na(unlist(data$Links)))}
+
+  #NumberOfMedia
+  if ("Media"%in% vars) {Basics$NumberOfMedia <- sum(!is.na(unlist(data$Media)))}
+
+  #NumberOfLocation
+  if ("Location"%in% vars) {Basics$NumberOfLocation <- sum(!is.na(unlist(data$Location)))}
 
   # Return list
   return(Basics)

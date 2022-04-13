@@ -13,10 +13,8 @@
 #' @param mediareplace Replacement string for omitted media files. Default is " media_omitted "
 #' @export
 #' @importFrom qdapRegex rm_default
-#' @importFrom stringi stri_split_fixed
+#' @importFrom stringi stri_split_fixed stri_split_regex stri_extract_all
 #' @importFrom lubridate parse_date_time
-#' @importFrom stringi stri_split_regex
-#' @importFrom stringr str_extract_all
 #' @return A dataframe containing the timestamp, name of the sender and message body
 #' @examples
 #' ParsedChat <- parse_ios("[29.01.18, 23:33:00] Alice: Hello?\\n [29.01.18, 23:45:01] Bob: Hello")
@@ -95,7 +93,7 @@ parse_ios <- function(UnparsedChat,
   Media <- substr(Media,1,nchar(Media)-1)
 
   # extract location to column
-  Location <- str_extract_all(Message, pattern = paste(c(livelocation,sentlocation), collapse = "|"))
+  Location <- stri_extract_all(Message, regex = paste(c(livelocation,sentlocation), collapse = "|"))
   Location[sapply(Location, length) == 0] <- NA
   Location <- unlist(Location)
 
