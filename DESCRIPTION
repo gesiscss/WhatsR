@@ -12,7 +12,7 @@ Description: Package for importing WhatsApp Chatlogs and parsing them into
     media-files from the messages, extracting timestamps from messages, extracting and anonmizing author 
     names from messages.
 License: MIT + file LICENSE
-Imports: stringi, qdapRegex, readr, tokenizers, rvest, XML, xml2, data.table, ggplot2, anytime, ggmap, mgsub, stats, ggtext, qdap, ggwordcloud, dplyr, ragg, extrafont, checkmate, lorem, visNetwork, tm, lubridate
+Imports: stringi, qdapRegex, readr, tokenizers, rvest, XML, xml2, data.table, ggplot2, anytime, ggmap, mgsub, stats, qdap, ggwordcloud, dplyr, ragg, checkmate, lorem, visNetwork, lubridate
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2

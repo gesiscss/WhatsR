@@ -10,12 +10,12 @@
 #' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"
 #' @param EmojiSize Determines the size of the Emoji displayed on top of the bars for "bar" and "splitbar", default is 10.
 #' @param FontFamily Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see {\link[extrafont]{font_import}}
-#' @import ggplot2 ragg extrafont
+#' @import ggplot2 ragg
 #' @importFrom anytime anytime
 #' @importFrom dplyr group_by
 #' @importFrom dplyr summarise
 #' @importFrom dplyr %>%
-#' @importFrom ggtext geom_richtext
+#' @importFrom mgsub mgsub
 #' @export
 #' @return Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance
 #'
@@ -206,26 +206,6 @@ plot_emoji <- function(data,
                                     "23:00",
                                     "24:00"))
 
-    # print top ten Emoji at bottom of heatmap
-    # if (length(EmojiVec) == 1 && EmojiVec == "all") {
-    #
-    #   print(out)
-    #
-    # } else {
-    #
-    #   if (length(EmojiVec) <= 10) {
-    #
-    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewEmoji), decreasing = TRUE)),collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-    #
-    #   } else {
-    #
-    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewEmoji), decreasing = TRUE))[1:10],collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-    #
-    #   }
-    #
-    #
-    # }
-
     if (return.data == TRUE) {
 
       # returning
@@ -363,18 +343,6 @@ plot_emoji <- function(data,
                  size = EmojiSize,
                  position = position_dodge2(width = 0.9, preserve = "single"))
 
-
-    # only printing legend if we have 20 unique Emoji or less
-    # if (length(unique(SumFrame$Emoji)) <= 20) {
-    #
-    #   print(out)
-    #
-    # } else {
-    #
-    #   warning("Legend was dropped because it contained too many different emoji")
-    #   print(out + theme(legend.position = "none")) + theme(legend.title = "Emoji")
-    #
-    # }
 
     #switching warnings back on
     options(dplyr.summarise.inform = TRUE)

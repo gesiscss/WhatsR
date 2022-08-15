@@ -53,7 +53,7 @@ it changes the structure of date/time columns and indicators for sent media. Def
 
 \item{consent}{String containng a consent message. All messages from users who have not posted this exact message into the chat will be deleted. Default is NA.}
 
-\item{...}{Further arguments passed down to ReplaceEmoji()}
+\item{...}{Further arguments passed down to replace_emoji()}
 }
 \value{
 A dataframe containing:

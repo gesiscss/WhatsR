@@ -33,7 +33,7 @@ plot_smilies(
 \item{plot}{The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"}
 }
 \value{
-Plots for Replytimes of Reactiontimes of authors
+Plots for distribution of smilies in WhatsApp chats
 }
 \description{
 Plots the emilies used in WhatsApp chatlogs

@@ -8,9 +8,10 @@
 #' @param return.data If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param SmilieVec A vector of Smilies that the visualizations will be restricted to.
 #' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"
+#' @import ggplot2
 #' @importFrom anytime anytime
 #' @export
-#' @return Plots for Replytimes of Reactiontimes of authors
+#' @return Plots for distribution of smilies in WhatsApp chats
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_smilies(data)
@@ -188,25 +189,6 @@ plot_smilies <- function(data,
                                     "23:00",
                                     "24:00"))
 
-    # print top ten Smilies at bottom of heatmap
-    # if (length(SmilieVec) == 1 && SmilieVec == "all") {
-    #
-    #   print(out)
-    #
-    # } else {
-    #
-    #   if (length(SmilieVec) <= 10) {
-    #
-    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewSmilies), decreasing = TRUE)),collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-    #
-    #   } else {
-    #
-    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewSmilies), decreasing = TRUE))[1:10],collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-    #
-    #   }
-    #
-    #
-    # }
 
     if (return.data == TRUE) {
 
@@ -301,18 +283,6 @@ plot_smilies <- function(data,
            subtitle = paste(starttime, " - ", endtime),
            x = "Sender",
            y = "Frequency")
-
-    # only printing legend if we have 20 unique Smilies or less
-    # if (length(unique(SumFrame$Smilies)) <= 20) {
-    #
-    #   print(out)
-    #
-    # } else {
-    #
-    #   warning("Legend was dropped because it contained too many different smilies")
-    #   print(out + theme(legend.position = "none")) + theme(legend.title = "Smilies")
-    #
-    # }
 
     # printing
     print(out)

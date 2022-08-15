@@ -13,7 +13,6 @@
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr bind_rows
-#' @importFrom tm stopwords
 #' @importFrom ggwordcloud geom_text_wordcloud_area
 #' @export
 #' @return A wordcloud plot per author for WhatsApp chatlogs
@@ -35,6 +34,9 @@ plot_wordcloud <- function(data,
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   `tokens` <- `freq` <- `word` <- NULL
+
+  # importing tm stopwords
+  tm_stopwords <- readRDS(system.file("tm_stopwords.rds", package = "WhatsR"))
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
@@ -77,7 +79,7 @@ plot_wordcloud <- function(data,
     if (remove.stops == TRUE) {
 
       # computing intersection and excluding rows
-      words <- words[-which(words$tokens %in% tm::stopwords(kind = stop)),]
+      words <- words[-which(words$tokens %in% tm_stopwords[[stop]]),]
 
     }
 
@@ -133,7 +135,7 @@ plot_wordcloud <- function(data,
     if (remove.stops == TRUE) {
 
       # computing intersection and excluding rows
-      FreqFrame <- FreqFrame[-which(FreqFrame$word %in% tm::stopwords(kind = stop)),]
+      FreqFrame <- FreqFrame[-which(FreqFrame$word %in% tm_stopwords[[stop]]),]
 
     }
 
