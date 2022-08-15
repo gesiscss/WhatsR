@@ -25,7 +25,7 @@ plot_media(
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{use.type}{If TRUE, shortens links to domain names.}
+\item{use.type}{If TRUE, shortens sent files to filetypes.}
 
 \item{min.occur}{The minimum number of occurances a media type has to have to be included in the Visualization. Default is 1}
 

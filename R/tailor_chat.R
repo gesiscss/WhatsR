@@ -12,7 +12,6 @@
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' tailor_chat(data, names = c("Mallory","Alice"))
 
-
 # Function to tailor dataframe with respect to time and date
 tailor_chat <- function(data,
                         names = "all",

@@ -125,7 +125,7 @@ plot_smilies <- function(data,
     # factor ordering
     weekdays <- rev(c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"))
 
-    # translate to english for better compatibility
+    # transalte to english for better compatibility
     helperframe2$day <- mgsub(helperframe2$day,
                               pattern = c("Sonntag","Samstag","Freitag","Donnerstag","Mittwoch","Dienstag","Montag"),
                               replacement = weekdays)
@@ -143,38 +143,9 @@ plot_smilies <- function(data,
 
     }
 
-    # adjusting helperframe
-    helperframe2$hour <- factor(helperframe2$hour,
-                                levels = 0:24,
-                                labels = c("00:00",
-                                           "01:00",
-                                           "02:00",
-                                           "03:00",
-                                           "04:00",
-                                           "05:00",
-                                           "06:00",
-                                           "07:00",
-                                           "08:00",
-                                           "09:00",
-                                           "10:00",
-                                           "11:00",
-                                           "12:00",
-                                           "13:00",
-                                           "14:00",
-                                           "15:00",
-                                           "16:00",
-                                           "17:00",
-                                           "18:00",
-                                           "19:00",
-                                           "20:00",
-                                           "21:00",
-                                           "22:00",
-                                           "23:00",
-                                           "24:00"),
-                                ordered = T)
-
     # plotting Heatmap
     out <- ggplot(helperframe2, aes(hour, day)) +
+      theme_minimal() +
       geom_tile(aes(fill = `Number of Smilies`), colour = "black") +
       labs(title = "Smilies by Weekday and Hour",
            subtitle = paste(starttime, " - ", endtime),
@@ -188,59 +159,61 @@ plot_smilies <- function(data,
             legend.position = "bottom",
             legend.key.width = unit(2, "cm"),
             panel.grid = element_blank()) +
-      coord_equal()+
-      scale_x_discrete(limits = c("00:00",
-                                  "01:00",
-                                  "02:00",
-                                  "03:00",
-                                  "04:00",
-                                  "05:00",
-                                  "06:00",
-                                  "07:00",
-                                  "08:00",
-                                  "09:00",
-                                  "10:00",
-                                  "11:00",
-                                  "12:00",
-                                  "13:00",
-                                  "14:00",
-                                  "15:00",
-                                  "16:00",
-                                  "17:00",
-                                  "18:00",
-                                  "19:00",
-                                  "20:00",
-                                  "21:00",
-                                  "22:00",
-                                  "23:00",
-                                  "24:00"))
-
+      coord_equal() +
+      scale_x_continuous(breaks = seq(-0.5,23.5,1),
+                         limits = c(-0.5,23.5),
+                         labels = c("00:00",
+                                    "01:00",
+                                    "02:00",
+                                    "03:00",
+                                    "04:00",
+                                    "05:00",
+                                    "06:00",
+                                    "07:00",
+                                    "08:00",
+                                    "09:00",
+                                    "10:00",
+                                    "11:00",
+                                    "12:00",
+                                    "13:00",
+                                    "14:00",
+                                    "15:00",
+                                    "16:00",
+                                    "17:00",
+                                    "18:00",
+                                    "19:00",
+                                    "20:00",
+                                    "21:00",
+                                    "22:00",
+                                    "23:00",
+                                    "24:00"))
 
     # print top ten Smilies at bottom of heatmap
-    if (length(SmilieVec) == 1 && SmilieVec == "all") {
-
-      print(out)
-
-    } else {
-
-      if (length(SmilieVec) <= 10) {
-
-        print(out + labs(caption = paste0(names(sort(table(NewFrame$NewSmilies), decreasing = TRUE)),collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-
-      } else {
-
-        print(out + labs(caption = paste0(names(sort(table(NewFrame$NewSmilies), decreasing = TRUE))[1:10],collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-
-      }
-
-
-    }
+    # if (length(SmilieVec) == 1 && SmilieVec == "all") {
+    #
+    #   print(out)
+    #
+    # } else {
+    #
+    #   if (length(SmilieVec) <= 10) {
+    #
+    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewSmilies), decreasing = TRUE)),collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
+    #
+    #   } else {
+    #
+    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewSmilies), decreasing = TRUE))[1:10],collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
+    #
+    #   }
+    #
+    #
+    # }
 
     if (return.data == TRUE) {
 
       # returning
-      return(helperframe2)
-    }
+      return(as.data.frame(helperframe2))
+
+    } else{return(out)}
 
   }
 
@@ -256,23 +229,25 @@ plot_smilies <- function(data,
 
     # constructing graph
     out <- ggplot(NewFrame, aes(x = DateTime, y = Total, color = Sender)) +
+      theme_minimal() +
       geom_line() +
+      geom_point() +
       labs(title = "Cumulative number of Smilies sent",
            subtitle = paste(starttime, " - ", endtime))  +
-      theme(axis.text.x = element_text(angle = 90, hjust = 1))  +
+      theme(axis.text.x = element_text(angle = 90))  +
       xlab("Time") +
       ylab("Total Smilies Sent") +
-      theme(legend.title = element_text("Smilies")) +
-      geom_point()
+      #theme(legend.title = element_text("Smilies"))
 
-    # pinting plot
+    # printing plot
     print(out)
 
     if (return.data == TRUE) {
 
       # returning
-      return(NewFrame)
-    }
+      return(as.data.frame(NewFrame))
+
+    } else{return(out)}
 
   }
 
@@ -286,6 +261,7 @@ plot_smilies <- function(data,
 
     # Visualizig the distribution ofsmilies
     out <- ggplot(df[df$Freq >= min.occur,],aes(x = Smilies,y = Freq, fill = Smilies)) +
+            theme_minimal() +
             geom_bar(stat = "identity") +
             labs(title = "Distribution of sent Smilies",
                  subtitle = paste(starttime, " - ", endtime),
@@ -302,8 +278,9 @@ plot_smilies <- function(data,
     if (return.data == TRUE) {
 
       # returning
-      return(df) # df
-    }
+      return(as.data.frame(df))
+
+    } else{return(out)}
 
   }
 
@@ -318,6 +295,7 @@ plot_smilies <- function(data,
 
     # building graph object
     out <-   ggplot(SumFrame, aes(x = Sender, y = Amount,fill = Smilies)) +
+      theme_minimal() +
       geom_bar(stat = "identity", position = position_dodge()) +
       labs(title = "Smilies sent per Person",
            subtitle = paste(starttime, " - ", endtime),
@@ -325,23 +303,27 @@ plot_smilies <- function(data,
            y = "Frequency")
 
     # only printing legend if we have 20 unique Smilies or less
-    if (length(unique(SumFrame$Smilies)) <= 20) {
+    # if (length(unique(SumFrame$Smilies)) <= 20) {
+    #
+    #   print(out)
+    #
+    # } else {
+    #
+    #   warning("Legend was dropped because it contained too many different smilies")
+    #   print(out + theme(legend.position = "none")) + theme(legend.title = "Smilies")
+    #
+    # }
 
-      print(out)
-
-    } else {
-
-      warning("Legend was dropped because it contained too many different smilies")
-      print(out + theme(legend.position = "none")) + theme(legend.title = "Smilies")
-
-    }
+    # printing
+    print(out)
 
     # return data
     if (return.data == TRUE) {
 
       # returning
-      return(SumFrame)
-    }
+      return(as.data.frame(SumFrame))
+
+    } else {return(out)}
 
   }
 

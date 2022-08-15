@@ -5,6 +5,7 @@
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param plot The type of plot to be used. Options include "bar","box","violin" and "cumsum". Default is "bar".
+#' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%
@@ -21,7 +22,8 @@ plot_tokens <- function(data,
                         names = "all",
                         starttime = anytime("1960-01-01 00:00"),
                         endtime = Sys.time(),
-                        plot = "bar"){
+                        plot = "bar",
+                        return.data = TRUE){
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   tokens <- freq <- word <- Sender <- TokCount <- DateTime <- total <- NULL
@@ -48,10 +50,14 @@ plot_tokens <- function(data,
 
   }
 
+  # tailoring data
+  data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
+
+
   if (plot == "bar") {
 
     # We have some weird stripes on the bargraphs here (maybe because of the WhatsApp System messages?)
-    output <- ggplot(data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,], aes(x = Sender, fill = Sender,y = TokCount)) +
+    output <- ggplot(data, aes(x = Sender, fill = Sender,y = TokCount)) +
       geom_bar(stat = "identity") +
       labs(title = "Amount of Tokens sent by Persons",
            subtitle = paste(starttime, " - ", endtime)) +
@@ -63,7 +69,7 @@ plot_tokens <- function(data,
 
   if (plot == "box") {
 
-    output <- ggplot(data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,],
+    output <- ggplot(data,
                      aes(x = Sender, y = TokCount,
                          color = Sender)) +
       geom_boxplot() +
@@ -77,7 +83,7 @@ plot_tokens <- function(data,
 
   if (plot == "violin") {
 
-    output <- ggplot(data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,],
+    output <- ggplot(data,
                      aes(x = Sender, y = TokCount, fill = Sender, color = Sender)) +
       geom_violin() +
       labs(title = "Distribution of Message length by Person",
@@ -90,7 +96,6 @@ plot_tokens <- function(data,
 
   if ( plot == "cumsum") {
 
-    data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
     data <- data[with(data, order(data$Sender,data$DateTime)),]
     data$total <- do.call("c", tapply(data$TokCount, data$Sender, FUN = cumsum))
 
@@ -104,6 +109,13 @@ plot_tokens <- function(data,
 
   }
 
-  return(output)
+  if (return.data == TRUE) {
+
+    # print
+    print(output)
+    return(as.data.frame(data))
+
+  } else{return(output)}
+
 
 }

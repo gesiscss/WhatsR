@@ -14,9 +14,9 @@ download_emoji(
     "https://emojipedia.org/emoji-modifier-fitzpatrick-type-4/",
     "https://emojipedia.org/emoji-modifier-fitzpatrick-type-5/",
     "https://emojipedia.org/emoji-modifier-fitzpatrick-type-6/"),
-  RegularXpath = "/html/body/div[3]/div[1]/ul",
-  SkinXpath = "/html/body/div[3]/div[1]/article/section[1]/ul",
-  ExceptionXpath = "/html/body/div[3]/div[1]/article/section[1]/ul[2]"
+  RegularXpath = "/html/body/div[5]/div[1]/ul",
+  SkinXpath = "/html/body/div[5]/div[1]/article/section[1]/ul",
+  ExceptionXpath = "/html/body/div[5]/div[1]/article/section[1]/ul[2]"
 )
 }
 \arguments{

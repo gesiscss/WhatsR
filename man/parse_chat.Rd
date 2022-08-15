@@ -61,18 +61,19 @@ A dataframe containing:
      1) A column to indicate the date and time when the message was send \cr
      2) A column containing the anonimized name of the sender \cr
      3) A column to indicate the name of the sender \cr
-     4) A column containing the raw message body (Emoji are replaced with textual representation) \cr
-     5) A column containgin a "flat" message, stripped of Emoji, numbers, special characters, file attachments, sent Locations etc. \cr
+     4) A column containing the raw message \cr
+     5) A column containgin a "flat" message, stripped of emoji, numbers, special characters, file attachments, sent Locations etc. \cr
      6) A column containing a tokenized version of the flat message \cr
-     7) A column containing only URLs that were contained in the messages (optional: can be shortend to only display domains) \cr
-     8) A column containing only the names of attached meda files \cr
+     7) A column containing only URLs that were contained in the messages (optional: can be shortened to domains) \cr
+     8) A column containing only the names of attached media files \cr
      9) A column containing only sent locations and indicators for shared live locations \cr
-     10) A column containing only Emoji that were used in the message \cr
-     11) A column containing only Emoticons (e.g. ":-)") that were used in the message \cr
-     12) A column containing the number of tokens per message, derived from the "flattened" message \cr
-     13) A column containing WhatsApp System Messages in group chats (e.g."You added Frank to the group") \cr
-     14) A column specifying the order of the rows according to the timestamp the messages have on the phone used for extracting the chatlog \cr
-     15) A column for specifying the order of the rows as they are displayed on the phone used for extracting the chatlog \cr
+     10) A column containing only emoji that were used in the message \cr
+     11) A column containing only extual descriptions of emoji that were used in the message \cr
+     12) A column containing only emoticons (e.g. ":-)") that were used in the message \cr
+     13) A column containing the number of tokens per message, derived from the "flattened" message \cr
+     14) A column containing WhatsApp System Messages in group chats (e.g."You added Frank to the group") \cr
+     15) A column specifying the order of the rows according to the timestamp the messages have on the phone used for extracting the chatlog \cr
+     16) A column for specifying the order of the rows as they are displayed on the phone used for extracting the chatlog \cr
 }
 \description{
 Creates a dataframe from an exported WhatsApp textfile containing one row per message. Some columns

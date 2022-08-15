@@ -9,7 +9,8 @@ plot_tokens(
   names = "all",
   starttime = anytime("1960-01-01 00:00"),
   endtime = Sys.time(),
-  plot = "bar"
+  plot = "bar",
+  return.data = TRUE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ plot_tokens(
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
 \item{plot}{The type of plot to be used. Options include "bar","box","violin" and "cumsum". Default is "bar".}
+
+\item{return.data}{If TRUE, returns the subsetted dataframe. Default is FALSE.}
 }
 \value{
 Plots showcasing the disitribution of tokens per person

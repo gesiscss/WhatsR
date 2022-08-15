@@ -6,9 +6,11 @@
 #' @param n_messages Number of messages that are contained in the created .txt file
 #' @param n_chatters Number of different chatter names present in the created .txt file
 #' @param n_emoji Number of messages that contain emoji. Must be smaller or equal to n_messages
+#' @param n_diff_emoji Number of different emoji that are used in the simulated chat
 #' @param n_links Number of messages that contain links Must be smaller or equal to n_messages
 #' @param n_locations Number of messages that contain locations. Must be smaller or equal to n_messages
 #' @param n_smilies Number of messages that contain smilies. Must be smaller or equal to n_messages
+#' @param n_diff_smilies Number of different smilies that are used in the simulated chat
 #' @param n_media Number of messages that contain omitted media files. Must be smaller or equal to n_messages
 #' @param n_sdp Number of messages that contain self-deleting photos. Must be smaller or equal to n_messages
 #' @param startdate Earliest possible date for messages. Timestamps for messages are created automatically between startdate and enddate
@@ -30,9 +32,11 @@
 create_chatlog <- function(n_messages = 150,
                            n_chatters = 2,
                            n_emoji = 50,
+                           n_diff_emoji = 20,
                            n_links = 20,
                            n_locations = 5,
-                           n_smilies = 10,
+                           n_smilies = 100,
+                           n_diff_smilies = 15,
                            n_media = 10,
                            n_sdp = 3,
                            startdate= "01.01.2019",
@@ -50,6 +54,8 @@ create_chatlog <- function(n_messages = 150,
   assert_numeric(n_messages,lower=50,upper=40000,len=1)
   assert_numeric(n_chatters,lower=2,upper=50,len=1)
   assert_numeric(n_emoji,lower=0,upper=80000,len=1)
+  assert_numeric(n_diff_emoji,lower=1,upper=3315,len=1)
+  assert_numeric(n_diff_emoji,lower=1,upper=321,len=1)
   assert_numeric(n_links,lower=0,upper=1000,len=1)
   assert_numeric(n_locations,lower=0,upper=1000,len=1)
   assert_numeric(n_smilies,lower=0,upper=80000,len=1)
@@ -113,6 +119,9 @@ create_chatlog <- function(n_messages = 150,
   smilies <- read.csv(system.file("SmileyDictionary.csv", package = "WhatsR"),
                       stringsAsFactors = F)[,2]
 
+  # Limiting Smiley dictionary of number of different smilies to sample from
+  smilies <- smilies[sample(1:length(smilies),n_diff_smilies)]
+
   # Importing Emoji
   EmojiDictionary <- read.csv(system.file("EmojiDictionary.csv",package = "WhatsR"),
                               header = TRUE,
@@ -120,6 +129,9 @@ create_chatlog <- function(n_messages = 150,
                               strip.white = FALSE,
                               colClasses = "character",
                               blank.lines.skip = TRUE)
+
+  # Limiting Emoji dictionary of number of different emoji to sample from
+  EmojiDictionary <- EmojiDictionary[sample(1:dim(EmojiDictionary)[1],n_diff_emoji),]
 
 
   # Importing System Messages

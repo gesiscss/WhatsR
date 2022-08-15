@@ -45,6 +45,7 @@ Plots and/or the subsetted dataframe based on author names, datetime and Emoji o
 Creates a list of basic information about a single WhatsApp chatlog
 }
 \examples{
+#(Font might need to be installed first on Windows)
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 plot_emoji(data,FontFamily="Times") # Set FontFamily = "Noto Color Emoji" for best results
 }

@@ -5,6 +5,7 @@
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param plot Type of plot to be returned, options include "bar" and "pie". Default is "bar".
+#' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%
@@ -22,7 +23,8 @@ plot_messages <- function(data,
                           names = "all",
                           starttime = anytime("1960-01-01 00:00"),
                           endtime = Sys.time(),
-                          plot = "bar") {
+                          plot = "bar",
+                          return.data = TRUE) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   Var1 <- Freq <-  NULL
@@ -64,6 +66,10 @@ plot_messages <- function(data,
       labs(fill = "Person") +
       theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
+
+    # printing
+    print(out)
+
   }
 
   if (plot == "pie") {
@@ -86,8 +92,20 @@ plot_messages <- function(data,
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
             panel.background = element_rect(fill = 'white', colour = 'white'))
+
+    # printing
+    print(out)
   }
 
-  return(out)
+  # returning LatLon data if desired
+  if (return.data == TRUE){
+
+    return(as.data.frame(table(data$Sender)))
+
+  } else{
+
+    return(out)
+
+  }
 
 }

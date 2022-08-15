@@ -5,7 +5,7 @@
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param keywords A vector of keywords to be displayed, default is c("hello",world")
-#' @param palettes empty argument. Remove after testing
+#' @param return.data Default is FALSE, returns dataframe of plot when TRUE.
 #' @param ... Further arguments passed down to code{\link[qdap]{dispersion_plot}}
 #' @import ggplot2
 #' @importFrom anytime anytime
@@ -23,12 +23,16 @@ plot_lexical_dispersion <- function(data,
                                     names = "all",
                                     starttime = anytime("1960-01-01 00:00"),
                                     endtime = Sys.time(),
-                                    palettes = "Paired",
                                     keywords = c("hello","world"),
+                                    return.data = FALSE,
                                     ...) {
 
+  # switch off useless warning message
+  defaultW <- getOption("warn")
+  options(warn = -1)
+
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  `palettes` <- `keyword` <- NULL
+  `keyword` <- NULL
 
   # transferring keywords to lowercase to make it non case-sensitive
   keywords <- tolower(keywords)
@@ -67,6 +71,20 @@ plot_lexical_dispersion <- function(data,
   }
 
   # make plot
-  print(with(data , dispersion_plot(Message, keywords ,grouping.var = list(Sender),...)))
+  out <- with(data , suppressWarnings(dispersion_plot(Message, keywords ,grouping.var = list(Sender),...)))
+  print(out)
+
+  #switching on warnings again
+  options(warn = defaultW)
+
+  if (return.data == TRUE) {
+
+    return(data)
+
+  } else {
+
+    return(out)
+
+  }
 
 }

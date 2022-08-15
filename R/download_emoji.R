@@ -13,7 +13,6 @@
 #' @importFrom rvest html_nodes
 #' @importFrom XML xmlTreeParse xmlToList
 #' @importFrom xml2 read_html
-#' @importFrom pryr bytes
 #' @return A dataframe containing:
 #'      1) The native representation of all Emoji in R \cr
 #'      2) A textual description of what the Emoji is displaying \cr
@@ -37,9 +36,9 @@ download_emoji <- function(pages =         c("https://emojipedia.org/people/",
                                              "https://emojipedia.org/emoji-modifier-fitzpatrick-type-4/",
                                              "https://emojipedia.org/emoji-modifier-fitzpatrick-type-5/",
                                              "https://emojipedia.org/emoji-modifier-fitzpatrick-type-6/"),
-                           RegularXpath =    "/html/body/div[3]/div[1]/ul", # this keeps changing occasionally, mostly the index of the first div changes between 2 and 3
-                           SkinXpath =       "/html/body/div[3]/div[1]/article/section[1]/ul",# this keeps changing occasionally, mostly the index of the first div changes between 2 and 3
-                           ExceptionXpath =  "/html/body/div[3]/div[1]/article/section[1]/ul[2]"){ # this keeps changing occasionally, mostly the index of the first div changes between 2 and 3
+                           RegularXpath =    "/html/body/div[5]/div[1]/ul", # this keeps changing occasionally, mostly the index of the first div changes between 4 and 5
+                           SkinXpath =       "/html/body/div[5]/div[1]/article/section[1]/ul",# this keeps changing occasionally, mostly the index of the first div changes between 4 and 5
+                           ExceptionXpath =  "/html/body/div[5]/div[1]/article/section[1]/ul[2]"){ # this keeps changing occasionally, mostly the index of the first div changes between 4 and 5
 
 
   # function to scrape and parse XML tables
@@ -66,9 +65,9 @@ download_emoji <- function(pages =         c("https://emojipedia.org/people/",
     EmojiNames <- unlist(EmojiNames)
 
     # adding byte column
-    Bytes <- bytes(Emojis)
+    #Bytes <- bytes(Emojis)
 
-    DF <- data.frame(Emojis,EmojiNames,Bytes)
+    DF <- data.frame(Emojis,EmojiNames)
     return(DF)
 
   }
@@ -99,7 +98,7 @@ download_emoji <- function(pages =         c("https://emojipedia.org/people/",
   EmojiDF$EmojiNames <- gsub(" ","_",EmojiDF$EmojiNames)
 
   # fixing column names
-  colnames(EmojiDF) <- c("R.native","Desc", "Bytestring")
+  colnames(EmojiDF) <- c("R.native","Desc")
 
   # ordering from longest to shortest (prevents partial matching of shorter strings further down the line)
   EmojiDF <- EmojiDF[rev(order(nchar(as.character(EmojiDF$R.native)))),]

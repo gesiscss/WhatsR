@@ -13,6 +13,7 @@ plot_location(
   return.data = FALSE,
   add.jitter = FALSE,
   jitter.val = 0.01,
+  jitter.seed = 123,
   mapleeway = 0.1
 )
 }
@@ -32,6 +33,8 @@ plot_location(
 \item{add.jitter}{IF TRUE, adds some random jitter to geolocations to obscure exact locations}
 
 \item{jitter.val}{Amount of random jitter to add to the geolocations to hide exact locations. Default value is 0.01}
+
+\item{jitter.seed}{Add}
 
 \item{mapleeway}{Adds additional space to the map so that points do not sit exactly at the border of the plot. Default value is 5}
 }

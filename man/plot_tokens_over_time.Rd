@@ -9,7 +9,8 @@ plot_tokens_over_time(
   names = "all",
   starttime = anytime("1960-01-01 00:00"),
   endtime = Sys.time(),
-  plot = "alltime"
+  plot = "alltime",
+  return.data = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ plot_tokens_over_time(
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
 \item{plot}{Time resolution for plots. Options include "year", "month", "day", "hour", "heatmap" and "alltime". Default is "alltime".}
+
+\item{return.data}{If TRUE, returns the subsetted dataframe. Default is FALSE.}
 }
 \value{
 A summary of tokens over time

@@ -93,7 +93,7 @@ plot_wordcloud <- function(data,
     }
 
     # plotting basic wordcloud
-    plot <- ggplot(words, aes(label = tokens, size = freq)) +
+    out <- ggplot(words, aes(label = tokens, size = freq)) +
       geom_text_wordcloud_area(rm_outside = TRUE) +
       scale_size_area(max_size = font.size) +
       theme_minimal() +
@@ -149,7 +149,7 @@ plot_wordcloud <- function(data,
     }
 
     # Plotting facetted plot
-    plot <- ggplot(FreqFrame, aes(label = word, size = freq)) +
+    out <- ggplot(FreqFrame, aes(label = word, size = freq)) +
       geom_text_wordcloud_area() +
       scale_size_area(max_size = font.size) +
       theme_minimal() +
@@ -162,11 +162,18 @@ plot_wordcloud <- function(data,
   # returning data if desired
   if (return.data == TRUE) {
 
-    return(words)
+    print(out)
+
+    if(comparison == TRUE) {
+
+      return(FreqFrame)
+
+    } else{return(words)}
 
   } else {
 
-    return(plot)
+    print(out)
+    return(out)
 
   }
 

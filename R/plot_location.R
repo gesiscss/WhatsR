@@ -8,6 +8,7 @@
 #' @param return.data If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param add.jitter IF TRUE, adds some random jitter to geolocations to obscure exact locations
 #' @param jitter.val Amount of random jitter to add to the geolocations to hide exact locations. Default value is 0.01
+#' @param jitter.seed Add
 #' @param mapleeway Adds additional space to the map so that points do not sit exactly at the border of the plot. Default value is 5
 #' @import ggplot2
 #' @importFrom anytime anytime
@@ -34,6 +35,7 @@ plot_location <- function(data,
                           return.data = FALSE,
                           add.jitter = FALSE,
                           jitter.val = 0.01,
+                          jitter.seed = 123,
                           mapleeway = 0.1) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
@@ -79,6 +81,7 @@ plot_location <- function(data,
 
     # Add some jitter to the data for anonmization purposes
     Coord_no <- dim(LatLong)[1] * dim(LatLong)[2]
+    set.seed(jitter.seed)
     jitter <- runif(Coord_no,-jitter.val,jitter.val)
     LatLong <- LatLong + jitter
 
@@ -89,10 +92,10 @@ plot_location <- function(data,
   LatLong <- cbind.data.frame(Metainfo,LatLong)
 
   # round locations and add some leeway
-  location = c(round(min(LatLong[,4]))-mapleeway,
-               round(min(LatLong[,3]))-mapleeway,
-               round(max(LatLong[,4]))+mapleeway,
-               round(max(LatLong[,3]))+mapleeway)
+  location = c(floor(min(LatLong[,4]))-mapleeway,
+               floor(min(LatLong[,3]))-mapleeway,
+               ceiling(max(LatLong[,4]))+mapleeway,
+               ceiling(max(LatLong[,3]))+mapleeway)
 
   # Fetch the map
   map <- get_map(location = location, source = "google", zoom = mapzoom)
@@ -115,8 +118,7 @@ plot_location <- function(data,
 
   } else{
 
-    #plot map
-    plot(map)
+    return(map)
 
   }
 

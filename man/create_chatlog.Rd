@@ -8,9 +8,11 @@ create_chatlog(
   n_messages = 150,
   n_chatters = 2,
   n_emoji = 50,
+  n_diff_emoji = 20,
   n_links = 20,
   n_locations = 5,
-  n_smilies = 10,
+  n_smilies = 100,
+  n_diff_smilies = 15,
   n_media = 10,
   n_sdp = 3,
   startdate = "01.01.2019",
@@ -29,11 +31,15 @@ create_chatlog(
 
 \item{n_emoji}{Number of messages that contain emoji. Must be smaller or equal to n_messages}
 
+\item{n_diff_emoji}{Number of different emoji that are used in the simulated chat}
+
 \item{n_links}{Number of messages that contain links Must be smaller or equal to n_messages}
 
 \item{n_locations}{Number of messages that contain locations. Must be smaller or equal to n_messages}
 
 \item{n_smilies}{Number of messages that contain smilies. Must be smaller or equal to n_messages}
+
+\item{n_diff_smilies}{Number of different smilies that are used in the simulated chat}
 
 \item{n_media}{Number of messages that contain omitted media files. Must be smaller or equal to n_messages}
 

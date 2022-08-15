@@ -34,7 +34,10 @@ plot_links <- function(data,
                        min.occur = 1,
                        return.data = FALSE,
                        LinkVec = "all",
-                       plot = "heatmap") {
+                       plot = "bar") {
+
+  # muting useless dplyr message
+  options(dplyr.summarise.inform = FALSE)
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   Date <- Sender <- Links <- URL <- day <- hour <- n <- `Number of Links` <- ave <- total <- Var1 <- Freq <-  NULL
@@ -180,6 +183,7 @@ plot_links <- function(data,
 
     # plotting Heatmap
     out <- ggplot(helperframe2, aes(hour, day)) +
+      theme_minimal() +
       geom_tile(aes(fill = `Number of Links`), colour = "black", width = 1) +
       labs(title = "Links by Weekday and Hour",
            subtitle = paste(starttime, " - ", endtime),
@@ -223,30 +227,34 @@ plot_links <- function(data,
                                     "24:00"))
 
     # print top ten links at bottom of heatmap
-    if (length(LinkVec) == 1 && LinkVec == "all") {
+    # if (length(LinkVec) == 1 && LinkVec == "all") {
+    #
+    #   print(out)
+    #
+    # } else {
+    #
+    #   if (length(LinkVec) <= 10) {
+    #
+    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewEmoji), decreasing = TRUE)),collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
+    #
+    #   } else {
+    #
+    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewLinks), decreasing = TRUE))[1:10],collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
+    #
+    #   }
+    #
+    #
+    # }
 
-      print(out)
-
-    } else {
-
-      if (length(LinkVec) <= 10) {
-
-        print(out + labs(caption = paste0(names(sort(table(NewFrame$NewEmoji), decreasing = TRUE)),collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-
-      } else {
-
-        print(out + labs(caption = paste0(names(sort(table(NewFrame$NewLinks), decreasing = TRUE))[1:10],collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-
-      }
-
-
-    }
+    # printing
+    print(out)
 
     if (return.data == TRUE) {
 
       # returning
-      return(helperframe2)
-    }
+      return(as.data.frame(helperframe2))
+
+    } else {return(out)}
 
   }
 
@@ -262,6 +270,7 @@ plot_links <- function(data,
 
     # constructing graph
     out <- ggplot(NewFrame, aes(x = Date, y = total, color = Sender)) +
+      theme_minimal() +
       geom_line() +
       labs(title = "Cumulative number of Links sent",
            subtitle = paste(starttime, " - ", endtime))  +
@@ -277,17 +286,37 @@ plot_links <- function(data,
 
       # returning
       return(NewFrame)
-    }
+
+    } else {return(out)}
 
   }
 
   if (plot == "bar") {
 
     # Converting to dataframe to make it usable by ggplot
-    df <- as.data.frame(sort(table(NewFrame$NewUrls),decreasing = TRUE))
+    #df <- as.data.frame(sort(table(NewFrame$NewUrls),decreasing = TRUE))
+
+
+
+
+
+    Links <- names(sort(table(NewFrame$NewUrls),decreasing = TRUE))
+    Freq <- sort(table(NewFrame$NewUrls),decreasing = TRUE)
+    names(Freq) <- NULL
+    df <- cbind.data.frame(Links,Freq)
+
+    # removing some bullshit variable that comes out of nowhere
+    if ("Var1" %in% colnames(df)){
+
+      df <- df[,-c(2)]
+
+    }
+
+
+
 
     # renaming to fix legend title
-    names(df) <- c("Links","Freq")
+    #names(df) <- c("Links","Freq")
 
     # excluding links that are to long
     if (exclude.long == TRUE) {
@@ -298,6 +327,7 @@ plot_links <- function(data,
 
     # Visualizig the distribution of domains (domains sent more than x)
     out <- ggplot(df[df$Freq >= min.occur,],aes(x = Links,y = Freq, fill = Links)) +
+            theme_minimal() +
             geom_bar(stat = "identity") +
             labs(title = "Distribution of Domains of sent Links",
                  subtitle = paste(starttime, " - ", endtime),
@@ -314,7 +344,8 @@ plot_links <- function(data,
 
       # returning
       return(df)
-    }
+
+    } else {return(out)}
 
   }
 
@@ -329,6 +360,7 @@ plot_links <- function(data,
 
     # building graph object
     out <-   ggplot(SumFrame, aes(x = Sender, y = n,fill = URL)) +
+      theme_minimal() +
       geom_bar(stat = "identity", position = position_dodge()) +
       labs(title = "Links sent per Person and Domain",
            subtitle = paste(starttime, " - ", endtime),
@@ -352,8 +384,12 @@ plot_links <- function(data,
 
       # returning
       return(SumFrame)
-    }
+
+    } else {return(out)}
 
   }
+
+  # unmute dplyr
+  options(dplyr.summarise.inform = TRUE)
 
 }

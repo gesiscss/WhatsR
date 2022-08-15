@@ -155,6 +155,7 @@ plot_replytimes <- function(data,
 
       # Distribution of response times per person (logscale)
       out <- ggplot(Sessionframe,aes(x = Sender, y = log(ReactionTime + 1), color = Sender)) +
+        theme_minimal() +
         geom_boxplot() +
         theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +
         labs(title = "Distribution of Time it takes to respond per Person",
@@ -168,6 +169,7 @@ plot_replytimes <- function(data,
 
       # Distribution of responsd to times per person (logscale)
       out <- ggplot(Sessionframe,aes(x = Sender, y = log(RepliedToAfter + 1), color = Sender)) +
+        theme_minimal() +
         geom_boxplot() +
         theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +
         labs(title = "Distribution of how quickly messages are responded to per Person",
@@ -179,33 +181,32 @@ plot_replytimes <- function(data,
 
   }
 
-  if (plot == "dist") {
-
-    if (type == "replytime") {
-
-      out <- ggplot(Sessionframe, aes(log(ReactionTime + 1))) +
-        geom_histogram() +
-        theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +
-        labs(title = "Overall Distribution of Reaction Times to previous messages",
-             subtitle = paste(starttime, " - ", endtime),
-             x = "Reaction times in log(Minutes+1)",
-             y = "Frequency")
-
-    }
-
-    if (type == "reactiontime") {
-
-      out <- ggplot(Sessionframe, aes(log(RepliedToAfter + 1))) +
-        geom_histogram() +
-        theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +
-        labs(title = "Overall Distribution of Time it takes to respond to previous messages",
-             subtitle = paste(starttime, " - ", endtime),
-             x = "Reaction times in log(Minutes+1)",
-             y = "Frequency")
-
-    }
-
-  }
+  # if (plot == "dist") {
+  #
+  #   if (type == "replytime") {
+  #
+  #     out <- ggplot(Sessionframe, aes(log(ReactionTime + 1))) +
+  #       geom_histogram() +
+  #       theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +
+  #       labs(title = "Overall Distribution of Reaction Times to previous messages",
+  #            subtitle = paste(starttime, " - ", endtime),
+  #            x = "Reaction times in log(Minutes+1)",
+  #            y = "Frequency")
+  #
+  #   }
+  #
+  #   if (type == "reactiontime") {
+  #
+  #     out <- ggplot(Sessionframe, aes(log(RepliedToAfter + 1))) +
+  #       geom_histogram() +
+  #       theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +
+  #       labs(title = "Overall Distribution of Time it takes to respond to previous messages",
+  #            subtitle = paste(starttime, " - ", endtime),
+  #            x = "Reaction times in log(Minutes+1)",
+  #            y = "Frequency")
+  #   }
+  #
+  # }
 
   if (plot == "heatmap") {
 
@@ -249,10 +250,92 @@ plot_replytimes <- function(data,
 
     }
 
+    #Adjust hour
+    # helperframe2$hour <- factor(helperframe2$hour,
+    #                            levels = 0:24,
+    #                            labels = c("00:00",
+    #                                       "01:00",
+    #                                       "02:00",
+    #                                       "03:00",
+    #                                       "04:00",
+    #                                       "05:00",
+    #                                       "06:00",
+    #                                       "07:00",
+    #                                       "08:00",
+    #                                       "09:00",
+    #                                       "10:00",
+    #                                       "11:00",
+    #                                       "12:00",
+    #                                       "13:00",
+    #                                       "14:00",
+    #                                       "15:00",
+    #                                       "16:00",
+    #                                       "17:00",
+    #                                       "18:00",
+    #                                       "19:00",
+    #                                       "20:00",
+    #                                       "21:00",
+    #                                       "22:00",
+    #                                       "23:00",
+    #                                       "24:00"),
+    #                            ordered = T)
+
+    if ( type == "reactiontime") {
+
+      title_string <- "Median Answer Time"
+
+    } else {title_string <- "Median Reply time"}
+
+
+    # # plotting heatmap
+    # out <- ggplot(helperframe2, aes(hour, day)) +
+    #   theme_minimal() +
+    #   geom_tile(aes(fill = `Median Reply time`), colour = "black") +
+    #   labs(title = title_string,
+    #        subtitle = paste('starttime', " - ", 'endtime'),
+    #        x = "",
+    #        y = "") +
+    #   scale_fill_distiller(palette = "RdYlGn", direction = 1) +
+    #   scale_y_discrete(drop = FALSE) +
+    #   theme_minimal() +
+    #   theme(axis.text.x = element_text(angle = 90, hjust = 1),
+    #         axis.ticks.x = element_blank(),
+    #         legend.position = "bottom",
+    #         legend.key.width = unit(2, "cm"),
+    #         panel.grid = element_blank()) +
+    #   coord_equal()+
+    #   scale_x_discrete(limits = c("00:00",
+    #                               "01:00",
+    #                               "02:00",
+    #                               "03:00",
+    #                               "04:00",
+    #                               "05:00",
+    #                               "06:00",
+    #                               "07:00",
+    #                               "08:00",
+    #                               "09:00",
+    #                               "10:00",
+    #                               "11:00",
+    #                               "12:00",
+    #                               "13:00",
+    #                               "14:00",
+    #                               "15:00",
+    #                               "16:00",
+    #                               "17:00",
+    #                               "18:00",
+    #                               "19:00",
+    #                               "20:00",
+    #                               "21:00",
+    #                               "22:00",
+    #                               "23:00",
+    #                               "24:00"))
+
+
     # plotting Heatmap
     out <- ggplot(helperframe2, aes(hour, day)) +
-      geom_tile(aes(fill = `Median Reply time`), colour = "black") +
-      labs(title = "Median Reply time by weekday and hour",
+      theme_minimal() +
+      geom_tile(aes(fill = `Median Reply time`), colour = "black", width = 1) +
+      labs(title = "Links by Weekday and Hour",
            subtitle = paste(starttime, " - ", endtime),
            x = "",
            y = "") +
@@ -302,8 +385,16 @@ plot_replytimes <- function(data,
   # returning data
   if (return.data == TRUE) {
 
-    return(Sessionframe)
+    if (plot == "dist" | plot == "box") {
 
-  }
+      return(as.data.frame(Sessionframe))
+
+    } else {
+
+      return(as.data.frame(helperframe2))
+
+      }
+
+  } else {return(out)}
 
 }

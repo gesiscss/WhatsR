@@ -20,6 +20,7 @@
 #' @return Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance
 #'
 #' @examples
+#' #(Font might need to be installed first on Windows)
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_emoji(data,FontFamily="Times") # Set FontFamily = "Noto Color Emoji" for best results
 
@@ -37,6 +38,9 @@ plot_emoji <- function(data,
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- Glyph <-  NULL
+
+  # switching off useless warning
+  options(dplyr.summarise.inform = FALSE)
 
   # importing Emoji dictionary
   Dictionary <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
@@ -66,7 +70,7 @@ plot_emoji <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
 
-  # This tells us if at least one emoji is present (if it's TRUE then theres at least one emoji)
+  # This tells us if at least one emoji is present (if it's TRUE then there's at least one emoji)
   EmojiPresent <- !sapply(sapply(data$Emoji, is.na),sum)
 
   # This tells us how many elements are in each list element (includes NA aswell)
@@ -76,8 +80,8 @@ plot_emoji <- function(data,
   NoElements[EmojiPresent == FALSE] <- 0
 
   # Emoji
-  UnlistedEmoji <- unlist(data$Emoji)
-  NewEmoji <- UnlistedEmoji[!is.na(UnlistedEmoji)]
+  UnlistedEmojiDescriptions <- unlist(data$EmojiDescriptions)
+  NewEmoji <- UnlistedEmojiDescriptions[!is.na(UnlistedEmojiDescriptions)]
 
   # Senders
   NewSender <- list()
@@ -159,6 +163,7 @@ plot_emoji <- function(data,
 
     # plotting Heatmap
     out <- ggplot(helperframe2, aes(hour, day)) +
+      theme_minimal() +
       geom_tile(aes(fill = `Number of Emoji`), colour = "black") +
       labs(title = "Emoji by Weekday and Hour",
            subtitle = paste(starttime, " - ", endtime),
@@ -202,30 +207,31 @@ plot_emoji <- function(data,
                                     "24:00"))
 
     # print top ten Emoji at bottom of heatmap
-    if (length(EmojiVec) == 1 && EmojiVec == "all") {
-
-      print(out)
-
-    } else {
-
-      if (length(EmojiVec) <= 10) {
-
-        print(out + labs(caption = paste0(names(sort(table(NewFrame$NewEmoji), decreasing = TRUE)),collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-
-      } else {
-
-        print(out + labs(caption = paste0(names(sort(table(NewFrame$NewEmoji), decreasing = TRUE))[1:10],collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
-
-      }
-
-
-    }
+    # if (length(EmojiVec) == 1 && EmojiVec == "all") {
+    #
+    #   print(out)
+    #
+    # } else {
+    #
+    #   if (length(EmojiVec) <= 10) {
+    #
+    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewEmoji), decreasing = TRUE)),collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
+    #
+    #   } else {
+    #
+    #     print(out + labs(caption = paste0(names(sort(table(NewFrame$NewEmoji), decreasing = TRUE))[1:10],collapse = "\n ")) + theme(plot.caption = element_text(hjust = 0.5)))
+    #
+    #   }
+    #
+    #
+    # }
 
     if (return.data == TRUE) {
 
       # returning
-      return(helperframe2)
-    }
+      return(as.data.frame(helperframe2))
+
+    } else(return(out))
 
   }
 
@@ -241,13 +247,13 @@ plot_emoji <- function(data,
 
     # constructing graph
     out <- ggplot(NewFrame, aes(x = Date, y = total, color = Sender)) +
+      theme_minimal() +
       geom_line() +
       labs(title = "Cumulative number of Emoji sent",
            subtitle = paste(starttime, " - ", endtime))  +
-      theme(axis.text.x = element_text(angle = 90, hjust = 1))  +
+      theme(axis.text.x = element_text(angle = 90))  +
       xlab("Time") +
-      ylab("Total Emoji Sent") +
-      theme(legend.title = element_text("Emoji")) +
+      ylab("Emoji Sent") +
       geom_point()
 
     # pinting plot
@@ -256,18 +262,26 @@ plot_emoji <- function(data,
     if (return.data == TRUE) {
 
       # returning
-      return(NewFrame)
-    }
+      return(as.data.frame(NewFrame))
+
+    } else(return(out))
 
   }
 
   if (plot == "bar") {
 
     # Converting to dataframe to make it usable by ggplot
-    df <- as.data.frame(sort(table(NewFrame$NewEmoji),decreasing = TRUE))
+    Emoji <- names(sort(table(NewFrame$NewEmoji),decreasing = TRUE))
+    Freq <- sort(table(NewFrame$NewEmoji),decreasing = TRUE)
+    names(Freq) <- NULL
+    df <- cbind.data.frame(Emoji = Emoji, Freq)
 
-    # renaming to fix plot legend
-    if(dim(df)[2] == 1) {names(df) <- c("Freq")} else{names(df) <- c("Emoji","Freq")}
+    # removing some bullshit variable that comes out of nowhere
+    if ("Var1" %in% colnames(df)){
+
+      df <- df[,-c(2)]
+
+    }
 
     # restricting dataframe to min.occur
     df <- df[df$Freq >= min.occur,]
@@ -286,6 +300,7 @@ plot_emoji <- function(data,
 
     # Visualizig the distribution of Emoji and putting the emoji into the plots ontop of the bars
     out <- ggplot(df,aes(x = as.factor(Emoji),y = Freq, fill = Emoji, label = Dictionary$HTML[indicator])) +
+      theme_minimal() +
       geom_bar(stat = "identity") +
       labs(title = "Distribution of sent Emoji",
            subtitle = paste(starttime, " - ", endtime),
@@ -305,8 +320,9 @@ plot_emoji <- function(data,
     if (return.data == TRUE) {
 
       # returning
-      return(df)
-    }
+      return(as.data.frame(df))
+
+    } else{return(out)}
 
   }
 
@@ -333,6 +349,7 @@ plot_emoji <- function(data,
 
     # building graph object
     out <-   ggplot(SumFrame, aes(x = Sender, y = n,fill = Emoji, label = Glyph)) +
+      theme_minimal() +
       geom_bar(stat = "identity", position = position_dodge()) +
       labs(title = "Emoji sent per Person",
            subtitle = paste(starttime, " - ", endtime),
@@ -348,23 +365,27 @@ plot_emoji <- function(data,
 
 
     # only printing legend if we have 20 unique Emoji or less
-    if (length(unique(SumFrame$Emoji)) <= 20) {
+    # if (length(unique(SumFrame$Emoji)) <= 20) {
+    #
+    #   print(out)
+    #
+    # } else {
+    #
+    #   warning("Legend was dropped because it contained too many different emoji")
+    #   print(out + theme(legend.position = "none")) + theme(legend.title = "Emoji")
+    #
+    # }
 
-      print(out)
-
-    } else {
-
-      warning("Legend was dropped because it contained too many different emoji")
-      print(out + theme(legend.position = "none")) + theme(legend.title = "Emoji")
-
-    }
+    #switching warnings back on
+    options(dplyr.summarise.inform = TRUE)
 
     # return data
     if (return.data == TRUE) {
 
       # returning
-      return(SumFrame)
-    }
+      return(as.data.frame(SumFrame))
+
+    } else{return(out)}
 
   }
 

@@ -15,7 +15,7 @@ plot_links(
   min.occur = 1,
   return.data = FALSE,
   LinkVec = "all",
-  plot = "heatmap"
+  plot = "bar"
 )
 }
 \arguments{

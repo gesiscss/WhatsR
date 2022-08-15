@@ -5,6 +5,7 @@
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param plot Time resolution for plots. Options include "year", "month", "day", "hour", "heatmap" and "alltime". Default is "alltime".
+#' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%
@@ -22,7 +23,8 @@ plot_tokens_over_time <- function(data,
                                   names = "all",
                                   starttime = anytime("1960-01-01 00:00"),
                                   endtime = Sys.time(),
-                                  plot = "alltime") {
+                                  plot = "alltime",
+                                  return.data = FALSE) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   DateTime <- TokCount <- Sender <- year <- day <- hour <- `Number of Tokens` <- NULL
@@ -64,12 +66,13 @@ plot_tokens_over_time <- function(data,
   if (plot == "alltime") {
 
     # plotting chart
-    print(ggplot(data,aes(x = DateTime, y = TokCount, color = Sender, fill = Sender)) +
+    out <- ggplot(data,aes(x = DateTime, y = TokCount, color = Sender, fill = Sender)) +
+            theme_minimal() +
             geom_bar(stat = "identity") +
             labs(title = "Sent Tokens by Persons over Time",
                  subtitle = paste(starttime, " - ", endtime))  +
             xlab("Persons") +
-            ylab("Sent Tokens"))
+            ylab("Sent Tokens")
 
   }
 
@@ -77,18 +80,20 @@ plot_tokens_over_time <- function(data,
   if (plot == "year") {
 
     # plotting by year
-    print(ggplot(helperframe, aes(x = as.integer(year), y = TokCount, color = Sender, fill = Sender)) +
+    out <- ggplot(helperframe, aes(x = as.integer(year), y = TokCount, color = Sender, fill = Sender)) +
+            theme_minimal() +
             geom_bar(stat = "identity") +
             labs(title = "Tokens by Years",
                  subtitle = paste(starttime, " - ", endtime)) +
             xlab("Year") +
-            scale_x_discrete(limits = as.factor(unique(helperframe$year))))
+            scale_x_discrete(limits = as.factor(unique(helperframe$year)))
   }
 
   if (plot == "weekday") {
 
     # plotting by weekday
-    print(ggplot(helperframe, aes(x = day, y = TokCount, color = Sender, fill = Sender)) +
+    out <- ggplot(helperframe, aes(x = day, y = TokCount, color = Sender, fill = Sender)) +
+            theme_minimal() +
             geom_bar(stat = "identity") +
             labs(title = "Tokens by day of the week",
                  subtitle = paste(starttime, " - ", endtime)) +
@@ -99,13 +104,14 @@ plot_tokens_over_time <- function(data,
                                         "Thursday",
                                         "Friday",
                                         "Saturday",
-                                        "Sunday"))))
+                                        "Sunday")))
   }
 
   if (plot == "hours") {
 
     # plotting by hour
-    print(ggplot(helperframe, aes(x = hour, y = TokCount, color = Sender, fill = Sender)) +
+    out <- ggplot(helperframe, aes(x = hour, y = TokCount, color = Sender, fill = Sender)) +
+            theme_minimal() +
             geom_bar(stat = "identity") +
             labs(title = "Tokens by hour of the day",
                  subtitle = paste(starttime, " - ", endtime)) +
@@ -140,7 +146,7 @@ plot_tokens_over_time <- function(data,
             theme(axis.title.y = element_blank(),
                   axis.text.y = element_blank(),
                   axis.ticks.y = element_blank(),
-                  axis.text.x = element_text(angle = 90, hjust = 1)))
+                  axis.text.x = element_text(angle = 90, hjust = 1))
   }
 
 
@@ -149,7 +155,7 @@ plot_tokens_over_time <- function(data,
     # TODO: Add option in the dataframe shaper to average and median instead of summarize
 
     # shaping dataframe
-    helperframe2 <- helperframe %>%
+    helperframe <- helperframe %>%
       group_by(day, hour) %>%
       summarise("Number of Tokens" = sum(TokCount))
 
@@ -157,25 +163,26 @@ plot_tokens_over_time <- function(data,
     weekdays <- rev(c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"))
 
     # transalte to english for better compatibility
-    helperframe2$day <- mgsub(helperframe2$day,
+    helperframe$day <- mgsub(helperframe$day,
                               pattern = c("Sonntag","Samstag","Freitag","Donnerstag","Mittwoch","Dienstag","Montag"),
                               replacement = weekdays)
 
-    helperframe2$day <- as.factor(helperframe2$day)
+    helperframe$day <- as.factor(helperframe$day)
 
-    if (sum(weekdays %in% levels(helperframe2$day)) == 7) {
+    if (sum(weekdays %in% levels(helperframe$day)) == 7) {
 
-      helperframe2$day <- factor(helperframe2$day, levels = weekdays)
+      helperframe$day <- factor(helperframe$day, levels = weekdays)
 
     } else {
 
-      helperframe2$day <- factor(helperframe2$day,c(levels(helperframe2$day),weekdays[!weekdays %in% levels(helperframe2$day)]))
-      helperframe2$day <- factor(helperframe2$day, levels = weekdays)
+      helperframe$day <- factor(helperframe$day,c(levels(helperframe$day),weekdays[!weekdays %in% levels(helperframe$day)]))
+      helperframe$day <- factor(helperframe$day, levels = weekdays)
 
     }
 
     # plotting Heatmap
-    print(ggplot(helperframe2, aes(hour, day)) +
+    out <- ggplot(helperframe, aes(hour, day)) +
+            theme_minimal() +
             geom_tile(aes(fill = `Number of Tokens`), colour = "black") +
             labs(title = "Tokens by Weekday and Hour",
                  subtitle = paste(starttime, " - ", endtime),
@@ -216,7 +223,21 @@ plot_tokens_over_time <- function(data,
                                           "21:00",
                                           "22:00",
                                           "23:00",
-                                          "24:00")))
+                                          "24:00"))
+
+  }
+
+  # printing output
+  print(out)
+
+  # returning data and/or output
+  if (return.data == TRUE) {
+
+    return(as.data.frame(helperframe))
+
+  } else {
+
+    return(out)
 
   }
 
