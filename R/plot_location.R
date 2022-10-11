@@ -10,6 +10,7 @@
 #' @param jitter.val Amount of random jitter to add to the geolocations to hide exact locations. Default value is 0.01
 #' @param jitter.seed Add
 #' @param mapleeway Adds additional space to the map so that points do not sit exactly at the border of the plot. Default value is 5
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%
@@ -26,7 +27,7 @@
 #' plot_location(data,mapzoom = 10)
 
 #### Location
-# TODO: Find a way to get a good auto-zoom level
+
 plot_location <- function(data,
                           names = "all",
                           starttime = anytime("1960-01-01 00:00"),
@@ -36,7 +37,8 @@ plot_location <- function(data,
                           add.jitter = FALSE,
                           jitter.val = 0.01,
                           jitter.seed = 123,
-                          mapleeway = 0.1) {
+                          mapleeway = 0.1,
+                          excludeSM = FALSE) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   Lon <- Lat <- Sender <-  NULL
@@ -58,8 +60,20 @@ plot_location <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names <- unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 
@@ -69,6 +83,15 @@ plot_location <- function(data,
   # extracting locations with geocoordinates
   Places <- unlist(stri_extract_all(data$Location, regex = "(<?)https.*"))
   Places <- Places[!is.na(Places)]
+
+  # breaking out of function if no locations are present
+  if (length(Places) == 0) {
+
+    warning("No locations in the format www.maps.google.com/q=Latitude,Longitude contained in the chat",immediate. = TRUE)
+    return(NA)
+
+  }
+
 
   # extracting latitude and longitude
   LatLong <- unlist(stri_extract_all(Places, regex = "(?<=q=).*$"))

@@ -1,7 +1,7 @@
 #' @title Basic WhatsApp Chatlog Statistics
 #' @description Creates a list of basic information about a single WhatsApp chatlog
 #' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
-#' @param excludeSM If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is TRUE.
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @export
 #' @return A list containing:
 #'
@@ -30,12 +30,6 @@ summarize_chat <- function(data, excludeSM = TRUE) {
   # getting existing column names
   vars <- colnames(data)
 
-  if (excludeSM == TRUE) {
-
-    data <- data[data$Sender !="WhatsApp System Message",]
-
-  }
-
   # creating list object
   Basics <- as.list(rep(NA,12))
   names(Basics) <- c("NumberOfMessages",
@@ -50,6 +44,12 @@ summarize_chat <- function(data, excludeSM = TRUE) {
                      "NumberOfLinks",
                      "NumberOfMedia",
                      "NumberOfLocation")
+
+  if (excludeSM == TRUE) {
+
+    data <- data[data$Sender !="WhatsApp System Message",]
+
+  }
 
   # NumberOfMessages
   Basics$NumberOfMessages <- dim(data)[1]
@@ -73,17 +73,17 @@ summarize_chat <- function(data, excludeSM = TRUE) {
   # TimeSpan
   if ("DateTime" %in% vars) {Basics$TimeSpan <- difftime(max(data$DateTime),min(data$DateTime))}
 
-  # NumberOfSystemMessages
-  if ("SystemMessage" %in% vars) {Basics$NumberOfSystemMessages <- sum(!is.na(data$SystemMessage))}
-
   #NumberOfEmoji
   if ("Emoji" %in% vars) {Basics$NumberOfEmoji <- sum(!is.na(unlist(data$Emoji)))}
 
   #NumberOfSmilies
   if ("Smilies" %in% vars) {Basics$NumberOfSmilies <- sum(!is.na(unlist(data$Smilies)))}
 
+  # NumberOfSystemMessages (We need to do this before so we can stil pick them up)
+  if ("SystemMessage" %in% vars) {Basics$NumberOfSystemMessages <- sum(!is.na(data$SystemMessage))}
+
   #NumberOfLinks
-  if ("URL"%in% vars) {Basics$NumberOfLinks <- sum(!is.na(unlist(data$Links)))}
+  if ("URL"%in% vars) {Basics$NumberOfLinks <- sum(!is.na(unlist(data$URL)))}
 
   #NumberOfMedia
   if ("Media"%in% vars) {Basics$NumberOfMedia <- sum(!is.na(unlist(data$Media)))}

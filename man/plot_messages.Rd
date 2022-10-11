@@ -10,7 +10,8 @@ plot_messages(
   starttime = anytime("1960-01-01 00:00"),
   endtime = Sys.time(),
   plot = "bar",
-  return.data = TRUE
+  return.data = FALSE,
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -22,9 +23,11 @@ plot_messages(
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{plot}{Type of plot to be returned, options include "bar" and "pie". Default is "bar".}
+\item{plot}{Type of plot to be returned, options include "bar", "cumsum", "heatmap" and "pie". Default is "bar".}
 
 \item{return.data}{If TRUE, returns the subsetted dataframe. Default is FALSE}
+
+\item{excludeSM}{If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is FALSE}
 }
 \value{
 Plots summarizing the amount of messages per person

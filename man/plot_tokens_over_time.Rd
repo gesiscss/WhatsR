@@ -10,7 +10,8 @@ plot_tokens_over_time(
   starttime = anytime("1960-01-01 00:00"),
   endtime = Sys.time(),
   plot = "alltime",
-  return.data = FALSE
+  return.data = FALSE,
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ plot_tokens_over_time(
 \item{plot}{Time resolution for plots. Options include "year", "month", "day", "hour", "heatmap" and "alltime". Default is "alltime".}
 
 \item{return.data}{If TRUE, returns the subsetted dataframe. Default is FALSE.}
+
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 A summary of tokens over time

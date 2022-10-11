@@ -324,7 +324,7 @@ test_that("Chat summary function", {
 
   data <- hush(parse_chat(system.file("englishiosampm.txt", package = "WhatsR")))
 
-  test1 <- hush(summarize_chat(data))
+  test1 <- hush(summarize_chat(data,excludeSM = FALSE))
   test2 <- hush(summarize_chat(data, excludeSM = TRUE))
 
   test_version1 <- readRDS(system.file("summarize_chat1.rds", package = "WhatsR"))
@@ -353,17 +353,17 @@ test_that("tailoring function", {
   tailored_data <- tailor_chat(data,
                                names = c("Mallory","Alice"),
                                starttime = anytime("1976-01-01 00:00"),
-                               endtime=anytime("2022-01-01 00:00"))
+                               endtime=anytime("2022-01-01 00:00"),
+                               excludeSM = TRUE)
 
   test <- readRDS(system.file("TailoredData.rds", package = "WhatsR"))
   expect_identical(test,tailored_data)
 
-  #something goes wrong here
   tailored_data <- tailor_chat(data,
                                names = "Dave",
-                               starttime = anytime("	2018-01-29 12:24:03"),
+                               starttime = anytime("2018-01-29 12:24:03"),
                                endtime=anytime("	2018-01-30 00:13:03"),
-                               excludeSM = FALSE)
+                               excludeSM = TRUE)
 
   test <- readRDS(system.file("TailoredData2.rds", package = "WhatsR"))
   expect_identical(test,tailored_data)
@@ -379,9 +379,9 @@ test_that("tailoring function", {
 
   tailored_data <- tailor_chat(data,
                       names = "all",
-                      starttime = anytime("	2018-01-29 12:24:03"),
+                      starttime = anytime("2018-01-29 12:24:03"),
                       endtime=Sys.time(),
-                      excludeSM = FALSE)
+                      excludeSM = TRUE)
 
   test <- readRDS(system.file("TailoredData4.rds", package = "WhatsR"))
   expect_identical(test,tailored_data)
@@ -416,7 +416,8 @@ suppressWarnings(test_that("Plotting Emoji",{
                                  plot= "bar",
                                  EmojiSize = 10,
                                  FontFamily = "Times", #"Times" on Windows
-                                 return.data=TRUE))
+                                 return.data=TRUE,
+                                 excludeSM = TRUE))
 
   test <- readRDS(system.file("test_emoji1.rds", package = "WhatsR"))
   suppressWarnings(expect_identical(test_emoji1,test))
@@ -431,7 +432,8 @@ suppressWarnings(test_that("Plotting Emoji",{
                                  plot= "cumsum",
                                  EmojiSize = 10,
                                  FontFamily = "Times", #"Times" on Windows
-                                 return.data=TRUE))
+                                 return.data=TRUE,
+                                 excludeSM = TRUE))
 
   test <- readRDS(system.file("test_emoji2.rds", package = "WhatsR"))
   expect_identical(test_emoji2,test)
@@ -446,7 +448,8 @@ suppressWarnings(test_that("Plotting Emoji",{
                                   EmojiVec = c("Grinning_Face_with_Smiling_Eyes"),
                                   plot= "heatmap",
                                   EmojiSize = 10,
-                                  FontFamily = "Times")) #"Times" on Windows
+                                  FontFamily = "Times",
+                                  excludeSM = TRUE)) #"Times" on Windows
 
   test <- readRDS(system.file("test_emoji3.rds", package = "WhatsR"))
   expect_identical(test_emoji3,test)
@@ -461,7 +464,8 @@ suppressWarnings(test_that("Plotting Emoji",{
                                   EmojiVec = c("Grinning_Face_with_Smiling_Eyes"),
                                   plot= "bar",
                                   EmojiSize = 10,
-                                  FontFamily = "Times")) #"Times" on Windows
+                                  FontFamily = "Times",
+                                  excludeSM = TRUE)) #"Times" on Windows
 
   test <- readRDS(system.file("test_emoji4.rds", package = "WhatsR"))
   expect_identical(test_emoji4,test)
@@ -489,9 +493,10 @@ test_that("Plotting Links",{
                             exclude.long = TRUE,
                             length = 50,
                             min.occur = 1,
-                            return.data = FALSE,
+                            return.data = TRUE,
                             LinkVec = "https://github.com/",
-                            plot = "bar")
+                            plot = "bar",
+                            excludeSM = TRUE)
 
   test <- readRDS(system.file("test_links1.rds", package = "WhatsR"))
   expect_identical(test_links1,test)
@@ -505,9 +510,10 @@ test_that("Plotting Links",{
                             exclude.long = TRUE,
                             length = 50,
                             min.occur = 1,
-                            return.data = FALSE,
+                            return.data = TRUE,
                             LinkVec = "all",
-                            plot = "cumsum")
+                            plot = "cumsum",
+                            excludeSM = TRUE)
 
   test <- readRDS(system.file("test_links2.rds", package = "WhatsR"))
   expect_identical(test_links2,test)
@@ -524,7 +530,8 @@ test_that("Plotting Links",{
                             min.occur = 1,
                             return.data = TRUE,
                             LinkVec = "all",
-                            plot = "heatmap")
+                            plot = "heatmap",
+                            excludeSM = TRUE)
 
   test <- readRDS(system.file("test_links3.rds", package = "WhatsR"))
   expect_identical(test_links3,test)
@@ -540,7 +547,8 @@ test_that("Plotting Links",{
                             min.occur = 1,
                             return.data = TRUE,
                             LinkVec = "all",
-                            plot = "splitbar")
+                            plot = "splitbar",
+                            excludeSM = TRUE)
 
   test <- readRDS(system.file("test_links4.rds", package = "WhatsR"))
   expect_identical(test_links4,test)
@@ -570,7 +578,8 @@ test_that("Plotting Media",{
                             min.occur = 1,
                             return.data = TRUE,
                             MediaVec = "all",
-                            plot = "heatmap")
+                            plot = "heatmap",
+                            excludeSM = TRUE)
 
   test <- readRDS(system.file("test_media1.rds", package = "WhatsR"))
   expect_identical(test_media1,test)
@@ -585,7 +594,8 @@ test_that("Plotting Media",{
                             min.occur = 1,
                             return.data = TRUE,
                             MediaVec = "all",
-                            plot = "splitbar")
+                            plot = "splitbar",
+                            excludeSM = TRUE)
 
   test <- readRDS(system.file("test_media2.rds", package = "WhatsR"))
   expect_identical(test_media2,test)
@@ -600,7 +610,8 @@ test_that("Plotting Media",{
                             min.occur = 1,
                             return.data = TRUE,
                             MediaVec = "all",
-                            plot = "cumsum")
+                            plot = "cumsum",
+                            excludeSM = TRUE)
 
   test <- readRDS(system.file("test_media3.rds", package = "WhatsR"))
   expect_identical(test_media3,test)
@@ -614,16 +625,14 @@ test_that("Plotting Media",{
                             min.occur = 1,
                             return.data = TRUE,
                             MediaVec = "all",
-                            plot = "bar")
+                            plot = "bar",
+                            excludeSM = TRUE)
 
   test <- readRDS(system.file("test_media4.rds", package = "WhatsR"))
   expect_identical(test_media4,test)
 
 
 })
-
-
-#TODO:
 
 
 test_that("Plotting Location",{
@@ -639,45 +648,49 @@ test_that("Plotting Location",{
 
 
   test_location1 <- hush(plot_location(data,
-                                  return.data = TRUE,
-                                  add.jitter = TRUE,
-                                  jitter.val = 0.1,
-                                  jitter.seed = 123,
-                                  mapzoom = 10,
-                                  mapleeway = 0.1))
+                                       return.data = TRUE,
+                                       add.jitter = TRUE,
+                                       jitter.val = 0.1,
+                                       jitter.seed = 123,
+                                       mapzoom = 10,
+                                       mapleeway = 0.1,
+                                       excludeSM = TRUE))
 
   test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
   expect_identical(test_location1,test)
 
   test_location2 <- hush(plot_location(data,
-                                  return.data = TRUE,
-                                  add.jitter = FALSE,
-                                  jitter.val = 0.1,
-                                  jitter.seed = 567,
-                                  mapzoom = 10,
-                                  mapleeway = 0.1))
+                                       return.data = TRUE,
+                                       add.jitter = FALSE,
+                                       jitter.val = 0.1,
+                                       jitter.seed = 567,
+                                       mapzoom = 10,
+                                       mapleeway = 0.1,
+                                       excludeSM = TRUE))
 
   test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
   expect_identical(test_location1,test)
 
   test_location3 <- hush(plot_location(data,
-                                  return.data = TRUE,
-                                  add.jitter = TRUE,
-                                  jitter.val = 0.5,
-                                  jitter.seed = 890,
-                                  mapzoom = 10,
-                                  mapleeway = 0.1))
+                                       return.data = TRUE,
+                                       add.jitter = TRUE,
+                                       jitter.val = 0.5,
+                                       jitter.seed = 890,
+                                       mapzoom = 10,
+                                       mapleeway = 0.1,
+                                       excludeSM = TRUE))
 
   test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
   expect_identical(test_location1,test)
 
   test_location4 <- hush(plot_location(data,
-                                  return.data = TRUE,
-                                  add.jitter = TRUE,
-                                  jitter.val = 0.5,
-                                  jitter.seed = 345,
-                                  mapzoom = 10,
-                                  mapleeway = 0.3))
+                                       return.data = TRUE,
+                                       add.jitter = TRUE,
+                                       jitter.val = 0.5,
+                                       jitter.seed = 345,
+                                       mapzoom = 10,
+                                       mapleeway = 0.3,
+                                       excludeSM = TRUE))
 
   test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
   expect_identical(test_location1,test)
@@ -704,7 +717,8 @@ test_that("Plotting Messages",{
                                   starttime = anytime("1960-01-01 00:00"),
                                   endtime = Sys.time(),
                                   plot = "bar",
-                                  return.data=TRUE)
+                                  return.data=TRUE,
+                                  excludeSM = TRUE)
 
   test <- readRDS(system.file("test_messages1.rds", package = "WhatsR"))
   expect_identical(test_messages1,test)
@@ -718,7 +732,8 @@ test_that("Plotting Messages",{
                                   starttime = anytime("1960-01-01 00:00"),
                                   endtime = Sys.time(),
                                   plot = "bar",
-                                  return.data=TRUE)
+                                  return.data=TRUE,
+                                  excludeSM = TRUE)
 
   test <- readRDS(system.file("test_messages2.rds", package = "WhatsR"))
   expect_identical(test_messages2,test)
@@ -731,7 +746,8 @@ test_that("Plotting Messages",{
                                   starttime = anytime("1960-01-01 00:00"),
                                   endtime = Sys.time(),
                                   plot = "pie",
-                                  return.data=TRUE)
+                                  return.data=TRUE,
+                                  excludeSM = TRUE)
 
   test <- readRDS(system.file("test_messages3.rds", package = "WhatsR"))
   expect_identical(test_messages3,test)
@@ -744,7 +760,8 @@ test_that("Plotting Messages",{
                                   starttime = anytime("1960-01-01 00:00"),
                                   endtime = Sys.time(),
                                   plot = "pie",
-                                  return.data=TRUE)
+                                  return.data=TRUE,
+                                  excludeSM = TRUE)
 
   test <- readRDS(system.file("test_messages4.rds", package = "WhatsR"))
   expect_identical(test_messages4,test)
@@ -774,7 +791,8 @@ test_that("Plotting Replytimes",{
                                       return.data = TRUE,
                                       aggregate.sessions = TRUE,
                                       plot = "box",
-                                      type = "replytime")
+                                      type = "replytime",
+                                      excludeSM = TRUE)
 
   test <- readRDS(system.file("test_replytimes1.rds", package = "WhatsR"))
   expect_identical(test_replytimes1,test)
@@ -787,7 +805,8 @@ test_that("Plotting Replytimes",{
                                       return.data = TRUE,
                                       aggregate.sessions = TRUE,
                                       plot = "box",
-                                      type = "reactiontime")
+                                      type = "reactiontime",
+                                      excludeSM = TRUE)
 
   test <- readRDS(system.file("test_replytimes2.rds", package = "WhatsR"))
   expect_identical(test_replytimes2,test)
@@ -800,7 +819,8 @@ test_that("Plotting Replytimes",{
                                       return.data = TRUE,
                                       aggregate.sessions = TRUE,
                                       plot = "heatmap",
-                                      type = "replytime")
+                                      type = "replytime",
+                                      excludeSM = TRUE)
 
 
   test <- readRDS(system.file("test_replytimes3.rds", package = "WhatsR"))
@@ -813,7 +833,8 @@ test_that("Plotting Replytimes",{
                                       return.data = TRUE,
                                       aggregate.sessions = TRUE,
                                       plot = "heatmap",
-                                      type = "reactiontime")
+                                      type = "reactiontime",
+                                      excludeSM = TRUE)
 
 
   test <- readRDS(system.file("test_replytimes4.rds", package = "WhatsR"))
@@ -838,7 +859,9 @@ test_that("Plotting tokens",{
                               names = "all",
                               starttime = anytime("1960-01-01 00:00"),
                               endtime = Sys.time(),
-                              plot = "bar")
+                              plot = "bar",
+                              excludeSM = TRUE,
+                              return.data=TRUE)
 
   test <- readRDS(system.file("test_tokens1.rds", package = "WhatsR"))
   expect_identical(test_tokens1,test)
@@ -847,7 +870,9 @@ test_that("Plotting tokens",{
                               names = "all",
                               starttime = anytime("1960-01-01 00:00"),
                               endtime = Sys.time(),
-                              plot = "cumsum")
+                              plot = "cumsum",
+                              excludeSM = TRUE,
+                              return.data=TRUE)
 
   test <- readRDS(system.file("test_tokens2.rds", package = "WhatsR"))
   expect_identical(test_tokens2,test)
@@ -857,7 +882,9 @@ test_that("Plotting tokens",{
                               names = "all",
                               starttime = anytime("1960-01-01 00:00"),
                               endtime = Sys.time(),
-                              plot = "violin")
+                              plot = "violin",
+                              excludeSM = TRUE,
+                              return.data=TRUE)
 
   test <- readRDS(system.file("test_tokens3.rds", package = "WhatsR"))
   expect_identical(test_tokens3,test)
@@ -867,7 +894,9 @@ test_that("Plotting tokens",{
                               names = "all",
                               starttime = anytime("1960-01-01 00:00"),
                               endtime = Sys.time(),
-                              plot = "box")
+                              plot = "box",
+                              excludeSM = TRUE,
+                              return.data=TRUE)
 
   test <- readRDS(system.file("test_tokens4.rds", package = "WhatsR"))
   expect_identical(test_tokens4,test)
@@ -894,7 +923,8 @@ test_that("Plotting tokens over time",{
                                      starttime = anytime("1960-01-01 00:00"),
                                      endtime = Sys.time(),
                                      plot = "alltime",
-                                     return.data = TRUE)
+                                     return.data = TRUE,
+                                     excludeSM = TRUE)
 
   test <- readRDS(system.file("test_tot1.rds", package = "WhatsR"))
   expect_identical(test_tot1,test)
@@ -905,7 +935,8 @@ test_that("Plotting tokens over time",{
                                      starttime = anytime("1960-01-01 00:00"),
                                      endtime = Sys.time(),
                                      plot = "year",
-                                     return.data = TRUE)
+                                     return.data = TRUE,
+                                     excludeSM = TRUE)
 
   test <- readRDS(system.file("test_tot2.rds", package = "WhatsR"))
   expect_identical(test_tot2,test)
@@ -916,7 +947,8 @@ test_that("Plotting tokens over time",{
                                      starttime = anytime("1960-01-01 00:00"),
                                      endtime = Sys.time(),
                                      plot = "weekday",
-                                     return.data = TRUE)
+                                     return.data = TRUE,
+                                     excludeSM = TRUE)
 
   test <- readRDS(system.file("test_tot3.rds", package = "WhatsR"))
   expect_identical(test_tot3,test)
@@ -927,7 +959,8 @@ test_that("Plotting tokens over time",{
                                      starttime = anytime("1960-01-01 00:00"),
                                      endtime = Sys.time(),
                                      plot = "heatmap",
-                                     return.data = TRUE)
+                                     return.data = TRUE,
+                                     excludeSM = TRUE)
 
   test <- readRDS(system.file("test_tot4.rds", package = "WhatsR"))
   expect_identical(test_tot4,test)
@@ -935,9 +968,6 @@ test_that("Plotting tokens over time",{
 
 })
 
-
-# TODO:
-# fix heatmap bullshit...
 
 test_that("Plotting Smilies",{
 
@@ -958,7 +988,8 @@ test_that("Plotting Smilies",{
                                 min.occur = 1,
                                 return.data = TRUE,
                                 SmilieVec = "all",
-                                plot = "bar")
+                                plot = "bar",
+                                excludeSM = TRUE)
 
   test <- readRDS(system.file("test_smilies1.rds", package = "WhatsR"))
   expect_identical(test_smilies1,test)
@@ -971,13 +1002,14 @@ test_that("Plotting Smilies",{
                                 min.occur = 1,
                                 return.data = TRUE,
                                 SmilieVec = "all",
-                                plot = "splitbar")
+                                plot = "splitbar",
+                                excludeSM = TRUE)
 
 
   test <- readRDS(system.file("test_smilies2.rds", package = "WhatsR"))
   expect_identical(test_smilies2,test)
 
-  #TODO: invalid font type error
+  #TODO: fix invalid font type error
   # test_smilies3 <- plot_smilies(data,
   #                               names = "all",
   #                               starttime = anytime("1960-01-01 00:00"),
@@ -990,7 +1022,6 @@ test_that("Plotting Smilies",{
   # test <- readRDS(system.file("test_smilies3.rds", package = "WhatsR"))
   # expect_identical(test_smilies3,test)
 
-  # TODO: heatmap is formatted incorrectly | Check this for EVERYT HEATMAP with different conditions
   test_smilies4 <- plot_smilies(data,
                                 names = "all",
                                 starttime = anytime("1960-01-01 00:00"),
@@ -998,16 +1029,14 @@ test_that("Plotting Smilies",{
                                 min.occur = 1,
                                 return.data = TRUE,
                                 SmilieVec = "all",
-                                plot = "heatmap")
+                                plot = "heatmap",
+                                excludeSM = TRUE)
 
   test <- readRDS(system.file("test_smilies4.rds", package = "WhatsR"))
   expect_identical(test_smilies4,test)
 
 })
 
-
-# TODO:
-# - Lol, check if this even works
 
 test_that("Plotting Wordcloud",{
 
@@ -1030,7 +1059,8 @@ test_that("Plotting Wordcloud",{
                              comparison = FALSE,
                              return.data = TRUE,
                              font.size = 10,
-                             min.freq = 3)
+                             min.freq = 3,
+                             excludeSM = TRUE)
 
   test <- readRDS(system.file("test_wc1.rds", package = "WhatsR"))
   expect_identical(test_wc1,test)
@@ -1046,7 +1076,8 @@ test_that("Plotting Wordcloud",{
                              comparison = TRUE,
                              return.data = TRUE,
                              font.size = 15,
-                             min.freq = 3)
+                             min.freq = 3,
+                             excludeSM = TRUE)
 
   test <- readRDS(system.file("test_wc2.rds", package = "WhatsR"))
   expect_identical(test_wc2,test)
@@ -1060,7 +1091,8 @@ test_that("Plotting Wordcloud",{
                              comparison = FALSE,
                              return.data = TRUE,
                              font.size = 20,
-                             min.freq = 5)
+                             min.freq = 5,
+                             excludeSM = TRUE)
 
   test <- readRDS(system.file("test_wc3.rds", package = "WhatsR"))
   expect_identical(test_wc3,test)
@@ -1075,7 +1107,8 @@ test_that("Plotting Wordcloud",{
                              comparison = TRUE,
                              return.data = TRUE,
                              font.size = 10,
-                             min.freq = 1)
+                             min.freq = 1,
+                             excludeSM = TRUE)
 
   test <- readRDS(system.file("test_wc4.rds", package = "WhatsR"))
   expect_identical(test_wc4,test)
@@ -1092,7 +1125,7 @@ test_that("Plotting Network",{
     return(tmp)
   }
 
-  # TODO: why do we need this here?
+  # TODO: why do we need this here? Should be loaded via package requirements?
   library(dplyr)
 
   data <- hush(parse_chat(system.file("englishiosampm.txt", package = "WhatsR")))
@@ -1103,7 +1136,8 @@ test_that("Plotting Network",{
                                 endtime = Sys.time(),
                                 return.data = TRUE,
                                 collapse_sessions = FALSE,
-                                edgetype = "n")
+                                edgetype = "n",
+                                excludeSM = TRUE)
 
   test <- readRDS(system.file("test_network1.rds", package = "WhatsR"))
   expect_identical(test_network1,test)
@@ -1115,7 +1149,8 @@ test_that("Plotting Network",{
                                 endtime = Sys.time(),
                                 return.data = TRUE,
                                 collapse_sessions = TRUE,
-                                edgetype = "TokCount")
+                                edgetype = "TokCount",
+                                excludeSM = TRUE)
 
   test <- readRDS(system.file("test_network2.rds", package = "WhatsR"))
   expect_identical(test_network2,test)
@@ -1126,7 +1161,8 @@ test_that("Plotting Network",{
                                 endtime = Sys.time(),
                                 return.data = TRUE,
                                 collapse_sessions = FALSE,
-                                edgetype = "EmojiCount")
+                                edgetype = "EmojiCount",
+                                excludeSM = TRUE)
 
   test <- readRDS(system.file("test_network3.rds", package = "WhatsR"))
   expect_identical(test_network3,test)
@@ -1137,7 +1173,8 @@ test_that("Plotting Network",{
                                 endtime = Sys.time(),
                                 return.data = TRUE,
                                 collapse_sessions = TRUE,
-                                edgetype = "SmilieCount")
+                                edgetype = "SmilieCount",
+                                excludeSM = TRUE)
 
   test <- readRDS(system.file("test_network4.rds", package = "WhatsR"))
   expect_identical(test_network4,test)
@@ -1146,9 +1183,6 @@ test_that("Plotting Network",{
 
 })
 
-
-# TODO:
-# - Lol, check if this even works
 
 test_that("Plotting Lexical Dispersion",{
 
@@ -1166,7 +1200,8 @@ test_that("Plotting Lexical Dispersion",{
                                            starttime = anytime("1960-01-01 00:00"),
                                            endtime = Sys.time(),
                                            return.data = TRUE,
-                                           keywords = c("data", "consent"))
+                                           keywords = c("data", "consent"),
+                                           excludeSM = TRUE)
 
   test <- readRDS(system.file("test_lediplo1.rds", package = "WhatsR"))
   expect_identical(test_lediplo1,test)
@@ -1177,7 +1212,8 @@ test_that("Plotting Lexical Dispersion",{
                                            starttime = anytime("1960-01-01 00:00"),
                                            endtime = Sys.time(),
                                            return.data = TRUE,
-                                           keywords = c("data", "consent"))
+                                           keywords = c("data", "consent"),
+                                           excludeSM = TRUE)
 
   test <- readRDS(system.file("test_lediplo2.rds", package = "WhatsR"))
   expect_identical(test_lediplo2,test)
@@ -1188,7 +1224,8 @@ test_that("Plotting Lexical Dispersion",{
                                            starttime = anytime("1960-01-01 00:00"),
                                            endtime = Sys.time(),
                                            return.data = TRUE,
-                                           keywords = c("data", "consent","this"))
+                                           keywords = c("data", "consent","this"),
+                                           excludeSM = TRUE)
 
 
   test <- readRDS(system.file("test_lediplo3.rds", package = "WhatsR"))
@@ -1199,7 +1236,8 @@ test_that("Plotting Lexical Dispersion",{
                                           starttime = anytime("1960-01-01 00:00"),
                                           endtime = Sys.time(),
                                           return.data = TRUE,
-                                          keywords = c("data", "consent"))
+                                          keywords = c("data", "consent"),
+                                          excludeSM = TRUE)
 
 
   test <- readRDS(system.file("test_ledipl4.rds", package = "WhatsR"))

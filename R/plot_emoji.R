@@ -1,6 +1,6 @@
-  #' @title Plotting Emoji distributions in whatSapp chatlogs
+#' @title Plotting Emoji distributions in whatSapp chatlogs
 #' @description Creates a list of basic information about a single WhatsApp chatlog
-  #' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
+ #' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
 #' @param names A vector of author names that the Plots will be restricted to
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
@@ -10,6 +10,7 @@
 #' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"
 #' @param EmojiSize Determines the size of the Emoji displayed on top of the bars for "bar" and "splitbar", default is 10.
 #' @param FontFamily Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see {\link[extrafont]{font_import}}
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2 ragg
 #' @importFrom anytime anytime
 #' @importFrom dplyr group_by
@@ -22,7 +23,7 @@
 #' @examples
 #' #(Font might need to be installed first on Windows)
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' plot_emoji(data,FontFamily="Times") # Set FontFamily = "Noto Color Emoji" for best results
+#' plot_emoji(data,FontFamily="Times",excludeSM = TRUE) #FontFamily = "Noto Color Emoji" on Linux
 
 # Visualizing sent Emoji
 plot_emoji <- function(data,
@@ -34,7 +35,8 @@ plot_emoji <- function(data,
                        EmojiVec = "all",
                        plot = "bar",
                        EmojiSize = 10,
-                       FontFamily = "Noto Color Emoji") {
+                       FontFamily = "Noto Color Emoji",
+                       excludeSM = FALSE) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- Glyph <-  NULL
@@ -62,8 +64,21 @@ plot_emoji <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names <- unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 
@@ -308,7 +323,7 @@ plot_emoji <- function(data,
 
   if ( plot == "splitbar") {
 
-    ## Summarize per Sender who often each domain was sent
+    ## Summarize per Sender how often each domain was sent
     SumFrame <-  group_by(NewFrame, NewSender, NewEmoji) %>% summarise(n = n())
     SumFrame <- SumFrame[SumFrame$n >= min.occur,]
 
@@ -324,13 +339,14 @@ plot_emoji <- function(data,
 
     }
 
+    # TODO: When we have an unequal amount of bars per person, the bar width for one person gets screwed up: Fix this!
     # retranslating emoji to description
     SumFrame$Glyph <- sapply(gsub("Emoji_","",SumFrame$Emoji), function(x){Dictionary[x == Dictionary$Desc,]$R.native})
 
     # building graph object
     out <-   ggplot(SumFrame, aes(x = Sender, y = n,fill = Emoji, label = Glyph)) +
       theme_minimal() +
-      geom_bar(stat = "identity", position = position_dodge()) +
+      geom_bar(stat = "identity", position = position_dodge2(width = 0.9, preserve = "single")) +
       labs(title = "Emoji sent per Person",
            subtitle = paste(starttime, " - ", endtime),
            x = "Sender",

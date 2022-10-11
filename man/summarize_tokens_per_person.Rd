@@ -8,7 +8,8 @@ summarize_tokens_per_person(
   data,
   names = "all",
   starttime = anytime("1960-01-01 00:00"),
-  endtime = Sys.time()
+  endtime = Sys.time(),
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ summarize_tokens_per_person(
 \item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 A summary of tokens per message disitribution per author

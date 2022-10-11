@@ -6,6 +6,7 @@
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param keywords A vector of keywords to be displayed, default is c("hello",world")
 #' @param return.data Default is FALSE, returns dataframe of plot when TRUE.
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @param ... Further arguments passed down to code{\link[qdap]{dispersion_plot}}
 #' @import ggplot2
 #' @importFrom anytime anytime
@@ -15,7 +16,7 @@
 #' @return Lexical Dispersion plots for specified keywords
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' plot_lexical_dispersion(data, keywords = c("smilies","handy"))
+#' plot_lexical_dispersion(data, keywords = c("auch"))
 
 
 ######################## lexical dispersion plots for specific words
@@ -25,6 +26,7 @@ plot_lexical_dispersion <- function(data,
                                     endtime = Sys.time(),
                                     keywords = c("hello","world"),
                                     return.data = FALSE,
+                                    excludeSM = FALSE,
                                     ...) {
 
   # switch off useless warning message
@@ -54,13 +56,25 @@ plot_lexical_dispersion <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names <- unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 
   # limiting data to time and namescope
-  data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
+  data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,] # THIS IS WHERE THE ERROR OCCURS
 
   # New Solution
 

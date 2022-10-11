@@ -4,7 +4,7 @@
 #' @param names A vector of names that the output is restricted to. Messages from other authors are excluded.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param excludeSM If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is TRUE.
+#' @param excludeSM If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is FALSE
 #' @importFrom anytime anytime
 #' @export
 #' @return A dataframe that is restricted to the specified timeframe and authors
@@ -17,7 +17,7 @@ tailor_chat <- function(data,
                         names = "all",
                         starttime = anytime("1960-01-01 00:00"),
                         endtime = Sys.time(),
-                        excludeSM = TRUE){
+                        excludeSM = FALSE){
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
@@ -36,16 +36,18 @@ tailor_chat <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-
     if (excludeSM == TRUE) {
 
       # All names in the dataframe except System Messages
-      names <- unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
 
     } else {
 
-      # All names
-      names <- unique(data$Sender)
+      # including system messages
+      names = unique(data$Sender)
 
     }
 

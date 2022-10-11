@@ -14,7 +14,8 @@ plot_emoji(
   EmojiVec = "all",
   plot = "bar",
   EmojiSize = 10,
-  FontFamily = "Noto Color Emoji"
+  FontFamily = "Noto Color Emoji",
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ plot_emoji(
 \item{EmojiSize}{Determines the size of the Emoji displayed on top of the bars for "bar" and "splitbar", default is 10.}
 
 \item{FontFamily}{Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see {\link[extrafont]{font_import}}}
+
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance
@@ -47,5 +50,5 @@ Creates a list of basic information about a single WhatsApp chatlog
 \examples{
 #(Font might need to be installed first on Windows)
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-plot_emoji(data,FontFamily="Times") # Set FontFamily = "Noto Color Emoji" for best results
+plot_emoji(data,FontFamily="Times",excludeSM = TRUE) #FontFamily = "Noto Color Emoji" on Linux
 }

@@ -12,7 +12,8 @@ plot_replytimes(
   return.data = FALSE,
   aggregate.sessions = TRUE,
   plot = "box",
-  type = "replytime"
+  type = "replytime",
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ plot_replytimes(
 \item{plot}{Type of plot to be returned, options include "box", "dist" and "heatmap"}
 
 \item{type}{If "replytime", plots display how much time it takes authors to reply to previous message, if "reactiontime", plots display how much time it takes for authors to get responded to}
+
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots for Replytimes of Reactiontimes of authors

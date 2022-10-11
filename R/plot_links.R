@@ -11,6 +11,7 @@
 #' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.
 #' @param LinkVec A vector of Links that the visualizations will be restricted to.
 #' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr group_by
@@ -34,7 +35,8 @@ plot_links <- function(data,
                        min.occur = 1,
                        return.data = FALSE,
                        LinkVec = "all",
-                       plot = "bar") {
+                       plot = "bar",
+                       excludeSM = FALSE) {
 
   # muting useless dplyr message
   options(dplyr.summarise.inform = FALSE)
@@ -59,8 +61,20 @@ plot_links <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names <- unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 
@@ -285,7 +299,7 @@ plot_links <- function(data,
     if (return.data == TRUE) {
 
       # returning
-      return(NewFrame)
+      return(as.data.frame(NewFrame))
 
     } else {return(out)}
 
@@ -313,11 +327,6 @@ plot_links <- function(data,
     }
 
 
-
-
-    # renaming to fix legend title
-    #names(df) <- c("Links","Freq")
-
     # excluding links that are to long
     if (exclude.long == TRUE) {
 
@@ -343,7 +352,7 @@ plot_links <- function(data,
     if (return.data == TRUE) {
 
       # returning
-      return(df)
+      return(as.data.frame(df))
 
     } else {return(out)}
 
@@ -383,7 +392,7 @@ plot_links <- function(data,
     if (return.data == TRUE) {
 
       # returning
-      return(SumFrame)
+      return(as.data.frame(SumFrame))
 
     } else {return(out)}
 

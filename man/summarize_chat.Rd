@@ -9,7 +9,7 @@ summarize_chat(data, excludeSM = TRUE)
 \arguments{
 \item{data}{A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}}
 
-\item{excludeSM}{If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is TRUE.}
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 A list containing:

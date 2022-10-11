@@ -9,7 +9,7 @@ tailor_chat(
   names = "all",
   starttime = anytime("1960-01-01 00:00"),
   endtime = Sys.time(),
-  excludeSM = TRUE
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ tailor_chat(
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{excludeSM}{If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is TRUE.}
+\item{excludeSM}{If TRUE, excludes the WhatsAppSystemmessages from the descriptive statistics. Default is FALSE}
 }
 \value{
 A dataframe that is restricted to the specified timeframe and authors

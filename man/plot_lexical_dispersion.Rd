@@ -11,6 +11,7 @@ plot_lexical_dispersion(
   endtime = Sys.time(),
   keywords = c("hello", "world"),
   return.data = FALSE,
+  excludeSM = FALSE,
   ...
 )
 }
@@ -27,6 +28,8 @@ plot_lexical_dispersion(
 
 \item{return.data}{Default is FALSE, returns dataframe of plot when TRUE.}
 
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
+
 \item{...}{Further arguments passed down to code{\link[qdap]{dispersion_plot}}}
 }
 \value{
@@ -37,5 +40,5 @@ Visualizes the occurance of specific keywords within the chat
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-plot_lexical_dispersion(data, keywords = c("smilies","handy"))
+plot_lexical_dispersion(data, keywords = c("auch"))
 }

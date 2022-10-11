@@ -6,6 +6,7 @@
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param plot The type of plot to be used. Options include "bar","box","violin" and "cumsum". Default is "bar".
 #' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%
@@ -23,7 +24,8 @@ plot_tokens <- function(data,
                         starttime = anytime("1960-01-01 00:00"),
                         endtime = Sys.time(),
                         plot = "bar",
-                        return.data = TRUE){
+                        return.data = FALSE,
+                        excludeSM = FALSE){
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   tokens <- freq <- word <- Sender <- TokCount <- DateTime <- total <- NULL
@@ -45,8 +47,20 @@ plot_tokens <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 
@@ -56,8 +70,11 @@ plot_tokens <- function(data,
 
   if (plot == "bar") {
 
+    # TODO:
     # We have some weird stripes on the bargraphs here (maybe because of the WhatsApp System messages?)
-    output <- ggplot(data, aes(x = Sender, fill = Sender,y = TokCount)) +
+    # No, this is the issue: https://stackoverflow.com/questions/64055988/horizontal-white-lines-in-ggplot-bar-graph
+    output <- ggplot(data, aes(x = Sender, fill = Sender,y = TokCount, color = Sender)) +
+      theme_minimal() +
       geom_bar(stat = "identity") +
       labs(title = "Amount of Tokens sent by Persons",
            subtitle = paste(starttime, " - ", endtime)) +
@@ -72,6 +89,7 @@ plot_tokens <- function(data,
     output <- ggplot(data,
                      aes(x = Sender, y = TokCount,
                          color = Sender)) +
+      theme_minimal() +
       geom_boxplot() +
       labs(title = "Distribution of Message length by Person",
            subtitle = paste(starttime, " - ", endtime))  +
@@ -85,6 +103,7 @@ plot_tokens <- function(data,
 
     output <- ggplot(data,
                      aes(x = Sender, y = TokCount, fill = Sender, color = Sender)) +
+      theme_minimal() +
       geom_violin() +
       labs(title = "Distribution of Message length by Person",
            subtitle = paste(starttime, " - ", endtime))  +
@@ -100,6 +119,7 @@ plot_tokens <- function(data,
     data$total <- do.call("c", tapply(data$TokCount, data$Sender, FUN = cumsum))
 
     output <- ggplot(data, aes(x = DateTime, y = total, color = Sender)) +
+      theme_minimal() +
       geom_line() +
       labs(title = "Cumulative number of Tokens sent",
            subtitle = paste(starttime, " - ", endtime))  +

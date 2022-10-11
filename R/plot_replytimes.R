@@ -8,6 +8,7 @@
 #' @param aggregate.sessions If TRUE, concurrend messages of the same author are aggregated into one session. Default is TRUE.
 #' @param plot Type of plot to be returned, options include "box", "dist" and "heatmap"
 #' @param type If "replytime", plots display how much time it takes authors to reply to previous message, if "reactiontime", plots display how much time it takes for authors to get responded to
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom data.table .I
@@ -33,7 +34,8 @@ plot_replytimes <- function(data,
                             return.data = FALSE,
                             aggregate.sessions = TRUE,
                             plot = "box",
-                            type = "replytime") {
+                            type = "replytime",
+                            excludeSM = FALSE) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   `.` <- Sender <- ReactionTime <- day <- hour <- median <-`Median Reply time` <-  NULL
@@ -55,8 +57,20 @@ plot_replytimes <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names <- unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+      } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 

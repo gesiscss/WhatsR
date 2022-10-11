@@ -10,7 +10,8 @@ plot_tokens(
   starttime = anytime("1960-01-01 00:00"),
   endtime = Sys.time(),
   plot = "bar",
-  return.data = TRUE
+  return.data = FALSE,
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ plot_tokens(
 \item{plot}{The type of plot to be used. Options include "bar","box","violin" and "cumsum". Default is "bar".}
 
 \item{return.data}{If TRUE, returns the subsetted dataframe. Default is FALSE.}
+
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots showcasing the disitribution of tokens per person

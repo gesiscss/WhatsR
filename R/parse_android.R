@@ -32,13 +32,24 @@ parse_android <- function(UnparsedChat,
                          mediareplace = " media_omitted "){
 
   # Replaceing string for omitted media
-  chatA <- gsub(pattern = mediaomitted,
+  chat1 <- gsub(pattern = mediaomitted,
                 UnparsedChat,
                 replacement = mediareplace,
                 perl = TRUE)
 
-  # replaced for reducing pacakge dependency number
-  chat4 <- unlist(stri_split(chatA,regex=datetimeindicator))
+  # TODO:
+  # FIRST DIGIT OF DATE IS BEING CUT OFF DUE TO PARTIAL MATCHING
+  chat2 <- unlist(stri_split(chat1,regex=datetimeindicator))
+
+  # Quick fix:
+  # This pastes together the cut-off first digits from the datetime indicators but leaves the incomplete dates
+  # TODO: Fix this later and replace with a better regex
+  chat3 <- chat2
+  for (i in 1:length(chat2)) {if(nchar(chat2[i]) == 1){chat3[i] <- paste(chat2[i],chat2[i+1],sep="")} else{chat3[i] <- chat2[i]}}
+
+  # deleting the additional lines with the incomplete dates
+  chat3[which(nchar(chat2) == 1) + 1] <- NA
+  chat4 <- chat3[!is.na(chat3)]
 
   # deleting trailing Linebreakes (simply deletes the last character)
   chat5 <- substr(chat4,1,nchar(as.character(chat4))-1)
@@ -86,7 +97,7 @@ parse_android <- function(UnparsedChat,
 
   # removing indicator string for attached files
   Media <- stri_split_regex(str = Message, pattern = mediaindicator, n = 2)
-  Media[which(sapply(Media,length) == 1)] <- NA # This will assign everything to be NA if there is no NA list element in the Media string (fix later)
+  Media[which(sapply(Media,length) == 1)] <- NA #TODO: This will assign everything to be NA if there is no NA list element in the Media string (fix later)
   Media <- sapply(Media, "[", 1)
 
   # Deleting trailing characters

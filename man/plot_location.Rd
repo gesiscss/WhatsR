@@ -14,7 +14,8 @@ plot_location(
   add.jitter = FALSE,
   jitter.val = 0.01,
   jitter.seed = 123,
-  mapleeway = 0.1
+  mapleeway = 0.1,
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ plot_location(
 \item{jitter.seed}{Add}
 
 \item{mapleeway}{Adds additional space to the map so that points do not sit exactly at the border of the plot. Default value is 5}
+
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots for geolocation and/or a dataframe of LatLon coordinates

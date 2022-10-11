@@ -6,6 +6,7 @@
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param plot Time resolution for plots. Options include "year", "month", "day", "hour", "heatmap" and "alltime". Default is "alltime".
 #' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%
@@ -24,7 +25,8 @@ plot_tokens_over_time <- function(data,
                                   starttime = anytime("1960-01-01 00:00"),
                                   endtime = Sys.time(),
                                   plot = "alltime",
-                                  return.data = FALSE) {
+                                  return.data = FALSE,
+                                  excludeSM = FALSE) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   DateTime <- TokCount <- Sender <- year <- day <- hour <- `Number of Tokens` <- NULL
@@ -46,8 +48,20 @@ plot_tokens_over_time <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 
@@ -85,8 +99,8 @@ plot_tokens_over_time <- function(data,
             geom_bar(stat = "identity") +
             labs(title = "Tokens by Years",
                  subtitle = paste(starttime, " - ", endtime)) +
-            xlab("Year") +
-            scale_x_discrete(limits = as.factor(unique(helperframe$year)))
+            xlab("Year") #+
+            #scale_x_discrete(limits = as.factor(unique(helperframe$year)))
   }
 
   if (plot == "weekday") {

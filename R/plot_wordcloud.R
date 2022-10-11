@@ -10,6 +10,7 @@
 #' @param font.size Size of the words in the wordcloud, passed to code{\link[ggplot2]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in dataframe
 #' @param remove.stops Either TRUE or FALSE, default is TRUE. Configures whether stopwords from code{\link[tm]{stopwords}} are removed from the text strings.
 #' @param min.freq Sets the minimum frequency a token must occur in the chat for it to be included in the plot.
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr bind_rows
@@ -30,7 +31,8 @@ plot_wordcloud <- function(data,
                            comparison = FALSE,
                            return.data = FALSE,
                            font.size = 10,
-                           min.freq = 5){
+                           min.freq = 5,
+                           excludeSM = FALSE){
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   `tokens` <- `freq` <- `word` <- NULL
@@ -55,8 +57,20 @@ plot_wordcloud <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 

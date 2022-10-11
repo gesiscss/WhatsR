@@ -7,6 +7,7 @@
 #' @param return.data If TRUE, returns a dataframe of subsequent interactions with senders and recipients. Default is FALSE.
 #' @param collapse_sessions Whether multiple subsequent messages by the same sender should be collapsed into one row. Default is FALSE.
 #' @param edgetype What type of content is displayed as an edge. Must be one of "TokCount","EmojiCount","SmilieCount","LocationCount","URLCount","MediaCount" or "n".
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @importFrom anytime anytime
 #' @importFrom data.table .I
 #' @importFrom data.table .N
@@ -28,7 +29,8 @@ plot_network <- function(data,
                          endtime = Sys.time(),
                          return.data = FALSE,
                          collapse_sessions=FALSE,
-                         edgetype = "n"
+                         edgetype = "n",
+                         excludeSM = FALSE
                         ) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
@@ -51,8 +53,20 @@ plot_network <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names <- unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 
@@ -62,7 +76,7 @@ plot_network <- function(data,
   # We need to exclude the WhatsApp system messages
   Tempframe <- data[data$Sender != "WhatsApp System Message",]
 
-  # function for unlisting and counting elements ( THIS IS WHERE SHIT BREAKS)
+  # function for unlisting and counting elements
   Unlist_counter <- function(x){if(all(is.na(unlist(x)))){x <- NA} else{x <- length(unlist(x))}}
 
 
@@ -157,9 +171,7 @@ plot_network <- function(data,
       # counting in for loop
       counter <- 1
 
-
-      # CHECK inside the if statemetns for condition length
-
+      # for loop
       for (i in which(streak_frame$start == TRUE)) {
 
         # aggregating over streaks/sessions
@@ -229,7 +241,7 @@ plot_network <- function(data,
 
     Sender <- Tempframe$Sender
     Timestamp <- Tempframe$DateTime
-    AnsweredTo <- c(NA,Tempframe$Sender[1:length(Tempframe$Sender)-1])
+    AnsweredTo <- c(NA,as.character(Tempframe$Sender[1:length(Tempframe$Sender)-1]))
     TokCount <-Tempframe$TokCount
     SmilieCount <- sapply(Tempframe$Smilies,Unlist_counter)
     EmojiCount <- sapply(Tempframe$Emoji,Unlist_counter)
@@ -246,6 +258,7 @@ plot_network <- function(data,
   counter <<- NULL
 
   # specifiying unique interactions
+  NetFrame <- NetFrame[-c(is.na(NetFrame$Sender) | is.na(NetFrame$AnsweredTo)),]
   Interaction <- paste(NetFrame$Sender,NetFrame$AnsweredTo)
   Added_Netframe <- cbind.data.frame(Interaction,NetFrame)
 
@@ -265,6 +278,7 @@ plot_network <- function(data,
   draw_network <- function(dataframe, edgewidth = edgetype) {
 
     # putting together senders and recipients from unique interactions
+    # TODO: AnsweredTo listet nur Zahlen und nicht Person_x?
     Sender_answered <- strsplit(dataframe$Interaction," ")
     dataframe$Sender <- sapply(Sender_answered,`[[`,1)
     dataframe$AnsweredTo <- sapply(Sender_answered,`[[`,2)
@@ -301,7 +315,8 @@ plot_network <- function(data,
                           width = "100%",
                           main="Network of WhatsApp Chat Replies",
                           submain = paste("Edges are representing sent ",edgewidth)) |> visEdges(physics = FALSE,
-                                                                                                 smooth=list(enabled = TRUE))
+                                                                                                 smooth=list(enabled = TRUE,
+                                                                                                             type = "diagonalCross"))
 
     # return object
     return(network)

@@ -11,7 +11,8 @@ plot_network(
   endtime = Sys.time(),
   return.data = FALSE,
   collapse_sessions = FALSE,
-  edgetype = "n"
+  edgetype = "n",
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ plot_network(
 \item{collapse_sessions}{Whether multiple subsequent messages by the same sender should be collapsed into one row. Default is FALSE.}
 
 \item{edgetype}{What type of content is displayed as an edge. Must be one of "TokCount","EmojiCount","SmilieCount","LocationCount","URLCount","MediaCount" or "n".}
+
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 A network visualization of authors in WhatsApp chatlogs wher each subsequent message is considered a reply to the previous one.

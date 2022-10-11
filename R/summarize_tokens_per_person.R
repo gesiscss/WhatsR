@@ -4,6 +4,7 @@
 #' @param names A vector of author names that the Plots will be restricted to
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @importFrom anytime anytime
 #' @export
 #' @return A summary of tokens per message disitribution per author
@@ -13,9 +14,10 @@
 
 ############ Function to return a summary for token count messages
 summarize_tokens_per_person <- function(data,
-                                    names = "all",
-                                    starttime = anytime("1960-01-01 00:00"),
-                                    endtime = Sys.time()) {
+                                        names = "all",
+                                        starttime = anytime("1960-01-01 00:00"),
+                                        endtime = Sys.time(),
+                                        excludeSM = FALSE) {
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
@@ -34,10 +36,23 @@ summarize_tokens_per_person <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
+
 
   SumFunc <- function(string){
 
@@ -51,6 +66,9 @@ summarize_tokens_per_person <- function(data,
 
   # apply to all names
   ListOut <- sapply(names,SumFunc, simplify = FALSE, USE.NAMES = TRUE)
+
+  # setting names
+  names(ListOut) <- as.character(names)
 
   # return results
   return(ListOut)

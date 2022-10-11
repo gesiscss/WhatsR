@@ -14,7 +14,8 @@ plot_wordcloud(
   comparison = FALSE,
   return.data = FALSE,
   font.size = 10,
-  min.freq = 5
+  min.freq = 5,
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ plot_wordcloud(
 \item{font.size}{Size of the words in the wordcloud, passed to code{\link[ggplot2]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in dataframe}
 
 \item{min.freq}{Sets the minimum frequency a token must occur in the chat for it to be included in the plot.}
+
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 A wordcloud plot per author for WhatsApp chatlogs

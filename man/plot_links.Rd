@@ -15,7 +15,8 @@ plot_links(
   min.occur = 1,
   return.data = FALSE,
   LinkVec = "all",
-  plot = "bar"
+  plot = "bar",
+  excludeSM = FALSE
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ plot_links(
 \item{LinkVec}{A vector of Links that the visualizations will be restricted to.}
 
 \item{plot}{The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"}
+
+\item{excludeSM}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance

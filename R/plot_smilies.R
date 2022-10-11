@@ -8,6 +8,7 @@
 #' @param return.data If TRUE, returns a dataframe of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param SmilieVec A vector of Smilies that the visualizations will be restricted to.
 #' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"
+#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @export
@@ -24,7 +25,8 @@ plot_smilies <- function(data,
                          min.occur = 1,
                          return.data = FALSE,
                          SmilieVec = "all",
-                         plot = "bar") {
+                         plot = "bar",
+                         excludeSM = FALSE) {
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   day <- hour <- n <- `Number of Smilies` <- ave <- total <- Var1 <- Freq <- n <- DateTime <- Total <- Sender <-  Smilies <-  Amount <-  NULL
@@ -46,15 +48,27 @@ plot_smilies <- function(data,
   # setting names argument
   if (length(names) == 1 && names == "all") {
 
-    # All names in the dataframe except System Messages
-    names <- unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+    if (excludeSM == TRUE) {
+
+      # All names in the dataframe except System Messages
+      names = unique(data$Sender)[unique(data$Sender) != "WhatsApp System Message"]
+
+      # dropping empty levels
+      if (is.factor(names)) {names <- droplevels(names)}
+
+    } else {
+
+      # including system messages
+      names = unique(data$Sender)
+
+    }
 
   }
 
   # limiting data to time and namescope
   data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
 
-  # This tells us if at least one link is present (if it's TRUE then theres at least one smiley)
+  # This tells us if at least one link is present (if it's TRUE then there's at least one smiley)
   SmiliesPresent <- !sapply(sapply(data$Smilies, is.na),sum)
 
   # This tells us how many elements are in each list element (includes NA aswell)
@@ -219,7 +233,7 @@ plot_smilies <- function(data,
       theme(axis.text.x = element_text(angle = 90))  +
       xlab("Time") +
       ylab("Total Smilies Sent") +
-      #theme(legend.title = element_text("Smilies"))
+      theme(legend.title = element_text("Smilies"))
 
     # printing plot
     print(out)
