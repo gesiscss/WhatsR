@@ -25,7 +25,7 @@
 
 ###### Basic statistics
 
-summarize_chat <- function(data, excludeSM = TRUE) {
+summarize_chat <- function(data, excludeSM = FALSE) {
 
   # getting existing column names
   vars <- colnames(data)

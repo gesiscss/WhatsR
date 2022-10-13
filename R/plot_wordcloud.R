@@ -9,7 +9,7 @@
 #' @param return.data Will return the dataframe used to create the plot if TRUE. Default is FALSE.
 #' @param font.size Size of the words in the wordcloud, passed to code{\link[ggplot2]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in dataframe
 #' @param remove.stops Either TRUE or FALSE, default is TRUE. Configures whether stopwords from code{\link[tm]{stopwords}} are removed from the text strings.
-#' @param min.freq Sets the minimum frequency a token must occur in the chat for it to be included in the plot.
+#' @param min.freq Sets the minimum frequency a token must occur in the chat for it to be included in the plot. Default is 5.
 #' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime

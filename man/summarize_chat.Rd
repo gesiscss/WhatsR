@@ -4,7 +4,7 @@
 \alias{summarize_chat}
 \title{Basic WhatsApp Chatlog Statistics}
 \usage{
-summarize_chat(data, excludeSM = TRUE)
+summarize_chat(data, excludeSM = FALSE)
 }
 \arguments{
 \item{data}{A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}}

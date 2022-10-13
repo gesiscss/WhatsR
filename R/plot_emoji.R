@@ -294,7 +294,7 @@ plot_emoji <- function(data,
     df$Glyph <- sapply(gsub("Emoji_","",df$Emoji), function(x){Dictionary[x == Dictionary$Desc,]$R.native})
 
     # Visualizig the distribution of Emoji and putting the emoji into the plots ontop of the bars
-    out <- ggplot(df,aes(x = as.factor(Emoji),y = Freq, fill = Emoji, label = Dictionary$HTML[indicator])) +
+    out <- ggplot(df,aes(x = factor(Emoji,levels = Emoji[order(Freq, decreasing = TRUE)]),y = Freq, fill = Emoji, label = Dictionary$HTML[indicator])) +
       theme_minimal() +
       geom_bar(stat = "identity") +
       labs(title = "Distribution of sent Emoji",

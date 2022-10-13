@@ -73,7 +73,7 @@ plot_messages <- function(data,
   if (plot == "bar") {
 
     # creating barplot
-    out <- ggplot(as.data.frame(table(as.character(data$Sender))), aes(x = Var1, y = Freq, fill = Var1)) +
+    output <- ggplot(as.data.frame(table(as.character(data$Sender))), aes(x = Var1, y = Freq, fill = Var1)) +
       theme_minimal() +
       geom_bar(stat = "identity") +
       labs(title = "Amount of Messages sent by Persons",
@@ -85,7 +85,7 @@ plot_messages <- function(data,
 
 
     # printing
-    print(out)
+    print(output)
 
   }
 
@@ -103,7 +103,7 @@ plot_messages <- function(data,
            subtitle = paste(starttime, " - ", endtime))  +
       theme(axis.text.x = element_text(angle = 90, hjust = 1))  +
       xlab("Time") +
-      ylab("Total Tokens Sent")
+      ylab("Total Messages Sent")
 
     # printing
     print(output)
@@ -113,7 +113,7 @@ plot_messages <- function(data,
   if (plot == "pie") {
 
     # creating piechart
-    out <- ggplot(as.data.frame(table(as.character(data$Sender))), aes(x = "", y = Freq, fill = Var1)) +
+    output <- ggplot(as.data.frame(table(as.character(data$Sender))), aes(x = "", y = Freq, fill = Var1)) +
       geom_bar(width = 1, stat = "identity") +
       coord_polar("y", start = 0) +
       xlab("") +
@@ -132,7 +132,7 @@ plot_messages <- function(data,
             panel.background = element_rect(fill = 'white', colour = 'white'))
 
     # printing
-    print(out)
+    print(output)
   }
 
   if (plot == "heatmap") {
@@ -171,7 +171,7 @@ plot_messages <- function(data,
     }
 
     # plotting Heatmap
-    out <- ggplot(helperframe2, aes(hour, day)) +
+    output <- ggplot(helperframe2, aes(hour, day)) +
       theme_minimal() +
       geom_tile(aes(fill = `Number of Messages`), colour = "black") +
       labs(title = "Messages by Weekday and Hour",
@@ -215,7 +215,7 @@ plot_messages <- function(data,
                                     "23:00",
                                     "24:00"))
 
-    print(out)
+    print(output)
 
 
   }
@@ -237,7 +237,7 @@ plot_messages <- function(data,
 
   } else{
 
-    return(out)
+    return(output)
 
   }
 
