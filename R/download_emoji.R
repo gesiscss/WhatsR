@@ -10,7 +10,7 @@
 #' @param SkinXpath Xpath of the html table containing the skintone modifier information
 #' @param ExceptionXpath Xpath of the html table containing the skintone modifier information for Fitzpatrick 1-2
 #' @export
-#' @importFrom rvest html_nodes
+#' @importFrom rvest html_nodes html_text
 #' @importFrom XML xmlTreeParse xmlToList
 #' @importFrom xml2 read_html
 #' @return A dataframe containing:
@@ -48,47 +48,76 @@ download_emoji <- function(pages =         c("https://emojipedia.org/people/",
     if(url == "https://emojipedia.org/emoji-modifier-fitzpatrick-type-1-2/"){UseXpath <- ExceptionXpaths}
 
     #### importing data
-    Emojis <- read_html(url)
-    EmojiList<-html_nodes(Emojis, xpath = UseXpath)[[1]]
-    EmojiNode <- xmlTreeParse(EmojiList)
-    EmojiList <- xmlToList(EmojiNode)
+    Emoji <- read_html(url)
+    EmojiList<- html_nodes(Emoji, xpath = UseXpath)[[1]]
 
-    # Deleting unnecessary attributes
-    EmojiList$.attrs <- NULL
+    # just forcing it to text so we don't have to deal with weird XML
+    EmojiText <- html_text(EmojiList) # TODO: This is where the error occurs: there is a leading whitespace infront of some emoji
 
-    #### Parsing Data
+    # removing inconsistent whitespaces
+    EmojiText <- gsub("\n ", "\n", EmojiText)
+    EmojiText <- strsplit(EmojiText, "\\n", fixed=FALSE)
+    EmojiText <- unlist(EmojiText)
 
-    Emojis <- EmojiList[seq(1,length(EmojiList),3)]
-    Emojis <- sapply(Emojis, `[[`, 1)
+    # removing empty strings and html garbage
+    EmojiText <- EmojiText[EmojiText != ""]
+    EmojiText <- EmojiText[nchar(EmojiText) < 100]
+    EmojiText <- EmojiText[EmojiText != "          "]
+    EmojiText <- EmojiText[EmojiText != "         "]
+    EmojiText <- strsplit(EmojiText, " ")
 
-    EmojiNames <- EmojiList[seq(2,length(EmojiList),3)]
-    EmojiNames <- unlist(EmojiNames)
+    # Extracting Emoji
+    Emojis <- sapply(EmojiText, `[[`,1)
 
-    # adding byte column
-    #Bytes <- bytes(Emojis)
+    # Extracting Description
+    EmojiNames <- NULL
 
+    for (i in 1:length(EmojiText)){
+
+      EmojiNames[i] <- paste(EmojiText[[i]][2:length(EmojiText[[i]])],collapse= " ")
+
+    }
+
+    ### OLD PARSING FUNCTION
+
+    # EmojiNode <- xmlTreeParse(EmojiList)
+    # EmojiList <- xmlToList(EmojiNode)
+    #
+    # # Deleting unnecessary attributes
+    # EmojiList$.attrs <- NULL
+    #
+    # #### Parsing Data
+    #
+    # Emojis <- EmojiList[seq(1,length(EmojiList),3)]
+    # Emojis <- sapply(Emojis, `[[`, 1)
+    #
+    # EmojiNames <- EmojiList[seq(2,length(EmojiList),3)]
+    # EmojiNames <- unlist(EmojiNames)
+    #
+    # # adding byte column
+    # #Bytes <- bytes(Emojis)
+
+    # creatin dataframe
     DF <- data.frame(Emojis,EmojiNames)
+
+    # returning data frame
     return(DF)
 
   }
 
-  # Initiating list objects
-  Emojis <- list()
-  SkinEmojis <- list()
-
-  # Scraping Emojis
-  RegularEmojis <- lapply(pages,scraper, UseXpath = RegularXpath)
+  # Scraping Notone Emojis
+  NotoneEmojis <- lapply(pages,scraper, UseXpath = RegularXpath)
 
   # Scraping Skin-tone Emojis
-  OtherEmojis <- lapply(skinpages,scraper, UseXpath = SkinXpath)
+  SkintoneEmojis <- lapply(skinpages,scraper, UseXpath = SkinXpath)
 
   # Pasting lists together
-  Emojis <- c(RegularEmojis,OtherEmojis)
+  Emojis <- c(NotoneEmojis,SkintoneEmojis)
 
   # collapsing list of lists into dataframe
   EmojiDF <- do.call(rbind, Emojis)
 
-  # remove duplicates
+  # removing duplicates (why is this necessary?)
   EmojiDF <- EmojiDF[duplicated(EmojiDF) == FALSE,]
 
   # fixing rownames
@@ -99,6 +128,7 @@ download_emoji <- function(pages =         c("https://emojipedia.org/people/",
 
   # fixing column names
   colnames(EmojiDF) <- c("R.native","Desc")
+
 
   # ordering from longest to shortest (prevents partial matching of shorter strings further down the line)
   EmojiDF <- EmojiDF[rev(order(nchar(as.character(EmojiDF$R.native)))),]

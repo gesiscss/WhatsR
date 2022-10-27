@@ -221,7 +221,7 @@ plot_wordcloud(data, font.size=50, min.freq= 1000)
 ```
 plot_wordcloud(data, comparison = TRUE, excludeSM = TRUE, font.size=50, min.occur= 300)
 ```
-![](man/figures/plot_wordlcoud()_comparison.png)
+![](man/figures/plot_wordcloud()_comparison.png)
 
 ### Lexical Dispersion Plot
 Occurances of keywords in the chat with. Example keyword is "Weihnachten" (Christmas).
