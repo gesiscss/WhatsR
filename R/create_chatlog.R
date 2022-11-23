@@ -321,11 +321,9 @@ create_chatlog <- function(n_messages = 150,
 
   }
 
-  #### Add media data
-
   #### Add System messages
   Messages[1] <- substr(WAStrings[1],2,nchar(WAStrings[1])-1)
-  sm_rows <- sample(2:n_messages,21)
+  sm_rows <- sample(2:n_messages,20)
   WAStrings <- t(WAStrings)
 
   if (syslang == "german") {
@@ -339,13 +337,13 @@ create_chatlog <- function(n_messages = 150,
       WAStrings <- gsub("\\","",WAStrings,fixed=TRUE)
 
       # deleting/replacing unnecessary parts
-      WAStrings[6] <- locations[1]
+      WAStrings[6] <- paste0("Standort: ",locations[1])
       WAString <- WAStrings[-c(4),]
-      WAStrings[20] <- "+ 49 000 000 hat zu 004900000000 gewechselt."
+      WAStrings[21] <- "+ 49 000 000 hat zu 004900000000 gewechselt."
       WAStrings[3] <- "2 Kontakte.vcf (Datei angeh\u0061\u0308ngt)"
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[c(3,5:24)]
+      Messages[sm_rows] <- WAStrings[c(3,5:23)]
 
 
     } else {
@@ -357,13 +355,13 @@ create_chatlog <- function(n_messages = 150,
       WAStrings <- gsub("\\.", '.', WAStrings, fixed=TRUE)
 
       # deleting/replacing unnecessary parts
-      WAStrings[6] <- locations[1]
+      WAStrings[6] <- paste0("Standort: ",locations[1])
       WAStrings[3] <- "<angeh\u0061\u0308ngt: 3 Filename.vcf>"
-      WAStrings[20] <- "+ 49 000 000 hat zu 004900000000 gewechselt."
+      WAStrings[21] <- "+ 49 000 000 hat zu 004900000000 gewechselt."
       WAStrings <- WAStrings[-c(4)]
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[c(3,5:24)]
+      Messages[sm_rows] <- WAStrings[c(3,5:23)]
 
     }
 
@@ -378,13 +376,13 @@ create_chatlog <- function(n_messages = 150,
       WAStrings <- gsub("\\.", '.', WAStrings, fixed=TRUE)
 
       # deleting/replacing unnecessary parts
-      WAStrings[6] <- locations[1]
+      WAStrings[6] <- paste0("Location: ",locations[1])
       WAString <- WAStrings[-c(4),]
       WAStrings[3] <- "3 Filename.vcf (file attached)"
-      WAStrings[20] <- "+ 49 000 000 changed to 004900000000."
+      WAStrings[21] <- "+ 49 000 000 changed to 004900000000."
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[c(3,5:24)]
+      Messages[sm_rows] <- WAStrings[c(3,5:23)]
 
 
     } else {
@@ -396,13 +394,13 @@ create_chatlog <- function(n_messages = 150,
       WAStrings <- gsub("\\.", '.', WAStrings, fixed=TRUE)
 
       # deleting/replacing unnecessary parts
-      WAStrings[6] <- locations[1]
+      WAStrings[6] <- paste0("location: ",locations[1])
       WAStrings[3] <- "<attached: 3 Filename.vcf>"
-      WAStrings[20] <- "+ 49 000 000 changed to 004900000000."
+      WAStrings[21] <- "+ 49 000 000 changed to 004900000000."
       WAStrings <- WAStrings[-c(4)]
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[c(3,5:24)]
+      Messages[sm_rows] <- WAStrings[c(3,5:23)]
 
 
     }
@@ -413,14 +411,14 @@ create_chatlog <- function(n_messages = 150,
 
   ### Add linebreaks & non-breaking space characters
 
-  # taken from: https://statisticsglobe.com/insert-character-pattern-in-string-r
+  # adapted from: https://statisticsglobe.com/insert-character-pattern-in-string-r
   fun_insert <- function(x, pos, insert) {
     gsub(paste0("^(.{", pos, "})(.*)$"),
          paste0("\\1", insert, "\\2"),
          x)
   }
 
-  # don't insert in system messages!!
+  # inserting into messages
   for (i in sample(c(1:n_messages)[-c(1,sm_rows)],round(0.05*n_messages,0))){
 
     Messages[i] <- fun_insert(Messages[i], pos = sample(c(1:20),1)," \n \n ")
@@ -429,19 +427,39 @@ create_chatlog <- function(n_messages = 150,
   }
 
 
-  #### Pasting timestamps, names and messages (this is where we need to adapt!)
+  #### Pasting timestamps, names and messages
 
-  # system messages with names
-  Messages[sm_rows][c(1:4,15,18,21)] <- paste0(ts[sm_rows][c(1:4,15,18,21)],Names[sm_rows][c(1:4,15,18,21)], Messages[sm_rows][c(1:4,15,18,21)])
+  if (os == "ios") {
 
-  # system messages without names
-  Messages[sm_rows][c(5:14,16,17,19,20)] <- paste0(ts[sm_rows][c(5:14,16,17,19,20)], Messages[sm_rows][c(5:14,16,17,19,20)])
+    # system messages with names [THIS WAS CHANGED: 19 was added to the vector and 22 used to be 21]
+    Messages[sm_rows][c(1:4,14:17,19)] <- paste0(ts[sm_rows][c(1:4,14:17,19)],Names[sm_rows][c(1:4,14:17,19)], Messages[sm_rows][c(1:4,14:17,19)])
 
-  # other messages (with names)
-  Messages[-c(1,sm_rows)] <- paste0(ts[-c(1,sm_rows)],Names[c(-c(1,sm_rows))],Messages[c(-c(1,sm_rows))])
+    # system messages without names
+    Messages[sm_rows][c(5:13,20)] <- paste0(ts[sm_rows][c(5:13,20)], Messages[sm_rows][c(5:13,20)])
 
-  # first message
-  Messages[1] <- paste0(ts[1],Messages[1])
+    # other messages (with names)
+    Messages[-c(1,sm_rows)] <- paste0(ts[-c(1,sm_rows)],Names[c(-c(1,sm_rows))],Messages[c(-c(1,sm_rows))])
+
+    # first message
+    Messages[1] <- paste0(ts[1],Messages[1])
+
+
+  } else {
+
+    # system messages with names [THIS WAS CHANGED: 19 was added to the vector and 22 used to be 21]
+    Messages[sm_rows][c(1:4,15:17,19)] <- paste0(ts[sm_rows][c(1:4,15:17,19)],Names[sm_rows][c(1:4,15:17,19)], Messages[sm_rows][c(1:4,15:17,19)])
+
+    # system messages without names
+    Messages[sm_rows][c(5:14,20)] <- paste0(ts[sm_rows][c(5:14,20)], Messages[sm_rows][c(5:14,20)])
+
+    # other messages (with names)
+    Messages[-c(1,sm_rows)] <- paste0(ts[-c(1,sm_rows)],Names[c(-c(1,sm_rows))],Messages[c(-c(1,sm_rows))])
+
+    # first message
+    Messages[1] <- paste0(ts[1],Messages[1])
+
+  }
+
 
   # writing to file
   if(save_txt == TRUE){

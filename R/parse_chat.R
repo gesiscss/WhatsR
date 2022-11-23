@@ -183,7 +183,8 @@ parse_chat <- function(name,
   OmittanceIndicator <- Indicators$OmittanceIndicator
   SentLocation <- Indicators$SentLocation
   LiveLocation <- Indicators$LiveLocation
-  MissedCall <- Indicators$MissedCall
+  MissedCallVoice <- Indicators$MissedCallVoice
+  MissedCallVideo <- Indicators$MissedCallVideo
 
   # assigning indicator strings without sender info
   StartMessage <- Indicators$StartMessage
@@ -449,7 +450,13 @@ parse_chat <- function(name,
 
   # replacing missed voice calls in flattened message
   Flat <- gsub(x = Flat,
-               pattern = MissedCall,
+               pattern = MissedCallVoice,
+               replacement = NA,
+               perl = T)
+
+  # replacing missed video calls in flattened message
+  Flat <- gsub(x = Flat,
+               pattern = MissedCallVideo,
                replacement = NA,
                perl = T)
 
