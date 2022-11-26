@@ -11,7 +11,7 @@ create_chatlog(
   n_diff_emoji = 20,
   n_links = 20,
   n_locations = 5,
-  n_smilies = 100,
+  n_smilies = 20,
   n_diff_smilies = 15,
   n_media = 10,
   n_sdp = 3,

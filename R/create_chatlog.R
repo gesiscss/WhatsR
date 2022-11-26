@@ -22,7 +22,6 @@
 #' @param chatname Name for the created .txt file
 #' @export
 #' @importFrom checkmate assert_numeric
-#' @importFrom lorem ipsum
 #' @importFrom stats rlnorm rnorm
 #' @return A .txt file with a simulated WhatsApp chat containing lorem ipsum but all structural properties of actual chats.
 #'
@@ -35,7 +34,7 @@ create_chatlog <- function(n_messages = 150,
                            n_diff_emoji = 20,
                            n_links = 20,
                            n_locations = 5,
-                           n_smilies = 100,
+                           n_smilies = 20,
                            n_diff_smilies = 15,
                            n_media = 10,
                            n_sdp = 3,
@@ -258,13 +257,50 @@ create_chatlog <- function(n_messages = 150,
   # creating empty message vector
   Messages <- rep(NA,n_messages)
 
+
+
+  # TODO: Change function to internal lorem generator
+
+  # importing lorem words
+  Lorem <- readRDS("/home/juko/Desktop/GoogleDrive/Dissertation/Infrastruktur Studie 1/Building/WhatsR 0.9/inst/LoremWords.rds")
+
   # Creating mock WhatsApp Messages
   for (i in seq_along(ts)) {
 
+    # sample number of sentences
+    sent_num <- sample(c(1,1,1,1,2,2,2,3,3,4,5),1)
+
+    # initilaizing empty vec
+    sentences <- rep(NA,sent_num)
+
+    for (j in 1:sent_num) {
+
+      # sample words
+      words <- sample(Lorem,round(abs(rnorm(1,11,20))+0.5,digits=0))
+
+      # form sentence
+      sent <- paste(words,collapse=" ")
+
+      # capitalizing first letter
+      letters <- strsplit(sent,"")[[1]]
+      sent <- paste(c(toupper(letters[1]),letters[2:length(letters)]),collapse="")
+
+      # Adding End of sentence mark
+      mark <- sample(c(".","!","?","?!","??", " "),1)
+
+      # pasting together
+      sentences[j] <- paste(sent,mark,collapse="",sep="")
+
+
+    }
+
+    Messages[i] <- paste(sentences,sep=" ",collapse="")
+
     # Creating messages
-    Messages[i] <- ipsum(paragraphs = round(rlnorm(1,0.05,.6)+1,digits=0),
-                         sentences = NULL,
-                         avg_words_per_sentence = round(abs(rnorm(1,11,20))+0.5,digits=0))[1]
+    # Messages[i] <- ipsum(paragraphs = round(rlnorm(1,0.05,.6)+1,digits=0),
+    #                      sentences = NULL,
+    #                      avg_words_per_sentence = round(abs(rnorm(1,11,20))+0.5,digits=0))[1]
+
   }
 
   #### Adding Links
