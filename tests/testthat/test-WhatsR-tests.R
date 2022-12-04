@@ -946,7 +946,7 @@ test_that("Plotting tokens over time",{
                                      names = "all",
                                      starttime = anytime("1960-01-01 00:00"),
                                      endtime = Sys.time(),
-                                     plot = "weekday",
+                                     plot = "day",
                                      return.data = TRUE,
                                      excludeSM = TRUE)
 

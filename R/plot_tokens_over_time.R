@@ -4,7 +4,7 @@
 #' @param names A vector of author names that the Plots will be restricted to
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param plot Time resolution for plots. Options include "year", "month", "day", "hour", "heatmap" and "alltime". Default is "alltime".
+#' @param plot Time resolution for plots. Options include "year", "day", "hour", "heatmap" and "alltime". Default is "alltime".
 #' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.
 #' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
@@ -94,7 +94,7 @@ plot_tokens_over_time <- function(data,
   if (plot == "year") {
 
     # plotting by year
-    out <- ggplot(helperframe, aes(x = as.integer(year), y = TokCount, color = Sender, fill = Sender)) +
+    out <- ggplot(helperframe, aes(x = as.factor(year), y = TokCount, color = Sender, fill = Sender)) +
             theme_minimal() +
             geom_bar(stat = "identity") +
             labs(title = "Tokens by Years",
@@ -103,7 +103,11 @@ plot_tokens_over_time <- function(data,
             #scale_x_discrete(limits = as.factor(unique(helperframe$year)))
   }
 
-  if (plot == "weekday") {
+  # barchart per day
+  if (plot == "day") {
+
+    # debugger()
+    browser()
 
     # plotting by weekday
     out <- ggplot(helperframe, aes(x = day, y = TokCount, color = Sender, fill = Sender)) +
@@ -121,7 +125,15 @@ plot_tokens_over_time <- function(data,
                                         "Sunday")))
   }
 
-  if (plot == "hours") {
+
+  if (plot == "hour") {
+
+    # debugger
+    browser()
+
+    # preprocessing hour variable
+    helperframe$hour  <- factor(helperframe$hour,levels= c(1:23,0))
+
 
     # plotting by hour
     out <- ggplot(helperframe, aes(x = hour, y = TokCount, color = Sender, fill = Sender)) +
@@ -130,43 +142,47 @@ plot_tokens_over_time <- function(data,
             labs(title = "Tokens by hour of the day",
                  subtitle = paste(starttime, " - ", endtime)) +
             xlab("Hour of Day") +
-            scale_x_continuous(breaks = seq(-0.5,23.5,1),
-                               limits = c(-0.5,23.5),
-                               labels = c("00:00",
-                                          "01:00",
-                                          "02:00",
-                                          "03:00",
-                                          "04:00",
-                                          "05:00",
-                                          "06:00",
-                                          "07:00",
-                                          "08:00",
-                                          "09:00",
-                                          "10:00",
-                                          "11:00",
-                                          "12:00",
-                                          "13:00",
-                                          "14:00",
-                                          "15:00",
-                                          "16:00",
-                                          "17:00",
-                                          "18:00",
-                                          "19:00",
-                                          "20:00",
-                                          "21:00",
-                                          "22:00",
-                                          "23:00",
-                                          "24:00")) +
-            theme(axis.title.y = element_blank(),
-                  axis.text.y = element_blank(),
-                  axis.ticks.y = element_blank(),
-                  axis.text.x = element_text(angle = 90, hjust = 1))
+            scale_x_discrete(drop=FALSE)
+
+
+
+            # scale_x_continuous(breaks = seq(-0.5,23.5,1),
+            #                    limits = c(-0.5,23.5),
+            #                    labels = c("00:00",
+            #                               "01:00",
+            #                               "02:00",
+            #                               "03:00",
+            #                               "04:00",
+            #                               "05:00",
+            #                               "06:00",
+            #                               "07:00",
+            #                               "08:00",
+            #                               "09:00",
+            #                               "10:00",
+            #                               "11:00",
+            #                               "12:00",
+            #                               "13:00",
+            #                               "14:00",
+            #                               "15:00",
+            #                               "16:00",
+            #                               "17:00",
+            #                               "18:00",
+            #                               "19:00",
+            #                               "20:00",
+            #                               "21:00",
+            #                               "22:00",
+            #                               "23:00",
+            #                               "24:00")) +
+            # theme(axis.title.y = element_blank(),
+            #       axis.text.y = element_blank(),
+            #       axis.ticks.y = element_blank(),
+            #       axis.text.x = element_text(angle = 90, hjust = 1))
   }
 
 
   if (plot == "heatmap") {
 
-    # TODO: Add option in the dataframe shaper to average and median instead of summarize
+    # TODO: Add option in the dataframe shaper to average and median instead of summarize?
 
     # shaping dataframe
     helperframe <- helperframe %>%

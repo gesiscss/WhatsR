@@ -34,8 +34,7 @@ download_emoji(
 A dataframe containing:
      1) The native representation of all Emoji in R \cr
      2) A textual description of what the Emoji is displaying \cr
-     3) The body of the message. Linebreaks and Emojis are replaced with textual indicators \cr
-     4) Original Order of HTML table that the Emojis were fetched from
+     3) Original Order of HTML table that the Emojis were fetched from
 }
 \description{
 Fetches a dictionary of emojis from www.emojipedia.org, assuming that the websites structure does not change.

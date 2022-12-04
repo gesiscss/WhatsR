@@ -70,9 +70,6 @@ plot_tokens <- function(data,
 
   if (plot == "bar") {
 
-    # TODO:
-    # We have some weird stripes on the bargraphs here (maybe because of the WhatsApp System messages?)
-    # No, this is the issue: https://stackoverflow.com/questions/64055988/horizontal-white-lines-in-ggplot-bar-graph
     output <- ggplot(data, aes(x = Sender, fill = Sender,y = TokCount, color = Sender)) +
       theme_minimal() +
       geom_bar(stat = "identity") +
