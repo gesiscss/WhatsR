@@ -204,6 +204,9 @@ parse_chat <- function(name,
   DeletedMessage <- Indicators$DeletedMessage
   UserLeft <- Indicators$UserLeft
   SafetyNumberChange <- Indicators$SafetyNumberChange
+  GroupCallStarted <- Indicators$GroupCallStarted
+  GroupVideoCallStarted <- Indicators$GroupVideoCallStarted
+
 
   # print info
   cat(paste("Imported matching strings for: ", paste(language, os, sep = " ") ," \U2713 \n", sep = ""))
@@ -271,7 +274,9 @@ parse_chat <- function(name,
                  UserNumberChangeKnown,
                  UserNumberChangeUnknown,
                  DeletedMessage,
-                 SafetyNumberChange)
+                 SafetyNumberChange,
+                 GroupCallStarted,
+                 GroupVideoCallStarted)
 
 
 
