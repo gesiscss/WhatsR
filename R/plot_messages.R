@@ -20,7 +20,6 @@
 #' plot_messages(data)
 
 ######## overall amount of messages per person
-# TODO: Replace this with a similar function to the token plotting function with a heatmap and over_time function
 plot_messages <- function(data,
                           names = "all",
                           starttime = anytime("1960-01-01 00:00"),
