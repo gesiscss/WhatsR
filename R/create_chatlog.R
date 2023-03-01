@@ -266,7 +266,7 @@ create_chatlog <- function(n_messages = 150,
   # TODO: Change function to internal lorem generator
 
   # importing lorem words
-  Lorem <- readRDS("/home/juko/Desktop/GoogleDrive/Dissertation/Infrastruktur Studie 1/Building/WhatsR 0.9/inst/LoremWords.rds")
+  #Lorem <- readRDS("/home/juko/Desktop/GoogleDrive/Dissertation/Infrastruktur Studie 1/Building/WhatsR 0.9/inst/LoremWords.rds")
 #>>>>>>> f32a5e5e60108acbe52ce2a1c72b48d6856ce879
 
   # Creating mock WhatsApp Messages
