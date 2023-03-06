@@ -42,6 +42,16 @@ Currently, the parser extracts the following information from an updated WhatsAp
 
 In principle yes, but you would need to add language specific strings and regexes to the language.csv file contained in this repo. These strings are also different for android and iOS. For example, file attachments are marked with ` FILENAME (file attached)` in Android but with `<attached: FILENAME>` in iOS. If you are willing to extract these strings from one of your chatlogs in your language, I will gladly add them to the language file and update this repo.
 
+
+## Troubleshooting
+
+This section contains issues you may be experiencing when installing or using WhatsR.
+
+#### Package requirements
+
+To install WhatsR, please first download and install the latest R-release version of RTools for your operating system. Please note that it is also necessary to have rJava installed. For information on its installation please see <https://github.com/s-u/rJava/blob/master/README.md>.
+
+
 # Examples
 
 The package also includes some functions to compute additional metrics and visualize them. We will provide some basic examples for chats with two participants and for group chats with multiple participants. The used chat is a private chat that was parsed with the `anon = TRUE` parameter to exclude participant names. The dataframe is called `data`. All plotting functions include additional parameters to restrict the range of the data
