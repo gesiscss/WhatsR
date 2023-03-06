@@ -21,7 +21,7 @@
 #' @return Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance
 #'
 #' @examples
-#' #(Font might need to be installed first on Windows)
+#' Windows users may experience the issue that emojis aren't displayed. This is caused by issues related to fonts and can be solved by using the [ragg](https://github.com/r-lib/ragg) package that comes as a dependency to WhatsR. To use ragg in RStudio, please navigate to Tools > Global Options > General > Graphics and select "AGG" under Graphics Device then restart R-Studio.
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_emoji(data,FontFamily="Times",excludeSM = TRUE) #FontFamily = "Noto Color Emoji" on Linux
 
