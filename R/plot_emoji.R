@@ -1,16 +1,16 @@
-#' @title Plotting Emoji distributions in whatSapp chatlogs
+#' @title Plotting Emoji distributions in WhatsApp chatlogs
 #' @description Creates a list of basic information about a single WhatsApp chatlog
- #' @param data A WhatsApp chatlog that was parsed with code{\link[WhatsR]{parse_chat}}
-#' @param names A vector of author names that the Plots will be restricted to
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with {\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param min.occur Minimum number of occurances for Emoji to be included in the plots. Default is 1.
-#' @param return.data If TRUE, returns the subsetted dataframe. Default is FALSE.
-#' @param EmojiVec A vector of Emoji that the visualizations will be restricted to
-#' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar"
-#' @param EmojiSize Determines the size of the Emoji displayed on top of the bars for "bar" and "splitbar", default is 10.
-#' @param FontFamily Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see {\link[extrafont]{font_import}}
-#' @param excludeSM If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
+ #' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @param names A vector of author names that the plots will be restricted to.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param min.occur Minimum number of occurrences for emoji to be included in the plots. Default is 1.
+#' @param return.data If TRUE, returns the subsetted data frame. Default is FALSE.
+#' @param EmojiVec A vector of emoji that the visualizations will be restricted to.
+#' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar".
+#' @param EmojiSize Determines the size of the emoji displayed on top of the bars for "bar" and "splitbar", default is 10.
+#' @param FontFamily Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see \code{\link[extrafont]{font_import}}.
+#' @param excludeSM If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2 ragg
 #' @importFrom anytime anytime
 #' @importFrom dplyr group_by
@@ -18,7 +18,7 @@
 #' @importFrom dplyr %>%
 #' @importFrom mgsub mgsub
 #' @export
-#' @return Plots and/or the subsetted dataframe based on author names, datetime and Emoji occurance
+#' @return Plots and/or the subsetted data frame based on author names, datetime and emoji occurrence
 #'
 #' @examples
 #' Windows users may experience the issue that emojis aren't displayed. This is caused by issues related to fonts and can be solved by using the [ragg](https://github.com/r-lib/ragg) package that comes as a dependency to WhatsR. To use ragg in RStudio, please navigate to Tools > Global Options > General > Graphics and select "AGG" under Graphics Device then restart R-Studio.
@@ -37,6 +37,23 @@ plot_emoji <- function(data,
                        EmojiSize = 10,
                        FontFamily = "Noto Color Emoji",
                        excludeSM = FALSE) {
+
+    # catching bad params
+    # start- and endtime are POSIXct
+    if(is(starttime, "POSIXct") == F)stop("starttime has to be of class POSIXct.")
+    if(is(endtime, "POSIXct") == F)stop("endtime has to be of class POSIXct.")
+    # names in data or all names
+    if(!("all" %in% names) & any(!names %in% data$Sender))stop("names has to either be \"all\" or a vector of names to include.")
+    # min.occur must be >= 1
+    if(min.occur < 1)stop("Please provide a min.occur of >= 1.")
+    # return.data must be bool
+    if(!is.logical(return.data))stop("return.data has to be either TRUE or FALSE.")
+    # EmojiVec must be in data
+    if(!("all" %in% EmojiVec) & any(!EmojiVec %in% data$EmojiDescriptions))stop("EmojiVec has to either be \"all\" or a vector of emojis to include.")
+    # plot must be one of the the preset options
+    if(any(!plot %in% c("heatmap", "cumsum", "bar", "splitbar")))stop("The plot type has to be heatmap, cumsum, bar or splitbar.")
+    # excludeSM must be bool
+    if(!is.logical(excludeSM))stop("excludeSM has to be either TRUE or FALSE.")
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- Glyph <-  NULL
