@@ -47,8 +47,12 @@ summarize_chat <- function(data, excludeSM = FALSE) {
     "NumberOfLocation"
   )
 
-  if (excludeSM == TRUE) {
+  if ((excludeSM == TRUE) & "Sender" %in% vars) {
     data <- data[data$Sender != "WhatsApp System Message", ]
+  } else {
+    if((excludeSM == TRUE) & "Anonymous" %in% vars) {
+      data <- data[data$Anonymous != "WhatsApp System Message",]
+    }
   }
 
   # NumberOfMessages
@@ -80,7 +84,7 @@ summarize_chat <- function(data, excludeSM = FALSE) {
 
   # TimeSpan
   if ("DateTime" %in% vars) {
-    Basics$TimeSpan <- difftime(max(data$DateTime), min(data$DateTime))
+    Basics$TimeSpan <- difftime(max(data$DateTime, na.rm = T), min(data$DateTime, na.rm = T))
   }
 
   # NumberOfEmoji
