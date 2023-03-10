@@ -37,6 +37,24 @@ plot_location <- function(data,
                           jitter.seed = 123,
                           mapleeway = 0.1,
                           excludeSM = FALSE) {
+
+  # checking for column names of senders
+  if (!("Sender" %in% colnames(data))) {
+    colnames(data)[colnames(data) == "Anonymous"] <- "Sender"
+  }
+
+  # catching bad params
+  # start- and endtime are POSIXct
+  if (is(starttime, "POSIXct") == F) stop("starttime has to be of class POSIXct.")
+  if (is(endtime, "POSIXct") == F) stop("endtime has to be of class POSIXct.")
+  # names in data or all names
+  if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be \"all\" or a vector of names to include.")
+  # return.data must be bool
+  if (!is.logical(return.data)) stop("return.data has to be either TRUE or FALSE.")
+  # excludeSM must be bool
+  if (!is.logical(excludeSM)) stop("excludeSM has to be either TRUE or FALSE.")
+
+
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   Lon <- Lat <- Sender <- NULL
 

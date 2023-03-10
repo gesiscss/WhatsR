@@ -26,6 +26,12 @@ plot_lexical_dispersion <- function(data,
                                     return.data = FALSE,
                                     excludeSM = FALSE,
                                     ...) {
+
+  # checking for column names of senders
+  if (!("Sender" %in% colnames(data))) {
+    colnames(data)[colnames(data) == "Anonymous"] <- "Sender"
+  }
+
   # catching bad params
   # start- and endtime are POSIXct
   if (is(starttime, "POSIXct") == F) stop("starttime has to be of class POSIXct.")

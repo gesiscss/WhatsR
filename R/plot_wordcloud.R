@@ -32,6 +32,12 @@ plot_wordcloud <- function(data,
                            font.size = 10,
                            min.freq = 5,
                            excludeSM = FALSE) {
+
+  # checking for column names of senders
+  if (!("Sender" %in% colnames(data))) {
+    colnames(data)[colnames(data) == "Anonymous"] <- "Sender"
+  }
+
   # catching bad params
   # start- and endtime are POSIXct
   if (is(starttime, "POSIXct") == F) stop("starttime has to be of class POSIXct.")
