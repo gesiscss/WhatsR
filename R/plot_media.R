@@ -2,6 +2,7 @@
 #' @description Creates a list of basic information about a single WhatsApp chatlog
 #' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
+#' @param names.col A column indicated by a string that should be accessed to determine the names. Only needs to be changed when \code{\link[WhatsR]{parse_chat}} used the parameter anon = "add" and the column "Anonymous" should be used. Default is "Sender".
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param use.type If TRUE, shortens sent files to file types.
@@ -24,6 +25,7 @@
 # Visualizing sent Media files
 plot_media <- function(data,
                        names = "all",
+                       names.col = "Sender",
                        starttime = anytime("1960-01-01 00:00"),
                        endtime = Sys.time(),
                        use.type = TRUE,
@@ -33,17 +35,17 @@ plot_media <- function(data,
                        plot = "bar",
                        excludeSM = FALSE) {
 
-  # checking for column names of senders
-  if (!("Sender" %in% colnames(data))) {
-    colnames(data)[colnames(data) == "Anonymous"] <- "Sender"
-  }
-
   # catching bad params
   # start- and endtime are POSIXct
   if (is(starttime, "POSIXct") == F) stop("starttime has to be of class POSIXct.")
   if (is(endtime, "POSIXct") == F) stop("endtime has to be of class POSIXct.")
-  # names in data or all names
-  if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be \"all\" or a vector of names to include.")
+  # names.col must be in preset options
+  if (any(!names.col %in% c("Sender", "Anonymous"))) stop("names.col has to be either Sender or Anonymous.")
+  # names in data or all names (Sender or Anonymous)
+  if(names.col == "Sender"){
+    if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be \"all\" or a vector of names to include.")}
+  else{
+    if(!("all" %in% names) & any(!names %in% data$Anonymous)) stop("names has to either be \"all\" or a vector of names to include.")}
   # min.occur must be >= 1
   if (min.occur < 1) stop("Please provide a min.occur of >= 1.")
   # return.data must be bool
@@ -56,6 +58,12 @@ plot_media <- function(data,
   if (!is.logical(excludeSM)) stop("excludeSM has to be either TRUE or FALSE.")
   # use.type must be bool
   if (!is.logical(use.type)) stop("use.type has to be either TRUE or FALSE.")
+
+  #if names.col == "Anonymous", rename to Sender and rename Sender to placeholder
+  if(names.col == "Anonymous"){
+  colnames(data)[colnames(data) == "Sender"] <- "Placeholder"
+  colnames(data)[colnames(data) == "Anonymous"] <- "Sender"
+  }
 
   # muting useless dplyr message
   defaultW <- getOption("warn")
@@ -118,6 +126,12 @@ plot_media <- function(data,
   }
 
   NewSender <- unlist(NewSender)
+
+  # Rename Sender and Anonymous columns again to what they were initially
+  if(names.col == "Anonymous"){
+    colnames(data)[colnames(data) == "Sender"] <- "Anonymous"
+    colnames(data)[colnames(data) == "Placeholder"] <- "Sender"
+  }
 
   # New Dates
   NewDates <- list()

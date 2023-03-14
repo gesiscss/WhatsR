@@ -591,7 +591,6 @@ parse_chat <- function(name,
   # Deleting empty rows
   DF <- DF[rowSums(is.na(DF)) <= 10, ]
 
-
   # return datframe
   return(DF)
 }

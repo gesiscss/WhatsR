@@ -2,6 +2,7 @@
 #' @description Visualizes the replytimes and reactiontimes to messages per author
 #' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
+#' @param names.col A column indicated by a string that should be accessed to determine the names. Only needs to be changed when \code{\link[WhatsR]{parse_chat}} used the parameter anon = "add" and the column "Anonymous" should be used. Default is "Sender".
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param return.data If TRUE, returns a data frame of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
@@ -27,6 +28,7 @@
 ############## Looking at response times between messages
 plot_replytimes <- function(data,
                             names = "all",
+                            names.col = "Sender",
                             starttime = anytime("1960-01-01 00:00"),
                             endtime = Sys.time(),
                             return.data = FALSE,
@@ -35,17 +37,18 @@ plot_replytimes <- function(data,
                             type = "replytime",
                             excludeSM = FALSE) {
 
-  # checking for column names of senders
-  if (!("Sender" %in% colnames(data))) {
-    colnames(data)[colnames(data) == "Anonymous"] <- "Sender"
-  }
 
   # catching bad params
   # start- and endtime are POSIXct
   if (is(starttime, "POSIXct") == F) stop("starttime has to be of class POSIXct.")
   if (is(endtime, "POSIXct") == F) stop("endtime has to be of class POSIXct.")
-  # names in data or all names
-  if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be \"all\" or a vector of names to include.")
+  # names.col must be in preset options
+  if (any(!names.col %in% c("Sender", "Anonymous"))) stop("names.col has to be either Sender or Anonymous.")
+  # names in data or all names (Sender or Anonymous)
+  if(names.col == "Sender"){
+    if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be \"all\" or a vector of names to include.")}
+  else{
+    if(!("all" %in% names) & any(!names %in% data$Anonymous)) stop("names has to either be \"all\" or a vector of names to include.")}
   # return.data must be bool
   if (!is.logical(return.data)) stop("return.data has to be either TRUE or FALSE.")
   # aggregate.sessions must be bool
@@ -56,6 +59,12 @@ plot_replytimes <- function(data,
   if (any(!type %in% c("replytime", "reactiontime"))) stop("Type has to be replytime or reactiontime.")
   # excludeSM must be bool
   if (!is.logical(excludeSM)) stop("excludeSM has to be either TRUE or FALSE.")
+
+  #if names.col == "Anonymous", rename to Sender and rename Sender to placeholder
+  if(names.col == "Anonymous"){
+    colnames(data)[colnames(data) == "Sender"] <- "Placeholder"
+    colnames(data)[colnames(data) == "Anonymous"] <- "Sender"
+  }
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   `.` <- Sender <- ReactionTime <- day <- hour <- median <- `Median Reply time` <- NULL
@@ -403,8 +412,18 @@ plot_replytimes <- function(data,
   # returning data
   if (return.data == TRUE) {
     if (plot == "dist" | plot == "box") {
+      # Rename Sender and Anonymous columns again to what they were initially
+      if(names.col == "Anonymous"){
+        colnames(Sessionframe)[colnames(Sessionframe) == "Sender"] <- "Anonymous"
+        colnames(Sessionframe)[colnames(Sessionframe) == "Placeholder"] <- "Sender"
+      }
       return(as.data.frame(Sessionframe))
     } else {
+      # Rename Sender and Anonymous columns again to what they were initially
+      if(names.col == "Anonymous"){
+        colnames(helperframe2)[colnames(helperframe2) == "Sender"] <- "Anonymous"
+        colnames(helperframe2)[colnames(helperframe2) == "Placeholder"] <- "Sender"
+      }
       return(as.data.frame(helperframe2))
     }
   } else {
