@@ -1,0 +1,50 @@
+﻿29.01.18, 12:24 - Nachrichten und Anrufe sind Ende-zu-Ende-verschlüsselt. Niemand außerhalb dieses Chats kann sie lesen oder anhören, nicht einmal WhatsApp. Tippe, um mehr zu erfahren.
+﻿29.01.18, 12:24 - Du hast die Gruppe "WhatsAppParserTest🙈" erstellt.
+﻿29.01.18, 12:24 - Du hast Mallory hinzugefügt.
+﻿29.01.18, 12:24 - Mallory: Hey! :)
+﻿29.01.18, 12:24 - Du hast Mallory entfernt.
+﻿29.01.18, 12:25 - Du hast Alice hinzugefügt.
+﻿29.01.18, 12:24 - Du hast Bob hinzugefügt.
+﻿29.01.18, 12:26 - Du hast den Betreff von "WhatsAppParserTest🙈" zu "Whatsappparsertest2" geändert.
+﻿29.01.18, 12:26 - Du hast das Gruppenbild geändert.
+﻿29.01.18, 12:26 - Dave: Test test
+29.01.18, 23:33 - Alice: Ist das hier ein Chatverlauf?
+29.01.18, 23:45 - Bob: Ja ist es!
+29.01.18, 23:45 - Carol: Ich glaube auch!
+29.01.18, 23:45 - Bob: Der ist dazu da die funktionsweise des Parsers zu demonstrieren
+29.01.18, 23:46 - Alice: ‎PTT-20180129-WA0025.opus (Datei angehängt)
+29.01.18, 23:46 - Bob: Ah, er kann also auch erkennen ob Voicemails gesendet wurden!
+29.01.18, 23:46 - Bob: Das ist praktisch!
+29.01.18, 23:47 - Bob: Oder?
+29.01.18, 23:47 - Alice: ja😄
+29.01.18, 23:47 - Bob: <Medien ausgeschlossen>
+29.01.18, 23:47 - Alice: und Emojis gehen auch!
+29.01.18, 23:47 - Bob: Was ist mit normalen Smilies?
+29.01.18, 23:49 - Alice: ‎Keine Ahnung, lass uns das doch mal ausprobieren
+29.01.18, 23:50 - Bob: Alles klar :) :D
+29.01.18, 23:51 - Alice: Scheint zu funktionieren!:P
+29.01.18, 23:51 - Bob: Meinst du, dass URLS auch erkannt werden?
+29.01.18, 23:52 - Bob: ‎Schick doch mal eine zum ausprobieren!
+29.01.18, 23:53 - Alice: https://github.com/JuKo007
+29.01.18, 23:58 - Alice: Funktioniert! ‎Gehen auch mehrere Links? https://github.com/JuKo007 https://github.com/JuKo007
+29.01.18, 23:59 - Alice: Sehr schön!
+29.01.18, 23:59 - Bob: ‎Und wie siehts mit Standorten aus?
+29.01.18, 23:59 - Bob: Standort: https://maps.google.com/?q=50.9425526,6.9523387
+29.01.18, 23:59 - Alice: Live-Standort wird geteilt.
+29.01.18, 23:59 - Bob: Klappt, cool! :)
+29.01.18, 23:59 - Bob: Carol, kannst du ein selbst-löschendes Foto posten um zu schauen wie das im log aussieht?
+29.01.18, 23:59 - Carol:
+30.01.18, 00:00 - Alice: Damit sollten sich WhatsApp Verläufe besser quantifizieren lassen!
+30.01.18, 00:02 - Bob: ‎Alles klar, los gehts 😌😄
+﻿30.01.18, 00:04 - Bob: Wäre es für euch okay wenn wir diesen Chatverlauf für die Forschung spenden?
+﻿30.01.18, 00:10 - Alice: Klar, das klingt mega cool!
+﻿30.01.18, 00:11 - Carol: Hm, ich weiß ja nicht...können die Forscher dann unsere Nachrichten lesen?
+﻿30.01.18, 00:11 - Bob: Nee, dabei gehts nur um Metadata, die Nachrichten, Medien und Sprachnachrichten werden nicht gespeichert!
+﻿30.01.18, 00:11 - Carol: Dann geht das für mich in Ordnung!
+﻿30.01.18, 00:12 - Dave: Sorry aber ich fühl mich damit nicht wohl.
+﻿30.01.18, 00:13 - Bob: Kein Problem Dave! Ich füge hier gleich eine Consent-message ein und nur die Daten der Personen die diese message kopieren und in den chat posten werden gespeichert!
+﻿30.01.18, 00:13 - Dave: cool, danke!
+﻿30.01.18, 00:13 - Bob: Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.
+﻿30.01.18, 00:14 - Alice: Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.
+﻿30.01.18, 00:23 - Carol: Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.
+﻿30.01.18, 00:13 - Dave: Vielleicht bin ich beim nächsten mal dabei!

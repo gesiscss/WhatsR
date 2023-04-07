@@ -1,0 +1,50 @@
+[1/29/18, 12:24:03] Messages and calls are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Tap to learn more.
+[1/29/18, 12:24:05] You created group "WhatsAppParserTest🙈"
+[1/29/18, 12:24:07] You added Mallory
+[1/29/18, 12:24:12] Mallory: Hey! :)
+[1/29/18, 12:24:15] You removed Mallory
+[1/29/18, 12:25:03] You added Alice
+[1/29/18, 12:24:16] You added Bob
+[1/29/18, 12:26:03] You changed the subject from "WhatsAppParserTest🙈" to "Whatsappparsertest2"
+﻿[1/29/18, 12:26:03] You changed this group's icon
+[1/29/18, 12:26:03] Dave: Test test
+[1/29/18, 23:33:03] Alice: Is this a chat log?
+[1/29/18, 23:45:03] Bob: Yes it is!
+[1/29/18, 23:45:03] Carol: I think so too
+[1/29/18, 23:45:03] Bob: It's for demonstrating how this parser works!
+[1/29/18, 23:46:03] Alice: ‎‎<attached: ‎PTT-20180129-WA0025.opus>
+[1/29/18, 23:46:03] Bob: Neat, it also recognizes when voicemails have been send
+[1/29/18, 23:46:03] Bob: Thats handy!
+[1/29/18, 23:47:03] Bob: Isn't it?
+[1/29/18, 23:47:03] Alice: yes😄
+[1/29/18, 23:47:03] Bob: <Medien ausgeschlossen>
+[1/29/18, 23:47:03] Alice: and Emoji work too!
+[1/29/18, 23:47:03] Bob: What about regular smilies?
+[1/29/18, 23:49:03] Alice: ‎No idea, lets try it out!
+[1/29/18, 23:50:03] Bob: alright :) :D
+[1/29/18, 23:51:03] Alice: Seems to work!:P
+[1/29/18, 23:51:03] Bob: Do you think it also recognizes URLs?
+[1/29/18, 23:52:03] Bob: Can you send one to try?
+[1/29/18, 23:53:03] Alice: https://github.com/JuKo007
+[1/29/18, 23:58:03] Alice: Works! But does it also recognize multiple links? https://github.com/JuKo007 https://github.com/JuKo007
+[1/29/18, 23:59:03] Alice: Cool :)
+[1/29/18, 23:59:03] Bob: ‎How about Locations?
+[1/29/18, 23:59:03] Bob: Location: https://maps.google.com/?q=50.9425526,6.9523387
+[1/29/18, 23:59:03] Alice: live location shared
+[1/29/18, 23:59:03] Bob: Works, nice! :)
+[1/29/18, 23:59:03] Bob: Carol, can you post a self-deleting photo to show how this shows up in the logs?
+[1/29/18, 23:59:03] Carol:
+[1/30/18, 00:00:03] Alice: This should help to better quantify WhatsApp chat logs!
+[1/30/18, 00:02:03] Bob: ‎‎Alright, lets go 😌😄
+[1/30/18, 00:04:03] Bob: ‎‎By the way, are you all okay with  being analyzed for research purposes?
+[1/30/18, 00:10:03] Alice: Sure thing, sounds cool!
+[1/30/18, 00:11:03] Carol: Hm, I don't know, can the researchers see what we've been writing then?
+[1/30/18, 00:11:20] Bob: No, it's only metadata, no media, voice messages or text messages are donated.
+[1/30/18, 00:11:26] Carol: Then I'm okay with it!
+[1/30/18, 00:12:03] Dave: Sorry guys, I'm not comfortabl with this.
+[1/30/18, 00:13:03] Bob: No problem Dave! I'll paste a consent form after this message, if you want to donate your metadata, just copy the message exactly and post it into the chat. If you don't post the message, your data will be deleted.
+[1/30/18, 00:13:04] Dave: Cool, thanks!
+[1/30/18, 00:13:03] Bob: I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.
+[1/30/18, 00:14:03] Alice: I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.
+[1/30/18, 00:15:03] Carol: I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.
+[1/30/18, 00:23:03] Dave: Maybe next time!
