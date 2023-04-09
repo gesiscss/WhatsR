@@ -1,14 +1,14 @@
-#' @title Visualizing media files in WhatsApp chatlogs
-#' @description Creates a list of basic information about a single WhatsApp chatlog
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @title Visualizing media files in WhatsApp chat logs if chats were exported with media files
+#' @description Creates summary data frames or visualizations of sent media files or file types
+#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} and was exported usng the "with media" option.
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param use_filetype If TRUE, shortens sent files to file types.
-#' @param min_occur The minimum number of occurrences a media type has to have to be included in the visualization. Default is 1.
-#' @param return_data If TRUE, returns the subsetted data frame. Default is FALSE.
-#' @param media_vec A vector of media types that the visualizations will be restricted to.
-#' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar".
+#' @param use_filetype If TRUE, shortens sent file attachments to file types.
+#' @param min_occur The minimum number of occurrences a media (type) has to have to be included in the visualization. Default is 1.
+#' @param return_data If TRUE, returns the subset data frame. Default is FALSE.
+#' @param media_vec A vector of media (types) that the visualizations will be restricted to.
+#' @param plot The type of plot that should be returned Options include "heatmap", "cumsum", "bar" and "splitbar".
 #' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
@@ -18,12 +18,12 @@
 #' @importFrom stringi stri_extract_all
 #' @importFrom methods is
 #' @export
-#' @return Plots and/or the subsetted data frame based on author names, datetime and emoji occurrence
+#' @return Plots and/or the subset data frame based on author names, datetime and media (type) occurrence
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_media(data, plot = "heatmap")
 #'
-# Visualizing sent Media files
+# Visualizing sent media files
 plot_media <- function(data,
                        names = "all",
                        starttime = anytime("1960-01-01 00:00"),
@@ -38,7 +38,7 @@ plot_media <- function(data,
   # First of all, we assign local variables with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   defaultW <- Dates <- Sender <- Media <- Frequency <- day <- hour <- n <- `Number of Media files` <- ave <- total <- Var1 <- Freq.Freq <- n <- NULL
 
-  # function to shorten media files to filetypes
+  # defining function to shorten media files to filetypes
   if (use_filetype == TRUE) {
 
     # function for shortening filenames to filetypes
@@ -110,7 +110,7 @@ plot_media <- function(data,
   # This tells us how many elements are in each list element (includes NA aswell)
   NoElements <- lengths(data$Media)
 
-  # We take the New counter and set it to zero where-ever no media files are present
+  # We take the new counter and set it to zero where-ever no media files are present
   NoElements[is.na(data$Media)] <- 0
 
   # Media
@@ -172,7 +172,7 @@ plot_media <- function(data,
     # factor ordering
     weekdays <- rev(c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
 
-    # transalte to english for better compatibility
+    # translate to english for better compatibility
     helperframe2$day <- mgsub(helperframe2$day,
       pattern = c("Sonntag", "Samstag", "Freitag", "Donnerstag", "Mittwoch", "Dienstag", "Montag"),
       replacement = weekdays
@@ -259,8 +259,8 @@ plot_media <- function(data,
 
     names(NewFrame) <- c("Dates", "Sender", "Media", "hour", "year", "day", "counter", "total")
 
-    # constructing graph (addede group = 1 to remove error message)
-    out <- ggplot(NewFrame, aes(x = Dates, y = total, color = Sender, group =1)) +
+    # constructing graph (added group = 1 to remove error message)
+    out <- ggplot(NewFrame, aes(x = Dates, y = total, color = Sender, group = 1)) +
       theme_minimal() +
       geom_line() +
       labs(
@@ -304,7 +304,7 @@ plot_media <- function(data,
       stop()
     }
 
-    # Visualizig the distribution of Mdia file types (file types sent more than x)
+    # Visualizig the distribution of media file types (file types sent more than x)
     out <- ggplot(df[df$Frequency >= min_occur, ], aes(x = Media, y = Frequency, fill = Media)) +
       theme_minimal() +
       geom_bar(stat = "identity") +
@@ -314,7 +314,7 @@ plot_media <- function(data,
         x = "Media file types",
         y = "Frequency"
       ) +
-      theme( # legend.title = element_text("Media"),
+      theme(#legend.title = element_text("Media"),
         axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)
       )
 
@@ -363,6 +363,4 @@ plot_media <- function(data,
     }
   }
 
-  # unmuting useless dplyr message
-  options(warn = defaultW)
 }

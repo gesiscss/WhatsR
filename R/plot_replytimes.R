@@ -1,15 +1,14 @@
-#' @title Plotting replytimes in WhatsApp chatlogs
-#' @description Visualizes the replytimes and reactiontimes to messages per author
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @title Visualizing replytimes in WhatsApp chat logs
+#' @description Visualizes the reply times and reaction times to messages per author
+#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param names_col A column indicated by a string that should be accessed to determine the names. Only needs to be changed when \code{\link[WhatsR]{parse_chat}} used the parameter anon = "add" and the column "Anonymous" should be used. Default is "Sender".
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param return_data If TRUE, returns a data frame of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
+#' @param return_data If TRUE, returns a data frame of response times extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param aggregate_sessions If TRUE, concurrent messages of the same author are aggregated into one session. Default is TRUE.
-#' @param plot Type of plot to be returned, options include "box", "dist" and "heatmap".
+#' @param plot Type of plot to be returned, options are "box" and "heatmap".
 #' @param type If "replytime", plots display how much time it takes authors to reply to previous message, if "reactiontime", plots display how much time it takes for authors to get responded to.
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the data. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom data.table .I
@@ -28,10 +27,8 @@
 #' plot_replytimes(data)
 
 ############## Looking at response times between messages
-#TODO: Check dist parameter and update function description
 plot_replytimes <- function(data,
                             names = "all",
-                            names_col = "Sender",
                             starttime = anytime("1960-01-01 00:00"),
                             endtime = Sys.time(),
                             return_data = FALSE,
@@ -49,15 +46,6 @@ plot_replytimes <- function(data,
   if (is(endtime, "POSIXct") == F) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
   if (starttime >= endtime) stop("starttime has to be before endtime.")
 
-  # names_col must be in preset options
-  if (any(!names_col %in% c("Sender", "Anonymous"))) stop("'names_col' has to be either Sender or Anonymous.")
-
-  # names in data or all names (Sender or Anonymous)
-  if (names_col == "Sender") {
-    if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be 'all' or a vector of names to include.")}
-  else{
-    if (!("all" %in% names) & any(!names %in% data$Anonymous)) stop("names has to either be 'all' or a vector of names to include.")}
-
   # return_data must be bool
   if (!is.logical(return_data)) stop("'return_data' has to be either TRUE or FALSE.")
 
@@ -65,19 +53,13 @@ plot_replytimes <- function(data,
   if (!is.logical(aggregate_sessions)) stop("aggregate_sessions has to be either TRUE or FALSE.")
 
   # plot must be one of the the preset options
-  if (any(!plot %in% c("box", "dist", "heatmap"))) stop("The plot type has to be 'box', 'dist' or 'heatmap'.") #TODO: Check if dist should be kept in the function
+  if (any(!plot %in% c("box", "heatmap"))) stop("The plot type has to be 'box', 'dist' or 'heatmap'.")
 
   # type must be one of the the preset options
   if (any(!type %in% c("replytime", "reactiontime"))) stop("Type has to be replytime or reactiontime.")
 
   # exclude_sm must be bool
   if (!is.logical(exclude_sm)) stop("exclude_sm has to be either TRUE or FALSE.")
-
-  #if names_col == "Anonymous", rename to Sender and rename Sender to placeholder
-  if (names_col == "Anonymous") {
-    colnames(data)[colnames(data) == "Sender"] <- "Placeholder"
-    colnames(data)[colnames(data) == "Anonymous"] <- "Sender"
-  }
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
@@ -221,34 +203,6 @@ plot_replytimes <- function(data,
     }
   }
 
-  #TODO: Add this back in and test it?
-  # if (plot == "dist") {
-  #
-  #   if (type == "replytime") {
-  #
-  #     out <- ggplot(Sessionframe, aes(log(ReactionTime + 1))) +
-  #       geom_histogram() +
-  #       theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +
-  #       labs(title = "Overall Distribution of Reaction Times to previous messages",
-  #            subtitle = paste(starttime, " - ", endtime),
-  #            x = "Reaction times in log(Minutes+1)",
-  #            y = "Frequency")
-  #
-  #   }
-  #
-  #   if (type == "reactiontime") {
-  #
-  #     out <- ggplot(Sessionframe, aes(log(RepliedToAfter + 1))) +
-  #       geom_histogram() +
-  #       theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +
-  #       labs(title = "Overall Distribution of Time it takes to respond to previous messages",
-  #            subtitle = paste(starttime, " - ", endtime),
-  #            x = "Reaction times in log(Minutes+1)",
-  #            y = "Frequency")
-  #   }
-  #
-  # }
-
   if (plot == "heatmap") {
     NewFrame <- Sessionframe[c(1, 3, 6, 7)]
 
@@ -348,18 +302,10 @@ plot_replytimes <- function(data,
   # returning data
   if (return_data == TRUE) {
     if (plot == "dist" | plot == "box") {
-      # Rename Sender and Anonymous columns again to what they were initially
-      if (names_col == "Anonymous") {
-        colnames(Sessionframe)[colnames(Sessionframe) == "Sender"] <- "Anonymous"
-        colnames(Sessionframe)[colnames(Sessionframe) == "Placeholder"] <- "Sender"
-      }
+
       return(as.data.frame(Sessionframe))
     } else {
-      # Rename Sender and Anonymous columns again to what they were initially
-      if (names_col == "Anonymous") {
-        colnames(helperframe2)[colnames(helperframe2) == "Sender"] <- "Anonymous"
-        colnames(helperframe2)[colnames(helperframe2) == "Placeholder"] <- "Sender"
-      }
+
       return(as.data.frame(helperframe2))
     }
   } else {

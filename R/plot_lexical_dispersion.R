@@ -1,12 +1,11 @@
-#' @title Lexical Disperson plots for Keywords in WhatsApp chatlogs
-#' @description Visualizes the occurrence of specific keywords within the chat
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @title Lexical disperson plots for keywords in WhatsApp chat logs
+#' @description Visualizes the occurrence of specific keywords within the chat. Requires the raw message content to be contained in the preprocessed data
+#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param names_col A column indicated by a string that should be accessed to determine the names. Only needs to be changed when \code{\link[WhatsR]{parse_chat}} used the parameter anon = "add" and the column "Anonymous" should be used. Default is "Sender".
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param keywords A vector of keywords to be displayed, default is c("hello",world").
-#' @param return_data Default is FALSE, returns data frame of plot when TRUE.
+#' @param keywords A vector of keywords to be displayed, default is c("hello","world").
+#' @param return_data Default is FALSE, returns data frame used for plotting when TRUE.
 #' @param exclude_sm If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
 #' @param ... Further arguments passed down to \code{\link[qdap]{dispersion_plot}}.
 #' @import ggplot2
@@ -23,7 +22,6 @@
 ######################## lexical dispersion plots for specific words
 plot_lexical_dispersion <- function(data,
                                     names = "all",
-                                    names_col = "Sender",
                                     starttime = anytime("1960-01-01 00:00"),
                                     endtime = Sys.time(),
                                     keywords = c("hello", "world"),
@@ -37,14 +35,8 @@ plot_lexical_dispersion <- function(data,
   if (is(endtime, "POSIXct") == F) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
   if (starttime >= endtime) stop("starttime has to be before endtime.")
 
-  # names_col must be in preset options
-  if (any(!names_col %in% c("Sender", "Anonymous"))) stop("names_col has to be either Sender or Anonymous.")
-
-  # names in data or all names (Sender or Anonymous)
-  if (names_col == "Sender") {
-    if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be \"all\" or a vector of names to include.")}
-  else{
-    if (!("all" %in% names) & any(!names %in% data$Anonymous)) stop("names has to either be \"all\" or a vector of names to include.")}
+  # Mesage column must be contained
+  if (!is.character(data$Flat)) {stop("'data' must contain a character column named 'Message'")}
 
   # return_data must be bool
   if (!is.logical(return_data)) stop("return_data has to be either TRUE or FALSE.")
@@ -54,12 +46,6 @@ plot_lexical_dispersion <- function(data,
 
   # exclude_sm must be bool
   if (!is.logical(exclude_sm)) stop("exclude_sm has to be either TRUE or FALSE.")
-
-  #if names_col == "Anonymous", rename to Sender and rename Sender to placeholder
-  if (names_col == "Anonymous") {
-  colnames(data)[colnames(data) == "Sender"] <- "Placeholder"
-  colnames(data)[colnames(data) == "Anonymous"] <- "Sender"
-  }
 
   # switch off useless warning message
   defaultW <- getOption("warn")
@@ -104,22 +90,14 @@ plot_lexical_dispersion <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ] # TODO: THIS IS WHERE THE ERROR OCCURS
 
-  # New Solution
-  #TODO:
-
-  if (length(unlist(term_match(data$Message, keywords))) == 0) {
+  # Checking if keywords are contained in flattened message
+  if (length(unlist(term_match(data$Flat, keywords))) == 0) {
     stop("Keyword is not contained in the chat, try another keyword")
   }
 
   # make plot
-  out <- with(data, suppressWarnings(dispersion_plot(Message, keywords, grouping.var = list(Sender), ...)))
+  out <- with(data, suppressWarnings(dispersion_plot(Flat, keywords, grouping.var = list(Sender), ...)))
   print(out)
-
-  # Rename Sender and Anonymous columns again to what they were initially
-  if (names_col == "Anonymous") {
-    colnames(data)[colnames(data) == "Sender"] <- "Anonymous"
-    colnames(data)[colnames(data) == "Placeholder"] <- "Sender"
-  }
 
   # switching on warnings again
   options(warn = defaultW)

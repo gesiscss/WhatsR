@@ -1,15 +1,15 @@
-#' @title Visualizing links in WhatsApp chatlogs
-#' @description Visualizes the occurance of links in a WhatsApp chatlog
+#' @title Visualizing links in WhatsApp chat logs
+#' @description Visualizes the occurrence of links in a WhatsApp chatlog
 #' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param use_domains If TRUE, links are shortened to domains. This includes the inputs in link_vec. Default is TRUE.
-#' @param exclude_long Either NA or a numeric value. If numeric value is provided, removes all links/domains, longer than x characters. Default is 50.
+#' @param exclude_long Either NA or a numeric value. If numeric value is provided, removes all links/domains longer than x characters. Default is 50.
 #' @param min_occur The minimum number of occurrences a link has to have to be included in the visualization. Default is 1.
-#' @param return_data If TRUE, returns the subsetted data frame. Default is FALSE.
+#' @param return_data If TRUE, returns the subset data frame. Default is FALSE.
 #' @param link_vec A vector of links that the visualizations will be restricted to.
-#' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar".
+#' @param plot The type of plot that should be returned Options are "heatmap", "cumsum", "bar" and "splitbar".
 #' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
@@ -19,12 +19,12 @@
 #' @importFrom dplyr n
 #' @importFrom methods is
 #' @export
-#' @return Plots and/or the subsetted data frame based on author names, datetime and emoji occurrence
+#' @return Plots and/or the subset data frame based on author names, datetime and emoji occurrence
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_links(data)
 
-# Visualizing sent Links
+# Visualizing sent links or domains
 plot_links <- function(data,
                        names = "all",
                        starttime = anytime("1960-01-01 00:00"),
@@ -36,27 +36,6 @@ plot_links <- function(data,
                        link_vec = "all",
                        plot = "bar",
                        exclude_sm = FALSE) {
-
-
-  # function for shortening to domains
-  shortener <- function(URL) {
-    # Reduce the links to domain-names
-    helper <- lapply(URL, strsplit, "(?<=/)", perl = TRUE)
-    helper2 <- rapply(helper, function(x) {
-      x <- unlist(x)[1:3]
-    }, how = "list")
-    helper3 <- rapply(helper2, function(x) {
-      x <- paste(x, collapse = "")
-    }, how = "list")
-    helper4 <- lapply(helper3, unlist)
-    helper4[helper4 == "NANANA"] <- NA
-    URL <- helper4
-
-    return(unlist(URL))
-  }
-
-  # applying shortening function to link_vec
-  if (use_domains == TRUE & (link_vec != "all")) {link_vec <- shortener(link_vec)}
 
   # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
   Date <- Sender <- Links <- URL <- day <- hour <- n <- `Number of Links` <- ave <- total <- Var1 <- Freq <- NULL
@@ -82,10 +61,31 @@ plot_links <- function(data,
   # use_domains must be bool
   if (!is.logical(use_domains)) stop("use_domains has to be either TRUE or FALSE.")
 
+
+  # function for shortening links to domains
+  shortener <- function(URL) {
+    # Reduce the links to domain-names
+    helper <- lapply(URL, strsplit, "(?<=/)", perl = TRUE)
+    helper2 <- rapply(helper, function(x) {
+      x <- unlist(x)[1:3]
+    }, how = "list")
+    helper3 <- rapply(helper2, function(x) {
+      x <- paste(x, collapse = "")
+    }, how = "list")
+    helper4 <- lapply(helper3, unlist)
+    helper4[helper4 == "NANANA"] <- NA
+    URL <- helper4
+
+    return(unlist(URL))
+  }
+
+  # applying shortening function to link_vec
+  if (use_domains == TRUE & (link_vec != "all")) {link_vec <- shortener(link_vec)}
+
   # exclude_long must be bool
   if (!c(is.na(exclude_long) | is.numeric(exclude_long))) stop("exclude_long has to be either NA or a numeric value")
 
-  # muting useless dplyr message
+  # muting dplyr message
   options(dplyr.summarise.inform = FALSE)
 
   # setting starttime
@@ -295,7 +295,7 @@ plot_links <- function(data,
       ylab("Total Links Sent") +
       geom_point()
 
-    # pinting plot
+    # printing plot
     print(out)
 
     if (return_data == TRUE) {
@@ -308,15 +308,13 @@ plot_links <- function(data,
 
   if (plot == "bar") {
 
-    # Converting to dataframe to make it usable by ggplot
-    # df <- as.data.frame(sort(table(NewFrame$NewUrls),decreasing = TRUE))
-
+    # creating dataframe for plotting
     Links <- names(sort(table(NewFrame$NewUrls), decreasing = TRUE))
     Freq <- sort(table(NewFrame$NewUrls), decreasing = TRUE)
     names(Freq) <- NULL
     df <- cbind.data.frame(Links, Freq)
 
-    # removing some bullshit variable that comes out of nowhere
+    # removing a random variable that comes out of nowhere
     if ("Var1" %in% colnames(df)) {
       df <- df[, -c(2)]
     }
@@ -373,7 +371,7 @@ plot_links <- function(data,
         y = "Frequency"
       )
 
-    # only printing legend if we have unique websites or less
+    # only printing legend if we have 20 unique websites or less
     if (length(unique(SumFrame$URL)) <= 20) {
       print(out)
     } else {

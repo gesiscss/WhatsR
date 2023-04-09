@@ -16,7 +16,7 @@ plot_tokens_over_time(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}} with parameters anonimize = FALSE or anonimize = "add".}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
@@ -26,9 +26,9 @@ plot_tokens_over_time(
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{plot}{Time resolution for plots. Options include "year", "day", "hour", "heatmap" and "alltime". Default is "alltime".}
+\item{plot}{Type of plot to be returned. Options are "year", "day", "hour", "heatmap" and "alltime". Default is "alltime".}
 
-\item{return_data}{If TRUE, returns the subsetted data frame. Default is FALSE.}
+\item{return_data}{If TRUE, returns the subset data frame. Default is FALSE.}
 
 \item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
 }
@@ -36,7 +36,7 @@ plot_tokens_over_time(
 A summary of tokens over time
 }
 \description{
-Summarizes the distribution of tokens over time
+Summarizes the distribution of user-generated tokens over time
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

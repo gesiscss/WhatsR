@@ -1,22 +1,19 @@
-#' @title Parsing exported WhatsApp chatlogs as a dataframe
+#' @title Parsing exported WhatsApp chat logs as a dataframe
 #'
-#' @description Creates a dataframe from an exported WhatsApp chatlog containing one row per message. Some columns
+#' @description Creates a data frame from an exported WhatsApp chat log containing one row per message. Some columns
 #' are saved as lists using the I() function so that multiple elements can be stored per message while still maintaining
 #' the general structure of one row per message. These columns should be treated as lists or unlisted first.
-#' @param path Character string containing the file path to the exported WhatsApp chatlog.
-#' @param os Operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the OS. OS also supports "android" or "iOS".
+#' @param path Character string containing the file path to the exported WhatsApp chat log as a .txt file.
+#' @param os Operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the OS. Also supports "android" or "iOS".
 #' @param language Indicates the language setting of the phone with which the messages were exported. Default is "auto" trying to match either 'English' or 'German'. More languages might be supported in the future.
-#' @param anonimize TRUE results in the vector of sender names being anonymized and columns containing personal identifiable information to be deleted, FALSE displays the actual names and all content, "add" adds
-#' anonomized columns to the full info cilumns. Do not blindly trust this and always double check.
-#' @param consent String containing a consent message. All messages from users who have not posted this exact message into the chat will be deleted. Default is NA.
+#' @param anonimize TRUE results in the vector of sender names being anonymized and columns containing personal identifiable information to be deleted or restricted, FALSE displays the actual names and all content, "add" adds
+#' anonomized columns to the full info columns. Do not blindly trust this and always double check.
+#' @param consent String containing a consent message. All messages from chatters who have not posted this *exact* message into the chat will be deleted. Default is NA, no deleting anything.
 #' @param emoji_dictionary Dictionary for emoji matching. Can use a version included in this package when set to "internal" or
-#' an updated data frame created by \code{\link[WhatsR]{download_emoji}}.
-#' @param smilie_dictionary "emoticons" uses \code{\link[qdapRegex]{ex_emoticon}} to extract smilies, "wikipedia" uses a more inclusive custom list
+#' an updated data frame created by \code{\link[WhatsR]{download_emoji}} passed as a character string containing the path to the file.
+#' @param smilie_dictionary Value "emoticons" uses \code{\link[qdapRegex]{ex_emoticon}} to extract smilies, "wikipedia" uses a more inclusive custom list
 #' of smilies containing all mentions from https://de.wiktionary.org/w/index.php?title=Verzeichnis:International/Smileys
 #' and manually added ones.
-#' @param order Can be "time" or "both". Controls whether an indicator column for the order of messages is added
-#' "time" orders the messages according to the WhatsApp Timestamp the message received while it was sent.
-#' "both" gives two columns with the respective orders when the message was sent and how it was displayed on the exporting phone.
 #' @param rpnl Replace newline. A character string for replacing line breaks within messages for the parsed message for better readability. Default is " start_newline ".
 #' @param rpom Replace omitted media. A character string replacing the indicator for omitted media files for better readability. Default is " media_omitted ".
 #' @importFrom readr parse_character
@@ -26,24 +23,7 @@
 #' @importFrom stringi stri_extract_all_regex  stri_replace_all stri_extract_all stri_split_boundaries
 #' @importFrom mgsub mgsub
 #' @importFrom utils tail read.csv
-#' @return For anonimize = "add", returns a data frame containing:
-#'
-#'      1) A column to indicate the date and time when the message was sent \cr
-#'      2) A column containing the anonymized name of the sender \cr
-#'      3) A column to indicate the name of the sender \cr
-#'      4) A column containing the raw message \cr
-#'      5) A column containing a "flat" message, stripped of emoji, numbers, special characters, file attachments, sent locations etc. \cr
-#'      6) A column containing a tokenized version of the flat message \cr
-#'      7) A column containing only URLs that were contained in the messages \cr
-#'      8) A column containing only the file types of attached media files (if any are contained)\cr
-#'      9) A column containing only sent locations and indicators for shared live locations \cr
-#'      10) A column containing only emoji that were used in the message \cr
-#'      11) A column containing only textual descriptions of emoji that were used in the message \cr
-#'      12) A column containing only emoticons (e.g. ":-)") that were used in the message \cr
-#'      13) A column containing the number of tokens per message, derived from the "flattened" message \cr
-#'      14) A column containing WhatsApp system messages in group chats (e.g."You added Frank to the group") \cr
-#'      15) A column specifying the order of the rows according to the time stamp the messages have on the phone used for extracting the chatlog \cr
-#'      16) A column for specifying the order of the rows as they are displayed on the phone used for extracting the chatlog \cr
+#' @return A dataframe containing one row per message and 11,15, or 19 columns, depending on the setting of the anonimize parameter
 #'
 #' @examples
 #' data <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"))
@@ -53,10 +33,9 @@ parse_chat <- function(path,
                        os = "auto",
                        language = "auto",
                        anonimize = "add",
-                       consent = NA, # TODO: Test this once more + write into testthat file
+                       consent = NA,
                        emoji_dictionary = "internal",
                        smilie_dictionary = "wikipedia",
-                       order = "both", # TODO: Remove: -> This should be non-optional to make tests easier
                        rpnl = " start_newline ",
                        rpom = " media_omitted "
                        ) {
@@ -69,7 +48,6 @@ parse_chat <- function(path,
   if (!(is.character(consent) | is.na(consent))) {stop("'consent' must bei either NA or a character vector")}
   if (!(emoji_dictionary == "internal" | file.exists(emoji_dictionary))) {stop("'emoji_dictionary' must be 'internal' or valid path to a dictionary scraped using download_emoji()")}# TODO
   if (!(smilie_dictionary == "emoticons" | smilie_dictionary == "wikipedia")) {stop("'smilie_dictionary' must be 'emoticons' or 'wikipedia'")}
-  if (!(order == "both" | order == "time")) {stop()}
   if (!is.character(rpnl)) {stop("'rpnl' must be a character string")}
   if (!is.character(rpom)) {stop("'rpom' must be a character string")}
 
@@ -305,7 +283,7 @@ parse_chat <- function(path,
     # getting vector with names of consenting chat participants
     consentintg_ppts <- c(na.omit(ParsedChat$Sender[ParsedChat$Message == consent]), "WhatsApp System Message")
 
-    if(!(is.character(consentintg_ppts) & length(consentintg_ppts) >= 1)) {stop("No participants contained in the chat that posted the consent message.")}
+    if (!(is.character(consentintg_ppts) & length(consentintg_ppts) >= 1)) {stop("No participants contained in the chat that posted the consent message.")}
 
     # removing all messages from non-consenting participants
     ParsedChat <- ParsedChat[is.element(ParsedChat$Sender, consentintg_ppts), ]
@@ -404,7 +382,7 @@ parse_chat <- function(path,
   # printing info
   cat("Removed emoji, newlines and media file indicators from flat text column \U2713 \n")
 
-  # deleting the file attachments from flattend message
+  # deleting the file attachments from flattened message
   if (os == "android") {
     Flat <- gsub(paste0("(.)*?", substring(DeleteAttached, 4, nchar(DeleteAttached) - 1), "($|\\s)"), "", Flat, perl = TRUE)
   } else if (os == "ios") {
@@ -503,10 +481,6 @@ parse_chat <- function(path,
   # tokenizing the flattened message
   TokVec <- tokenize_words(Flat, lowercase = FALSE)
 
-  # Adding tokens from system message as the message column is empty there?
-  # No: TokCount should reflect flat and tokens and only represent user-generated content
-  #TokVec[DF$Sender == "WhatsApp System Message"] <- tokenize_words(DF$SystemMessage[DF$Sender == "WhatsApp System Message"], lowercase = FALSE)
-
   # printing info
   cat("Tokenized flat text column to individual words \U2713 \n")
 
@@ -518,7 +492,7 @@ parse_chat <- function(path,
   Location <- ParsedChat$Location
   SystemMessage <- ParsedChat$SystemMessage
 
-  # Including everything in once dataframe
+  # Including everything in one data frame
   DF <- data.frame(
     DateTime = DateTime,
     Sender = Sender,
@@ -548,7 +522,7 @@ parse_chat <- function(path,
   })
 
 
-  # fixing weird issue with character NAs
+  # fixing issue with character NAs
   DF$Flat[DF$Flat == "NA"] <- NA
 
   # printing info
@@ -714,24 +688,14 @@ parse_chat <- function(path,
 
   }
 
-  # including ordering
-  if (order == "time") {
+  # computing TimeOrder
+  TimeOrder <- order(DF$DateTime)
 
-    # change order to time
-    DF <- DF[order(DF$DateTime), ]
+  # computing Displayorder
+  DisplayOrder <- 1:dim(DF)[1]
 
-  } else if (order == "both") {
-
-    # TimeOrder
-    TimeOrder <- order(DF$DateTime)
-
-    # Displayorder
-    DisplayOrder <- 1:dim(DF)[1]
-
-    # add them
-    DF <- cbind.data.frame(DF, TimeOrder, DisplayOrder)
-
-  } else {}
+  # add them
+  DF <- cbind.data.frame(DF, TimeOrder, DisplayOrder)
 
   # return datframe
   return(DF)

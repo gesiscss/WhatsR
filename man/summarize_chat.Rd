@@ -2,17 +2,17 @@
 % Please edit documentation in R/summarize_chat.R
 \name{summarize_chat}
 \alias{summarize_chat}
-\title{Basic WhatsApp Chatlog Statistics}
+\title{Basic WhatsApp chat log Statistics}
 \usage{
 summarize_chat(data, exclude_sm = FALSE)
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
 \item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
-A list containing:
+A list containing: \cr
 
      1) The number of messages in the chat \cr
      2) The number of tokens in the chat  \cr
@@ -28,7 +28,7 @@ A list containing:
      12) The number of locations in the chat\cr
 }
 \description{
-Creates a list of basic information about a single WhatsApp chatlog
+Creates a list of basic information about a single WhatsApp chat log
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

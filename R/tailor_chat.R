@@ -1,7 +1,7 @@
-#' @title Restricting Chatlogs to certain authors or timeframes.
+#' @title Restricting chat logs to certain authors or timeframes.
 #' @description Excluding parts of the chat by senders or timestamps
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
-#' @param names A vector of names that the output is restricted to. Messages from other authors are excluded.
+#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @param names A vector of names that the output is restricted to. Messages from other non-contained authors are excluded.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
@@ -12,7 +12,7 @@
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' tailor_chat(data, names = c("Mallory", "Alice"))
 
-# Function to tailor dataframe with respect to time and date
+# Function to tailor dataframe with respect to time and author names
 tailor_chat <- function(data,
                         names = "all",
                         starttime = anytime("1960-01-01 00:00"),
@@ -27,7 +27,7 @@ tailor_chat <- function(data,
   # names in data or all names
   if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be \"all\" or a vector of names to include.")
 
-  # excludeSM must be bool
+  # exclude_sm must be bool
   if (!is.logical(exclude_sm)) stop("exclude_sm has to be either TRUE or FALSE.")
 
   # setting starttime
@@ -63,6 +63,6 @@ tailor_chat <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ]
 
-  # spitting out dataframe
+  # returning dataframe
   return(data)
 }

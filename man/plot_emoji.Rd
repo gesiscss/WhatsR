@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_emoji.R
 \name{plot_emoji}
 \alias{plot_emoji}
-\title{Plotting Emoji distributions in WhatsApp chatlogs}
+\title{Plotting emoji distributions in WhatsApp chat logs}
 \usage{
 plot_emoji(
   data,
@@ -19,7 +19,7 @@ plot_emoji(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
@@ -29,11 +29,11 @@ plot_emoji(
 
 \item{min_occur}{Minimum number of occurrences for emoji to be included in the plots. Default is 1.}
 
-\item{return_data}{If TRUE, returns the subsetted data frame. Default is FALSE.}
+\item{return_data}{If TRUE, returns the subsetted data frame used for plotting. Default is FALSE.}
 
-\item{emoji_vec}{A vector of emoji that the visualizations will be restricted to.}
+\item{emoji_vec}{A vector of emoji that the visualizations and data will be restricted to.}
 
-\item{plot}{The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar".}
+\item{plot}{The type of plot that should be returned. Options are "heatmap", "cumsum", "bar" and "splitbar".}
 
 \item{emoji_size}{Determines the size of the emoji displayed on top of the bars for "bar" and "splitbar", default is 10.}
 
@@ -42,12 +42,12 @@ plot_emoji(
 \item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
-Plots and/or the subsetted data frame based on author names, datetime and emoji occurrence
+Plots and/or the subset data frame based on author names, datetime and emoji occurrence
 }
 \description{
-Creates a list of basic information about a single WhatsApp chatlog
+Plots four different types of graphs for the emoji contained in a parsed WhatsApp chat log. Returns dataframe used for plotting if desired.
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-plot_emoji(data,font_family="Times",exclude_sm = TRUE) #font_family = "Noto Color Emoji" on Linux
+plot_emoji(data,font_family="Times", exclude_sm = TRUE) #font_family = "Noto Color Emoji" on Linux
 }

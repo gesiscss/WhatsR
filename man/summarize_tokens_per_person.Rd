@@ -2,7 +2,7 @@
 % Please edit documentation in R/summarize_tokens_per_person.R
 \name{summarize_tokens_per_person}
 \alias{summarize_tokens_per_person}
-\title{Token Distributions per Message}
+\title{Token Distributions for sent messages}
 \usage{
 summarize_tokens_per_person(
   data,
@@ -13,7 +13,7 @@ summarize_tokens_per_person(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
@@ -27,7 +27,7 @@ summarize_tokens_per_person(
 A summary of tokens per message distribution per author
 }
 \description{
-Summarizing the distribution of tokens per message
+Summarizing the distribution of tokens for sent messages
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

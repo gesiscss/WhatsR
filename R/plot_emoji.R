@@ -1,13 +1,13 @@
-#' @title Plotting Emoji distributions in WhatsApp chatlogs
-#' @description Creates a list of basic information about a single WhatsApp chatlog
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @title Plotting emoji distributions in WhatsApp chat logs
+#' @description Plots four different types of graphs for the emoji contained in a parsed WhatsApp chat log. Returns dataframe used for plotting if desired.
+#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param min_occur Minimum number of occurrences for emoji to be included in the plots. Default is 1.
-#' @param return_data If TRUE, returns the subsetted data frame. Default is FALSE.
-#' @param emoji_vec A vector of emoji that the visualizations will be restricted to.
-#' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar".
+#' @param return_data If TRUE, returns the subsetted data frame used for plotting. Default is FALSE.
+#' @param emoji_vec A vector of emoji that the visualizations and data will be restricted to.
+#' @param plot The type of plot that should be returned. Options are "heatmap", "cumsum", "bar" and "splitbar".
 #' @param emoji_size Determines the size of the emoji displayed on top of the bars for "bar" and "splitbar", default is 10.
 #' @param font_family Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see \code{\link[extrafont]{font_import}}.
 #' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
@@ -20,12 +20,12 @@
 #' @importFrom methods is
 #' @importFrom utils read.csv
 #' @export
-#' @return Plots and/or the subsetted data frame based on author names, datetime and emoji occurrence
+#' @return Plots and/or the subset data frame based on author names, datetime and emoji occurrence
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' plot_emoji(data,font_family="Times",exclude_sm = TRUE) #font_family = "Noto Color Emoji" on Linux
+#' plot_emoji(data,font_family="Times", exclude_sm = TRUE) #font_family = "Noto Color Emoji" on Linux
 
-# Visualizing sent Emoji
+# Visualizing sent emoji
 plot_emoji <- function(data,
                        names = "all",
                        starttime = anytime("1960-01-01 00:00"),
@@ -39,30 +39,31 @@ plot_emoji <- function(data,
                        exclude_sm = FALSE) {
 
 
-    # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-    Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- Glyph <-  NULL
+  # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
+  Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- Glyph <-  NULL
 
-    # catching bad params
-    # start- and endtime are POSIXct
-    if (is(starttime, "POSIXct") == F) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-    if (is(endtime, "POSIXct") == F) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-    if (starttime >= endtime) stop("starttime has to be before endtime.")
+  # catching bad params
+  # start- and endtime are POSIXct
+  if (is(starttime, "POSIXct") == F) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is(endtime, "POSIXct") == F) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (starttime >= endtime) stop("starttime has to be before endtime.")
 
-    if (min_occur < 1) stop("Please provide a min_occur of >= 1.")
+  # min_occur needs to be 1 or bigger
+  if (min_occur < 1) stop("Please provide a min_occur of >= 1.")
 
-    # return_data must be bool
-    if (!is.logical(return_data)) stop("return_data has to be either TRUE or FALSE.")
+  # return_data must be bool
+  if (!is.logical(return_data)) stop("return_data has to be either TRUE or FALSE.")
 
-    # emoji_vec must be in data
-    if (!("all" %in% emoji_vec) & any(!emoji_vec %in% data$EmojiDescriptions)) stop("emoji_vec has to either be \"all\" or a vector of emojis to include.")
+  # emoji_vec must be in data
+  if (!("all" %in% emoji_vec) & any(!emoji_vec %in% data$EmojiDescriptions)) stop("emoji_vec has to either be \"all\" or a vector of emojis to include.")
 
-    # plot must be one of the the preset options
-    if (any(!plot %in% c("heatmap", "cumsum", "bar", "splitbar"))) stop("The plot type has to be heatmap, cumsum, bar or splitbar.")
+  # plot must be one of the the preset options
+  if (any(!plot %in% c("heatmap", "cumsum", "bar", "splitbar"))) stop("The plot type has to be heatmap, cumsum, bar or splitbar.")
 
-    # exclude_sm must be bool
-    if (!is.logical(exclude_sm)) stop("exclude_sm has to be either TRUE or FALSE.")
+  # exclude_sm must be bool
+  if (!is.logical(exclude_sm)) stop("exclude_sm has to be either TRUE or FALSE.")
 
-  # switching off useless warning
+  # switching off dplyr warning
   options(dplyr.summarise.inform = FALSE)
 
   # importing Emoji dictionary
@@ -106,13 +107,13 @@ plot_emoji <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender,names) & data$DateTime >= starttime & data$DateTime <= endtime,]
 
-  # This tells us if at least one emoji is present (if it's TRUE then there's at least one emoji)
+  # This tells us if at least one emoji is present (if TRUE then there's at least one emoji)
   EmojiPresent <- !sapply(sapply(data$Emoji, is.na),sum)
 
-  # This tells us how many elements are in each list element (includes NA aswell)
+  # This tells us how many elements are in each list element (includes NA as well)
   NoElements <- lengths(data$Emoji)
 
-  # We take the New counter and set it to zero where-ever no emoji are present
+  # We take the new counter and set it to zero where-ever no emoji are present
   NoElements[EmojiPresent == FALSE] <- 0
 
   # Emoji
@@ -292,17 +293,17 @@ plot_emoji <- function(data,
     names(Freq) <- NULL
     df <- cbind.data.frame(Emoji = Emoji, Freq)
 
-    # removing some bullshit variable that comes out of nowhere
+    # removing some random variable that comes out of nowhere
     if ("Var1" %in% colnames(df)) {
 
       df <- df[,-c(2)]
 
     }
 
-    # restricting dataframe to min_occur
+    # restricting data frame to min_occur
     df <- df[df$Freq >= min_occur,]
 
-    # matching Emoji contained in the data with rownumber of dictionary
+    # matching emoji contained in the data with row number of dictionary
     indicator <- NULL
 
     for (i in df$Emoji) {
@@ -314,7 +315,7 @@ plot_emoji <- function(data,
     # retranslating emoji to description
     df$Glyph <- sapply(gsub("Emoji_","",df$Emoji), function(x){Dictionary[x == Dictionary$Desc,]$R.native})
 
-    # Visualizig the distribution of Emoji and putting the emoji into the plots ontop of the bars
+    # Visualizig the distribution of emoji and putting the emoji on top of the bars
     out <- ggplot(df,aes(x = factor(Emoji,levels = Emoji[order(Freq, decreasing = TRUE)]),y = Freq, fill = Emoji, label = Dictionary$HTML[indicator])) +
       theme_minimal() +
       geom_bar(stat = "identity") +
@@ -360,7 +361,7 @@ plot_emoji <- function(data,
 
     }
 
-    # TODO: When we have an unequal amount of bars per person, the bar width for one person gets screwed up: Fix this!
+    # TODO: When we have an unequal amount of bars per person, the bar width for one person can get mangled up
     # retranslating emoji to description
     SumFrame$Glyph <- sapply(gsub("Emoji_","",SumFrame$Emoji), function(x){Dictionary[x == Dictionary$Desc,]$R.native})
 

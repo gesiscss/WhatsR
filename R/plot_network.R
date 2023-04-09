@@ -1,5 +1,5 @@
-#' @title Visualize the Network of replies in WhatsApp chatlogs
-#' @description Plots a network for replies between authors in chatlogs
+#' @title Visualizing the network of consecutive replies in WhatsApp chat logs
+#' @description Plots a network for replies between authors in chat logs. Each message is evaluated as a reply to the previous one.
 #' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the visualization will be restricted to. Non-listed authors will be removed.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Input is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
@@ -17,7 +17,7 @@
 #' @importFrom visNetwork visNetwork visEdges
 #' @importFrom methods is
 #' @export
-#' @return A network visualization of authors in WhatsApp chatlogs where each subsequent message is considered a reply to the previous one.
+#' @return A network visualization of authors in WhatsApp chat logs where each subsequent message is considered a reply to the previous one.
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_network(data)
@@ -87,7 +87,12 @@ plot_network <- function(data,
   data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ]
 
   # We need to exclude the WhatsApp system messages
-  Tempframe <- data[data$Sender != "WhatsApp System Message", ]
+  # TODO: Rerun tests -> If they fail, remove if clause and always remove system messages
+  if (exclude_sm == TRUE) {
+
+    Tempframe <- data[data$Sender != "WhatsApp System Message", ]
+
+  } else{Tempframe <- data}
 
   # function for unlisting and counting elements
   Unlist_counter <- function(x) {

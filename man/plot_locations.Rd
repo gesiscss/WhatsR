@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_locations.R
 \name{plot_locations}
 \alias{plot_locations}
-\title{Plotting locations sent in WhatsApp chatlogs on maps}
+\title{Plotting locations sent in WhatsApp chat logs on maps}
 \usage{
 plot_locations(
   data,
@@ -18,7 +18,7 @@ plot_locations(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}with anonimize= FALSE or anonimize = "add".}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
@@ -26,7 +26,7 @@ plot_locations(
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{mapzoom}{Value for zoom into the map passed down to get_map. Default value is 5. Higher zoom will auto-download more map files which can take a while.}
+\item{mapzoom}{Value for zoom into the map passed down to \code{\link[ggmap]{get_map}}. Default value is 5. Higher zoom will auto-download more map files which can take a while.}
 
 \item{return_data}{If TRUE, returns a data frame of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.}
 
@@ -42,7 +42,7 @@ plot_locations(
 Plots for geolocation and/or a data frame of latitude and longitude coordinates
 }
 \description{
-Plots the location data that is sent in the WhatsApp chatlog on an auto-scaled map
+Plots the location data that is sent in the WhatsApp chatlog on an auto-scaled map. Requires unanonimized 'Location' column in data
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

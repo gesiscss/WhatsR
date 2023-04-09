@@ -1,12 +1,12 @@
 #' @title Distribution of Tokens over time
-#' @description Summarizes the distribution of tokens over time
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @description Summarizes the distribution of user-generated tokens over time
+#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}} with parameters anonimize = FALSE or anonimize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param names_col A column indicated by a string that should be accessed to determine the names. Only needs to be changed when \code{\link[WhatsR]{parse_chat}} used the parameter anon = "add" and the column "Anonymous" should be used. Default is "Sender".
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param plot Time resolution for plots. Options include "year", "day", "hour", "heatmap" and "alltime". Default is "alltime".
-#' @param return_data If TRUE, returns the subsetted data frame. Default is FALSE.
+#' @param plot Type of plot to be returned. Options are "year", "day", "hour", "heatmap" and "alltime". Default is "alltime".
+#' @param return_data If TRUE, returns the subset data frame. Default is FALSE.
 #' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
@@ -169,7 +169,7 @@ plot_tokens_over_time <- function(data,
     # shaping dataframe
     helperframe <- helperframe %>%
       group_by(day, hour) %>%
-      summarise("Number of Tokens" = sum(TokCount, na.rm=TRUE))
+      summarise("Number of Tokens" = sum(TokCount, na.rm = TRUE))
 
     # factor ordering
     weekdays <- rev(c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))

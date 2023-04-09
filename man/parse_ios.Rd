@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse_ios.R
 \name{parse_ios}
 \alias{parse_ios}
-\title{Parsing raw WhatsApp Chat Textfiles according to iOs text structure}
+\title{Parsing raw WhatsApp chat log according to iOs text structure}
 \usage{
 parse_ios(
   chatlog,
@@ -29,9 +29,9 @@ parse_ios(
 
 \item{media_indicator}{Character string for detecting media and file attachments.}
 
-\item{sent_location}{Regex for detecting auto-generated messages for locations shared via chat.}
+\item{sent_location}{Regex for detecting auto generated messages for locations shared via chat.}
 
-\item{live_location}{Regex for detecting auto-generated messages for locations shared via chat.}
+\item{live_location}{Regex for detecting auto generated messages for locations shared via chat.}
 
 \item{datetime_indicator}{Regex for detecting the DateTime indicator at the beginning of each message.}
 
@@ -43,7 +43,7 @@ parse_ios(
 A data frame containing the timestamp, name of the sender and message body
 }
 \description{
-Creates a data frame from an exported WhatsApp chatlog containing one row per message
+Creates a data frame from an exported WhatsApp chat log containing one row per message
 and a column for DateTime when the message was send, name of the sender and body of the message. Only works as an intermediary function
 called from within \code{\link[WhatsR]{parse_chat}}
 }

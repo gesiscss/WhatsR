@@ -1,6 +1,6 @@
-#' @title Creating test datasets in the structure of WhatsApp chatlogs
+#' @title Creating test data in the structure of WhatsApp chat logs
 #'
-#' @description Creates a .txt file in the working directory that has the same structure as chatlogs exported from WhatsApp. Messages have a timestamp, sender name and message body
+#' @description Creates a .txt file in the working directory that has the same structure as chat logs exported from WhatsApp. Messages have a timestamp, sender name and message body
 #' containing lorem ipsum, emoji, links, smilies, location, omitted media files, linebreaks, self-deleting photos, and WhatsApp system messages. Timestamps are formatted according to specified phone operating system and
 #' time format settings. WhatsApp system messages are formatted according to specified phone operating system and language.
 #' @param n_messages Number of messages that are contained in the created .txt file.
@@ -13,9 +13,9 @@
 #' @param n_diff_smilies Number of different smilies that are used in the simulated chat.
 #' @param n_media Number of messages that contain omitted media files. Must be smaller or equal to n_messages.
 #' @param n_sdp Number of messages that contain self-deleting photos. Must be smaller or equal to n_messages.
-#' @param startdate Earliest possible date for messages. Timestamps for messages are created automatically between startdate and enddate.
-#' @param enddate Latest possible date for messages. Timestamps for messages are created automatically between startdate and enddate.
-#' @param language Parameter for the language setting of the exporting phone. Influences structure of system messages.
+#' @param startdate Earliest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate.
+#' @param enddate Latest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate.
+#' @param language Parameter for the language setting of the exporting phone. Influences structure of system messages
 #' @param time_format Parameter for the time format setting of the exporting phone (am/pm vs. 24h). Influences the structure of timestamps.
 #' @param os Parameter for the operating system setting of the exporting phone. Influences the structure of timestamps and WhatsApp system messages.
 #' @param path Character string for indicating the file path of where to save the file. Can be NA to not save a file. Default is getwd()
@@ -60,7 +60,7 @@ create_chatlog <- function(n_messages = 150,
   assert_numeric(n_media, lower = 0, upper = 1000, len = 1)
 
   # ensuring that n_variables are not larger than the number of messages
-  if (n_messages < n_emoji | n_messages < n_links | n_messages < n_locations | n_messages < n_smilies | n_messages < n_media | n_messages < n_sdp) {
+  if (n_messages <= n_emoji & n_messages <= n_links & n_messages <= n_locations & n_messages <= n_smilies & n_messages <= n_media & n_messages <= n_sdp) {
     warning("The number of messages containing a specific feature must be smaller than the overall number of messages. Try increasing n_messages.")
     stop()
   }
@@ -119,7 +119,7 @@ create_chatlog <- function(n_messages = 150,
     stringsAsFactors = F
   )[, 2]
 
-  # Limiting Smiley dictionary of number of different smilies to sample from
+  # Limiting smiley dictionary to number of different smilies to sample from
   smilies <- smilies[sample(1:length(smilies), n_diff_smilies)]
 
   # Importing emoji dictionary
@@ -131,7 +131,7 @@ create_chatlog <- function(n_messages = 150,
     blank.lines.skip = TRUE
   )
 
-  # Limiting emoji dictionary of number of different emoji to sample from
+  # Limiting emoji dictionary to number of different emoji to sample from
   EmojiDictionary <- EmojiDictionary[sample(1:dim(EmojiDictionary)[1], n_diff_emoji), ]
 
 
@@ -230,7 +230,7 @@ create_chatlog <- function(n_messages = 150,
   # importing lorem words
   Lorem <- readRDS(system.file("LoremWords.rds", package = "WhatsR"))
 
-  # Creating mock WhatsApp Messages
+  # Creating lorem ipsum WhatsApp messages
   for (i in seq_along(ts)) {
 
     # sample number of sentences
@@ -297,7 +297,7 @@ create_chatlog <- function(n_messages = 150,
 
   #### Adding Locations
 
-  # creating latitude and longtide for location links
+  # creating latitude and longitude for location links
   locations <- paste(round(as.numeric(runif(n_locations, -0.005, 1.0049) + sample(-89:89, n_locations, replace = TRUE)), 8),
     ",",
     round(as.numeric(runif(n_locations, -0.005, 1.0049) + sample(-89:89, n_locations, replace = TRUE)), 8),
@@ -334,7 +334,7 @@ create_chatlog <- function(n_messages = 150,
   # transpose WAStrings for easier handling
   WAStrings <- t(WAStrings)
 
-  # Create system messages from Regexes built to detect them and insert them
+  # Create system messages from RegExes built to detect them and insert them
   # according to specified language and operating system
   if (language == "german") {
     if (os == "android") {
@@ -449,11 +449,11 @@ create_chatlog <- function(n_messages = 150,
   }
 
 
-  # write simulated chatlog to file
+  # write simulated chat log to file
   if (!is.na(path)) {
     writeLines(Messages, paste0(path,"/",chatname, ".txt"))
   }
 
-  ##### Returning Results #####
+  # returning results
   return(Messages)
 }

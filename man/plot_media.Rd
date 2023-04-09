@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_media.R
 \name{plot_media}
 \alias{plot_media}
-\title{Visualizing media files in WhatsApp chatlogs}
+\title{Visualizing media files in WhatsApp chat logs if chats were exported with media files}
 \usage{
 plot_media(
   data,
@@ -18,7 +18,7 @@ plot_media(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} and was exported usng the "with media" option.}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
@@ -26,23 +26,23 @@ plot_media(
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{use_filetype}{If TRUE, shortens sent files to file types.}
+\item{use_filetype}{If TRUE, shortens sent file attachments to file types.}
 
-\item{min_occur}{The minimum number of occurrences a media type has to have to be included in the visualization. Default is 1.}
+\item{min_occur}{The minimum number of occurrences a media (type) has to have to be included in the visualization. Default is 1.}
 
-\item{return_data}{If TRUE, returns the subsetted data frame. Default is FALSE.}
+\item{return_data}{If TRUE, returns the subset data frame. Default is FALSE.}
 
-\item{media_vec}{A vector of media types that the visualizations will be restricted to.}
+\item{media_vec}{A vector of media (types) that the visualizations will be restricted to.}
 
-\item{plot}{The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar".}
+\item{plot}{The type of plot that should be returned Options include "heatmap", "cumsum", "bar" and "splitbar".}
 
 \item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
-Plots and/or the subsetted data frame based on author names, datetime and emoji occurrence
+Plots and/or the subset data frame based on author names, datetime and media (type) occurrence
 }
 \description{
-Creates a list of basic information about a single WhatsApp chatlog
+Creates summary data frames or visualizations of sent media files or file types
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

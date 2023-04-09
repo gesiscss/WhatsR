@@ -2,12 +2,11 @@
 % Please edit documentation in R/plot_lexical_dispersion.R
 \name{plot_lexical_dispersion}
 \alias{plot_lexical_dispersion}
-\title{Lexical Disperson plots for Keywords in WhatsApp chatlogs}
+\title{Lexical disperson plots for keywords in WhatsApp chat logs}
 \usage{
 plot_lexical_dispersion(
   data,
   names = "all",
-  names_col = "Sender",
   starttime = anytime("1960-01-01 00:00"),
   endtime = Sys.time(),
   keywords = c("hello", "world"),
@@ -17,19 +16,17 @@ plot_lexical_dispersion(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
-
-\item{names_col}{A column indicated by a string that should be accessed to determine the names. Only needs to be changed when \code{\link[WhatsR]{parse_chat}} used the parameter anon = "add" and the column "Anonymous" should be used. Default is "Sender".}
 
 \item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 
-\item{keywords}{A vector of keywords to be displayed, default is c("hello",world").}
+\item{keywords}{A vector of keywords to be displayed, default is c("hello","world").}
 
-\item{return_data}{Default is FALSE, returns data frame of plot when TRUE.}
+\item{return_data}{Default is FALSE, returns data frame used for plotting when TRUE.}
 
 \item{exclude_sm}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
 
@@ -39,7 +36,7 @@ plot_lexical_dispersion(
 Lexical Dispersion plots for specified keywords
 }
 \description{
-Visualizes the occurrence of specific keywords within the chat
+Visualizes the occurrence of specific keywords within the chat. Requires the raw message content to be contained in the preprocessed data
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

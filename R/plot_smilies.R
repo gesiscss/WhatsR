@@ -1,14 +1,14 @@
-#' @title Visualize Smilies used in WhatsApp chatlogs
-#' @description Plots the smilies used in WhatsApp chatlogs
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @title Visualize smilies used in WhatsApp chat logs
+#' @description Plots the smilies used in WhatsApp chat logs by sender
+#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param min_occur The minimum number of occurrences a smiley has to have to be included in the visualization. Default is 1.
-#' @param return_data If TRUE, returns a data frame of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
+#' @param return_data If TRUE, returns a data frame of smilies extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param smilie_vec A vector of smilies that the visualizations will be restricted to.
-#' @param plot The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar".
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
+#' @param plot The type of plot that should be returned. Options are "heatmap", "cumsum", "bar" and "splitbar".
+#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the data. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom methods is
@@ -18,7 +18,7 @@
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_smilies(data)
 
-# Visualizing sent Links
+# Visualizing sent smilies
 plot_smilies <- function(data,
                          names = "all",
                          starttime = anytime("1960-01-01 00:00"),
@@ -92,7 +92,7 @@ plot_smilies <- function(data,
   # This tells us how many elements are in each list element (includes NA aswell)
   NoElements <- lengths(data$Smilies)
 
-  # We take the New counter and set it to zero where-ever no smilies are present
+  # We take the new counter and set it to zero where-ever no smilies are present
   NoElements[SmiliesPresent == FALSE] <- 0
 
   # Smilies
@@ -108,7 +108,7 @@ plot_smilies <- function(data,
 
   NewSender <- unlist(NewSender)
 
-  # New Dates
+  # new dates
   NewDates <- list()
 
   for (i in seq_along(data$DateTime)) {
@@ -267,7 +267,7 @@ plot_smilies <- function(data,
     # setting names in dataframe
     names(df) <- c("Smilies", "Freq")
 
-    # Visualizig the distribution ofsmilies
+    # Visualizig the distribution of smilies
     out <- ggplot(df[df$Freq >= min_occur, ], aes(x = Smilies, y = Freq, fill = Smilies)) +
       theme_minimal() +
       geom_bar(stat = "identity") +
@@ -294,7 +294,7 @@ plot_smilies <- function(data,
   }
 
   if (plot == "splitbar") {
-    ## Summarize per Sender who often each domain was sent
+    ## Summarize per Sender how often each smiley was sent
     SumFrame <- group_by(NewFrame, NewSender, NewSmilies) %>% summarise(n = n())
     SumFrame <- SumFrame[SumFrame$n >= min_occur, ]
 

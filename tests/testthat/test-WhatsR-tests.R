@@ -549,7 +549,7 @@ test_that("Anoynmization & Consent", {
 
   data_g_ios_24_add_match <- hush(parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden."))
   data_g_android_24_add_match <- hush(parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden."))
-  data_g_ios_ampm_add_match<- hush(parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden."))
+  data_g_ios_ampm_add_match <- hush(parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden."))
   data_g_android_ampm_add_match <- hush(parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden."))
 
 
@@ -762,7 +762,6 @@ test_that("Anoynmization & Consent", {
 
 
   # all data types, anon = TRUE, consent = "Test String not contained in any messages"
-  # TODO: This should only have 11 columns when anonmized -> Check again!
   data_e_ios_24_TRUE_mismatch <- hush(parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages"))
   data_e_android_24_TRUE_mismatch <- hush(parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages"))
   data_e_ios_ampm_TRUE_mismatch <- hush(parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages"))
@@ -814,18 +813,8 @@ test_that("Anoynmization & Consent", {
 
 #####
 
-  hush <- function(code) {
-    sink("") # use /dev/null in UNIX
-    tmp <- code
-    sink()
-    return(tmp)
-  }
-
-
-
 
   # all data types, anon = FALSE, consent = "Test String not contained in any messages"
-  # TODO: This should be 15 columns!
   data_e_ios_24_FALSE_mismatch <- hush(parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages"))
   data_e_android_24_FALSE_mismatch <- hush(parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages"))
   data_e_ios_ampm_FALSE_mismatch <- hush(parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages"))

@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_chatlog.R
 \name{create_chatlog}
 \alias{create_chatlog}
-\title{Creating test datasets in the structure of WhatsApp chatlogs}
+\title{Creating test data in the structure of WhatsApp chat logs}
 \usage{
 create_chatlog(
   n_messages = 150,
@@ -45,11 +45,11 @@ create_chatlog(
 
 \item{n_sdp}{Number of messages that contain self-deleting photos. Must be smaller or equal to n_messages.}
 
-\item{startdate}{Earliest possible date for messages. Timestamps for messages are created automatically between startdate and enddate.}
+\item{startdate}{Earliest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate.}
 
-\item{enddate}{Latest possible date for messages. Timestamps for messages are created automatically between startdate and enddate.}
+\item{enddate}{Latest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate.}
 
-\item{language}{Parameter for the language setting of the exporting phone. Influences structure of system messages.}
+\item{language}{Parameter for the language setting of the exporting phone. Influences structure of system messages}
 
 \item{time_format}{Parameter for the time format setting of the exporting phone (am/pm vs. 24h). Influences the structure of timestamps.}
 
@@ -63,7 +63,7 @@ create_chatlog(
 A .txt file with a simulated WhatsApp chat containing lorem ipsum but all structural properties of actual chats.
 }
 \description{
-Creates a .txt file in the working directory that has the same structure as chatlogs exported from WhatsApp. Messages have a timestamp, sender name and message body
+Creates a .txt file in the working directory that has the same structure as chat logs exported from WhatsApp. Messages have a timestamp, sender name and message body
 containing lorem ipsum, emoji, links, smilies, location, omitted media files, linebreaks, self-deleting photos, and WhatsApp system messages. Timestamps are formatted according to specified phone operating system and
 time format settings. WhatsApp system messages are formatted according to specified phone operating system and language.
 }

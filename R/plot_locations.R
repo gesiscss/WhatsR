@@ -1,10 +1,10 @@
-#' @title Plotting locations sent in WhatsApp chatlogs on maps
-#' @description Plots the location data that is sent in the WhatsApp chatlog on an auto-scaled map
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @title Plotting locations sent in WhatsApp chat logs on maps
+#' @description Plots the location data that is sent in the WhatsApp chatlog on an auto-scaled map. Requires unanonimized 'Location' column in data
+#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}with anonimize= FALSE or anonimize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param mapzoom Value for zoom into the map passed down to get_map. Default value is 5. Higher zoom will auto-download more map files which can take a while.
+#' @param mapzoom Value for zoom into the map passed down to \code{\link[ggmap]{get_map}}. Default value is 5. Higher zoom will auto-download more map files which can take a while.
 #' @param return_data If TRUE, returns a data frame of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param jitter_value Amount of random jitter to add to the geolocations to hide exact locations. Default value is 0.01. Can be NA for exact locations.
 #' @param jitter_seed Seed for adding random jitter to coordinates. Passed to \code{\link[base]{set.seed}}
@@ -26,7 +26,7 @@
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_locations(data, mapzoom = 10)
 #'
-#### Location
+#### Plotting locations conained in WhatsApp chat logs on maps
 plot_locations <- function(data,
                            names = "all",
                            starttime = anytime("1960-01-01 00:00"),
@@ -50,7 +50,7 @@ plot_locations <- function(data,
   if (starttime >= endtime) stop("starttime has to be before endtime.")
 
   # jitter_value checks
-  if (!(is.numeric(jitter_value) | is.na(jitter_value))){stop("jitter_value must be either NA for exact location or a numeric value > 0")}
+  if (!(is.numeric(jitter_value) | is.na(jitter_value))) {stop("jitter_value must be either NA for exact location or a numeric value > 0")}
   if (!is.numeric(jitter_seed)) {stop("jitter_seed must be a numeric value")}
 
   # return_data must be bool
@@ -109,7 +109,7 @@ plot_locations <- function(data,
   LatLong[, 1] <- as.numeric(as.character(LatLong[, 1]))
   LatLong[, 2] <- as.numeric(as.character(LatLong[, 2]))
 
-  # adding jitter to conceal exact locations
+  # adding jitter to conceal exact locations if desired
   if (!is.na(jitter_value)) {
     # Add some jitter to the data
     Coord_no <- dim(LatLong)[1] * dim(LatLong)[2]

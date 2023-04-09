@@ -2,7 +2,7 @@
 % Please edit documentation in R/tailor_chat.R
 \name{tailor_chat}
 \alias{tailor_chat}
-\title{Restricting Chatlogs to certain authors or timeframes.}
+\title{Restricting chat logs to certain authors or timeframes.}
 \usage{
 tailor_chat(
   data,
@@ -13,9 +13,9 @@ tailor_chat(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
-\item{names}{A vector of names that the output is restricted to. Messages from other authors are excluded.}
+\item{names}{A vector of names that the output is restricted to. Messages from other non-contained authors are excluded.}
 
 \item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_network.R
 \name{plot_network}
 \alias{plot_network}
-\title{Visualize the Network of replies in WhatsApp chatlogs}
+\title{Visualizing the network of consecutive replies in WhatsApp chat logs}
 \usage{
 plot_network(
   data,
@@ -33,10 +33,10 @@ plot_network(
 \item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
-A network visualization of authors in WhatsApp chatlogs where each subsequent message is considered a reply to the previous one.
+A network visualization of authors in WhatsApp chat logs where each subsequent message is considered a reply to the previous one.
 }
 \description{
-Plots a network for replies between authors in chatlogs
+Plots a network for replies between authors in chat logs. Each message is evaluated as a reply to the previous one.
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

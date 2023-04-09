@@ -2,7 +2,7 @@
 % Please edit documentation in R/download_emoji.R
 \name{download_emoji}
 \alias{download_emoji}
-\title{Fetching Emoji Dictionary from Emojipedia.org}
+\title{Scraping a dictionary of emoji from Emojipedia.org}
 \usage{
 download_emoji(
   pages = c("https://emojipedia.org/people/", "https://emojipedia.org/nature/",
@@ -20,27 +20,27 @@ download_emoji(
 )
 }
 \arguments{
-\item{pages}{A character vector containing the URLs of the emoji categories you want to fetch, e.g. 'https://emojipedia.org/people/'}
+\item{pages}{A character vector containing the URLs of the emoji categories you want to fetch, e.g.\href{https://emojipedia.org/people/}{https://emojipedia.org/people/}}
 
-\item{skinpages}{A character vector containing the URLs of the skintone modifier categories you want to fetch, e.g. 'https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/'}
+\item{skinpages}{A character vector containing the URLs of the skintone modifier categories you want to fetch, e.g. \href{https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/}{https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/}}
 
 \item{regular_xpath}{Xpath of the html table containing the emoji information, e.g. '/html/body/div[5]/div[1]/ul'}
 
 \item{skinpages_xpath}{Xpath of the html table containing the skintone modifier information, e.g. '/html/body/div[5]/div[1]/article/section[1]/ul'}
 
-\item{exception_xpath}{Xpath of the html table containing the skintone modifier information for Fitzpatrick 1-2, e.g. '/html/body/div[5]/div[1]/article/section[1]/ul[2]'}
+\item{exception_xpath}{Xpath of the html table containing the skintone modifier information specifically for Fitzpatrick 1-2, e.g. '/html/body/div[5]/div[1]/article/section[1]/ul[2]'}
 }
 \value{
-A data frame containing:
+A data frame containing:\cr
      1) The native representation of all emoji in R \cr
      2) A textual description of what the emoji is displaying \cr
      3) Original order of the HTML table that the emojis were fetched from
 }
 \description{
-Fetches a dictionary of emojis from www.emojipedia.org, assuming that the website is available and its structure does not change.
-Can be used to update the emoji dictionary contained in this package. The dictionary is ordered according to the length of
+Scrapes a dictionary of emoji from \href{www.emojipedia.org}{emojipedia}, assuming that the website is available and its structure does not change.
+Can be used to update the emoji dictionary contained in this package by replacing the file and recompiling the package. The dictionary is ordered according to the length of
 the emojis' byte representation (longer ones first) to prevent partial matching of shorter strings when iterating
-through the data frame from top to bottom.
+through the data frame.
 }
 \examples{
 Emoji_dictionary <- download_emoji()

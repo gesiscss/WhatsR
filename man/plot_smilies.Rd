@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_smilies.R
 \name{plot_smilies}
 \alias{plot_smilies}
-\title{Visualize Smilies used in WhatsApp chatlogs}
+\title{Visualize smilies used in WhatsApp chat logs}
 \usage{
 plot_smilies(
   data,
@@ -17,7 +17,7 @@ plot_smilies(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
@@ -27,19 +27,19 @@ plot_smilies(
 
 \item{min_occur}{The minimum number of occurrences a smiley has to have to be included in the visualization. Default is 1.}
 
-\item{return_data}{If TRUE, returns a data frame of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.}
+\item{return_data}{If TRUE, returns a data frame of smilies extracted from the chat for more elaborate plotting. Default is FALSE.}
 
 \item{smilie_vec}{A vector of smilies that the visualizations will be restricted to.}
 
-\item{plot}{The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar".}
+\item{plot}{The type of plot that should be returned. Options are "heatmap", "cumsum", "bar" and "splitbar".}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the data. Default is FALSE.}
 }
 \value{
 Plots for distribution of smilies in WhatsApp chats
 }
 \description{
-Plots the smilies used in WhatsApp chatlogs
+Plots the smilies used in WhatsApp chat logs by sender
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

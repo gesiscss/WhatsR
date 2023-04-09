@@ -1,6 +1,6 @@
-#' @title Token Distributions per Message
-#' @description Summarizing the distribution of tokens per message
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @title Token Distributions for sent messages
+#' @description Summarizing the distribution of tokens for sent messages
+#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
@@ -27,7 +27,7 @@ summarize_tokens_per_person <- function(data,
   # names in data or all names
   if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be \"all\" or a vector of names to include.")
 
-  # excludeSM must be bool
+  # exclude_sm must be bool
   if (!is.logical(exclude_sm)) stop("excludeSM has to be either TRUE or FALSE.")
 
   # setting starttime

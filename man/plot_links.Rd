@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_links.R
 \name{plot_links}
 \alias{plot_links}
-\title{Visualizing links in WhatsApp chatlogs}
+\title{Visualizing links in WhatsApp chat logs}
 \usage{
 plot_links(
   data,
@@ -29,23 +29,23 @@ plot_links(
 
 \item{use_domains}{If TRUE, links are shortened to domains. This includes the inputs in link_vec. Default is TRUE.}
 
-\item{exclude_long}{Either NA or a numeric value. If numeric value is provided, removes all links/domains, longer than x characters. Default is 50.}
+\item{exclude_long}{Either NA or a numeric value. If numeric value is provided, removes all links/domains longer than x characters. Default is 50.}
 
 \item{min_occur}{The minimum number of occurrences a link has to have to be included in the visualization. Default is 1.}
 
-\item{return_data}{If TRUE, returns the subsetted data frame. Default is FALSE.}
+\item{return_data}{If TRUE, returns the subset data frame. Default is FALSE.}
 
 \item{link_vec}{A vector of links that the visualizations will be restricted to.}
 
-\item{plot}{The type of plot that should be outputted. Options include "heatmap", "cumsum", "bar" and "splitbar".}
+\item{plot}{The type of plot that should be returned Options are "heatmap", "cumsum", "bar" and "splitbar".}
 
 \item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
-Plots and/or the subsetted data frame based on author names, datetime and emoji occurrence
+Plots and/or the subset data frame based on author names, datetime and emoji occurrence
 }
 \description{
-Visualizes the occurance of links in a WhatsApp chatlog
+Visualizes the occurrence of links in a WhatsApp chatlog
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
