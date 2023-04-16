@@ -1043,8 +1043,8 @@ test_that("Plotting Links", {
 
   test_links1 <- plot_links(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     use_domains = TRUE,
     exclude_long = 50,
     min_occur = 1,
@@ -1064,8 +1064,8 @@ test_that("Plotting Links", {
 
   test_links2 <- plot_links(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     use_domains = TRUE,
     exclude_long = 50,
     min_occur = 1,
@@ -1086,8 +1086,8 @@ test_that("Plotting Links", {
 
   test_links3 <- plot_links(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     use_domains = FALSE,
     exclude_long = 50,
     min_occur = 1,
@@ -1107,8 +1107,8 @@ test_that("Plotting Links", {
 
   test_links4 <- plot_links(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     use_domains = TRUE,
     exclude_long = 50,
     min_occur = 1,
@@ -1140,8 +1140,8 @@ test_that("Plotting Media", {
 
   test_media1 <- plot_media(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     use_filetype = TRUE,
     min_occur = 1,
     return_data = TRUE,
@@ -1158,8 +1158,8 @@ test_that("Plotting Media", {
 
   test_media2 <- plot_media(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     use_filetype = FALSE,
     min_occur = 1,
     return_data = TRUE,
@@ -1180,8 +1180,8 @@ test_that("Plotting Media", {
   # invalid font type for hjust bullshit
   test_media3 <- plot_media(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     use_filetype = TRUE,
     min_occur = 1,
     return_data = TRUE,
@@ -1198,8 +1198,8 @@ test_that("Plotting Media", {
 
   test_media4 <- plot_media(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     use_filetype = TRUE,
     min_occur = 1,
     return_data = TRUE,
@@ -1306,8 +1306,8 @@ test_that("Plotting Messages", {
 
   test_messages1 <- plot_messages(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "bar",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1325,8 +1325,8 @@ test_that("Plotting Messages", {
 
   test_messages2 <- plot_messages(data,
     names = c("Carol", "Dave"),
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "bar",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1342,8 +1342,8 @@ test_that("Plotting Messages", {
 
   test_messages3 <- plot_messages(data,
     names = "all",
-    starttime = anytime("2018-01-30 00:11:20",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "2018-01-30 00:11:20",
+    endtime = as.character(Sys.time()),
     plot = "pie",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1360,8 +1360,8 @@ test_that("Plotting Messages", {
 
   test_messages4 <- plot_messages(data,
     names = c("Alice", "Bob"),
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "pie",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1388,8 +1388,8 @@ test_that("Plotting Replytimes", {
 
   test_replytimes1 <- suppressMessages(plot_replytimes(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     aggregate_sessions = TRUE,
     plot = "box",
@@ -1406,8 +1406,8 @@ test_that("Plotting Replytimes", {
 
   test_replytimes2 <- suppressMessages(plot_replytimes(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     aggregate_sessions = TRUE,
     plot = "box",
@@ -1424,8 +1424,8 @@ test_that("Plotting Replytimes", {
 
   test_replytimes3 <- plot_replytimes(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     aggregate_sessions = TRUE,
     plot = "heatmap",
@@ -1442,8 +1442,8 @@ test_that("Plotting Replytimes", {
 
   test_replytimes4 <- plot_replytimes(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     aggregate_sessions = TRUE,
     plot = "heatmap",
@@ -1473,8 +1473,8 @@ test_that("Plotting tokens", {
 
   test_tokens1 <- suppressMessages(plot_tokens(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "bar",
     exclude_sm = TRUE,
     return_data = TRUE
@@ -1488,8 +1488,8 @@ test_that("Plotting tokens", {
 
   test_tokens2 <- suppressMessages(plot_tokens(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "cumsum",
     exclude_sm = TRUE,
     return_data = TRUE
@@ -1504,8 +1504,8 @@ test_that("Plotting tokens", {
 
   test_tokens3 <- suppressMessages(plot_tokens(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "violin",
     exclude_sm = TRUE,
     return_data = TRUE
@@ -1520,8 +1520,8 @@ test_that("Plotting tokens", {
 
   test_tokens4 <- suppressMessages(plot_tokens(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "box",
     exclude_sm = TRUE,
     return_data = TRUE
@@ -1548,8 +1548,8 @@ test_that("Plotting tokens over time", {
 
   test_tot1 <- suppressMessages(plot_tokens_over_time(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "alltime",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1564,8 +1564,8 @@ test_that("Plotting tokens over time", {
 
   test_tot2 <- suppressMessages(plot_tokens_over_time(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "year",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1580,8 +1580,8 @@ test_that("Plotting tokens over time", {
 
   test_tot3 <- suppressMessages(plot_tokens_over_time(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "day",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1596,8 +1596,8 @@ test_that("Plotting tokens over time", {
 
   test_tot4 <- suppressMessages(plot_tokens_over_time(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     plot = "heatmap",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1624,8 +1624,8 @@ test_that("Plotting Smilies", {
 
   test_smilies1 <- plot_smilies(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     min_occur = 1,
     return_data = TRUE,
     smilie_vec = "all",
@@ -1642,8 +1642,8 @@ test_that("Plotting Smilies", {
 
   test_smilies2 <- plot_smilies(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     min_occur = 1,
     return_data = TRUE,
     smilie_vec = "all",
@@ -1676,8 +1676,8 @@ test_that("Plotting Smilies", {
 
   test_smilies4 <- plot_smilies(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     min_occur = 1,
     return_data = TRUE,
     smilie_vec = "all",
@@ -1706,8 +1706,8 @@ test_that("Plotting Wordcloud", {
 
   test_wc1 <- plot_wordcloud(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     remove_stops = TRUE,
     stop = "english",
     comparison = FALSE,
@@ -1727,8 +1727,8 @@ test_that("Plotting Wordcloud", {
 
   test_wc2 <- plot_wordcloud(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     remove_stops = FALSE,
     stop = "english",
     comparison = TRUE,
@@ -1746,8 +1746,8 @@ test_that("Plotting Wordcloud", {
 
   test_wc3 <- plot_wordcloud(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     remove_stops = TRUE,
     stop = "english",
     comparison = FALSE,
@@ -1766,8 +1766,8 @@ test_that("Plotting Wordcloud", {
 
   test_wc4 <- plot_wordcloud(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     remove_stops = FALSE,
     stop = "english",
     comparison = TRUE,
@@ -1797,8 +1797,8 @@ test_that("Plotting Network", {
 
   test_network1 <- plot_network(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     collapse_sessions = FALSE,
     edgetype = "n",
@@ -1831,8 +1831,8 @@ test_that("Plotting Network", {
 
   test_network3 <- plot_network(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     collapse_sessions = FALSE,
     edgetype = "EmojiCount",
@@ -1876,8 +1876,8 @@ test_that("Plotting Lexical Dispersion", {
 
   test_lediplo1 <- plot_lexical_dispersion(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     keywords = c("data", "consent"),
     exclude_sm = TRUE
@@ -1891,8 +1891,8 @@ test_that("Plotting Lexical Dispersion", {
 
   test_lediplo2 <- plot_lexical_dispersion(data,
     names = c("Alice", "Bob"),
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     keywords = c("data", "consent"),
     exclude_sm = TRUE
@@ -1907,8 +1907,8 @@ test_that("Plotting Lexical Dispersion", {
 
   test_lediplo3 <- plot_lexical_dispersion(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     keywords = c("data", "consent", "this"),
     exclude_sm = TRUE
@@ -1923,8 +1923,8 @@ test_that("Plotting Lexical Dispersion", {
 
   test_lediplo4 <- plot_lexical_dispersion(data,
     names = "all",
-    starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(Sys.time()),
     return_data = TRUE,
     keywords = c("data", "consent"),
     exclude_sm = TRUE

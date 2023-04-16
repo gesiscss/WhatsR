@@ -7,8 +7,8 @@
 plot_links(
   data,
   names = "all",
-  starttime = anytime("1960-01-01 00:00"),
-  endtime = Sys.time(),
+  starttime = "1960-01-01 00:00",
+  endtime = as.character(Sys.time()),
   use_domains = TRUE,
   exclude_long = 50,
   min_occur = 1,

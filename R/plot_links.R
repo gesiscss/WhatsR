@@ -27,8 +27,8 @@
 # Visualizing sent links or domains
 plot_links <- function(data,
                        names = "all",
-                       starttime = anytime("1960-01-01 00:00"),
-                       endtime = Sys.time(),
+                       starttime = "1960-01-01 00:00",
+                       endtime = as.character(Sys.time()),
                        use_domains = TRUE,
                        exclude_long = 50,
                        min_occur = 1,
@@ -41,10 +41,10 @@ plot_links <- function(data,
   Date <- Sender <- Links <- URL <- day <- hour <- n <- `Number of Links` <- ave <- total <- Var1 <- Freq <- NULL
 
   # catching bad params
-  # start- and endtime are POSIXct
-  if (is(starttime, "POSIXct") == F) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is(endtime, "POSIXct") == F) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (starttime >= endtime) stop("starttime has to be before endtime.")
+  # start- and endtime are convertable to POSIXct
+  if (is.character(starttime) == FALSE | is.na(anytime(starttime))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is.character(endtime) == FALSE | is.na(anytime(endtime))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (anytime(starttime) >= anytime(endtime)) stop("starttime has to be before endtime.")
 
   # min_occur must be >= 1
   if (min_occur < 1) stop("Please provide a min_occur of >= 1.")
@@ -90,14 +90,14 @@ plot_links <- function(data,
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
-    starttime <- min(data$DateTime)
+    starttime <- min(anytime(data$DateTime, asUTC = TRUE))
   } else {
     starttime <- anytime(starttime, asUTC = TRUE)
   }
 
   # setting endtime
   if (difftime(Sys.time(), endtime, units = "min") < 1) {
-    endtime <- max(data$DateTime)
+    endtime <- max(anytime(data$DateTime, asUTC = TRUE))
   } else {
     endtime <- anytime(endtime, asUTC = TRUE)
   }

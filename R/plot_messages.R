@@ -23,8 +23,8 @@
 ######## overall amount of messages per person
 plot_messages <- function(data,
                           names = "all",
-                          starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-                          endtime = Sys.time(),
+                          starttime = "1960-01-01 00:00",
+                          endtime = as.character(Sys.time()),
                           plot = "bar",
                           return_data = FALSE,
                           exclude_sm = FALSE) {
@@ -33,10 +33,10 @@ plot_messages <- function(data,
   Var1 <- Freq <- DateTime <- total <- Sender <- day <- hour <- `Number of Messages` <- NULL
 
   # catching bad params
-  # start- and endtime are POSIXct
-  if (is(starttime, "POSIXct") == F) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is(endtime, "POSIXct") == F) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (starttime >= endtime) stop("starttime has to be before endtime.")
+  # start- and endtime are convertable to POSIXct
+  if (is.character(starttime) == FALSE | is.na(anytime(starttime))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is.character(endtime) == FALSE | is.na(anytime(endtime))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (anytime(starttime) >= anytime(endtime)) stop("starttime has to be before endtime.")
 
   # return_data must be bool
   if (!is.logical(return_data)) stop("return_data has to be either TRUE or FALSE.")
@@ -49,14 +49,14 @@ plot_messages <- function(data,
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
-    starttime <- min(data$DateTime)
+    starttime <- min(anytime(data$DateTime, asUTC = TRUE))
   } else {
     starttime <- anytime(starttime, asUTC = TRUE)
   }
 
   # setting endtime
   if (difftime(Sys.time(), endtime, units = "min") < 1) {
-    endtime <- max(data$DateTime)
+    endtime <- max(anytime(data$DateTime, asUTC = TRUE))
   } else {
     endtime <- anytime(endtime, asUTC = TRUE)
   }
@@ -77,7 +77,7 @@ plot_messages <- function(data,
     }
   }
 
-  # TODO: Include this in testthat file as well
+  # reducing to name and timescope
   data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ]
 
   if (plot == "bar") {

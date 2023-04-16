@@ -8,8 +8,8 @@ plot_tokens_over_time(
   data,
   names = "all",
   names_col = "Sender",
-  starttime = anytime("1960-01-01 00:00"),
-  endtime = Sys.time(),
+  starttime = "1960-01-01 00:00",
+  endtime = as.character(Sys.time()),
   plot = "alltime",
   return_data = FALSE,
   exclude_sm = FALSE

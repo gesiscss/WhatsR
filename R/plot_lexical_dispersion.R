@@ -22,18 +22,18 @@
 ######################## lexical dispersion plots for specific words
 plot_lexical_dispersion <- function(data,
                                     names = "all",
-                                    starttime = anytime("1960-01-01 00:00"),
-                                    endtime = Sys.time(),
+                                    starttime = "1960-01-01 00:00",
+                                    endtime = as.character(Sys.time()),
                                     keywords = c("hello", "world"),
                                     return_data = FALSE,
                                     exclude_sm = FALSE,
                                     ...) {
 
   # catching bad params
-  # start- and endtime are POSIXct
-  if (is(starttime, "POSIXct") == F) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is(endtime, "POSIXct") == F) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (starttime >= endtime) stop("starttime has to be before endtime.")
+  # start- and endtime are convertable to POSIXct
+  if (is.character(starttime) == FALSE | is.na(anytime(starttime))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is.character(endtime) == FALSE | is.na(anytime(endtime))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (anytime(starttime) >= anytime(endtime)) stop("starttime has to be before endtime.")
 
   # Mesage column must be contained
   if (!is.character(data$Flat)) {stop("'data' must contain a character column named 'Message'")}
@@ -59,14 +59,14 @@ plot_lexical_dispersion <- function(data,
 
   # setting starttime
   if (starttime == anytime("1960-01-01 00:00")) {
-    starttime <- min(data$DateTime)
+    starttime <- min(anytime(data$DateTime, asUTC = TRUE))
   } else {
     starttime <- anytime(starttime, asUTC = TRUE)
   }
 
   # setting endtime
   if (difftime(Sys.time(), endtime, units = "min") < 1) {
-    endtime <- max(data$DateTime)
+    endtime <- max(anytime(data$DateTime, asUTC = TRUE))
   } else {
     endtime <- anytime(endtime, asUTC = TRUE)
   }

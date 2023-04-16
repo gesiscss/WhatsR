@@ -7,8 +7,8 @@
 plot_lexical_dispersion(
   data,
   names = "all",
-  starttime = anytime("1960-01-01 00:00"),
-  endtime = Sys.time(),
+  starttime = "1960-01-01 00:00",
+  endtime = as.character(Sys.time()),
   keywords = c("hello", "world"),
   return_data = FALSE,
   exclude_sm = FALSE,
