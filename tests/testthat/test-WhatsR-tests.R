@@ -881,8 +881,8 @@ test_that("tailoring function", {
 
   tailored_data1 <- tailor_chat(data,
     names = c("Mallory", "Alice"),
-    starttime = anytime("1976-01-01 00:00",asUTC = TRUE),
-    endtime = anytime("2022-01-01 00:00",asUTC = TRUE),
+    starttime = "1976-01-01 00:00",
+    endtime = "2022-01-01 00:00",
     exclude_sm = TRUE
   )
 
@@ -894,8 +894,8 @@ test_that("tailoring function", {
 
   tailored_data2 <- tailor_chat(data,
     names = "Dave",
-    starttime = anytime("2018-01-29 12:24:03",asUTC = TRUE),
-    endtime = anytime("	2018-01-30 00:13:03",asUTC = TRUE),
+    starttime = "2018-01-29 12:24:03",
+    endtime = "2018-01-30 00:13:03",
     exclude_sm = TRUE
   )
 
@@ -907,8 +907,8 @@ test_that("tailoring function", {
 
   tailored_data3 <- tailor_chat(data,
     names = "Dave",
-    starttime = anytime("	2018-01-29 12:24:03",asUTC = TRUE),
-    endtime = anytime("	2018-01-30 00:13:03",asUTC = TRUE),
+    starttime = "2018-01-29 12:24:03",
+    endtime = "2018-01-30 00:13:03",
     exclude_sm = TRUE
   )
 
@@ -920,8 +920,8 @@ test_that("tailoring function", {
 
   tailored_data4 <- tailor_chat(data,
     names = "all",
-    starttime = anytime("2018-01-29 12:24:03",asUTC = TRUE),
-    endtime = Sys.time(),
+    starttime = "2018-01-29 12:24:03",
+    endtime = as.character(Sys.time()),
     exclude_sm = TRUE
   )
 

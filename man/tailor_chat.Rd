@@ -7,8 +7,8 @@
 tailor_chat(
   data,
   names = "all",
-  starttime = anytime("1960-01-01 00:00"),
-  endtime = Sys.time(),
+  starttime = "1960-01-01 00:00",
+  endtime = as.character(Sys.time()),
   exclude_sm = FALSE
 )
 }
