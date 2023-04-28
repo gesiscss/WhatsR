@@ -1,11 +1,11 @@
 #' @title Scraping a dictionary of emoji from Emojipedia.org
 #'
-#' @description Scrapes a dictionary of emoji from \href{www.emojipedia.org}{emojipedia}, assuming that the website is available and its structure does not change.
+#' @description Scrapes a dictionary of emoji from \href{https://www.emojipedia.org/}{emojipedia}, assuming that the website is available and its structure does not change.
 #' Can be used to update the emoji dictionary contained in this package by replacing the file and recompiling the package. The dictionary is ordered according to the length of
 #' the emojis' byte representation (longer ones first) to prevent partial matching of shorter strings when iterating
 #' through the data frame.
 #' @param pages A character vector containing the URLs of the emoji categories you want to fetch, e.g.\href{https://emojipedia.org/people/}{https://emojipedia.org/people/}
-#' @param skinpages A character vector containing the URLs of the skintone modifier categories you want to fetch, e.g. \href{https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/}{https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/}
+#' @param skinpages A character vector containing the URLs of the skintone modifier categories you want to fetch, e.g. \href{https://emojipedia.org/medium-skin-tone/}{https://emojipedia.org/medium-skin-tone/}
 #' @param regular_xpath Xpath of the html table containing the emoji information, e.g. '/html/body/div[5]/div[1]/ul'
 #' @param skinpages_xpath Xpath of the html table containing the skintone modifier information, e.g. '/html/body/div[5]/div[1]/article/section[1]/ul'
 #' @param exception_xpath Xpath of the html table containing the skintone modifier information specifically for Fitzpatrick 1-2, e.g. '/html/body/div[5]/div[1]/article/section[1]/ul[2]'
