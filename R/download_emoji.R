@@ -33,11 +33,11 @@ download_emoji <- function(pages = c(
                              "https://emojipedia.org/flags/"
                            ),
                            skinpages = c(
-                             "https://emojipedia.org/emoji-modifier-fitzpatrick-type-1-2/",
-                             "https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/",
-                             "https://emojipedia.org/emoji-modifier-fitzpatrick-type-4/",
-                             "https://emojipedia.org/emoji-modifier-fitzpatrick-type-5/",
-                             "https://emojipedia.org/emoji-modifier-fitzpatrick-type-6/"
+                             "https://emojipedia.org/light-skin-tone/",
+                             "https://emojipedia.org/medium-light-skin-tone/",
+                             "https://emojipedia.org/medium-skin-tone/",
+                             "https://emojipedia.org/medium-dark-skin-tone/",
+                             "https://emojipedia.org/dark-skin-tone/"
                            ),
                            regular_xpath = "/html/body/div[5]/div[1]/ul", # this keeps changing occasionally, mostly the index of the first div changes between 4 and 5
                            skinpages_xpath = "/html/body/div[5]/div[1]/article/section[1]/ul", # this keeps changing occasionally, mostly the index of the first div changes between 4 and 5
@@ -47,7 +47,7 @@ download_emoji <- function(pages = c(
   # defining function to scrape and parse XML tables
   scraper <- function(url, UseXpath, exception_xpaths = exception_xpath) {
     # exception handling
-    if (url == "https://emojipedia.org/emoji-modifier-fitzpatrick-type-1-2/") {
+    if (url == "https://emojipedia.org/light-skin-tone/") {
       UseXpath <- exception_xpaths
     }
 

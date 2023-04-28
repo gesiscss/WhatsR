@@ -1,17 +1,17 @@
 Package: WhatsR
 Type: Package
-Title: An R-package for parsing, anonymizing and visualizing exported WhatsApp chat logs
+Title: An R-Package for Parsing, Anonymizing and Visualizing Exported WhatsApp Chat Logs
 Version: 1.0
-Date: 2023-01-04
+Date: 2023-27-04
 Author: Julian Kohne <julian.kohne@gesis.org>
 Maintainer: Julian Kohne <julian.kohne@gesis.org>
-Description: Package for importing WhatsApp Chatlogs and parsing them into
+Description: Package for importing WhatsApp chat logs and parsing them into
     a usable dataframe object. The parser works on chats exported 
-    through Android or iOS phones and and Linux and Windows Machines. It might work on MacOS
+    through Android or iOS phones and on Linux and Windows. It might work on MacOS
     too but was not tested for it. The parser has  multiple options for extracting smilies and emojis
-    from the messages, extracting urls and domains from the messages, extracting names and types of send 
-    media-files from the messages, extracting timestamps from messages, extracting and anonmizing author 
-    names from messages. Can be used to create anonimized versions of data.
+    from the messages, extracting urls and domains from the messages, extracting names and types of sent 
+    media files from the messages, extracting timestamps from messages, extracting and anonymzing author 
+    names from messages. Can be used to create anonymized versions of data.
 License: CC BY-NC-SA 4.0 + file LICENSE
 Imports: stringi, qdapRegex, readr, tokenizers, rvest, XML, xml2, data.table, ggplot2, anytime, ggmap, mgsub, stats, qdap, ggwordcloud, dplyr, ragg, checkmate, visNetwork, lubridate, methods
 Encoding: UTF-8
