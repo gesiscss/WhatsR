@@ -20,7 +20,7 @@
 #' @return A wordcloud plot per author for WhatsApp chatlogs
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' plot_wordcloud(data, comparison = TRUE, min_occur = 1)
+#' plot_wordcloud(data, comparison = TRUE, min_occur = 6)
 
 ################## Function to make a wordcloud
 plot_wordcloud <- function(data,

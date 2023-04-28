@@ -22,7 +22,7 @@ download_emoji(
 \arguments{
 \item{pages}{A character vector containing the URLs of the emoji categories you want to fetch, e.g.\href{https://emojipedia.org/people/}{https://emojipedia.org/people/}}
 
-\item{skinpages}{A character vector containing the URLs of the skintone modifier categories you want to fetch, e.g. \href{https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/}{https://emojipedia.org/emoji-modifier-fitzpatrick-type-3/}}
+\item{skinpages}{A character vector containing the URLs of the skintone modifier categories you want to fetch, e.g. \href{https://emojipedia.org/medium-skin-tone/}{https://emojipedia.org/medium-skin-tone/}}
 
 \item{regular_xpath}{Xpath of the html table containing the emoji information, e.g. '/html/body/div[5]/div[1]/ul'}
 
@@ -37,7 +37,7 @@ A data frame containing:\cr
      3) Original order of the HTML table that the emojis were fetched from
 }
 \description{
-Scrapes a dictionary of emoji from \href{www.emojipedia.org}{emojipedia}, assuming that the website is available and its structure does not change.
+Scrapes a dictionary of emoji from \href{https://www.emojipedia.org/}{emojipedia}, assuming that the website is available and its structure does not change.
 Can be used to update the emoji dictionary contained in this package by replacing the file and recompiling the package. The dictionary is ordered according to the length of
 the emojis' byte representation (longer ones first) to prevent partial matching of shorter strings when iterating
 through the data frame.

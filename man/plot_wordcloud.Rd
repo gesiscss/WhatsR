@@ -49,5 +49,5 @@ Creates a wordcloud by author for WhatsApp chat logs. Requires raw message text 
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-plot_wordcloud(data, comparison = TRUE, min_occur = 1)
+plot_wordcloud(data, comparison = TRUE, min_occur = 6)
 }
