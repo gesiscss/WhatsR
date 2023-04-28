@@ -1,5 +1,7 @@
 # `WhatsR` <img src="inst/WhatsR_sticker.png" align="right" width="250" height="250"/>
 [![DOI](https://zenodo.org/badge/633831271.svg)](https://zenodo.org/badge/latestdoi/633831271)
+
+
 This is an R-package to import exported WhatsApp chatlogs, parse them into a usable dataframe format and thereby enable further analysis. This parser was built with the goal to work with chat logs extracted on Android as well as iOS devices, run on Linux, Mac and Windows and to be able to handle multiple languages. Currently, only English and German are supported, but in principle, other languages could be added relatively easily (see below). The repo also contains a function to scrape and update the emoji_dictionary, should new emoji be added to WhatsApp in the meantime.
  
 ## How to set it up?
