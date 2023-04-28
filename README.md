@@ -60,17 +60,19 @@ citation("WhatsR")
  
 ```
 To cite package ‘WhatsR’ in publications use:
- 
-   Kohne J (2023). _WhatsR: An R-package for parsing, anonymizing and visualizing exported WhatsApp chat logs_. R package version 1.0.
- 
- A BibTeX entry for LaTeX users is
- 
-   @Manual{,
-     title = {WhatsR: An R-package for parsing, anonymizing and visualizing exported WhatsApp chat logs},
-     author = {Julian Kohne},
-     year = {2023},
-     note = {R package version 1.0},
-   }
+
+  Kohne J (2023). “WhatsR - An R-package for parsing, anonymizing and visualizing exported
+  WhatsApp chat logs.” doi:10.5281/zenodo.7875622, <https://doi.org/10.5281/zenodo.7875622>.
+
+A BibTeX entry for LaTeX users is
+
+  @Misc{,
+    title = {WhatsR - An R-package for parsing, anonymizing and visualizing exported WhatsApp chat logs},
+    doi = {10.5281/zenodo.7875622},
+    url = {https://doi.org/10.5281/zenodo.7875622},
+    year = {2023},
+    author = {J. Kohne},
+  }
 
 ```
 
