@@ -7,8 +7,7 @@ Author: Julian Kohne <julian.kohne@gesis.org>
 Maintainer: Julian Kohne <julian.kohne@gesis.org>
 Description: Imports WhatsApp chat logs and parses them into
     a usable dataframe object. The parser works on chats exported 
-    from Android or iOS phones and on Linux and Windows. It might work on MacOS
-    too but was not tested for it. The parser has  multiple options for extracting smilies and emojis
+    from Android or iOS phones and on Linux, MacOS and Windows. The parser has  multiple options for extracting smilies and emojis
     from the messages, extracting urls and domains from the messages, extracting names and types of sent 
     media files from the messages, extracting timestamps from messages, extracting and anonymzing author 
     names from messages. Can be used to create anonymized versions of data.
