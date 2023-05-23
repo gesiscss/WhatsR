@@ -9,7 +9,7 @@ plot_tokens_over_time(
   names = "all",
   names_col = "Sender",
   starttime = "1960-01-01 00:00",
-  endtime = as.character(Sys.time()),
+  endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
   plot = "alltime",
   return_data = FALSE,
   exclude_sm = FALSE
@@ -22,9 +22,9 @@ plot_tokens_over_time(
 
 \item{names_col}{A column indicated by a string that should be accessed to determine the names. Only needs to be changed when \code{\link[WhatsR]{parse_chat}} used the parameter anon = "add" and the column "Anonymous" should be used. Default is "Sender".}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
 
 \item{plot}{Type of plot to be returned. Options are "year", "day", "hour", "heatmap" and "alltime". Default is "alltime".}
 

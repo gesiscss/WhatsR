@@ -2,8 +2,8 @@
 #' @description Summarizing the distribution of tokens for sent messages
 #' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
 #' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
 #' @importFrom anytime anytime
 #' @export
@@ -16,14 +16,18 @@
 summarize_tokens_per_person <- function(data,
                                         names = "all",
                                         starttime = "1960-01-01 00:00",
-                                        endtime = as.character(Sys.time()),
+                                        endtime = as.character(as.POSIXct(Sys.time(),tz = "UTC")),
                                         exclude_sm = FALSE) {
 
   # catching bad params
+
+  # checking data
+  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+
   # start- and endtime are convertable to POSIXct
-  if (is.character(starttime) == FALSE | is.na(anytime(starttime))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is.character(endtime) == FALSE | is.na(anytime(endtime))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (anytime(starttime) >= anytime(endtime)) stop("starttime has to be before endtime.")
+  if (is.character(starttime) == FALSE | is.na(anytime(starttime, asUTC=TRUE,tz="UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is.character(endtime) == FALSE | is.na(anytime(endtime, asUTC=TRUE,tz="UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") >= anytime(endtime, asUTC=TRUE,tz="UTC")) stop("starttime has to be before endtime.")
 
   # names in data or all names
   if (!("all" %in% names) & any(!names %in% data$Sender)) stop("names has to either be \"all\" or a vector of names to include.")
@@ -32,17 +36,17 @@ summarize_tokens_per_person <- function(data,
   if (!is.logical(exclude_sm)) stop("excludeSM has to be either TRUE or FALSE.")
 
   # setting starttime
-  if (starttime == anytime("1960-01-01 00:00")) {
-    starttime <- min(anytime(data$DateTime))
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") <= min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    starttime <- min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    starttime <- anytime(starttime, asUTC = TRUE)
+    starttime <- anytime(starttime, asUTC=TRUE,tz="UTC")
   }
 
   # setting endtime
-  if (difftime(Sys.time(), endtime, units = "min") < 1) {
-    endtime <- max(data$DateTime)
+  if (anytime(endtime, asUTC=TRUE,tz="UTC") >= max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    endtime <- max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    endtime <- anytime(endtime, asUTC = TRUE)
+    endtime <- anytime(endtime, asUTC=TRUE,tz="UTC")
   }
 
   # setting names argument

@@ -8,7 +8,7 @@ plot_network(
   data,
   names = "all",
   starttime = "1960-01-01 00:00",
-  endtime = as.character(Sys.time()),
+  endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
   return_data = FALSE,
   collapse_sessions = FALSE,
   edgetype = "n",
@@ -20,9 +20,9 @@ plot_network(
 
 \item{names}{A vector of author names that the visualization will be restricted to. Non-listed authors will be removed.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Input is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Input is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
 
 \item{return_data}{If TRUE, returns a data frame of subsequent interactions with senders and recipients. Default is FALSE.}
 

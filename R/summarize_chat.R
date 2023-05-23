@@ -26,6 +26,10 @@
 summarize_chat <- function(data, exclude_sm = FALSE) {
 
   # catching bad params
+
+  # checking data
+  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+
   # exclude_sm must be bool
   if (!is.logical(exclude_sm)) stop("exclude_sm has to be either TRUE or FALSE.")
 

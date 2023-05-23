@@ -2,8 +2,8 @@
 #' @description Plots four different types of graphs for the emoji contained in a parsed WhatsApp chat log. Returns dataframe used for plotting if desired.
 #' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
 #' @param min_occur Minimum number of occurrences for emoji to be included in the plots. Default is 1.
 #' @param return_data If TRUE, returns the subsetted data frame used for plotting. Default is FALSE.
 #' @param emoji_vec A vector of emoji that the visualizations and data will be restricted to.
@@ -29,7 +29,7 @@
 plot_emoji <- function(data,
                        names = "all",
                        starttime = "1960-01-01 00:00",
-                       endtime = as.character(Sys.time()),
+                       endtime = as.character(as.POSIXct(Sys.time(),tz = "UTC")),
                        min_occur = 1,
                        return_data = FALSE,
                        emoji_vec = "all",
@@ -43,10 +43,14 @@ plot_emoji <- function(data,
   Date <- Sender <- day <- hour <- `Number of Emoji` <- ave <- total <- Var1 <- Freq <- n <- emoji <- Emoji <- Glyph <-  NULL
 
   # catching bad params
+
+  # checking data
+  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+
   # start- and endtime are convertable to POSIXct
-  if (is.character(starttime) == FALSE | is.na(anytime(starttime))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is.character(endtime) == FALSE | is.na(anytime(endtime))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (anytime(starttime) >= anytime(endtime)) stop("starttime has to be before endtime.")
+  if (is.character(starttime) == FALSE | is.na(anytime(starttime, asUTC=TRUE,tz="UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is.character(endtime) == FALSE | is.na(anytime(endtime, asUTC=TRUE,tz="UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") >= anytime(endtime, asUTC=TRUE,tz="UTC")) stop("starttime has to be before endtime.")
 
   # min_occur needs to be 1 or bigger
   if (min_occur < 1) stop("Please provide a min_occur of >= 1.")
@@ -70,17 +74,17 @@ plot_emoji <- function(data,
   Dictionary <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
 
   # setting starttime
-  if (starttime == anytime("1960-01-01 00:00")) {
-    starttime <- min(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") <= min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    starttime <- min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    starttime <- anytime(starttime, asUTC = TRUE)
+    starttime <- anytime(starttime, asUTC=TRUE,tz="UTC")
   }
 
   # setting endtime
-  if (difftime(Sys.time(), endtime, units = "min") < 1) {
-    endtime <- max(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(endtime, asUTC=TRUE,tz="UTC") >= max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    endtime <- max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    endtime <- anytime(endtime, asUTC = TRUE)
+    endtime <- anytime(endtime, asUTC=TRUE,tz="UTC")
   }
 
   # setting names argument
@@ -140,16 +144,17 @@ plot_emoji <- function(data,
 
   }
 
-  NewDates <- as.POSIXct(unlist(NewDates),origin = '1970-01-01')
+  NewDates <- as.POSIXct(unlist(NewDates),origin = '1970-01-01', tz="UTC")
 
   # pasting together
   options(stringsAsFactors = FALSE)
   NewFrame <- cbind.data.frame(NewDates,NewSender,NewEmoji)
 
   # creating time data
-  NewFrame$hour <- as.POSIXlt(NewFrame$NewDates)$hour
-  NewFrame$year <- as.POSIXlt(NewFrame$NewDates)$year + 1900
-  NewFrame$day <- weekdays(as.POSIXlt(NewFrame$NewDates), abbreviate = FALSE)
+  # TODO: Maybe this is where it goes wrong?
+  NewFrame$hour <- as.POSIXlt(NewFrame$NewDates,tz = "UTC")$hour
+  NewFrame$year <- as.POSIXlt(NewFrame$NewDates,tz = "UTC")$year + 1900
+  NewFrame$day <- weekdays(as.POSIXlt(NewFrame$NewDates,tz = "UTC"), abbreviate = FALSE)
 
   # setting correct emoji_vec
   if (length(emoji_vec) == 1 && emoji_vec == "all") {
@@ -180,7 +185,7 @@ plot_emoji <- function(data,
     # factor ordering
     weekdays <- rev(c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"))
 
-    # transalte to english for better compatibility
+    # translate to english for better compatibility
     helperframe2$day <- mgsub(helperframe2$day,
                               pattern = c("Sonntag","Samstag","Freitag","Donnerstag","Mittwoch","Dienstag","Montag"),
                               replacement = weekdays)

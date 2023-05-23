@@ -8,7 +8,7 @@ plot_media(
   data,
   names = "all",
   starttime = "1960-01-01 00:00",
-  endtime = as.character(Sys.time()),
+  endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
   use_filetype = TRUE,
   min_occur = 1,
   return_data = FALSE,
@@ -22,9 +22,9 @@ plot_media(
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
 
 \item{use_filetype}{If TRUE, shortens sent file attachments to file types.}
 

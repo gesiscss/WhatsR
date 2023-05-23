@@ -45,9 +45,9 @@ create_chatlog(
 
 \item{n_sdp}{Number of messages that contain self-deleting photos. Must be smaller or equal to n_messages.}
 
-\item{startdate}{Earliest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate.}
+\item{startdate}{Earliest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate. Input is interpreted as UTC}
 
-\item{enddate}{Latest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate.}
+\item{enddate}{Latest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate. Input is interpreted as UTC}
 
 \item{language}{Parameter for the language setting of the exporting phone. Influences structure of system messages}
 

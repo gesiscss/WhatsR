@@ -8,7 +8,7 @@ plot_replytimes(
   data,
   names = "all",
   starttime = "1960-01-01 00:00",
-  endtime = as.character(Sys.time()),
+  endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
   return_data = FALSE,
   aggregate_sessions = TRUE,
   plot = "box",
@@ -21,9 +21,9 @@ plot_replytimes(
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
 
 \item{return_data}{If TRUE, returns a data frame of response times extracted from the chat for more elaborate plotting. Default is FALSE.}
 

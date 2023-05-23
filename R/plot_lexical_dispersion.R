@@ -2,8 +2,8 @@
 #' @description Visualizes the occurrence of specific keywords within the chat. Requires the raw message content to be contained in the preprocessed data
 #' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
 #' @param keywords A vector of keywords to be displayed, default is c("hello","world").
 #' @param return_data Default is FALSE, returns data frame used for plotting when TRUE.
 #' @param exclude_sm If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
@@ -23,17 +23,21 @@
 plot_lexical_dispersion <- function(data,
                                     names = "all",
                                     starttime = "1960-01-01 00:00",
-                                    endtime = as.character(Sys.time()),
+                                    endtime = as.character(as.POSIXct(Sys.time(),tz = "UTC")),
                                     keywords = c("hello", "world"),
                                     return_data = FALSE,
                                     exclude_sm = FALSE,
                                     ...) {
 
   # catching bad params
+
+  # checking data
+  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+
   # start- and endtime are convertable to POSIXct
-  if (is.character(starttime) == FALSE | is.na(anytime(starttime))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is.character(endtime) == FALSE | is.na(anytime(endtime))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (anytime(starttime) >= anytime(endtime)) stop("starttime has to be before endtime.")
+  if (is.character(starttime) == FALSE | is.na(anytime(starttime, asUTC=TRUE,tz="UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is.character(endtime) == FALSE | is.na(anytime(endtime, asUTC=TRUE,tz="UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") >= anytime(endtime, asUTC=TRUE,tz="UTC")) stop("starttime has to be before endtime.")
 
   # Mesage column must be contained
   if (!is.character(data$Flat)) {stop("'data' must contain a character column named 'Message'")}
@@ -58,17 +62,17 @@ plot_lexical_dispersion <- function(data,
   keywords <- tolower(keywords)
 
   # setting starttime
-  if (starttime == anytime("1960-01-01 00:00")) {
-    starttime <- min(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") <= min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    starttime <- min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    starttime <- anytime(starttime, asUTC = TRUE)
+    starttime <- anytime(starttime, asUTC=TRUE,tz="UTC")
   }
 
   # setting endtime
-  if (difftime(Sys.time(), endtime, units = "min") < 1) {
-    endtime <- max(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(endtime, asUTC=TRUE,tz="UTC") >= max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    endtime <- max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    endtime <- anytime(endtime, asUTC = TRUE)
+    endtime <- anytime(endtime, asUTC=TRUE,tz="UTC")
   }
 
   # setting names argument

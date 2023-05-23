@@ -2,8 +2,8 @@
 #' @description Plots summarizing the amount of messages per person
 #' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
 #' @param plot Type of plot to be returned, options are "bar", "cumsum", "heatmap" and "pie". Default is "bar".
 #' @param return_data If TRUE, returns the subset data frame. Default is FALSE.
 #' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
@@ -24,7 +24,7 @@
 plot_messages <- function(data,
                           names = "all",
                           starttime = "1960-01-01 00:00",
-                          endtime = as.character(Sys.time()),
+                          endtime = as.character(as.POSIXct(Sys.time(),tz = "UTC")),
                           plot = "bar",
                           return_data = FALSE,
                           exclude_sm = FALSE) {
@@ -33,10 +33,14 @@ plot_messages <- function(data,
   Var1 <- Freq <- DateTime <- total <- Sender <- day <- hour <- `Number of Messages` <- NULL
 
   # catching bad params
+
+  # checking data
+  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+
   # start- and endtime are convertable to POSIXct
-  if (is.character(starttime) == FALSE | is.na(anytime(starttime))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is.character(endtime) == FALSE | is.na(anytime(endtime))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (anytime(starttime) >= anytime(endtime)) stop("starttime has to be before endtime.")
+  if (is.character(starttime) == FALSE | is.na(anytime(starttime, asUTC=TRUE,tz="UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is.character(endtime) == FALSE | is.na(anytime(endtime, asUTC=TRUE,tz="UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") >= anytime(endtime, asUTC=TRUE,tz="UTC")) stop("starttime has to be before endtime.")
 
   # return_data must be bool
   if (!is.logical(return_data)) stop("return_data has to be either TRUE or FALSE.")
@@ -48,17 +52,17 @@ plot_messages <- function(data,
   if (!is.logical(exclude_sm)) stop("exclude_sm has to be either TRUE or FALSE.")
 
   # setting starttime
-  if (starttime == anytime("1960-01-01 00:00")) {
-    starttime <- min(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") <= min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    starttime <- min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    starttime <- anytime(starttime, asUTC = TRUE)
+    starttime <- anytime(starttime, asUTC=TRUE,tz="UTC")
   }
 
   # setting endtime
-  if (difftime(Sys.time(), endtime, units = "min") < 1) {
-    endtime <- max(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(endtime, asUTC=TRUE,tz="UTC") >= max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    endtime <- max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    endtime <- anytime(endtime, asUTC = TRUE)
+    endtime <- anytime(endtime, asUTC=TRUE,tz="UTC")
   }
 
   # setting names argument
@@ -152,9 +156,9 @@ plot_messages <- function(data,
     # creating time data
     data <- cbind(data, MessageCount = rep(1, dim(data)[1]))
     NewFrame <- data[, c("DateTime", "Sender", "MessageCount")]
-    NewFrame$hour <- as.POSIXlt(NewFrame$DateTime)$hour
-    NewFrame$year <- as.POSIXlt(NewFrame$DateTime)$year + 1900
-    NewFrame$day <- weekdays(as.POSIXlt(NewFrame$DateTime), abbreviate = FALSE)
+    NewFrame$hour <- as.POSIXlt(NewFrame$DateTime,tz="UTC")$hour
+    NewFrame$year <- as.POSIXlt(NewFrame$DateTime,tz="UTC")$year + 1900
+    NewFrame$day <- weekdays(as.POSIXlt(NewFrame$DateTime,tz="UTC"), abbreviate = FALSE)
 
     # shaping dataframe
     helperframe2 <- NewFrame %>%

@@ -2,8 +2,8 @@
 #' @description Plots the smilies used in WhatsApp chat logs by sender
 #' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
 #' @param min_occur The minimum number of occurrences a smiley has to have to be included in the visualization. Default is 1.
 #' @param return_data If TRUE, returns a data frame of smilies extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param smilie_vec A vector of smilies that the visualizations will be restricted to.
@@ -22,7 +22,7 @@
 plot_smilies <- function(data,
                          names = "all",
                          starttime = "1960-01-01 00:00",
-                         endtime = as.character(Sys.time()),
+                         endtime = as.character(as.POSIXct(Sys.time(),tz = "UTC")),
                          min_occur = 1,
                          return_data = FALSE,
                          smilie_vec = "all",
@@ -33,10 +33,14 @@ plot_smilies <- function(data,
   day <- hour <- n <- `Number of Smilies` <- ave <- total <- Var1 <- Freq <- n <- DateTime <- Total <- Sender <- Smilies <- Amount <- NULL
 
   # catching bad params
+
+  # checking data
+  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+
   # start- and endtime are convertable to POSIXct
-  if (is.character(starttime) == FALSE | is.na(anytime(starttime))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is.character(endtime) == FALSE | is.na(anytime(endtime))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (anytime(starttime) >= anytime(endtime)) stop("starttime has to be before endtime.")
+  if (is.character(starttime) == FALSE | is.na(anytime(starttime, asUTC=TRUE,tz="UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is.character(endtime) == FALSE | is.na(anytime(endtime, asUTC=TRUE,tz="UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") >= anytime(endtime, asUTC=TRUE,tz="UTC")) stop("starttime has to be before endtime.")
 
   # min_occur must be >= 1
   if (min_occur < 1) stop("Please provide a 'min_occur' of >= 1.")
@@ -54,17 +58,17 @@ plot_smilies <- function(data,
   if (!is.logical(exclude_sm)) stop("'exclude_sm' has to be either TRUE or FALSE.")
 
   # setting starttime
-  if (starttime == anytime("1960-01-01 00:00")) {
-    starttime <- min(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") <= min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    starttime <- min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    starttime <- anytime(starttime, asUTC = TRUE)
+    starttime <- anytime(starttime, asUTC=TRUE,tz="UTC")
   }
 
   # setting endtime
-  if (difftime(Sys.time(), endtime, units = "min") < 1) {
-    endtime <- max(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(endtime, asUTC=TRUE,tz="UTC") >= max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    endtime <- max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    endtime <- anytime(endtime, asUTC = TRUE)
+    endtime <- anytime(endtime, asUTC=TRUE,tz="UTC")
   }
 
   # setting names argument
@@ -115,16 +119,16 @@ plot_smilies <- function(data,
     NewDates[[i]] <- rep(data$DateTime[i], NoElements[i])
   }
 
-  NewDates <- as.POSIXct(unlist(NewDates), origin = "1970-01-01")
+  NewDates <- as.POSIXct(unlist(NewDates), origin = "1970-01-01",tz="UTC")
 
   # pasting together
   options(stringsAsFactors = FALSE)
   NewFrame <- cbind.data.frame(NewDates, NewSender, NewSmilies)
 
   # creating time data
-  NewFrame$hour <- as.POSIXlt(NewFrame$NewDates)$hour
-  NewFrame$year <- as.POSIXlt(NewFrame$NewDates)$year + 1900
-  NewFrame$day <- weekdays(as.POSIXlt(NewFrame$NewDates), abbreviate = FALSE)
+  NewFrame$hour <- as.POSIXlt(NewFrame$NewDates,tz = "UTC")$hour
+  NewFrame$year <- as.POSIXlt(NewFrame$NewDates,tz = "UTC")$year + 1900
+  NewFrame$day <- weekdays(as.POSIXlt(NewFrame$NewDates,tz = "UTC"), abbreviate = FALSE)
 
   # setting correct smilie_vec
   if (length(smilie_vec) == 1 && smilie_vec == "all") {

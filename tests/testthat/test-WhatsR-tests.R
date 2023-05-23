@@ -1,5 +1,6 @@
 #################### TESTING ESSENTIAL FUNCTIONS #####################
 
+
 #### Testing updating of emoji dictionary
 
 test_that("Updating emoji dictionary",{
@@ -908,20 +909,20 @@ test_that("tailoring function", {
   tailored_data3 <- tailor_chat(data,
     names = "Dave",
     starttime = "2018-01-29 12:24:03",
-    endtime = "2018-01-30 00:13:03",
+    endtime = "2018-01-29 23:33:03",
     exclude_sm = TRUE
   )
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(tailored_data3,"TailoredData3.rds",version = 2)
 
-  tailored_data <- readRDS(system.file("TailoredData3.rds", package = "WhatsR"))
+  test <- readRDS(system.file("TailoredData3.rds", package = "WhatsR"))
   expect_identical(test, tailored_data3)
 
   tailored_data4 <- tailor_chat(data,
     names = "all",
     starttime = "2018-01-29 12:24:03",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     exclude_sm = TRUE
   )
 
@@ -969,7 +970,6 @@ suppressWarnings(test_that("Plotting Emoji", {
   test <- readRDS(system.file("test_emoji1.rds", package = "WhatsR"))
   suppressWarnings(expect_identical(test_emoji1, test))
 
-
   test_emoji2 <- hush(plot_emoji(data,
     names = "all",
     # starttime=,
@@ -988,7 +988,6 @@ suppressWarnings(test_that("Plotting Emoji", {
 
   test <- readRDS(system.file("test_emoji2.rds", package = "WhatsR"))
   expect_identical(test_emoji2, test)
-
 
   test_emoji3 <- hush(plot_emoji(data,
     names = "all",
@@ -1044,7 +1043,7 @@ test_that("Plotting Links", {
   test_links1 <- plot_links(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     use_domains = TRUE,
     exclude_long = 50,
     min_occur = 1,
@@ -1061,11 +1060,10 @@ test_that("Plotting Links", {
   expect_identical(test_links1, test)
 
 
-
   test_links2 <- plot_links(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     use_domains = TRUE,
     exclude_long = 50,
     min_occur = 1,
@@ -1081,13 +1079,10 @@ test_that("Plotting Links", {
   test <- readRDS(system.file("test_links2.rds", package = "WhatsR"))
   expect_identical(test_links2, test)
 
-
-
-
   test_links3 <- plot_links(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     use_domains = FALSE,
     exclude_long = 50,
     min_occur = 1,
@@ -1108,7 +1103,7 @@ test_that("Plotting Links", {
   test_links4 <- plot_links(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     use_domains = TRUE,
     exclude_long = 50,
     min_occur = 1,
@@ -1137,11 +1132,10 @@ test_that("Plotting Media", {
 
   data <- hush(parse_chat(system.file("englishiosampm.txt", package = "WhatsR")))
 
-
   test_media1 <- plot_media(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     use_filetype = TRUE,
     min_occur = 1,
     return_data = TRUE,
@@ -1159,7 +1153,7 @@ test_that("Plotting Media", {
   test_media2 <- plot_media(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     use_filetype = FALSE,
     min_occur = 1,
     return_data = TRUE,
@@ -1174,14 +1168,10 @@ test_that("Plotting Media", {
   test <- readRDS(system.file("test_media2.rds", package = "WhatsR"))
   expect_identical(test_media2, test)
 
-
-  # TODO: `geom_line()`: Each group consists of only one observation.
-  # ℹ Do you need to adjust the group aesthetic?
-  # invalid font type for hjust bullshit
   test_media3 <- plot_media(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     use_filetype = TRUE,
     min_occur = 1,
     return_data = TRUE,
@@ -1199,7 +1189,7 @@ test_that("Plotting Media", {
   test_media4 <- plot_media(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     use_filetype = TRUE,
     min_occur = 1,
     return_data = TRUE,
@@ -1307,7 +1297,7 @@ test_that("Plotting Messages", {
   test_messages1 <- plot_messages(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "bar",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1319,14 +1309,10 @@ test_that("Plotting Messages", {
   test <- readRDS(system.file("test_messages1.rds", package = "WhatsR"))
   expect_identical(test_messages1, test)
 
-
-
-
-
   test_messages2 <- plot_messages(data,
     names = c("Carol", "Dave"),
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "bar",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1338,12 +1324,10 @@ test_that("Plotting Messages", {
   test <- readRDS(system.file("test_messages2.rds", package = "WhatsR"))
   expect_identical(test_messages2, test)
 
-
-
   test_messages3 <- plot_messages(data,
     names = "all",
     starttime = "2018-01-30 00:11:20",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "pie",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1355,13 +1339,10 @@ test_that("Plotting Messages", {
   test <- readRDS(system.file("test_messages3.rds", package = "WhatsR"))
   expect_identical(test_messages3, test)
 
-
-
-
   test_messages4 <- plot_messages(data,
     names = c("Alice", "Bob"),
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "pie",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1389,7 +1370,7 @@ test_that("Plotting Replytimes", {
   test_replytimes1 <- suppressMessages(plot_replytimes(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     return_data = TRUE,
     aggregate_sessions = TRUE,
     plot = "box",
@@ -1407,7 +1388,7 @@ test_that("Plotting Replytimes", {
   test_replytimes2 <- suppressMessages(plot_replytimes(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     return_data = TRUE,
     aggregate_sessions = TRUE,
     plot = "box",
@@ -1425,7 +1406,7 @@ test_that("Plotting Replytimes", {
   test_replytimes3 <- plot_replytimes(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     return_data = TRUE,
     aggregate_sessions = TRUE,
     plot = "heatmap",
@@ -1443,7 +1424,7 @@ test_that("Plotting Replytimes", {
   test_replytimes4 <- plot_replytimes(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     return_data = TRUE,
     aggregate_sessions = TRUE,
     plot = "heatmap",
@@ -1474,7 +1455,7 @@ test_that("Plotting tokens", {
   test_tokens1 <- suppressMessages(plot_tokens(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "bar",
     exclude_sm = TRUE,
     return_data = TRUE
@@ -1489,7 +1470,7 @@ test_that("Plotting tokens", {
   test_tokens2 <- suppressMessages(plot_tokens(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "cumsum",
     exclude_sm = TRUE,
     return_data = TRUE
@@ -1505,7 +1486,7 @@ test_that("Plotting tokens", {
   test_tokens3 <- suppressMessages(plot_tokens(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "violin",
     exclude_sm = TRUE,
     return_data = TRUE
@@ -1521,7 +1502,7 @@ test_that("Plotting tokens", {
   test_tokens4 <- suppressMessages(plot_tokens(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "box",
     exclude_sm = TRUE,
     return_data = TRUE
@@ -1549,7 +1530,7 @@ test_that("Plotting tokens over time", {
   test_tot1 <- suppressMessages(plot_tokens_over_time(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "alltime",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1565,7 +1546,7 @@ test_that("Plotting tokens over time", {
   test_tot2 <- suppressMessages(plot_tokens_over_time(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "year",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1581,7 +1562,7 @@ test_that("Plotting tokens over time", {
   test_tot3 <- suppressMessages(plot_tokens_over_time(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "day",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1597,7 +1578,7 @@ test_that("Plotting tokens over time", {
   test_tot4 <- suppressMessages(plot_tokens_over_time(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "heatmap",
     return_data = TRUE,
     exclude_sm = TRUE
@@ -1621,11 +1602,10 @@ test_that("Plotting Smilies", {
 
   data <- hush(parse_chat(system.file("englishiosampm.txt", package = "WhatsR")))
 
-
   test_smilies1 <- plot_smilies(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     min_occur = 1,
     return_data = TRUE,
     smilie_vec = "all",
@@ -1643,7 +1623,7 @@ test_that("Plotting Smilies", {
   test_smilies2 <- plot_smilies(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     min_occur = 1,
     return_data = TRUE,
     smilie_vec = "all",
@@ -1657,11 +1637,12 @@ test_that("Plotting Smilies", {
   test <- readRDS(system.file("test_smilies2.rds", package = "WhatsR"))
   expect_identical(test_smilies2, test)
 
-  #TODO: ERROR: invalid font type [only occurs in testing, not in use]
+  # TODO: This fails only when running check from RStudio, not with devtools::test()
+  # Seems to be a bug: https://github.com/hadley/r-pkgs/issues/483
   # test_smilies3 <- plot_smilies(data,
   #   names = "all",
-  #   starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-  #   endtime = Sys.time(),
+  #   starttime = "1960-01-01 00:00",
+  #   endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
   #   min_occur = 1,
   #   return_data = TRUE,
   #   smilie_vec = "all",
@@ -1671,13 +1652,13 @@ test_that("Plotting Smilies", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_smilies3,"test_smilies3.rds",version = 2)
 
-  #test <- readRDS(system.file("test_smilies3.rds", package = "WhatsR"))
-  #expect_identical(test_smilies3,test)
+  # test <- readRDS(system.file("test_smilies3.rds", package = "WhatsR"))
+  # expect_identical(test_smilies3,test)
 
   test_smilies4 <- plot_smilies(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     min_occur = 1,
     return_data = TRUE,
     smilie_vec = "all",
@@ -1707,7 +1688,7 @@ test_that("Plotting Wordcloud", {
   test_wc1 <- plot_wordcloud(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     remove_stops = TRUE,
     stop = "english",
     comparison = FALSE,
@@ -1728,7 +1709,7 @@ test_that("Plotting Wordcloud", {
   test_wc2 <- plot_wordcloud(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     remove_stops = FALSE,
     stop = "english",
     comparison = TRUE,
@@ -1747,7 +1728,7 @@ test_that("Plotting Wordcloud", {
   test_wc3 <- plot_wordcloud(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     remove_stops = TRUE,
     stop = "english",
     comparison = FALSE,
@@ -1767,7 +1748,7 @@ test_that("Plotting Wordcloud", {
   test_wc4 <- plot_wordcloud(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     remove_stops = FALSE,
     stop = "english",
     comparison = TRUE,
@@ -1798,7 +1779,7 @@ test_that("Plotting Network", {
   test_network1 <- plot_network(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     return_data = TRUE,
     collapse_sessions = FALSE,
     edgetype = "n",
@@ -1811,12 +1792,12 @@ test_that("Plotting Network", {
   test <- readRDS(system.file("test_network1.rds", package = "WhatsR"))
   expect_identical(test_network1, test)
 
-
-  # TODO: Error in `data.frame(..., check.names = FALSE)`: arguments imply differing number of rows: 1, 34 [only occurs in testing, not in use]
+  # TODO: This fails only when running check from RStudio, not with devtools::test()
+  # Seems to be a bug: https://github.com/hadley/r-pkgs/issues/483
   # test_network2 <- plot_network(data,
   #   names = "all",
-  #   starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-  #   endtime = Sys.time(),
+  #   starttime = "1960-01-01 00:00",
+  #   endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
   #   return_data = TRUE,
   #   collapse_sessions = TRUE,
   #   edgetype = "TokCount",
@@ -1826,8 +1807,8 @@ test_that("Plotting Network", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_network2,"test_network2.rds",version = 2)
 
-  #test <- readRDS(system.file("test_network2.rds", package = "WhatsR"))
-  #expect_identical(test_network2, test)
+  # test <- readRDS(system.file("test_network2.rds", package = "WhatsR"))
+  # expect_identical(test_network2, test)
 
   test_network3 <- plot_network(data,
     names = "all",
@@ -1845,20 +1826,21 @@ test_that("Plotting Network", {
   test <- readRDS(system.file("test_network3.rds", package = "WhatsR"))
   expect_identical(test_network3, test)
 
-  # TODO: Error in `data.frame(..., check.names = FALSE)`: arguments imply differing number of rows: 1, 34 [only occurs in testing, not in use]
+  # TODO: This fails only when running check from RStudio, not with devtools::test()
+  # Seems to be a bug: https://github.com/hadley/r-pkgs/issues/483
   # test_network4 <- plot_network(data,
   #   names = "all",
-  #   starttime = anytime("1960-01-01 00:00",asUTC = TRUE),
-  #   endtime = Sys.time(),
+  #   starttime = "1960-01-01 00:00",
+  #   endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
   #   return_data = TRUE,
   #   collapse_sessions = TRUE,
   #   edgetype = "SmilieCount",
   #   exclude_sm = TRUE
   # )
-  #
+
   # # generate and write file [Use this to recreate test files when parse_chat() changed]
   # #saveRDS(test_network4,"test_network4.rds",version = 2)
-  #
+
   # test <- readRDS(system.file("test_network4.rds", package = "WhatsR"))
   # expect_identical(test_network4, test)
 })
@@ -1877,7 +1859,7 @@ test_that("Plotting Lexical Dispersion", {
   test_lediplo1 <- plot_lexical_dispersion(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     return_data = TRUE,
     keywords = c("data", "consent"),
     exclude_sm = TRUE
@@ -1892,7 +1874,7 @@ test_that("Plotting Lexical Dispersion", {
   test_lediplo2 <- plot_lexical_dispersion(data,
     names = c("Alice", "Bob"),
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     return_data = TRUE,
     keywords = c("data", "consent"),
     exclude_sm = TRUE
@@ -1908,7 +1890,7 @@ test_that("Plotting Lexical Dispersion", {
   test_lediplo3 <- plot_lexical_dispersion(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     return_data = TRUE,
     keywords = c("data", "consent", "this"),
     exclude_sm = TRUE
@@ -1924,7 +1906,7 @@ test_that("Plotting Lexical Dispersion", {
   test_lediplo4 <- plot_lexical_dispersion(data,
     names = "all",
     starttime = "1960-01-01 00:00",
-    endtime = as.character(Sys.time()),
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     return_data = TRUE,
     keywords = c("data", "consent"),
     exclude_sm = TRUE

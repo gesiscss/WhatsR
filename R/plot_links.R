@@ -2,8 +2,8 @@
 #' @description Visualizes the occurrence of links in a WhatsApp chatlog
 #' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm".
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
 #' @param use_domains If TRUE, links are shortened to domains. This includes the inputs in link_vec. Default is TRUE.
 #' @param exclude_long Either NA or a numeric value. If numeric value is provided, removes all links/domains longer than x characters. Default is 50.
 #' @param min_occur The minimum number of occurrences a link has to have to be included in the visualization. Default is 1.
@@ -28,7 +28,7 @@
 plot_links <- function(data,
                        names = "all",
                        starttime = "1960-01-01 00:00",
-                       endtime = as.character(Sys.time()),
+                       endtime = as.character(as.POSIXct(Sys.time(),tz = "UTC")),
                        use_domains = TRUE,
                        exclude_long = 50,
                        min_occur = 1,
@@ -41,10 +41,14 @@ plot_links <- function(data,
   Date <- Sender <- Links <- URL <- day <- hour <- n <- `Number of Links` <- ave <- total <- Var1 <- Freq <- NULL
 
   # catching bad params
+
+  # checking data
+  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+
   # start- and endtime are convertable to POSIXct
-  if (is.character(starttime) == FALSE | is.na(anytime(starttime))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is.character(endtime) == FALSE | is.na(anytime(endtime))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (anytime(starttime) >= anytime(endtime)) stop("starttime has to be before endtime.")
+  if (is.character(starttime) == FALSE | is.na(anytime(starttime, asUTC=TRUE,tz="UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (is.character(endtime) == FALSE | is.na(anytime(endtime, asUTC=TRUE,tz="UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") >= anytime(endtime, asUTC=TRUE,tz="UTC")) stop("starttime has to be before endtime.")
 
   # min_occur must be >= 1
   if (min_occur < 1) stop("Please provide a min_occur of >= 1.")
@@ -89,17 +93,17 @@ plot_links <- function(data,
   options(dplyr.summarise.inform = FALSE)
 
   # setting starttime
-  if (starttime == anytime("1960-01-01 00:00")) {
-    starttime <- min(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(starttime, asUTC=TRUE,tz="UTC") <= min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    starttime <- min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    starttime <- anytime(starttime, asUTC = TRUE)
+    starttime <- anytime(starttime, asUTC=TRUE,tz="UTC")
   }
 
   # setting endtime
-  if (difftime(Sys.time(), endtime, units = "min") < 1) {
-    endtime <- max(anytime(data$DateTime, asUTC = TRUE))
+  if (anytime(endtime, asUTC=TRUE,tz="UTC") >= max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
+    endtime <- max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
   } else {
-    endtime <- anytime(endtime, asUTC = TRUE)
+    endtime <- anytime(endtime, asUTC=TRUE,tz="UTC")
   }
 
   # setting names argument
@@ -151,7 +155,7 @@ plot_links <- function(data,
     NewDates[[i]] <- rep(data$DateTime[i], NoElements[i])
   }
 
-  NewDates <- as.POSIXct(unlist(NewDates), origin = "1970-01-01")
+  NewDates <- as.POSIXct(unlist(NewDates), origin = "1970-01-01",tz = "UTC")
 
   # shorten URLs to domain
   if (use_domains == TRUE) {
@@ -166,9 +170,9 @@ plot_links <- function(data,
   NewFrame <- cbind.data.frame(NewDates, NewSender, NewUrls)
 
   # creating time data
-  NewFrame$hour <- as.POSIXlt(NewFrame$NewDates)$hour
-  NewFrame$year <- as.POSIXlt(NewFrame$NewDates)$year + 1900
-  NewFrame$day <- weekdays(as.POSIXlt(NewFrame$NewDates), abbreviate = FALSE)
+  NewFrame$hour <- as.POSIXlt(NewFrame$NewDates,tz = "UTC")$hour
+  NewFrame$year <- as.POSIXlt(NewFrame$NewDates,tz = "UTC")$year + 1900
+  NewFrame$day <- weekdays(as.POSIXlt(NewFrame$NewDates,tz = "UTC"), abbreviate = FALSE)
 
   # setting correct link_vec
   if (length(link_vec) == 1 && link_vec == "all") {

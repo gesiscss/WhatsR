@@ -13,8 +13,8 @@
 #' @param n_diff_smilies Number of different smilies that are used in the simulated chat.
 #' @param n_media Number of messages that contain omitted media files. Must be smaller or equal to n_messages.
 #' @param n_sdp Number of messages that contain self-deleting photos. Must be smaller or equal to n_messages.
-#' @param startdate Earliest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate.
-#' @param enddate Latest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate.
+#' @param startdate Earliest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate. Input is interpreted as UTC
+#' @param enddate Latest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate. Input is interpreted as UTC
 #' @param language Parameter for the language setting of the exporting phone. Influences structure of system messages
 #' @param time_format Parameter for the time format setting of the exporting phone (am/pm vs. 24h). Influences the structure of timestamps.
 #' @param os Parameter for the operating system setting of the exporting phone. Influences the structure of timestamps and WhatsApp system messages.
@@ -87,20 +87,20 @@ create_chatlog <- function(n_messages = 150,
   }
 
   # validating startdate
-  startdate_check <- try(as.Date(startdate, format = "%d.%m.%Y"))
+  startdate_check <- try(as.Date(startdate, format = "%d.%m.%Y", tz = "UTC"))
   if ("try-error" %in% class(startdate_check) || is.na(startdate_check)) {
     print("Variable 'startdate' musst be a character string of format dd.mm.YYYY")
   }
 
   # validating enddate
-  enddate_check <- try(as.Date(enddate, format = "%d.%m.%Y"))
+  enddate_check <- try(as.Date(enddate, format = "%d.%m.%Y", tz = "UTC"))
   if ("try-error" %in% class(enddate_check) || is.na(enddate_check)) {
     print("Variable 'enddate' musst be a character string of format dd.mm.YYYY")
   }
 
   # validate that startdate is before enddate
-  sDate <- as.POSIXct(as.Date(startdate, format = "%d.%m.%Y"))
-  eDate <- as.POSIXct(as.Date(enddate, format = "%d.%m.%Y"))
+  sDate <- as.POSIXct(as.Date(startdate, format = "%d.%m.%Y", tz = "UTC"), tz = "UTC")
+  eDate <- as.POSIXct(as.Date(enddate, format = "%d.%m.%Y", tz = "UTC"), tz = "UTC")
 
   if (sDate >= eDate) {
     warning("starting date must be earlier than ending date.")
@@ -172,8 +172,8 @@ create_chatlog <- function(n_messages = 150,
 
   # Timestamp function (taken from: https://stackoverflow.com/questions/42021394/random-incremental-timestamp-in-r)
   RandomTimeStamp <- function(M, sDate = startdate, eDate = enddate) {
-    sDate <- as.POSIXct(as.Date(sDate, format = "%d.%m.%Y"))
-    eDate <- as.POSIXct(as.Date(eDate, format = "%d.%m.%Y"))
+    sDate <- as.POSIXct(as.Date(sDate, format = "%d.%m.%Y", tz = "UTC"), tz = "UTC")
+    eDate <- as.POSIXct(as.Date(eDate, format = "%d.%m.%Y", tz = "UTC"), tz = "UTC")
     dTime <- as.numeric(difftime(eDate, sDate, units = "sec"))
     sTimeStamp <- sort(runif(M, 0, dTime))
     TimeStamp <- sDate + sTimeStamp
@@ -188,29 +188,29 @@ create_chatlog <- function(n_messages = 150,
   if (language == "german") {
     if (os == "android") {
       if (time_format == "24h") {
-        ts <- strftime(ts, format = "%d.%m.%y, %H:%M - ")
+        ts <- strftime(ts, format = "%d.%m.%y, %H:%M - ", tz = "UTC")
       } else {
-        ts <- strftime(ts, format = "%d.%m.%y, %I:%M %p - ")
+        ts <- strftime(ts, format = "%d.%m.%y, %I:%M %p - ", tz = "UTC")
       }
     } else {
       if (time_format == "24h") {
-        ts <- strftime(ts, format = "[%d.%m.%y, %H:%M:%S] ")
+        ts <- strftime(ts, format = "[%d.%m.%y, %H:%M:%S] ", tz = "UTC")
       } else {
-        ts <- strftime(ts, format = "[%m/%d/%y, %I:%M:%S %p] ")
+        ts <- strftime(ts, format = "[%m/%d/%y, %I:%M:%S %p] ", tz = "UTC")
       }
     }
   } else {
     if (os == "android") {
       if (time_format == "24h") {
-        ts <- strftime(ts, format = "%m/%d/%y, %H:%M - ")
+        ts <- strftime(ts, format = "%m/%d/%y, %H:%M - ", tz = "UTC")
       } else {
-        ts <- strftime(ts, format = "%m/%d/%y, %I:%M %p - ")
+        ts <- strftime(ts, format = "%m/%d/%y, %I:%M %p - ", tz = "UTC")
       }
     } else {
       if (time_format == "24h") {
-        ts <- strftime(ts, format = "[%m/%d/%y, %H:%M:%S] ")
+        ts <- strftime(ts, format = "[%m/%d/%y, %H:%M:%S] ", tz = "UTC")
       } else {
-        ts <- strftime(ts, format = "[%m/%d/%y, %I:%M:%S %p] ")
+        ts <- strftime(ts, format = "[%m/%d/%y, %I:%M:%S %p] ", tz = "UTC")
       }
     }
   }
