@@ -19,7 +19,7 @@
 #'      3) Original order of the HTML table that the emojis were fetched from
 #'
 #' @examples
-#'Emoji_dictionary <- download_emoji()
+#'Emoji_dictionary <- download_emoji(pages = c("https://emojipedia.org/activity/"))
 
 # Function to scrape an emoji dictionary from www.emojipedia.org
 download_emoji <- function(pages = c(

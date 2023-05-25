@@ -43,5 +43,5 @@ the emojis' byte representation (longer ones first) to prevent partial matching 
 through the data frame.
 }
 \examples{
-Emoji_dictionary <- download_emoji()
+Emoji_dictionary <- download_emoji(pages = c("https://emojipedia.org/activity/"))
 }

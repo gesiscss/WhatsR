@@ -6,7 +6,7 @@
 test_that("Updating emoji dictionary",{
 
   # downloading emoji dictionary
-  emoji_dictionary <- download_emoji()
+  emoji_dictionary <- download_emoji(pages = c("https://emojipedia.org/activity/"))
 
   # testing for valid dataframe
   expect_equal(class(emoji_dictionary), "data.frame")

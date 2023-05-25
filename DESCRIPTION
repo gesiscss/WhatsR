@@ -9,9 +9,9 @@ Description: Imports WhatsApp chat logs and parses them into
     a usable dataframe object. The parser works on chats exported 
     from Android or iOS phones and on Linux, MacOS and Windows. The parser has  multiple options for extracting smilies and emojis
     from the messages, extracting urls and domains from the messages, extracting names and types of sent 
-    media files from the messages, extracting timestamps from messages, extracting and anonymzing author 
+    media files from the messages, extracting timestamps from messages, extracting and anonymizing author 
     names from messages. Can be used to create anonymized versions of data.
-License: CC BY-NC-SA 4.0
+License: GPL-3
 Imports: stringi, qdapRegex, readr, tokenizers, rvest, XML, xml2, data.table, ggplot2, anytime, ggmap, mgsub, stats, qdap, ggwordcloud, dplyr, ragg, checkmate, visNetwork, lubridate, methods
 Encoding: UTF-8
 LazyData: true
