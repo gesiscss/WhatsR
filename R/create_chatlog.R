@@ -1,8 +1,8 @@
-#' @title Creating test data in the structure of WhatsApp chat logs
+#' @title Creating test data in the structure of 'WhatsApp' chat logs
 #'
-#' @description Creates a .txt file in the working directory that has the same structure as chat logs exported from WhatsApp. Messages have a timestamp, sender name and message body
-#' containing lorem ipsum, emoji, links, smilies, location, omitted media files, linebreaks, self-deleting photos, and WhatsApp system messages. Timestamps are formatted according to specified phone operating system and
-#' time format settings. WhatsApp system messages are formatted according to specified phone operating system and language.
+#' @description Creates a .txt file in the working directory that has the same structure as chat logs exported from 'WhatsApp'. Messages have a timestamp, sender name and message body
+#' containing lorem ipsum, emoji, links, smilies, location, omitted media files, linebreaks, self-deleting photos, and 'WhatsApp' system messages. Timestamps are formatted according to specified phone operating system and
+#' time format settings. 'WhatsApp' system messages are formatted according to specified phone operating system and language.
 #' @param n_messages Number of messages that are contained in the created .txt file.
 #' @param n_chatters Number of different chatters present in the created .txt file.
 #' @param n_emoji Number of messages that contain emoji. Must be smaller or equal to n_messages.
@@ -17,13 +17,13 @@
 #' @param enddate Latest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate. Input is interpreted as UTC
 #' @param language Parameter for the language setting of the exporting phone. Influences structure of system messages
 #' @param time_format Parameter for the time format setting of the exporting phone (am/pm vs. 24h). Influences the structure of timestamps.
-#' @param os Parameter for the operating system setting of the exporting phone. Influences the structure of timestamps and WhatsApp system messages.
+#' @param os Parameter for the operating system setting of the exporting phone. Influences the structure of timestamps and 'WhatsApp' system messages.
 #' @param path Character string for indicating the file path of where to save the file. Can be NA to not save a file. Default is getwd()
 #' @param chatname Name for the created .txt file.
 #' @export
 #' @importFrom checkmate assert_numeric
 #' @importFrom stats rlnorm rnorm
-#' @return A .txt file with a simulated WhatsApp chat containing lorem ipsum but all structural properties of actual chats.
+#' @return A .txt file with a simulated 'WhatsApp' chat containing lorem ipsum but all structural properties of actual chats.
 #'
 #' @examples
 #' SimulatedChat <- create_chatlog(path=NA)
@@ -89,13 +89,13 @@ create_chatlog <- function(n_messages = 150,
   # validating startdate
   startdate_check <- try(as.Date(startdate, format = "%d.%m.%Y", tz = "UTC"))
   if ("try-error" %in% class(startdate_check) || is.na(startdate_check)) {
-    print("Variable 'startdate' musst be a character string of format dd.mm.YYYY")
+    warning("Variable 'startdate' musst be a character string of format dd.mm.YYYY")
   }
 
   # validating enddate
   enddate_check <- try(as.Date(enddate, format = "%d.%m.%Y", tz = "UTC"))
   if ("try-error" %in% class(enddate_check) || is.na(enddate_check)) {
-    print("Variable 'enddate' musst be a character string of format dd.mm.YYYY")
+    warning("Variable 'enddate' musst be a character string of format dd.mm.YYYY")
   }
 
   # validate that startdate is before enddate

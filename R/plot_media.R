@@ -1,15 +1,15 @@
-#' @title Visualizing media files in WhatsApp chat logs if chats were exported with media files
+#' @title Visualizing media files in 'WhatsApp' chat logs if chats were exported with media files
 #' @description Creates summary data frames or visualizations of sent media files or file types
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} and was exported usng the "with media" option.
+#' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} and was exported usng the "with media" option.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param use_filetype If TRUE, shortens sent file attachments to file types.
 #' @param min_occur The minimum number of occurrences a media (type) has to have to be included in the visualization. Default is 1.
 #' @param return_data If TRUE, returns the subset data frame. Default is FALSE.
 #' @param media_vec A vector of media (types) that the visualizations will be restricted to.
 #' @param plot The type of plot that should be returned Options include "heatmap", "cumsum", "bar" and "splitbar".
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%
@@ -140,7 +140,6 @@ plot_media <- function(data,
   NewDates <- as.POSIXct(unlist(NewDates), origin = "1970-01-01",tz="UTC")
 
   # pasting together
-  options(stringsAsFactors = FALSE)
   NewFrame <- cbind.data.frame(NewDates, NewSender, NewMedia)
 
   # creating time data

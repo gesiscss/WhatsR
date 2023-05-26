@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_locations.R
 \name{plot_locations}
 \alias{plot_locations}
-\title{Plotting locations sent in WhatsApp chat logs on maps}
+\title{Plotting locations sent in 'WhatsApp' chat logs on maps}
 \usage{
 plot_locations(
   data,
@@ -18,13 +18,13 @@ plot_locations(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}with anonimize= FALSE or anonimize = "add".}
+\item{data}{A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}with anonimize= FALSE or anonimize = "add".}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
 \item{mapzoom}{Value for zoom into the map passed down to \code{\link[ggmap]{get_map}}. Default value is 5. Higher zoom will auto-download more map files which can take a while.}
 
@@ -36,13 +36,13 @@ plot_locations(
 
 \item{map_leeway}{Adds additional space to the map so that points do not sit exactly at the border of the plot. Default value is 5.}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots for geolocation and/or a data frame of latitude and longitude coordinates
 }
 \description{
-Plots the location data that is sent in the WhatsApp chatlog on an auto-scaled map. Requires unanonimized 'Location' column in data
+Plots the location data that is sent in the 'WhatsApp' chatlog on an auto-scaled map. Requires unanonimized 'Location' column in data
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

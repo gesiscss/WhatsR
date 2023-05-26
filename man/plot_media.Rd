@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_media.R
 \name{plot_media}
 \alias{plot_media}
-\title{Visualizing media files in WhatsApp chat logs if chats were exported with media files}
+\title{Visualizing media files in 'WhatsApp' chat logs if chats were exported with media files}
 \usage{
 plot_media(
   data,
@@ -18,13 +18,13 @@ plot_media(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} and was exported usng the "with media" option.}
+\item{data}{A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} and was exported usng the "with media" option.}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
 \item{use_filetype}{If TRUE, shortens sent file attachments to file types.}
 
@@ -36,7 +36,7 @@ plot_media(
 
 \item{plot}{The type of plot that should be returned Options include "heatmap", "cumsum", "bar" and "splitbar".}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots and/or the subset data frame based on author names, datetime and media (type) occurrence

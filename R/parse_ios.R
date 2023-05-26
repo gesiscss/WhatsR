@@ -1,12 +1,12 @@
-#' @title Parsing raw WhatsApp chat log according to iOs text structure
+#' @title Parsing raw 'WhatsApp' chat log according to iOs text structure
 #'
-#' @description Creates a data frame from an exported WhatsApp chat log containing one row per message
+#' @description Creates a data frame from an exported 'WhatsApp' chat log containing one row per message
 #' and a column for DateTime when the message was send, name of the sender and body of the message. Only works as an intermediary function
 #' called from within \code{\link[WhatsR]{parse_chat}}
-#' @param chatlog WhatsApp chat preprocessed by \code{\link[WhatsR]{parse_chat}}
+#' @param chatlog 'WhatsApp' chat preprocessed by \code{\link[WhatsR]{parse_chat}}
 #' @param newline_indicator Character string defining character for newline indicators. Default is a Unicode newline.
 #' @param media_indicator Character string for detecting media and file attachments.
-#' @param media_omitted Character string inserted by WhatsApp instead of file names when not exporting media.
+#' @param media_omitted Character string inserted by 'WhatsApp' instead of file names when not exporting media.
 #' @param sent_location Regex for detecting auto generated messages for locations shared via chat.
 #' @param live_location Regex for detecting auto generated messages for locations shared via chat.
 #' @param datetime_indicator Regex for detecting the DateTime indicator at the beginning of each message.

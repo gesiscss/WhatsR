@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse_ios.R
 \name{parse_ios}
 \alias{parse_ios}
-\title{Parsing raw WhatsApp chat log according to iOs text structure}
+\title{Parsing raw 'WhatsApp' chat log according to iOs text structure}
 \usage{
 parse_ios(
   chatlog,
@@ -21,11 +21,11 @@ parse_ios(
 )
 }
 \arguments{
-\item{chatlog}{WhatsApp chat preprocessed by \code{\link[WhatsR]{parse_chat}}}
+\item{chatlog}{'WhatsApp' chat preprocessed by \code{\link[WhatsR]{parse_chat}}}
 
 \item{newline_indicator}{Character string defining character for newline indicators. Default is a Unicode newline.}
 
-\item{media_omitted}{Character string inserted by WhatsApp instead of file names when not exporting media.}
+\item{media_omitted}{Character string inserted by 'WhatsApp' instead of file names when not exporting media.}
 
 \item{media_indicator}{Character string for detecting media and file attachments.}
 
@@ -43,7 +43,7 @@ parse_ios(
 A data frame containing the timestamp, name of the sender and message body
 }
 \description{
-Creates a data frame from an exported WhatsApp chat log containing one row per message
+Creates a data frame from an exported 'WhatsApp' chat log containing one row per message
 and a column for DateTime when the message was send, name of the sender and body of the message. Only works as an intermediary function
 called from within \code{\link[WhatsR]{parse_chat}}
 }

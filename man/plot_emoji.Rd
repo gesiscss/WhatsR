@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_emoji.R
 \name{plot_emoji}
 \alias{plot_emoji}
-\title{Plotting emoji distributions in WhatsApp chat logs}
+\title{Plotting emoji distributions in 'WhatsApp' chat logs}
 \usage{
 plot_emoji(
   data,
@@ -19,13 +19,13 @@ plot_emoji(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
 \item{min_occur}{Minimum number of occurrences for emoji to be included in the plots. Default is 1.}
 
@@ -39,13 +39,13 @@ plot_emoji(
 
 \item{font_family}{Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see \code{\link[extrafont]{font_import}}.}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots and/or the subset data frame based on author names, datetime and emoji occurrence
 }
 \description{
-Plots four different types of graphs for the emoji contained in a parsed WhatsApp chat log. Returns dataframe used for plotting if desired.
+Plots four different types of graphs for the emoji contained in a parsed 'WhatsApp' chat log. Returns dataframe used for plotting if desired.
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

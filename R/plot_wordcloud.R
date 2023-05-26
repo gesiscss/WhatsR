@@ -1,23 +1,23 @@
-#' @title Wordclouds for WhatsApp chat logs
-#' @description Creates a wordcloud by author for WhatsApp chat logs. Requires raw message text to be present in data.
-#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}} and anonimize = FALSE or anonimize = "add"
+#' @title Wordclouds for 'WhatsApp' chat logs
+#' @description Creates a wordcloud by author for 'WhatsApp' chat logs. Requires raw message text to be present in data.
+#' @param data A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}} and anonimize = FALSE or anonimize = "add"
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param stop The language for stopword removal. Stopwords are taken from \code{\link[tm]{stopwords}}. Options are "english" and "german".
 #' @param comparison Must be TRUE or FALSE. If TRUE, will split up wordcloud by sender. Default is FALSE.
 #' @param return_data Will return the data frame used to create the plot if TRUE. Default is FALSE.
 #' @param font_size Size of the words in the wordcloud, passed to \code{\link[ggplot2]{scale_size_area}}. Default is 10, a good starting value is 0.0125 * number of messages in data frame.
 #' @param remove_stops Either TRUE or FALSE, default is TRUE. Configures whether stopwords from \code{\link[tm]{stopwords}} are removed from the text strings.
 #' @param min_occur Sets the minimum frequency a token must occur in the chat for it to be included in the plot. Default is 5.
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from word clouds. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from word clouds. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr bind_rows
 #' @importFrom ggwordcloud geom_text_wordcloud_area
 #' @importFrom methods is
 #' @export
-#' @return A wordcloud plot per author for WhatsApp chatlogs
+#' @return A wordcloud plot per author for 'WhatsApp' chat logs
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_wordcloud(data, comparison = TRUE, min_occur = 6)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_messages.R
 \name{plot_messages}
 \alias{plot_messages}
-\title{Visualizing the number of sent messages per person in WhatsApp chat logs}
+\title{Visualizing the number of sent messages per person in 'WhatsApp' chat logs}
 \usage{
 plot_messages(
   data,
@@ -15,19 +15,19 @@ plot_messages(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
 \item{plot}{Type of plot to be returned, options are "bar", "cumsum", "heatmap" and "pie". Default is "bar".}
 
 \item{return_data}{If TRUE, returns the subset data frame. Default is FALSE.}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots summarizing the number of messages per person

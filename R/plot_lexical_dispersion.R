@@ -1,12 +1,12 @@
-#' @title Lexical disperson plots for keywords in WhatsApp chat logs
+#' @title Lexical disperson plots for keywords in 'WhatsApp' chat logs
 #' @description Visualizes the occurrence of specific keywords within the chat. Requires the raw message content to be contained in the preprocessed data
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".
+#' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param keywords A vector of keywords to be displayed, default is c("hello","world").
 #' @param return_data Default is FALSE, returns data frame used for plotting when TRUE.
-#' @param exclude_sm If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' System Messages from the descriptive statistics. Default is FALSE.
 #' @param ... Further arguments passed down to \code{\link[qdap]{dispersion_plot}}.
 #' @import ggplot2
 #' @importFrom anytime anytime
@@ -29,6 +29,9 @@ plot_lexical_dispersion <- function(data,
                                     exclude_sm = FALSE,
                                     ...) {
 
+  # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
+  `keyword` <- NULL
+
   # catching bad params
 
   # checking data
@@ -50,13 +53,6 @@ plot_lexical_dispersion <- function(data,
 
   # exclude_sm must be bool
   if (!is.logical(exclude_sm)) stop("exclude_sm has to be either TRUE or FALSE.")
-
-  # switch off useless warning message
-  defaultW <- getOption("warn")
-  options(warn = -1)
-
-  # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
-  `keyword` <- NULL
 
   # transferring keywords to lowercase to make it non case-sensitive
   keywords <- tolower(keywords)
@@ -92,7 +88,7 @@ plot_lexical_dispersion <- function(data,
   }
 
   # limiting data to time and namescope
-  data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ] # TODO: THIS IS WHERE THE ERROR OCCURS
+  data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ]
 
   # Checking if keywords are contained in flattened message
   if (length(unlist(term_match(data$Flat, keywords))) == 0) {
@@ -102,9 +98,6 @@ plot_lexical_dispersion <- function(data,
   # make plot
   out <- with(data, suppressWarnings(dispersion_plot(Flat, keywords, grouping.var = list(Sender), ...)))
   print(out)
-
-  # switching on warnings again
-  options(warn = defaultW)
 
   if (return_data == TRUE) {
     return(data)

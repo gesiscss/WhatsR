@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse_android.R
 \name{parse_android}
 \alias{parse_android}
-\title{Parsing raw WhatsApp chat logs according to Android text structure}
+\title{Parsing raw 'WhatsApp' chat logs according to Android text structure}
 \usage{
 parse_android(
   chatlog,
@@ -20,11 +20,11 @@ parse_android(
 )
 }
 \arguments{
-\item{chatlog}{WhatsApp chat preprocessed by \code{\link[WhatsR]{parse_chat}}}
+\item{chatlog}{'WhatsApp' chat preprocessed by \code{\link[WhatsR]{parse_chat}}}
 
 \item{newline_indicator}{character string defining character for newline indicators. Default is a Unicode newline.}
 
-\item{media_omitted}{character string inserted by WhatsApp instead of file names when not exporting media.}
+\item{media_omitted}{character string inserted by 'WhatsApp' instead of file names when not exporting media.}
 
 \item{media_indicator}{character string for detecting media and file attachments.}
 
@@ -42,7 +42,7 @@ parse_android(
 A data frame containing the timestamp, name of the sender and message body
 }
 \description{
-Creates a data frame from an exported WhatsApp chat log containing one row per message
+Creates a data frame from an exported 'WhatsApp' chat log containing one row per message
 and a column for DateTime when the message was sent, name of the sender and body of the message. Only works as an intermediary function
 called from within \code{\link[WhatsR]{parse_chat}}
 }

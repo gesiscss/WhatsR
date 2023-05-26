@@ -1,15 +1,15 @@
-#' @title Plotting locations sent in WhatsApp chat logs on maps
-#' @description Plots the location data that is sent in the WhatsApp chatlog on an auto-scaled map. Requires unanonimized 'Location' column in data
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}with anonimize= FALSE or anonimize = "add".
+#' @title Plotting locations sent in 'WhatsApp' chat logs on maps
+#' @description Plots the location data that is sent in the 'WhatsApp' chatlog on an auto-scaled map. Requires unanonimized 'Location' column in data
+#' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}with anonimize= FALSE or anonimize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param mapzoom Value for zoom into the map passed down to \code{\link[ggmap]{get_map}}. Default value is 5. Higher zoom will auto-download more map files which can take a while.
 #' @param return_data If TRUE, returns a data frame of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param jitter_value Amount of random jitter to add to the geolocations to hide exact locations. Default value is 0.01. Can be NA for exact locations.
 #' @param jitter_seed Seed for adding random jitter to coordinates. Passed to \code{\link[base]{set.seed}}
 #' @param map_leeway Adds additional space to the map so that points do not sit exactly at the border of the plot. Default value is 5.
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%

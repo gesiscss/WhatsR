@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_network.R
 \name{plot_network}
 \alias{plot_network}
-\title{Visualizing the network of consecutive replies in WhatsApp chat logs}
+\title{Visualizing the network of consecutive replies in 'WhatsApp' chat logs}
 \usage{
 plot_network(
   data,
@@ -16,13 +16,13 @@ plot_network(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
 \item{names}{A vector of author names that the visualization will be restricted to. Non-listed authors will be removed.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
 \item{return_data}{If TRUE, returns a data frame of subsequent interactions with senders and recipients. Default is FALSE.}
 
@@ -30,10 +30,10 @@ plot_network(
 
 \item{edgetype}{What type of content is displayed as an edge. Must be one of "TokCount","EmojiCount","SmilieCount","LocationCount","URLCount","MediaCount" or "n".}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
-A network visualization of authors in WhatsApp chat logs where each subsequent message is considered a reply to the previous one.
+A network visualization of authors in 'WhatsApp' chat logs where each subsequent message is considered a reply to the previous one.
 }
 \description{
 Plots a network for replies between authors in chat logs. Each message is evaluated as a reply to the previous one.

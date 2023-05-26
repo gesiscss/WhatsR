@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_lexical_dispersion.R
 \name{plot_lexical_dispersion}
 \alias{plot_lexical_dispersion}
-\title{Lexical disperson plots for keywords in WhatsApp chat logs}
+\title{Lexical disperson plots for keywords in 'WhatsApp' chat logs}
 \usage{
 plot_lexical_dispersion(
   data,
@@ -16,19 +16,19 @@ plot_lexical_dispersion(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".}
+\item{data}{A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
 \item{keywords}{A vector of keywords to be displayed, default is c("hello","world").}
 
 \item{return_data}{Default is FALSE, returns data frame used for plotting when TRUE.}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp System Messages from the descriptive statistics. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the 'WhatsApp' System Messages from the descriptive statistics. Default is FALSE.}
 
 \item{...}{Further arguments passed down to \code{\link[qdap]{dispersion_plot}}.}
 }

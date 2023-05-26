@@ -1,13 +1,13 @@
 #' @title Distribution of Tokens over time
 #' @description Summarizes the distribution of user-generated tokens over time
-#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}} with parameters anonimize = FALSE or anonimize = "add".
+#' @param data A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}} with parameters anonimize = FALSE or anonimize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param names_col A column indicated by a string that should be accessed to determine the names. Only needs to be changed when \code{\link[WhatsR]{parse_chat}} used the parameter anon = "add" and the column "Anonymous" should be used. Default is "Sender".
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param plot Type of plot to be returned. Options are "year", "day", "hour", "heatmap" and "alltime". Default is "alltime".
 #' @param return_data If TRUE, returns the subset data frame. Default is FALSE.
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%
@@ -146,12 +146,9 @@ plot_tokens_over_time <- function(data,
 
 
   if (plot == "hour") {
-    # debugger
-    browser()
 
     # preprocessing hour variable
     helperframe$hour <- factor(helperframe$hour, levels = c(1:23, 0))
-
 
     # plotting by hour
     out <- ggplot(helperframe, aes(x = hour, y = TokCount, color = Sender, fill = Sender)) +

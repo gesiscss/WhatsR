@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_links.R
 \name{plot_links}
 \alias{plot_links}
-\title{Visualizing links in WhatsApp chat logs}
+\title{Visualizing links in 'WhatsApp' chat logs}
 \usage{
 plot_links(
   data,
@@ -19,13 +19,13 @@ plot_links(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
 \item{use_domains}{If TRUE, links are shortened to domains. This includes the inputs in link_vec. Default is TRUE.}
 
@@ -39,13 +39,13 @@ plot_links(
 
 \item{plot}{The type of plot that should be returned Options are "heatmap", "cumsum", "bar" and "splitbar".}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
 Plots and/or the subset data frame based on author names, datetime and emoji occurrence
 }
 \description{
-Visualizes the occurrence of links in a WhatsApp chatlog
+Visualizes the occurrence of links in a 'WhatsApp' chatlog
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

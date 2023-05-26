@@ -1,13 +1,13 @@
-#' @title Visualizing the network of consecutive replies in WhatsApp chat logs
+#' @title Visualizing the network of consecutive replies in 'WhatsApp' chat logs
 #' @description Plots a network for replies between authors in chat logs. Each message is evaluated as a reply to the previous one.
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the visualization will be restricted to. Non-listed authors will be removed.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param return_data If TRUE, returns a data frame of subsequent interactions with senders and recipients. Default is FALSE.
 #' @param collapse_sessions Whether multiple subsequent messages by the same sender should be collapsed into one row. Default is FALSE.
 #' @param edgetype What type of content is displayed as an edge. Must be one of "TokCount","EmojiCount","SmilieCount","LocationCount","URLCount","MediaCount" or "n".
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.
 #' @importFrom anytime anytime
 #' @importFrom data.table .I
 #' @importFrom data.table .N
@@ -17,7 +17,7 @@
 #' @importFrom visNetwork visNetwork visEdges
 #' @importFrom methods is
 #' @export
-#' @return A network visualization of authors in WhatsApp chat logs where each subsequent message is considered a reply to the previous one.
+#' @return A network visualization of authors in 'WhatsApp' chat logs where each subsequent message is considered a reply to the previous one.
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_network(data)

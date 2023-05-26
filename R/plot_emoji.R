@@ -1,16 +1,16 @@
-#' @title Plotting emoji distributions in WhatsApp chat logs
-#' @description Plots four different types of graphs for the emoji contained in a parsed WhatsApp chat log. Returns dataframe used for plotting if desired.
-#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @title Plotting emoji distributions in 'WhatsApp' chat logs
+#' @description Plots four different types of graphs for the emoji contained in a parsed 'WhatsApp' chat log. Returns dataframe used for plotting if desired.
+#' @param data A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param min_occur Minimum number of occurrences for emoji to be included in the plots. Default is 1.
 #' @param return_data If TRUE, returns the subsetted data frame used for plotting. Default is FALSE.
 #' @param emoji_vec A vector of emoji that the visualizations and data will be restricted to.
 #' @param plot The type of plot that should be returned. Options are "heatmap", "cumsum", "bar" and "splitbar".
 #' @param emoji_size Determines the size of the emoji displayed on top of the bars for "bar" and "splitbar", default is 10.
 #' @param font_family Character string for indicating font family used to plot_emoji. Fonts might need to be installed manually, see \code{\link[extrafont]{font_import}}.
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2 ragg
 #' @importFrom anytime anytime
 #' @importFrom dplyr group_by

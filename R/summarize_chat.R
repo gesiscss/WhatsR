@@ -1,7 +1,7 @@
-#' @title Basic WhatsApp chat log Statistics
-#' @description Creates a list of basic information about a single WhatsApp chat log
-#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
+#' @title Basic 'WhatsApp' chat log Statistics
+#' @description Creates a list of basic information about a single 'WhatsApp' chat log
+#' @param data A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.
 #' @export
 #' @return A list containing: \cr
 #'

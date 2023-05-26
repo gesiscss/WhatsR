@@ -1,14 +1,14 @@
-#' @title Visualizing replytimes in WhatsApp chat logs
+#' @title Visualizing replytimes in 'WhatsApp' chat logs
 #' @description Visualizes the reply times and reaction times to messages per author
-#' @param data A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @param data A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param return_data If TRUE, returns a data frame of response times extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param aggregate_sessions If TRUE, concurrent messages of the same author are aggregated into one session. Default is TRUE.
 #' @param plot Type of plot to be returned, options are "box" and "heatmap".
 #' @param type If "replytime", plots display how much time it takes authors to reply to previous message, if "reactiontime", plots display how much time it takes for authors to get responded to.
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the data. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from the data. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom data.table .I

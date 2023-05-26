@@ -1,16 +1,16 @@
-#' @title Visualizing links in WhatsApp chat logs
-#' @description Visualizes the occurrence of links in a WhatsApp chatlog
-#' @param data A WhatsApp chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
+#' @title Visualizing links in 'WhatsApp' chat logs
+#' @description Visualizes the occurrence of links in a 'WhatsApp' chatlog
+#' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param use_domains If TRUE, links are shortened to domains. This includes the inputs in link_vec. Default is TRUE.
 #' @param exclude_long Either NA or a numeric value. If numeric value is provided, removes all links/domains longer than x characters. Default is 50.
 #' @param min_occur The minimum number of occurrences a link has to have to be included in the visualization. Default is 1.
 #' @param return_data If TRUE, returns the subset data frame. Default is FALSE.
 #' @param link_vec A vector of links that the visualizations will be restricted to.
 #' @param plot The type of plot that should be returned Options are "heatmap", "cumsum", "bar" and "splitbar".
-#' @param exclude_sm If TRUE, excludes the WhatsApp system messages from the descriptive statistics. Default is FALSE.
+#' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr group_by
@@ -89,9 +89,6 @@ plot_links <- function(data,
   # exclude_long must be bool
   if (!c(is.na(exclude_long) | is.numeric(exclude_long))) stop("exclude_long has to be either NA or a numeric value")
 
-  # muting dplyr message
-  options(dplyr.summarise.inform = FALSE)
-
   # setting starttime
   if (anytime(starttime, asUTC=TRUE,tz="UTC") <= min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))) {
     starttime <- min(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
@@ -166,7 +163,6 @@ plot_links <- function(data,
   } else {}
 
   # pasting together
-  options(stringsAsFactors = FALSE)
   NewFrame <- cbind.data.frame(NewDates, NewSender, NewUrls)
 
   # creating time data
@@ -392,6 +388,4 @@ plot_links <- function(data,
     }
   }
 
-  # unmute dplyr
-  options(dplyr.summarise.inform = TRUE)
 }

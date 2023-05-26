@@ -2,7 +2,7 @@
 % Please edit documentation in R/parse_chat.R
 \name{parse_chat}
 \alias{parse_chat}
-\title{Parsing exported WhatsApp chat logs as a dataframe}
+\title{Parsing exported 'WhatsApp' chat logs as a dataframe}
 \usage{
 parse_chat(
   path,
@@ -13,11 +13,12 @@ parse_chat(
   emoji_dictionary = "internal",
   smilie_dictionary = "wikipedia",
   rpnl = " start_newline ",
-  rpom = " media_omitted "
+  rpom = " media_omitted ",
+  verbose = FALSE
 )
 }
 \arguments{
-\item{path}{Character string containing the file path to the exported WhatsApp chat log as a .txt file.}
+\item{path}{Character string containing the file path to the exported 'WhatsApp' chat log as a .txt file.}
 
 \item{os}{Operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the OS. Also supports "android" or "iOS".}
 
@@ -38,12 +39,14 @@ and manually added ones.}
 \item{rpnl}{Replace newline. A character string for replacing line breaks within messages for the parsed message for better readability. Default is " start_newline ".}
 
 \item{rpom}{Replace omitted media. A character string replacing the indicator for omitted media files for better readability. Default is " media_omitted ".}
+
+\item{verbose}{Prints progress messages for parse_chat() to the console if TRUE, default is FALSE.}
 }
 \value{
 A dataframe containing one row per message and 11,15, or 19 columns, depending on the setting of the anonimize parameter
 }
 \description{
-Creates a data frame from an exported WhatsApp chat log containing one row per message. Some columns
+Creates a data frame from an exported 'WhatsApp' chat log containing one row per message. Some columns
 are saved as lists using the I() function so that multiple elements can be stored per message while still maintaining
 the general structure of one row per message. These columns should be treated as lists or unlisted first.
 }

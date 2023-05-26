@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_chatlog.R
 \name{create_chatlog}
 \alias{create_chatlog}
-\title{Creating test data in the structure of WhatsApp chat logs}
+\title{Creating test data in the structure of 'WhatsApp' chat logs}
 \usage{
 create_chatlog(
   n_messages = 150,
@@ -53,19 +53,19 @@ create_chatlog(
 
 \item{time_format}{Parameter for the time format setting of the exporting phone (am/pm vs. 24h). Influences the structure of timestamps.}
 
-\item{os}{Parameter for the operating system setting of the exporting phone. Influences the structure of timestamps and WhatsApp system messages.}
+\item{os}{Parameter for the operating system setting of the exporting phone. Influences the structure of timestamps and 'WhatsApp' system messages.}
 
 \item{path}{Character string for indicating the file path of where to save the file. Can be NA to not save a file. Default is getwd()}
 
 \item{chatname}{Name for the created .txt file.}
 }
 \value{
-A .txt file with a simulated WhatsApp chat containing lorem ipsum but all structural properties of actual chats.
+A .txt file with a simulated 'WhatsApp' chat containing lorem ipsum but all structural properties of actual chats.
 }
 \description{
-Creates a .txt file in the working directory that has the same structure as chat logs exported from WhatsApp. Messages have a timestamp, sender name and message body
-containing lorem ipsum, emoji, links, smilies, location, omitted media files, linebreaks, self-deleting photos, and WhatsApp system messages. Timestamps are formatted according to specified phone operating system and
-time format settings. WhatsApp system messages are formatted according to specified phone operating system and language.
+Creates a .txt file in the working directory that has the same structure as chat logs exported from 'WhatsApp'. Messages have a timestamp, sender name and message body
+containing lorem ipsum, emoji, links, smilies, location, omitted media files, linebreaks, self-deleting photos, and 'WhatsApp' system messages. Timestamps are formatted according to specified phone operating system and
+time format settings. 'WhatsApp' system messages are formatted according to specified phone operating system and language.
 }
 \examples{
 SimulatedChat <- create_chatlog(path=NA)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_smilies.R
 \name{plot_smilies}
 \alias{plot_smilies}
-\title{Visualize smilies used in WhatsApp chat logs}
+\title{Visualize smilies used in 'WhatsApp' chat logs}
 \usage{
 plot_smilies(
   data,
@@ -17,13 +17,13 @@ plot_smilies(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
+\item{data}{A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}}.}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
 \item{min_occur}{The minimum number of occurrences a smiley has to have to be included in the visualization. Default is 1.}
 
@@ -33,13 +33,13 @@ plot_smilies(
 
 \item{plot}{The type of plot that should be returned. Options are "heatmap", "cumsum", "bar" and "splitbar".}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from the data. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the data. Default is FALSE.}
 }
 \value{
-Plots for distribution of smilies in WhatsApp chats
+Plots for distribution of smilies in 'WhatsApp' chats
 }
 \description{
-Plots the smilies used in WhatsApp chat logs by sender
+Plots the smilies used in 'WhatsApp' chat logs by sender
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))

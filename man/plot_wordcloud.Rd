@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_wordcloud.R
 \name{plot_wordcloud}
 \alias{plot_wordcloud}
-\title{Wordclouds for WhatsApp chat logs}
+\title{Wordclouds for 'WhatsApp' chat logs}
 \usage{
 plot_wordcloud(
   data,
@@ -19,13 +19,13 @@ plot_wordcloud(
 )
 }
 \arguments{
-\item{data}{A WhatsApp chat log that was parsed with \code{\link[WhatsR]{parse_chat}} and anonimize = FALSE or anonimize = "add"}
+\item{data}{A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}} and anonimize = FALSE or anonimize = "add"}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
-\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{starttime}{Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with WhatsApp timestamps.}
+\item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
 \item{remove_stops}{Either TRUE or FALSE, default is TRUE. Configures whether stopwords from \code{\link[tm]{stopwords}} are removed from the text strings.}
 
@@ -39,13 +39,13 @@ plot_wordcloud(
 
 \item{min_occur}{Sets the minimum frequency a token must occur in the chat for it to be included in the plot. Default is 5.}
 
-\item{exclude_sm}{If TRUE, excludes the WhatsApp system messages from word clouds. Default is FALSE.}
+\item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from word clouds. Default is FALSE.}
 }
 \value{
-A wordcloud plot per author for WhatsApp chatlogs
+A wordcloud plot per author for 'WhatsApp' chat logs
 }
 \description{
-Creates a wordcloud by author for WhatsApp chat logs. Requires raw message text to be present in data.
+Creates a wordcloud by author for 'WhatsApp' chat logs. Requires raw message text to be present in data.
 }
 \examples{
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
