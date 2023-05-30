@@ -134,15 +134,15 @@ plot_locations <- function(data,
     ceiling(max(LatLong[, 3])) + map_leeway
   )
 
-  # Fetch the map [This fails gracefully when there's no internet connection]
+  # Fetch the map [This should fail gracefully when there's no internet connection]
   map <- tryCatch(
       {
         # trying to download map data
         get_map(location = location, source = "stamen", zoom = mapzoom, messaging = FALSE)
       },
       error=function(err) {
-        message("Could not download Stamen map data. Here's the original error message:")
-        message(err)
+        message("Could not download Stamen map data. Do you have an Internet connection?")
+        #message(err)
         return(NULL)
       },
       warning=function(warn) {
