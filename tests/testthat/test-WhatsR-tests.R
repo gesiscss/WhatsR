@@ -1256,7 +1256,7 @@ test_that("Plotting Location", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_location1,"test_location1.rds",version = 2)
 
-  if(is.data.frame("test_location1")){
+  if(is.data.frame(test_location1)){
 
     test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
     expect_identical(test_location1, test)
@@ -1275,7 +1275,7 @@ test_that("Plotting Location", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_location2,"test_location2.rds",version = 2)
 
-  if(is.data.frame("test_location2")){
+  if(is.data.frame(test_location2)){
 
     test <- readRDS(system.file("test_location2.rds", package = "WhatsR"))
     expect_identical(test_location2, test)
@@ -1294,7 +1294,7 @@ test_that("Plotting Location", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_location3,"test_location3.rds",version = 2)
 
-  if(is.data.frame("test_location3")){
+  if(is.data.frame(test_location3)){
 
     test <- readRDS(system.file("test_location3.rds", package = "WhatsR"))
     expect_identical(test_location3, test)
