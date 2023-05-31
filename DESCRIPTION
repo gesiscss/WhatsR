@@ -2,7 +2,7 @@ Package: WhatsR
 Type: Package
 Title: Parsing, Anonymizing and Visualizing Exported 'WhatsApp' Chat Logs
 Version: 1.0.1
-Date: 2023-04-27
+Date: 2023-05-27
 Author: Julian Kohne <julian.kohne@gesis.org>
 Maintainer: Julian Kohne <julian.kohne@gesis.org>
 Description: Imports 'WhatsApp' chat logs and parses them into
