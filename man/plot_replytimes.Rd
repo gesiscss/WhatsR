@@ -8,7 +8,7 @@ plot_replytimes(
   data,
   names = "all",
   starttime = "1960-01-01 00:00",
-  endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
+  endtime = "2200-01-01 00:00",
   return_data = FALSE,
   aggregate_sessions = TRUE,
   plot = "box",

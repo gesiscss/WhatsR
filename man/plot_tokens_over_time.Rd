@@ -9,7 +9,7 @@ plot_tokens_over_time(
   names = "all",
   names_col = "Sender",
   starttime = "1960-01-01 00:00",
-  endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
+  endtime = "2200-01-01 00:00",
   plot = "alltime",
   return_data = FALSE,
   exclude_sm = FALSE

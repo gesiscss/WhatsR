@@ -22,7 +22,7 @@
 plot_smilies <- function(data,
                          names = "all",
                          starttime = "1960-01-01 00:00",
-                         endtime = as.character(as.POSIXct(Sys.time(),tz = "UTC")),
+                         endtime = "2200-01-01 00:00",
                          min_occur = 1,
                          return_data = FALSE,
                          smilie_vec = "all",
