@@ -2,8 +2,8 @@
 #' @description Visualizes the occurrence of links in a 'WhatsApp' chatlog
 #' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param use_domains If TRUE, links are shortened to domains. This includes the inputs in link_vec. Default is TRUE.
 #' @param exclude_long Either NA or a numeric value. If numeric value is provided, removes all links/domains longer than x characters. Default is 50.
 #' @param min_occur The minimum number of occurrences a link has to have to be included in the visualization. Default is 1.
@@ -43,12 +43,12 @@ plot_links <- function(data,
   # catching bad params
 
   # checking data
-  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+  if (!is.data.frame(data)) {stop("'data' must be a dataframe parsed with parse_chat()")}
 
   # start- and endtime are convertable to POSIXct
-  if (is.character(starttime) == FALSE | is.na(anytime(starttime, asUTC=TRUE,tz="UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is.character(endtime) == FALSE | is.na(anytime(endtime, asUTC=TRUE,tz="UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (anytime(starttime, asUTC=TRUE,tz="UTC") >= anytime(endtime, asUTC=TRUE,tz="UTC")) stop("starttime has to be before endtime.")
+  if (is.character(starttime) == FALSE | is.na(as.POSIXct(starttime,tz = "UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by as.POSIXct().")
+  if (is.character(endtime) == FALSE | is.na(as.POSIXct(endtime,tz = "UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by as.POSIXct().")
+  if (as.POSIXct(starttime,tz = "UTC") >= as.POSIXct(endtime,tz = "UTC")) stop("starttime has to be before endtime.")
 
   # min_occur must be >= 1
   if (min_occur < 1) stop("Please provide a min_occur of >= 1.")
@@ -90,17 +90,17 @@ plot_links <- function(data,
   if (!c(is.na(exclude_long) | is.numeric(exclude_long))) stop("exclude_long has to be either NA or a numeric value")
 
   # setting starttime
-  if (as.POSIXct(starttime,tz="UTC") <= min(data$DateTime)) {
+  if (as.POSIXct(starttime,tz = "UTC") <= min(data$DateTime)) {
     starttime <- min(data$DateTime)
   } else {
-    starttime <- as.POSIXct(starttime,tz="UTC")
+    starttime <- as.POSIXct(starttime,tz = "UTC")
   }
 
   # setting endtime
-  if (as.POSIXct(endtime,tz="UTC") >= max(data$DateTime)) {
-    endtime <- max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
+  if (as.POSIXct(endtime,tz = "UTC") >= max(data$DateTime)) {
+    endtime <- max(data$DateTime)
   } else {
-    endtime <- as.POSIXct(endtime,tz="UTC")
+    endtime <- as.POSIXct(endtime,tz = "UTC")
   }
 
   # setting names argument

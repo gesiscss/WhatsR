@@ -58,7 +58,7 @@ parse_chat <- function(path,
   RawChat <- readChar(path, file.info(path)$size)
 
   # printing info
-  if (verbose){cat("Imported raw chat file \U2713 \n")}
+  if (verbose) {cat("Imported raw chat file \U2713 \n")}
 
   # Regex that detects 24h/ampm, american date format, european date format and all combinations for ios and android
   TimeRegex_android <- c("(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2})),\\s\\d{2}\\:\\d{2}((\\s\\-)|(\\s(?i:(am|pm))\\s\\-)))")
@@ -85,7 +85,7 @@ parse_chat <- function(path,
     if (android_stamps > ios_stamps) {
 
       os <- "android"
-      if (verbose){cat("Operating System was automatically detected: android \U2713 \n")}
+      if (verbose) {cat("Operating System was automatically detected: android \U2713 \n")}
       TimeRegex <- TimeRegex_android
     } else if (android_stamps == ios_stamps) {
 
@@ -94,7 +94,7 @@ parse_chat <- function(path,
 
       if (os == "android") {
 
-        if (verbose){cat("Operating System was set to: android \U2713 \n")}
+        if (verbose) {cat("Operating System was set to: android \U2713 \n")}
         TimeRegex <- TimeRegex_android
       } else if (os == "ios") {
 
@@ -109,7 +109,7 @@ parse_chat <- function(path,
     } else if (android_stamps < ios_stamps) {
 
       os <- "ios"
-      if (verbose){cat("Operating System was automatically detected: ios \U2713 \n")}
+      if (verbose) {cat("Operating System was automatically detected: ios \U2713 \n")}
       TimeRegex <- TimeRegex_ios
     }
   } else if (os == "ios") {
@@ -144,7 +144,7 @@ parse_chat <- function(path,
     language <- language[!is.na(language)]
 
     # printing info
-    if (verbose){cat(paste0("Auto-detected language setting of exporting phone: ", language, " \U2713 \n"))}
+    if (verbose) {cat(paste0("Auto-detected language setting of exporting phone: ", language, " \U2713 \n"))}
   } else if (language != "english" & language != "german") {
 
     cat("Language was set incorrectly or could not automatically be detected. Please set language to either 'german' or 'english' without the quotation marks below")
@@ -185,7 +185,7 @@ parse_chat <- function(path,
   GroupVideoCallStarted <- Indicators$GroupVideoCallStarted # Can contain PII
 
   # print info
-  if (verbose){cat(paste("Imported matching strings for: ", paste(language, os, sep = " "), " \U2713 \n", sep = ""))}
+  if (verbose) {cat(paste("Imported matching strings for: ", paste(language, os, sep = " "), " \U2713 \n", sep = ""))}
 
   # Replacing special characters
   ReplacedSpecialCharactersChat <- parse_character(RawChat)
@@ -197,7 +197,7 @@ parse_chat <- function(path,
   ReplacedSpecialCharactersChat <- gsub("\uFEFF", "", ReplacedSpecialCharactersChat)
 
   # printing info
-  if (verbose){cat("Replaced special characters \U2713 \n")}
+  if (verbose) {cat("Replaced special characters \U2713 \n")}
 
   if (os == "android") {
 
@@ -214,7 +214,7 @@ parse_chat <- function(path,
     )
 
     # printing info
-    if (verbose){cat("Parsed chat according to Android document structure \U2713 \n")}
+    if (verbose) {cat("Parsed chat according to Android document structure \U2713 \n")}
   } else if (os == "ios") {
 
     # Parsing the message according to android text structure
@@ -230,7 +230,7 @@ parse_chat <- function(path,
     )
 
     # printing info
-    if (verbose){cat("Parsed chat according to iOS document structure \U2713 \n")}
+    if (verbose) {cat("Parsed chat according to iOS document structure \U2713 \n")}
   }
 
   # Setting WhatsApp system messages indicator RegExes
@@ -262,7 +262,7 @@ parse_chat <- function(path,
   ParsedChat$Sender[!is.na(WAMessagePresent)] <- "WhatsApp System Message"
 
   # printing info
-  if (verbose){cat("Differentiated System Messages from User generated content \U2713 \n")}
+  if (verbose) {cat("Differentiated System Messages from User generated content \U2713 \n")}
 
   # fixing parsing of messages with self-deleting photos:
   # selecting rows with no content where the senders contain a ":"
@@ -300,7 +300,7 @@ parse_chat <- function(path,
   URL <- (rm_url(ParsedChat$Message, extract = TRUE))
 
   # printing info
-  if (verbose){cat("Extracted Links from text \U2713 \n")}
+  if (verbose) {cat("Extracted Links from text \U2713 \n")}
 
   #### Extracting emoji
 
@@ -373,7 +373,7 @@ parse_chat <- function(path,
   EmojiDescriptions[EmojiRows] <- I(EmojiSplitNames)
 
   # printing info
-  if (verbose){cat("Extracted emoji from text \U2713 \n")}
+  if (verbose) {cat("Extracted emoji from text \U2713 \n")}
 
   ### Creating a 'flattened' message for text mining
  # removing emoji, newlines & media indicators
@@ -383,7 +383,7 @@ parse_chat <- function(path,
   Flat <- stri_replace_all(Flat, regex = OmittanceIndicator, replacement = "")
 
   # printing info
-  if (verbose){cat("Removed emoji, newlines and media file indicators from flat text column \U2713 \n")}
+  if (verbose) {cat("Removed emoji, newlines and media file indicators from flat text column \U2713 \n")}
 
   # deleting the file attachments from flattened message
   if (os == "android") {
@@ -393,7 +393,7 @@ parse_chat <- function(path,
   }
 
   # printing info
-  if (verbose){cat("Deleted filenames from flat text column \U2713 \n")}
+  if (verbose) {cat("Deleted filenames from flat text column \U2713 \n")}
 
   ### Smilies
 
@@ -403,7 +403,7 @@ parse_chat <- function(path,
     Smilies <- ex_emoticon(Flat)
 
     # printing info
-    if (verbose){cat("Extracted Smilies using prebuild dictionary \U2713 \n")}
+    if (verbose) {cat("Extracted Smilies using prebuild dictionary \U2713 \n")}
 
   # using a more inclusive custom dictionary
   } else if (smilie_dictionary == "wikipedia") {
@@ -423,7 +423,7 @@ parse_chat <- function(path,
     Smilies[lapply(Smilies, length) == 0] <- NA
 
     # printing info
-    if (verbose){cat("Extracted smilies using custom build dictionary \U2713 \n")}
+    if (verbose) {cat("Extracted smilies using custom build dictionary \U2713 \n")}
   }
 
   # replacing sent locations in flattened message
@@ -435,7 +435,7 @@ parse_chat <- function(path,
   )
 
   # printing info
-  if (verbose){cat("Deleted sent location indicators from flat text column \U2713 \n")}
+  if (verbose) {cat("Deleted sent location indicators from flat text column \U2713 \n")}
 
   # replacing live location in flattened message
   Flat <- gsub(
@@ -446,7 +446,7 @@ parse_chat <- function(path,
   )
 
   # printing info
-  if (verbose){cat("Deleted live location indicators from flat text column \U2713 \n")}
+  if (verbose) {cat("Deleted live location indicators from flat text column \U2713 \n")}
 
   # replacing missed voice calls in flattened message
   Flat <- gsub(
@@ -465,29 +465,29 @@ parse_chat <- function(path,
   )
 
   # printing info
-  if (verbose){cat("Deleted voice call indicators from flat text column \U2713 \n")}
+  if (verbose) {cat("Deleted voice call indicators from flat text column \U2713 \n")}
 
   # deleting URLs from flattened messages
   Flat <- rm_url(Flat)
   Flat[Flat == "" | Flat == "NULL"] <- NA
 
   # printing info
-  if (verbose){cat("Deleted URLs from flat text column \U2713 \n")}
+  if (verbose) {cat("Deleted URLs from flat text column \U2713 \n")}
 
   # Deleting all non words
   Flat <- rm_non_words(Flat)
 
   # printing info
-  if (verbose){cat("Deleted all non-words from flat text column \U2713 \n")}
+  if (verbose) {cat("Deleted all non-words from flat text column \U2713 \n")}
 
   # making all empty strings NA
   Flat[nchar(Flat) == 0] <- NA
 
   # tokenizing the flattened message
-  TokVec <- tokenize_words(Flat, lowercase = FALSE)
+  TokVec <- tokenize_words(Flat, lowercase = TRUE)
 
   # printing info
-  if (verbose){cat("Tokenized flat text column to individual words \U2713 \n")}
+  if (verbose) {cat("Tokenized flat text column to individual words \U2713 \n")}
 
   # Reassigment
   DateTime <- ParsedChat$DateTime
@@ -531,7 +531,7 @@ parse_chat <- function(path,
   DF$Flat[DF$Flat == "NA"] <- NA
 
   # printing info
-  if (verbose){cat("Created Dataframe containing all columns \U2713 \n")}
+  if (verbose) {cat("Created Dataframe containing all columns \U2713 \n")}
 
   # anonymizing chat participant names and mentions and removing system messages
   if (anonimize == TRUE) {
@@ -569,13 +569,13 @@ parse_chat <- function(path,
       levels(DF$Sender)[levels(DF$Sender) != "WhatsApp System Message"] <- AnonLookupTable$Anon
 
       # print info
-      if (verbose){cat("Anonymized names of chat participants and deleted personable identifiable information \U2713 \n")}
+      if (verbose) {cat("Anonymized names of chat participants and deleted personable identifiable information \U2713 \n")}
 
       # Removing message content for anonymization
       DF <- DF[,!(names(DF) %in% c("Message","Flat","TokVec","SystemMessage"))]
 
       # print info
-      if (verbose){cat("Deleted all columns containing message content for anonymization. \U2713 \n")}
+      if (verbose) {cat("Deleted all columns containing message content for anonymization. \U2713 \n")}
 
       # Reduce media column to file types
       media_anon <- strsplit(DF$Media,".",fixed = TRUE)
@@ -583,7 +583,7 @@ parse_chat <- function(path,
       DF$Media <- file_extensions
 
       # print info
-      if (verbose){cat("Reduced filenames (if contained) to file extensions for anonymization \U2713 \n")}
+      if (verbose) {cat("Reduced filenames (if contained) to file extensions for anonymization \U2713 \n")}
 
       # Reduce the links to domains
       helper <- lapply(URL, strsplit, "(?<=/)", perl = TRUE)
@@ -598,16 +598,16 @@ parse_chat <- function(path,
       URL <- helper4
 
       # print info
-      if (verbose){cat("Shortened links to domains \U2713 \n")}
+      if (verbose) {cat("Shortened links to domains \U2713 \n")}
 
       # Anonimizing live locations
       DF$Location[!is.na(DF$Location) & DF$Location != gsub("$","",gsub("^","",LiveLocation, fixed = TRUE),fixed = TRUE)] <- "Location shared"
 
       # print info
-      if (verbose){cat("Replaced shared locations with placeholders \U2713 \n")}
+      if (verbose) {cat("Replaced shared locations with placeholders \U2713 \n")}
 
       # printing info
-      if (verbose){cat("Finished anonymization \U2713 \n")}
+      if (verbose) {cat("Finished anonymization \U2713 \n")}
 
     }
 
@@ -656,7 +656,7 @@ parse_chat <- function(path,
     levels(DF$Sender_anon)[levels(DF$Sender_anon) != "WhatsApp System Message"] <- AnonLookupTable$Anon
 
     # print info
-    if (verbose){cat("Anonymized names of chat participants and deleted personable identifiable information \U2713 \n")}
+    if (verbose) {cat("Anonymized names of chat participants and deleted personable identifiable information \U2713 \n")}
 
     # Reduce media column to file types
     media_anon <- strsplit(DF$Media,".",fixed = TRUE)
@@ -664,7 +664,7 @@ parse_chat <- function(path,
     DF$Media_anon <- file_extensions
 
     # print info
-    if (verbose){cat("Reduced filenames (if contained) to file extensions for anonymization \U2713 \n")}
+    if (verbose) {cat("Reduced filenames (if contained) to file extensions for anonymization \U2713 \n")}
 
     # Reduce the links to domains
     helper <- lapply(URL, strsplit, "(?<=/)", perl = TRUE)
@@ -679,17 +679,17 @@ parse_chat <- function(path,
     URL_anon <- helper4
 
     # print info
-    if (verbose){cat("Shortened links to domains \U2713 \n")}
+    if (verbose) {cat("Shortened links to domains \U2713 \n")}
 
     # Anonymizing love locations
     DF$Location_anon <- DF$Location
     DF$Location_anon[!is.na(DF$Location) & DF$Location != gsub("$","",gsub("^","",LiveLocation, fixed = TRUE),fixed = TRUE)] <- "Location shared"
 
     # print info
-    if (verbose){cat("Replaced shared locations with placeholders \U2713 \n")}
+    if (verbose) {cat("Replaced shared locations with placeholders \U2713 \n")}
 
     # printing info
-    if (verbose){cat("Finished anonymization \U2713 \n")}
+    if (verbose) {cat("Finished anonymization \U2713 \n")}
 
     # pasting together combined dataframe
     DF <- cbind.data.frame(DF[,1:2],
@@ -704,7 +704,7 @@ parse_chat <- function(path,
 
 
     # printing info
-    if (verbose){cat("Added anonymized variables to non-anonymous data frame \U2713 \n")}
+    if (verbose) {cat("Added anonymized variables to non-anonymous data frame \U2713 \n")}
 
     }
 

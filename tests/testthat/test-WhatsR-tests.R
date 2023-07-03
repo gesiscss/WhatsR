@@ -12,15 +12,15 @@ emoji_dictionary <- tryCatch(
       download_emoji(pages = c("https://emojipedia.org/activity/"))
 
       },
-      error=function(e) {
+      error = function(e) {
         message(paste("'download_emoji()' caused an error and will return NULL. Subsequent tests will be skipped"))
         return(NULL)
       },
-      warning=function(w) {
+      warning = function(w) {
         message(paste("'download_emoji()' caused a warning:"))
         message(w)
       },
-      finally={
+      finally = {
         # NOTE:
         # Here goes everything that should be executed at the end,
         # regardless of success or error.
@@ -28,7 +28,7 @@ emoji_dictionary <- tryCatch(
 )
 
 # further checking if emoji_dictionary can be downloaded
-if(!is.null(emoji_dictionary)) {
+if (!is.null(emoji_dictionary)) {
 
   # testing for valid dataframe
   expect_equal(class(emoji_dictionary), "data.frame")
@@ -990,7 +990,6 @@ test_that("tailoring function", {
   test <- readRDS(system.file("TailoredData1.rds", package = "WhatsR"))
   expect_identical(tailored_data1,test)
 
-  # TODO: This fails on Fedora36 and only on Fedora36
   tailored_data2 <- tailor_chat(data,
     names = "Dave",
     starttime = "2018-01-29 12:24:03",
@@ -1004,7 +1003,6 @@ test_that("tailoring function", {
   test <- readRDS(system.file("TailoredData2.rds", package = "WhatsR"))
   expect_identical(tailored_data2,test)
 
-  # TODO: This fails on Fedora36 and only on Fedora36
   tailored_data3 <- tailor_chat(data,
     names = "Dave",
     starttime = "2018-01-29 12:24:03",
@@ -1018,7 +1016,6 @@ test_that("tailoring function", {
   test <- readRDS(system.file("TailoredData3.rds", package = "WhatsR"))
   expect_identical(tailored_data3,test)
 
-  # TODO: This fails on Fedora36 and only on Fedora36
   tailored_data4 <- tailor_chat(data,
     names = "all",
     starttime = "2018-01-29 12:24:03",
@@ -1037,7 +1034,7 @@ test_that("tailoring function", {
 ########### TESTING PLOTTING FUNCTIONS ############
 
 # TODO:
-# # This returns a lot of warning due to the correct font not being available in the testing environment
+# # This returns a lot of warnings due to the correct font not being available in the testing environment
 # # This should be unproblematic in actual use though
 # See: https://github.com/REditorSupport/vscode-R/issues/293
 suppressWarnings(test_that("Plotting Emoji", {
@@ -1356,7 +1353,7 @@ test_that("Plotting Location", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_location1,"test_location1.rds",version = 2)
 
-  if(is.data.frame(test_location1)){
+  if (is.data.frame(test_location1)) {
 
     test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
     expect_identical(test_location1, test)
@@ -1375,7 +1372,7 @@ test_that("Plotting Location", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_location2,"test_location2.rds",version = 2)
 
-  if(is.data.frame(test_location2)){
+  if (is.data.frame(test_location2)) {
 
     test <- readRDS(system.file("test_location2.rds", package = "WhatsR"))
     expect_identical(test_location2, test)
@@ -1394,7 +1391,7 @@ test_that("Plotting Location", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_location3,"test_location3.rds",version = 2)
 
-  if(is.data.frame(test_location3)){
+  if (is.data.frame(test_location3)) {
 
     test <- readRDS(system.file("test_location3.rds", package = "WhatsR"))
     expect_identical(test_location3, test)
@@ -1412,7 +1409,7 @@ test_that("Plotting Location", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_location4,"test_location4.rds",version = 2)
 
-  if(is.data.frame(test_location4)){
+  if (is.data.frame(test_location4)) {
 
     test <- readRDS(system.file("test_location4.rds", package = "WhatsR"))
     expect_identical(test_location4, test)
@@ -1827,7 +1824,7 @@ test_that("Plotting Smilies", {
   #   return_data = TRUE,
   #   smilie_vec = "all",
   #   plot = "cumsum"
-  # )
+  #)
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_smilies3,"test_smilies3.rds",version = 2)

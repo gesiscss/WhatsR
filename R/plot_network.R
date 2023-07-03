@@ -2,8 +2,8 @@
 #' @description Plots a network for replies between authors in chat logs. Each message is evaluated as a reply to the previous one.
 #' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}.
 #' @param names A vector of author names that the visualization will be restricted to. Non-listed authors will be removed.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param return_data If TRUE, returns a data frame of subsequent interactions with senders and recipients. Default is FALSE.
 #' @param collapse_sessions Whether multiple subsequent messages by the same sender should be collapsed into one row. Default is FALSE.
 #' @param edgetype What type of content is displayed as an edge. Must be one of "TokCount","EmojiCount","SmilieCount","LocationCount","URLCount","MediaCount" or "n".
@@ -38,12 +38,12 @@ plot_network <- function(data,
   # catching bad params
 
   # checking data
-  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+  if (!is.data.frame(data)) {stop("'data' must be a dataframe parsed with parse_chat()")}
 
   # start- and endtime are convertable to POSIXct
-  if (is.character(starttime) == FALSE | is.na(anytime(starttime, asUTC=TRUE,tz="UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is.character(endtime) == FALSE | is.na(anytime(endtime, asUTC=TRUE,tz="UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (anytime(starttime, asUTC=TRUE,tz="UTC") >= anytime(endtime, asUTC=TRUE,tz="UTC")) stop("starttime has to be before endtime.")
+  if (is.character(starttime) == FALSE | is.na(as.POSIXct(starttime,tz = "UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by as.POSIXct().")
+  if (is.character(endtime) == FALSE | is.na(as.POSIXct(endtime,tz = "UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by as.POSIXct().")
+  if (as.POSIXct(starttime,tz = "UTC") >= as.POSIXct(endtime,tz = "UTC")) stop("starttime has to be before endtime.")
 
   # return_data must be bool
   if (!is.logical(return_data)) stop("return_data has to be either TRUE or FALSE.")
@@ -58,17 +58,17 @@ plot_network <- function(data,
   if (!is.logical(exclude_sm)) stop("exclude_sm has to be either TRUE or FALSE.")
 
   # setting starttime
-  if (as.POSIXct(starttime,tz="UTC") <= min(data$DateTime)) {
+  if (as.POSIXct(starttime,tz = "UTC") <= min(data$DateTime)) {
     starttime <- min(data$DateTime)
   } else {
-    starttime <- as.POSIXct(starttime,tz="UTC")
+    starttime <- as.POSIXct(starttime,tz = "UTC")
   }
 
   # setting endtime
-  if (as.POSIXct(endtime,tz="UTC") >= max(data$DateTime)) {
-    endtime <- max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
+  if (as.POSIXct(endtime,tz = "UTC") >= max(data$DateTime)) {
+    endtime <- max(data$DateTime)
   } else {
-    endtime <- as.POSIXct(endtime,tz="UTC")
+    endtime <- as.POSIXct(endtime,tz = "UTC")
   }
 
   # setting names argument

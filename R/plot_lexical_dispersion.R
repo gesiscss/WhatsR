@@ -2,8 +2,8 @@
 #' @description Visualizes the occurrence of specific keywords within the chat. Requires the raw message content to be contained in the preprocessed data
 #' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
-#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
-#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[anytime]{anytime}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
+#' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param keywords A vector of keywords to be displayed, default is c("hello","world").
 #' @param return_data Default is FALSE, returns data frame used for plotting when TRUE.
 #' @param exclude_sm If TRUE, excludes the 'WhatsApp' System Messages from the descriptive statistics. Default is FALSE.
@@ -35,12 +35,12 @@ plot_lexical_dispersion <- function(data,
   # catching bad params
 
   # checking data
-  if(!is.data.frame(data)){stop("'data' must be a dataframe parsed with parse_chat()")}
+  if (!is.data.frame(data)) {stop("'data' must be a dataframe parsed with parse_chat()")}
 
   # start- and endtime are convertable to POSIXct
-  if (is.character(starttime) == FALSE | is.na(anytime(starttime, asUTC=TRUE,tz="UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (is.character(endtime) == FALSE | is.na(anytime(endtime, asUTC=TRUE,tz="UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by anytime().")
-  if (anytime(starttime, asUTC=TRUE,tz="UTC") >= anytime(endtime, asUTC=TRUE,tz="UTC")) stop("starttime has to be before endtime.")
+  if (is.character(starttime) == FALSE | is.na(as.POSIXct(starttime,tz = "UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by as.POSIXct().")
+  if (is.character(endtime) == FALSE | is.na(as.POSIXct(endtime,tz = "UTC"))) stop("endtime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by as.POSIXct().")
+  if (as.POSIXct(starttime,tz = "UTC") >= as.POSIXct(endtime,tz = "UTC")) stop("starttime has to be before endtime.")
 
   # Mesage column must be contained
   if (!is.character(data$Flat)) {stop("'data' must contain a character column named 'Message'")}
@@ -58,17 +58,17 @@ plot_lexical_dispersion <- function(data,
   keywords <- tolower(keywords)
 
   # setting starttime
-  if (as.POSIXct(starttime,tz="UTC") <= min(data$DateTime)) {
+  if (as.POSIXct(starttime,tz = "UTC") <= min(data$DateTime)) {
     starttime <- min(data$DateTime)
   } else {
-    starttime <- as.POSIXct(starttime,tz="UTC")
+    starttime <- as.POSIXct(starttime,tz = "UTC")
   }
 
   # setting endtime
-  if (as.POSIXct(endtime,tz="UTC") >= max(data$DateTime)) {
-    endtime <- max(anytime(data$DateTime, asUTC=TRUE,tz="UTC"))
+  if (as.POSIXct(endtime,tz = "UTC") >= max(data$DateTime)) {
+    endtime <- max(data$DateTime)
   } else {
-    endtime <- as.POSIXct(endtime,tz="UTC")
+    endtime <- as.POSIXct(endtime,tz = "UTC")
   }
 
   # setting names argument
