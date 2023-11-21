@@ -19,7 +19,7 @@ plot_wordcloud(
 )
 }
 \arguments{
-\item{data}{A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}} and anonimize = FALSE or anonimize = "add"}
+\item{data}{A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}} and anonymize = FALSE or anonymize = "add"}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 

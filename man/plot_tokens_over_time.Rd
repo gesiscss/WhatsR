@@ -16,7 +16,7 @@ plot_tokens_over_time(
 )
 }
 \arguments{
-\item{data}{A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}} with parameters anonimize = FALSE or anonimize = "add".}
+\item{data}{A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}} with parameters anonymize = FALSE or anonymize = "add".}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 
@@ -33,7 +33,7 @@ plot_tokens_over_time(
 \item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
-A summary of tokens over time
+A summary of tokens over time. Input will be ordered by TimeOrder column.
 }
 \description{
 Summarizes the distribution of user-generated tokens over time

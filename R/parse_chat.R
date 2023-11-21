@@ -6,7 +6,7 @@
 #' @param path Character string containing the file path to the exported 'WhatsApp' chat log as a .txt file.
 #' @param os Operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the OS. Also supports "android" or "iOS".
 #' @param language Indicates the language setting of the phone with which the messages were exported. Default is "auto" trying to match either 'English' or 'German'. More languages might be supported in the future.
-#' @param anonimize TRUE results in the vector of sender names being anonymized and columns containing personal identifiable information to be deleted or restricted, FALSE displays the actual names and all content, "add" adds
+#' @param anonymize TRUE results in the vector of sender names being anonymized and columns containing personal identifiable information to be deleted or restricted, FALSE displays the actual names and all content, "add" adds
 #' anonomized columns to the full info columns. Do not blindly trust this and always double check.
 #' @param consent String containing a consent message. All messages from chatters who have not posted this *exact* message into the chat will be deleted. Default is NA, no deleting anything.
 #' @param emoji_dictionary Dictionary for emoji matching. Can use a version included in this package when set to "internal" or
@@ -24,7 +24,7 @@
 #' @importFrom stringi stri_extract_all_regex  stri_replace_all stri_extract_all stri_split_boundaries
 #' @importFrom mgsub mgsub
 #' @importFrom utils tail read.csv
-#' @return A dataframe containing one row per message and 11,15, or 19 columns, depending on the setting of the anonimize parameter
+#' @return A dataframe containing one row per message and 11,15, or 19 columns, depending on the setting of the anonymize parameter
 #'
 #' @examples
 #' data <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"))
@@ -33,7 +33,7 @@
 parse_chat <- function(path,
                        os = "auto",
                        language = "auto",
-                       anonimize = "add",
+                       anonymize = "add",
                        consent = NA,
                        emoji_dictionary = "internal",
                        smilie_dictionary = "wikipedia",
@@ -46,7 +46,7 @@ parse_chat <- function(path,
   if (!file.exists(path)) {stop("'path' must be a valid file path to an exported 'WhatsApp' chatlog in .txt format")}
   if (!(os == "auto" | os == "android" | os == "android")) {stop("'os' must either be 'android','ios', or 'auto'")}
   if (!(language == "auto" | language == "english" | language == "german")) {stop("'language' must be either 'english', 'german', or 'auto'")}
-  if (!(is.logical(anonimize) | anonimize == "add")) {stop("'anonimize' must be either TRUE, FALSE, or 'add'")}
+  if (!(is.logical(anonymize) | anonymize == "add")) {stop("'anonymize' must be either TRUE, FALSE, or 'add'")}
   if (!(is.character(consent) | is.na(consent))) {stop("'consent' must bei either NA or a character vector")}
   if (!(emoji_dictionary == "internal" | file.exists(emoji_dictionary))) {stop("'emoji_dictionary' must be 'internal' or valid path to a dictionary scraped using download_emoji()")}# TODO
   if (!(smilie_dictionary == "emoticons" | smilie_dictionary == "wikipedia")) {stop("'smilie_dictionary' must be 'emoticons' or 'wikipedia'")}
@@ -534,9 +534,9 @@ parse_chat <- function(path,
   if (verbose) {cat("Created Dataframe containing all columns \U2713 \n")}
 
   # anonymizing chat participant names and mentions and removing system messages
-  if (anonimize == TRUE) {
+  if (anonymize == TRUE) {
 
-    # only anonymize when there is still consenting people in the chat, if it's only System messages, Sender don't need to be anonimized
+    # only anonymize when there is still consenting people in the chat, if it's only System messages, Sender don't need to be anonymized
     # We still need to add/remove the respective empty columns though
     if (length(unique(DF$Sender)) == 1 & unique(DF$Sender)[1] == "WhatsApp System Message") {
 
@@ -600,7 +600,7 @@ parse_chat <- function(path,
       # print info
       if (verbose) {cat("Shortened links to domains \U2713 \n")}
 
-      # Anonimizing live locations
+      # anonymizing live locations
       DF$Location[!is.na(DF$Location) & DF$Location != gsub("$","",gsub("^","",LiveLocation, fixed = TRUE),fixed = TRUE)] <- "Location shared"
 
       # print info
@@ -614,9 +614,9 @@ parse_chat <- function(path,
 
     }
 
-  if (anonimize == "add") {
+  if (anonymize == "add") {
 
-    # only anonymize when there is still consenting people in the chat, if it's only System messages, Sender don't need to be anonimized
+    # only anonymize when there is still consenting people in the chat, if it's only System messages, Sender don't need to be anonymized
     if (length(unique(DF$Sender)) == 1 & unique(DF$Sender)[1] == "WhatsApp System Message") {
 
       # adding empty columns

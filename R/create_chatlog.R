@@ -46,6 +46,8 @@ create_chatlog <- function(n_messages = 150,
                            path = getwd(),
                            chatname = "Simulated_WhatsR_chatlog") {
 
+  runif <- NULL
+
   ##### Input Validation ######
 
   # validating numeric inputs

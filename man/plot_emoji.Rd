@@ -48,6 +48,15 @@ Plots and/or the subset data frame based on author names, datetime and emoji occ
 Plots four different types of graphs for the emoji contained in a parsed 'WhatsApp' chat log. Returns dataframe used for plotting if desired.
 }
 \examples{
+# importing data
 data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
+
+# opening AGG graphics device from the ragg package (replace tempfile with filepath)
+ragg::agg_png(tempfile(), width = 800, height = 600, res = 150)
+
+# plotting emoji
 plot_emoji(data,font_family="Times", exclude_sm = TRUE) #font_family = "Noto Color Emoji" on Linux
+
+# Close the AGG device
+dev.off()
 }

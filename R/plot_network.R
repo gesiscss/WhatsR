@@ -17,7 +17,7 @@
 #' @importFrom visNetwork visNetwork visEdges
 #' @importFrom methods is
 #' @export
-#' @return A network visualization of authors in 'WhatsApp' chat logs where each subsequent message is considered a reply to the previous one.
+#' @return A network visualization of authors in 'WhatsApp' chat logs where each subsequent message is considered a reply to the previous one. Input will be ordered by TimeOrder column.
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_network(data)
@@ -39,6 +39,7 @@ plot_network <- function(data,
 
   # checking data
   if (!is.data.frame(data)) {stop("'data' must be a dataframe parsed with parse_chat()")}
+  if (!is.numeric(data$TimeOrder)) {stop("'TimeOrder' must be a numeric column in input dataframe")}
 
   # start- and endtime are convertable to POSIXct
   if (is.character(starttime) == FALSE | is.na(as.POSIXct(starttime,tz = "UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by as.POSIXct().")
@@ -90,8 +91,10 @@ plot_network <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ]
 
+  # Ordering data by TimeOrder
+  data <- data[order(data$TimeOrder),]
+
   # We need to exclude the WhatsApp system messages
-  # TODO: Rerun tests -> If they fail, remove if clause and always remove system messages
   if (exclude_sm == TRUE) {
 
     Tempframe <- data[data$Sender != "WhatsApp System Message", ]
@@ -162,7 +165,7 @@ plot_network <- function(data,
     # source: https://www.r-bloggers.com/2020/06/detecting-streaks-in-r/
     get_streaks <- function(vec) {
       x <- data.frame(trials = vec)
-      x <- x %>% mutate(lagged = lag(trials)) %>%
+      x <- x %>% mutate(lagged = dplyr::lag(trials, default = NA)) %>% # IMPORTANT: This must be dplyr::lag(), not stats::lag()
         mutate(start = (trials != lagged))
       x[1, "start"] <- TRUE
       x <- x %>% mutate(streak_id = cumsum(start))
@@ -249,8 +252,6 @@ plot_network <- function(data,
     }
 
     # combining into dataset
-    # TODO: Error in `data.frame(..., check.names = FALSE)`: arguments imply differing number of rows: 1, 34 [only occurs in testing, not in use]
-    # possibly an issue with locale, timezone etc?
     NetFrame <- cbind.data.frame(
       Sender,
       AnsweredTo,

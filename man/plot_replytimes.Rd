@@ -36,7 +36,7 @@ plot_replytimes(
 \item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the data. Default is FALSE.}
 }
 \value{
-Plots for Replytimes or Reactiontimes of authors
+Plots for Replytimes or Reactiontimes of authors. Input will be ordered by TimeOrder column.
 }
 \description{
 Visualizes the reply times and reaction times to messages per author

@@ -5,39 +5,35 @@
 
 test_that("Updating emoji dictionary",{
 
-emoji_dictionary <- tryCatch(
-      {
+  emoji_dictionary <- tryCatch(
+    {
 
       # downloading emoji dictionary
-      download_emoji(pages = c("https://emojipedia.org/activity/"))
+      emoji_dictionary <- download_emoji(nlines = 50)
 
-      },
-      error = function(e) {
-        message(paste("'download_emoji()' caused an error and will return NULL. Subsequent tests will be skipped"))
-        return(NULL)
-      },
-      warning = function(w) {
-        message(paste("'download_emoji()' caused a warning:"))
-        message(w)
-      },
-      finally = {
-        # NOTE:
-        # Here goes everything that should be executed at the end,
-        # regardless of success or error.
-      }
-)
+    },
+    error = function(e) {
+      message(paste("'download_emoji()' caused an error and will return NULL. Subsequent tests will be skipped"))
+      return(NULL)
+    },
+    warning = function(w) {
+      message(paste("'download_emoji()' caused a warning:"))
+      message(w)
+    },
+    finally = {
+      # NOTE:
+      # Here goes everything that should be executed at the end,
+      # regardless of success or error.
+    }
+  )
 
-# further checking if emoji_dictionary can be downloaded
-if (!is.null(emoji_dictionary)) {
+  # further checking if emoji_dictionary can be downloaded
 
   # testing for valid dataframe
   expect_equal(class(emoji_dictionary), "data.frame")
 
   # testing if columns are contained
   expect_named(emoji_dictionary,c("R.native","Desc","OriginalOrder"))
-
-}
-
 
 
 })
@@ -224,8 +220,8 @@ test_that("creating chatlogs: English, ios, ampm", {
   expect_equal(class(test1), "character")
   expect_equal(length(test1), 200)
 })
-#
-#
+
+
 #### Testing parsing of chats with default options  ####
 
 ## 24h
@@ -245,7 +241,7 @@ test_that("Parsing Chatlogs: German, Android, 24h; default", {
   }
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
-  # test <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = "add")
+  # test <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = "add")
   # saveRDS(test,"GermanAndroid24H_default.rds", version = 2)
 
   # load and check file
@@ -269,7 +265,7 @@ test_that("Parsing Chatlogs: German, Ios, 24h; default", {
   }
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
-  # test <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = "add")
+  # test <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = "add")
   # saveRDS(test,"GermanIos24H_default.rds", version = 2)
 
   test <- readRDS(system.file("GermanIos24H_default.rds", package = "WhatsR"))
@@ -292,7 +288,7 @@ test_that("Parsing Chatlogs: English, Android, 24h; default", {
   }
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
-  # test <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = "add")
+  # test <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = "add")
   # saveRDS(test,"EnglishAndroid24H_default.rds", version = 2)
 
   test <- readRDS(system.file("EnglishAndroid24H_default.rds", package = "WhatsR"))
@@ -315,7 +311,7 @@ test_that("Parsing Chatlogs: English, ios, 24h; default", {
   }
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
-  # test <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = "add")
+  # test <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = "add")
   # saveRDS(test,"EnglishIos24H_default.rds", version = 2)
 
   test <- readRDS(system.file("EnglishIos24H_default.rds", package = "WhatsR"))
@@ -343,7 +339,7 @@ test_that("Parsing Chatlogs: German, Android, ampm; default", {
   }
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
-  # test <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = "add")
+  # test <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = "add")
   # saveRDS(test,"GermanAndroidAMPM_default.rds", version = 2)
 
   test <- readRDS(system.file("GermanAndroidAMPM_default.rds", package = "WhatsR"))
@@ -366,7 +362,7 @@ test_that("Parsing Chatlogs: German, Ios, ampm; default", {
   }
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
-  # test <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = "add")
+  # test <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = "add")
   # saveRDS(test,"GermanIosAMPM_default.rds", version = 2)
 
   test <- readRDS(system.file("GermanIosAMPM_default.rds", package = "WhatsR"))
@@ -389,7 +385,7 @@ test_that("Parsing Chatlogs: English, Android, ampm; default", {
   }
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
-  # test <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = "add")
+  # test <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = "add")
   # saveRDS(test,"EnglishAndroidAMPM_default.rds", version = 2)
 
   test <- readRDS(system.file("EnglishAndroidAMPM_default.rds", package = "WhatsR"))
@@ -412,7 +408,7 @@ test_that("Parsing Chatlogs: English, Ios, ampm; default", {
   }
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
-  # test <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = "add")
+  # test <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = "add")
   # saveRDS(test,"EnglishIosAMPM_default.rds", version = 2)
 
   # Problem with start_newline
@@ -473,15 +469,15 @@ test_that("Anoynmization & Consent", {
   }
 
   # all data types, anon = add, consent = NA
-  data_e_ios_24_add_NA <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = "add")
-  data_e_android_24_add_NA <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = "add")
-  data_e_ios_ampm_add_NA <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = "add")
-  data_e_android_ampm_add_NA <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = "add")
+  data_e_ios_24_add_NA <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = "add")
+  data_e_android_24_add_NA <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = "add")
+  data_e_ios_ampm_add_NA <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = "add")
+  data_e_android_ampm_add_NA <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = "add")
 
-  data_g_ios_24_add_NA <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = "add")
-  data_g_android_24_add_NA <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = "add")
-  data_g_ios_ampm_add_NA <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = "add")
-  data_g_android_ampm_add_NA <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = "add")
+  data_g_ios_24_add_NA <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = "add")
+  data_g_android_24_add_NA <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = "add")
+  data_g_ios_ampm_add_NA <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = "add")
+  data_g_android_ampm_add_NA <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = "add")
 
 
 
@@ -524,15 +520,15 @@ test_that("Anoynmization & Consent", {
 #####
 
   # all data types, anon = TRUE, consent = NA
-  data_e_ios_24_TRUE_NA <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = TRUE)
-  data_e_android_24_TRUE_NA <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = TRUE)
-  data_e_ios_ampm_TRUE_NA <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = TRUE)
-  data_e_android_ampm_TRUE_NA <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = TRUE)
+  data_e_ios_24_TRUE_NA <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = TRUE)
+  data_e_android_24_TRUE_NA <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = TRUE)
+  data_e_ios_ampm_TRUE_NA <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = TRUE)
+  data_e_android_ampm_TRUE_NA <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = TRUE)
 
-  data_g_ios_24_TRUE_NA <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = TRUE)
-  data_g_android_24_TRUE_NA <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = TRUE)
-  data_g_ios_ampm_TRUE_NA <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = TRUE)
-  data_g_android_ampm_TRUE_NA <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = TRUE)
+  data_g_ios_24_TRUE_NA <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = TRUE)
+  data_g_android_24_TRUE_NA <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = TRUE)
+  data_g_ios_ampm_TRUE_NA <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = TRUE)
+  data_g_android_ampm_TRUE_NA <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = TRUE)
 
 
 
@@ -579,15 +575,15 @@ test_that("Anoynmization & Consent", {
 
 
   # all data types, anon = FALSE, consent = NA
-  data_e_ios_24_FALSE_NA <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = FALSE)
-  data_e_android_24_FALSE_NA <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = FALSE)
-  data_e_ios_ampm_FALSE_NA <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = FALSE)
-  data_e_android_ampm_FALSE_NA <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = FALSE)
+  data_e_ios_24_FALSE_NA <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = FALSE)
+  data_e_android_24_FALSE_NA <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = FALSE)
+  data_e_ios_ampm_FALSE_NA <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = FALSE)
+  data_e_android_ampm_FALSE_NA <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = FALSE)
 
-  data_g_ios_24_FALSE_NA <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = FALSE)
-  data_g_android_24_FALSE_NA <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = FALSE)
-  data_g_ios_ampm_FALSE_NA <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = FALSE)
-  data_g_android_ampm_FALSE_NA <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = FALSE)
+  data_g_ios_24_FALSE_NA <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = FALSE)
+  data_g_android_24_FALSE_NA <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = FALSE)
+  data_g_ios_ampm_FALSE_NA <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = FALSE)
+  data_g_android_ampm_FALSE_NA <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = FALSE)
 
 
   #TESTS
@@ -633,16 +629,16 @@ test_that("Anoynmization & Consent", {
 
 
 
-  # all data types, anon = add, consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications."
-  data_e_ios_24_add_match <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = "add",consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
-  data_e_android_24_add_match <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = "add",consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
-  data_e_ios_ampm_add_match <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = "add",consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
-  data_e_android_ampm_add_match <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = "add",consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  # all data types, anon = add, consent = "I hereby consent to donate anonymized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications."
+  data_e_ios_24_add_match <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = "add",consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  data_e_android_24_add_match <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = "add",consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  data_e_ios_ampm_add_match <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = "add",consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  data_e_android_ampm_add_match <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = "add",consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
 
-  data_g_ios_24_add_match <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
-  data_g_android_24_add_match <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
-  data_g_ios_ampm_add_match <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
-  data_g_android_ampm_add_match <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_ios_24_add_match <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_android_24_add_match <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_ios_ampm_add_match <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_android_ampm_add_match <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = "add",consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
 
 
 
@@ -688,16 +684,16 @@ test_that("Anoynmization & Consent", {
 
 
 
-  # all data types, anon = TRUE, consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications."
-  data_e_ios_24_TRUE_match <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
-  data_e_android_24_TRUE_match <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
-  data_e_ios_ampm_TRUE_match <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = TRUE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
-  data_e_android_ampm_TRUE_match <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = TRUE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  # all data types, anon = TRUE, consent = "I hereby consent to donate anonymized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications."
+  data_e_ios_24_TRUE_match <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = TRUE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  data_e_android_24_TRUE_match <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = TRUE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  data_e_ios_ampm_TRUE_match <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = TRUE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  data_e_android_ampm_TRUE_match <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = TRUE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
 
-  data_g_ios_24_TRUE_match <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
-  data_g_android_24_TRUE_match <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
-  data_g_ios_ampm_TRUE_match <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = TRUE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
-  data_g_android_ampm_TRUE_match <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = TRUE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_ios_24_TRUE_match <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = TRUE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_android_24_TRUE_match <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = TRUE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_ios_ampm_TRUE_match <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = TRUE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_android_ampm_TRUE_match <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = TRUE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
 
 
 
@@ -743,16 +739,16 @@ test_that("Anoynmization & Consent", {
 ##### RUN BELOW
 
 
-  # all data types, anon = FALSE, consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications."
-  data_e_ios_24_FALSE_match <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
-  data_e_android_24_FALSE_match <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
-  data_e_ios_ampm_FALSE_match <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = FALSE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
-  data_e_android_ampm_FALSE_match <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = FALSE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  # all data types, anon = FALSE, consent = "I hereby consent to donate anonymized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications."
+  data_e_ios_24_FALSE_match <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = FALSE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  data_e_android_24_FALSE_match <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = FALSE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  data_e_ios_ampm_FALSE_match <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = FALSE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
+  data_e_android_ampm_FALSE_match <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = FALSE,consent = "I hereby consent to donate anonimized metainformation of this conversation for research purposes. No personal identifiable information about myself will be saved. I am aware that my data will be used for research about data donation behaviors and will be made available in anonomized form to other researchers and used in aggregated form in research publications.")
 
-  data_g_ios_24_FALSE_match <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
-  data_g_android_24_FALSE_match <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
-  data_g_ios_ampm_FALSE_match <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = FALSE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
-  data_g_android_ampm_FALSE_match <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = FALSE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_ios_24_FALSE_match <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = FALSE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_android_24_FALSE_match <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = FALSE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_ios_ampm_FALSE_match <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = FALSE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
+  data_g_android_ampm_FALSE_match <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = FALSE,consent = "Ich gebe hiermit meine informierte Einwilligung zur Spende von anonymisierte Metainformationen aus dieser Konversation für Forschungszwecke. Es werden keine personenbezogenen Daten über mich gespeichert. Mir ist bewusst, dass meine Daten für Forschungszwecke zum Thema Datenspendeverhalten in aggregierter Form für Publikationen genutzt werden. Meine Daten können auch anonymisert anderen Forschern bereitgestellt werden.")
 
 
 
@@ -798,15 +794,15 @@ test_that("Anoynmization & Consent", {
   ####
 
   # all data types, anon = add, consent = "Test String not contained in any messages"
-  data_e_ios_24_add_mismatch <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = "add",consent = "Test String not contained in any messages")
-  data_e_android_24_add_mismatch <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = "add",consent = "Test String not contained in any messages")
-  data_e_ios_ampm_add_mismatch <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = "add",consent = "Test String not contained in any messages")
-  data_e_android_ampm_add_mismatch <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = "add",consent = "Test String not contained in any messages")
+  data_e_ios_24_add_mismatch <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = "add",consent = "Test String not contained in any messages")
+  data_e_android_24_add_mismatch <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = "add",consent = "Test String not contained in any messages")
+  data_e_ios_ampm_add_mismatch <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = "add",consent = "Test String not contained in any messages")
+  data_e_android_ampm_add_mismatch <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = "add",consent = "Test String not contained in any messages")
 
-  data_g_ios_24_add_mismatch  <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = "add",consent = "Test String not contained in any messages")
-  data_g_android_24_add_mismatch <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = "add",consent = "Test String not contained in any messages")
-  data_g_ios_ampm_add_mismatch <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = "add",consent = "Test String not contained in any messages")
-  data_g_android_ampm_add_mismatch <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = "add",consent = "Test String not contained in any messages")
+  data_g_ios_24_add_mismatch  <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = "add",consent = "Test String not contained in any messages")
+  data_g_android_24_add_mismatch <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = "add",consent = "Test String not contained in any messages")
+  data_g_ios_ampm_add_mismatch <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = "add",consent = "Test String not contained in any messages")
+  data_g_android_ampm_add_mismatch <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = "add",consent = "Test String not contained in any messages")
 
 
 
@@ -854,15 +850,15 @@ test_that("Anoynmization & Consent", {
 
 
   # all data types, anon = TRUE, consent = "Test String not contained in any messages"
-  data_e_ios_24_TRUE_mismatch <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages")
-  data_e_android_24_TRUE_mismatch <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages")
-  data_e_ios_ampm_TRUE_mismatch <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages")
-  data_e_android_ampm_TRUE_mismatch <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages")
+  data_e_ios_24_TRUE_mismatch <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = TRUE,consent = "Test String not contained in any messages")
+  data_e_android_24_TRUE_mismatch <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = TRUE,consent = "Test String not contained in any messages")
+  data_e_ios_ampm_TRUE_mismatch <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = TRUE,consent = "Test String not contained in any messages")
+  data_e_android_ampm_TRUE_mismatch <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = TRUE,consent = "Test String not contained in any messages")
 
-  data_g_ios_24_TRUE_mismatch <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages")
-  data_g_android_24_TRUE_mismatch <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages")
-  data_g_ios_ampm_TRUE_mismatch <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages")
-  data_g_android_ampm_TRUE_mismatch <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = TRUE,consent = "Test String not contained in any messages")
+  data_g_ios_24_TRUE_mismatch <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = TRUE,consent = "Test String not contained in any messages")
+  data_g_android_24_TRUE_mismatch <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = TRUE,consent = "Test String not contained in any messages")
+  data_g_ios_ampm_TRUE_mismatch <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = TRUE,consent = "Test String not contained in any messages")
+  data_g_android_ampm_TRUE_mismatch <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = TRUE,consent = "Test String not contained in any messages")
 
 
   #TESTS
@@ -907,15 +903,15 @@ test_that("Anoynmization & Consent", {
 
 
   # all data types, anon = FALSE, consent = "Test String not contained in any messages"
-  data_e_ios_24_FALSE_mismatch <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages")
-  data_e_android_24_FALSE_mismatch <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages")
-  data_e_ios_ampm_FALSE_mismatch <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages")
-  data_e_android_ampm_FALSE_mismatch <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages")
+  data_e_ios_24_FALSE_mismatch <- parse_chat(system.file("englishios24h.txt", package = "WhatsR"), anonymize = FALSE,consent = "Test String not contained in any messages")
+  data_e_android_24_FALSE_mismatch <- parse_chat(system.file("englishandroid24h.txt", package = "WhatsR"), anonymize = FALSE,consent = "Test String not contained in any messages")
+  data_e_ios_ampm_FALSE_mismatch <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = FALSE,consent = "Test String not contained in any messages")
+  data_e_android_ampm_FALSE_mismatch <- parse_chat(system.file("englishandroidampm.txt", package = "WhatsR"), anonymize = FALSE,consent = "Test String not contained in any messages")
 
-  data_g_ios_24_FALSE_mismatch <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages")
-  data_g_android_24_FALSE_mismatch <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages")
-  data_g_ios_ampm_FALSE_mismatch <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages")
-  data_g_android_ampm_FALSE_mismatch <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonimize = FALSE,consent = "Test String not contained in any messages")
+  data_g_ios_24_FALSE_mismatch <- parse_chat(system.file("germanios24h.txt", package = "WhatsR"), anonymize = FALSE,consent = "Test String not contained in any messages")
+  data_g_android_24_FALSE_mismatch <- parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"), anonymize = FALSE,consent = "Test String not contained in any messages")
+  data_g_ios_ampm_FALSE_mismatch <- parse_chat(system.file("germaniosampm.txt", package = "WhatsR"), anonymize = FALSE,consent = "Test String not contained in any messages")
+  data_g_android_ampm_FALSE_mismatch <- parse_chat(system.file("germanandroidampm.txt", package = "WhatsR"), anonymize = FALSE,consent = "Test String not contained in any messages")
 
 
   #TESTS
@@ -975,7 +971,7 @@ test_that("tailoring function", {
     tmp <- code
   }
 
-  data <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonimize = "add")
+  data <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"), anonymize = "add")
 
   tailored_data1 <- tailor_chat(data,
     names = c("Mallory", "Alice"),
@@ -1037,7 +1033,10 @@ test_that("tailoring function", {
 # # This returns a lot of warnings due to the correct font not being available in the testing environment
 # # This should be unproblematic in actual use though
 # See: https://github.com/REditorSupport/vscode-R/issues/293
-suppressWarnings(test_that("Plotting Emoji", {
+test_that("Plotting Emoji", {
+
+  # use ragg to plot emoji
+  require(ragg)
 
   # Hushing printing messages resulting from testing environment configuration
   hush <- function(code) {
@@ -1055,18 +1054,21 @@ suppressWarnings(test_that("Plotting Emoji", {
 
   data <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"))
 
+  # using agg to plot emoji
+  agg_png(tempfile(), width = 800, height = 600, res = 150)
+
   test_emoji1 <- plot_emoji(data,
-    names = "all",
-    # starttime =,
-    # endtime =,
-    # min_occur = ,
-    emoji_vec = "all",
-    plot = "bar",
-    emoji_size = 10,
-    font_family = "Times", # "Times" on Windows
-    return_data = TRUE,
-    exclude_sm = TRUE
+                            names = "all",
+                            emoji_vec = "all",
+                            plot = "bar",
+                            emoji_size = 10,
+                            font_family = "Times", # "Times" on Windows
+                            return_data = TRUE,
+                            exclude_sm = TRUE
   )
+
+  # Close the AGG device
+  dev.off()
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_emoji1,"test_emoji1.rds",version = 2)
@@ -1074,18 +1076,21 @@ suppressWarnings(test_that("Plotting Emoji", {
   test <- readRDS(system.file("test_emoji1.rds", package = "WhatsR"))
   suppressWarnings(expect_identical(test_emoji1, test))
 
+  # using agg to plot emoji
+  agg_png(tempfile(), width = 800, height = 600, res = 150)
+
   test_emoji2 <- plot_emoji(data,
-    names = "all",
-    # starttime=,
-    # endtime=,
-    # min.occur = ,
-    emoji_vec = "all",
-    plot = "cumsum",
-    emoji_size = 10,
-    font_family = "Times", # "Times" on Windows
-    return_data = TRUE,
-    exclude_sm = TRUE
+                            names = "all",
+                            emoji_vec = "all",
+                            plot = "cumsum",
+                            emoji_size = 10,
+                            font_family = "Times", # "Times" on Windows
+                            return_data = TRUE,
+                            exclude_sm = TRUE
   )
+
+  # Close the AGG device
+  dev.off()
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_emoji2,"test_emoji2.rds",version = 2)
@@ -1093,18 +1098,22 @@ suppressWarnings(test_that("Plotting Emoji", {
   test <- readRDS(system.file("test_emoji2.rds", package = "WhatsR"))
   expect_identical(test_emoji2, test)
 
+  # using agg to plot emoji
+  agg_png(tempfile(), width = 800, height = 600, res = 150)
+
   test_emoji3 <- plot_emoji(data,
-    names = "all",
-    # starttime=,
-    # endtime=,
-    min_occur = 1,
-    return_data = TRUE,
-    emoji_vec = c("Grinning_Face_with_Smiling_Eyes"),
-    plot = "heatmap",
-    emoji_size = 10,
-    font_family = "Times", # "Times" on Windows
-    exclude_sm = TRUE
+                            names = "all",
+                            min_occur = 1,
+                            return_data = TRUE,
+                            emoji_vec = c("Grinning_Face_with_Smiling_Eyes"),
+                            plot = "heatmap",
+                            emoji_size = 10,
+                            font_family = "Times", # "Times" on Windows
+                            exclude_sm = TRUE
   )
+
+  # Close the AGG device
+  dev.off()
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_emoji3,"test_emoji3.rds",version = 2)
@@ -1112,26 +1121,32 @@ suppressWarnings(test_that("Plotting Emoji", {
   test <- readRDS(system.file("test_emoji3.rds", package = "WhatsR"))
   expect_identical(test_emoji3, test)
 
+  # using agg to plot emoji
+  agg_png(tempfile(), width = 800, height = 600, res = 150)
 
   test_emoji4 <- plot_emoji(data,
-    names = "all",
-    # starttime=,
-    # endtime=,
-    min_occur = 1,
-    return_data = TRUE,
-    emoji_vec = c("Grinning_Face_with_Smiling_Eyes"),
-    plot = "bar",
-    emoji_size = 10,
-    font_family = "Times", # "Times" on Windows
-    exclude_sm = TRUE
+                            names = "all",
+                            # starttime=,
+                            # endtime=,
+                            min_occur = 1,
+                            return_data = TRUE,
+                            emoji_vec = c("Grinning_Face_with_Smiling_Eyes"),
+                            plot = "bar",
+                            emoji_size = 10,
+                            font_family = "Times", # "Times" on Windows
+                            exclude_sm = TRUE
   )
+
+  # Close the AGG device
+  dev.off()
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_emoji4,"test_emoji4.rds",version = 2)
 
   test <- readRDS(system.file("test_emoji4.rds", package = "WhatsR"))
   expect_identical(test_emoji4, test)
-}))
+
+})
 
 
 test_that("Plotting Links", {
@@ -1323,103 +1338,88 @@ test_that("Plotting Media", {
   expect_identical(test_media4, test)
 })
 
-
-test_that("Plotting Location", {
-
-  # Hushing printing messages resulting from testing environment configuration
-  hush <- function(code) {
-    if (.Platform$OS.type == "windows") {
-      sink("")
-      sink()
-
-    } else {
-      sink("/dev/null")
-      sink()
-    }
-    tmp <- code
-  }
-
-  data <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"))
-
-  test_location1  <- plot_locations(data,
-                                    return_data = TRUE,
-                                    jitter_val = 1,
-                                    jitter_seed = 123,
-                                    mapzoom = 10,
-                                    map_leeway = 0.1,
-                                    exclude_sm = TRUE)
-
-
-  # generate and write file [Use this to recreate test files when parse_chat() changed]
-  #saveRDS(test_location1,"test_location1.rds",version = 2)
-
-  if (is.data.frame(test_location1)) {
-
-    test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
-    expect_identical(test_location1, test)
-
-  } else{}
-
-
-  test_location2  <- plot_locations(data,
-                                    return_data = TRUE,
-                                    jitter_val = NA,
-                                    jitter_seed = 567,
-                                    mapzoom = 10,
-                                    map_leeway = 0.1,
-                                    exclude_sm = TRUE)
-
-  # generate and write file [Use this to recreate test files when parse_chat() changed]
-  #saveRDS(test_location2,"test_location2.rds",version = 2)
-
-  if (is.data.frame(test_location2)) {
-
-    test <- readRDS(system.file("test_location2.rds", package = "WhatsR"))
-    expect_identical(test_location2, test)
-
-  }else{}
-
-
-  test_location3  <- plot_locations(data,
-                                    return_data = TRUE,
-                                    jitter_val = 0.5,
-                                    jitter_seed = 890,
-                                    mapzoom = 10,
-                                    map_leeway = 0.1,
-                                    exclude_sm = TRUE)
-
-  # generate and write file [Use this to recreate test files when parse_chat() changed]
-  #saveRDS(test_location3,"test_location3.rds",version = 2)
-
-  if (is.data.frame(test_location3)) {
-
-    test <- readRDS(system.file("test_location3.rds", package = "WhatsR"))
-    expect_identical(test_location3, test)
-
-  }else{}
-
-  test_location4  <- plot_locations(data,
-                                    return_data = TRUE,
-                                    jitter_val = 0.5,
-                                    jitter_seed = 345,
-                                    mapzoom = 10,
-                                    map_leeway = 0.3,
-                                    exclude_sm = TRUE)
-
-  # generate and write file [Use this to recreate test files when parse_chat() changed]
-  #saveRDS(test_location4,"test_location4.rds",version = 2)
-
-  if (is.data.frame(test_location4)) {
-
-    test <- readRDS(system.file("test_location4.rds", package = "WhatsR"))
-    expect_identical(test_location4, test)
-
-  }
-
-  # testing if jittering has worked
-  #expect_identical(identical(test_location1$Lat,test_location2$Lat,test_location3$Lat,test_location4$Lat),FALSE)
-
-})
+# TODO: Reenable test once ggmap update is available on CRAN
+# test_that("Plotting Location", {
+#
+#   # Hushing printing messages resulting from testing environment configuration
+#   hush <- function(code) {
+#     if (.Platform$OS.type == "windows") {
+#       sink("")
+#       sink()
+#
+#     } else {
+#       sink("/dev/null")
+#       sink()
+#     }
+#     tmp <- code
+#   }
+#
+#   data <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"))
+#
+#   test_location1  <- plot_locations(data,
+#                                     return_data = TRUE,
+#                                     jitter_val = 1,
+#                                     jitter_seed = 123,
+#                                     mapzoom = 10,
+#                                     map_leeway = 0.1,
+#                                     exclude_sm = TRUE)
+#
+#
+#   # generate and write file [Use this to recreate test files when parse_chat() changed]
+#   #saveRDS(test_location1,"test_location1.rds",version = 2)
+#
+#   test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
+#   expect_identical(test_location1, test)
+#
+#   test_location2  <- plot_locations(data,
+#                                     return_data = TRUE,
+#                                     jitter_val = NA,
+#                                     jitter_seed = 567,
+#                                     mapzoom = 10,
+#                                     map_leeway = 0.1,
+#                                     exclude_sm = TRUE)
+#
+#   # generate and write file [Use this to recreate test files when parse_chat() changed]
+#   #saveRDS(test_location2,"test_location2.rds",version = 2)
+#
+#   test <- readRDS(system.file("test_location2.rds", package = "WhatsR"))
+#   expect_identical(test_location2, test)
+#
+#
+#
+#   test_location3  <- plot_locations(data,
+#                                     return_data = TRUE,
+#                                     jitter_val = 0.5,
+#                                     jitter_seed = 890,
+#                                     mapzoom = 10,
+#                                     map_leeway = 0.1,
+#                                     exclude_sm = TRUE)
+#
+#   # generate and write file [Use this to recreate test files when parse_chat() changed]
+#   #saveRDS(test_location3,"test_location3.rds",version = 2)
+#
+#   test <- readRDS(system.file("test_location3.rds", package = "WhatsR"))
+#   expect_identical(test_location3, test)
+#
+#
+#   test_location4  <- plot_locations(data,
+#                                     return_data = TRUE,
+#                                     jitter_val = 0.5,
+#                                     jitter_seed = 345,
+#                                     mapzoom = 10,
+#                                     map_leeway = 0.3,
+#                                     exclude_sm = TRUE)
+#
+#   # generate and write file [Use this to recreate test files when parse_chat() changed]
+#   #saveRDS(test_location4,"test_location4.rds",version = 2)
+#
+#   test <- readRDS(system.file("test_location4.rds", package = "WhatsR"))
+#   expect_identical(test_location4, test)
+#
+#   # testing if jittering has worked
+#   expect_identical(identical(test_location1$Lat,test_location2$Lat,test_location3$Lat,test_location4$Lat),FALSE)
+#
+# })
 
 
 
@@ -1457,7 +1457,6 @@ test_that("Plotting Messages", {
   expect_identical(test_messages1, test)
 
 
-  # TODO: This fails on Fedora36 and only on Fedora36
   test_messages2 <- plot_messages(data,
     names = c("Carol", "Dave"),
     starttime = "1960-01-01 00:00",
@@ -1615,14 +1614,14 @@ test_that("Plotting tokens", {
 
   data <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"))
 
-  test_tokens1 <- suppressMessages(plot_tokens(data,
+  test_tokens1 <- plot_tokens(data,
     names = "all",
     starttime = "1960-01-01 00:00",
     endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "bar",
     exclude_sm = TRUE,
     return_data = TRUE
-  ))
+  )
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_tokens1,"test_tokens1.rds",version = 2)
@@ -1630,14 +1629,14 @@ test_that("Plotting tokens", {
   test <- readRDS(system.file("test_tokens1.rds", package = "WhatsR"))
   #expect_identical(test_tokens1, test)
 
-  test_tokens2 <- suppressMessages(plot_tokens(data,
+  test_tokens2 <- plot_tokens(data,
     names = "all",
     starttime = "1960-01-01 00:00",
     endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "cumsum",
     exclude_sm = TRUE,
     return_data = TRUE
-  ))
+  )
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_tokens2,"test_tokens2.rds",version = 2)
@@ -1646,14 +1645,14 @@ test_that("Plotting tokens", {
   #expect_identical(test_tokens2, test)
 
 
-  test_tokens3 <- suppressMessages(plot_tokens(data,
+  test_tokens3 <- plot_tokens(data,
     names = "all",
     starttime = "1960-01-01 00:00",
     endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "violin",
     exclude_sm = TRUE,
     return_data = TRUE
-  ))
+  )
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_tokens3,"test_tokens3.rds",version = 2)
@@ -1662,14 +1661,14 @@ test_that("Plotting tokens", {
   #expect_identical(test_tokens3, test)
 
 
-  test_tokens4 <- suppressMessages(plot_tokens(data,
+  test_tokens4 <- plot_tokens(data,
     names = "all",
     starttime = "1960-01-01 00:00",
     endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
     plot = "box",
     exclude_sm = TRUE,
     return_data = TRUE
-  ))
+  )
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_tokens4,"test_tokens4.rds",version = 2)
@@ -1985,21 +1984,21 @@ test_that("Plotting Network", {
 
   # TODO: This fails only when running check from RStudio, not with devtools::test()
   # Seems to be a bug: https://github.com/hadley/r-pkgs/issues/483
-  # test_network2 <- plot_network(data,
-  #   names = "all",
-  #   starttime = "1960-01-01 00:00",
-  #   endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
-  #   return_data = TRUE,
-  #   collapse_sessions = TRUE,
-  #   edgetype = "TokCount",
-  #   exclude_sm = TRUE
-  # )
+  test_network2 <- plot_network(data,
+    names = "all",
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
+    return_data = TRUE,
+    collapse_sessions = TRUE,
+    edgetype = "TokCount",
+    exclude_sm = TRUE
+  )
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_network2,"test_network2.rds",version = 2)
 
-  # test <- readRDS(system.file("test_network2.rds", package = "WhatsR"))
-  # expect_identical(test_network2, test)
+  test <- readRDS(system.file("test_network2.rds", package = "WhatsR"))
+  expect_identical(test_network2, test)
 
   test_network3 <- plot_network(data,
     names = "all",
@@ -2019,21 +2018,21 @@ test_that("Plotting Network", {
 
   # TODO: This fails only when running check from RStudio, not with devtools::test()
   # Seems to be a bug: https://github.com/hadley/r-pkgs/issues/483
-  # test_network4 <- plot_network(data,
-  #   names = "all",
-  #   starttime = "1960-01-01 00:00",
-  #   endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
-  #   return_data = TRUE,
-  #   collapse_sessions = TRUE,
-  #   edgetype = "SmilieCount",
-  #   exclude_sm = TRUE
-  # )
+  test_network4 <- plot_network(data,
+    names = "all",
+    starttime = "1960-01-01 00:00",
+    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
+    return_data = TRUE,
+    collapse_sessions = TRUE,
+    edgetype = "SmilieCount",
+    exclude_sm = TRUE
+  )
 
-  # # generate and write file [Use this to recreate test files when parse_chat() changed]
-  # #saveRDS(test_network4,"test_network4.rds",version = 2)
+  #generate and write file [Use this to recreate test files when parse_chat() changed]
+  #saveRDS(test_network4,"test_network4.rds",version = 2)
 
-  # test <- readRDS(system.file("test_network4.rds", package = "WhatsR"))
-  # expect_identical(test_network4, test)
+  test <- readRDS(system.file("test_network4.rds", package = "WhatsR"))
+  expect_identical(test_network4, test)
 })
 
 

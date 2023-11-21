@@ -1,6 +1,6 @@
 #' @title Lexical disperson plots for keywords in 'WhatsApp' chat logs
 #' @description Visualizes the occurrence of specific keywords within the chat. Requires the raw message content to be contained in the preprocessed data
-#' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".
+#' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonymize = FALSE or anonymize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.

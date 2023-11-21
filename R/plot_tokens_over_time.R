@@ -1,6 +1,6 @@
 #' @title Distribution of Tokens over time
 #' @description Summarizes the distribution of user-generated tokens over time
-#' @param data A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}} with parameters anonimize = FALSE or anonimize = "add".
+#' @param data A 'WhatsApp' chat log that was parsed with \code{\link[WhatsR]{parse_chat}} with parameters anonymize = FALSE or anonymize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param names_col A column indicated by a string that should be accessed to determine the names. Only needs to be changed when \code{\link[WhatsR]{parse_chat}} used the parameter anon = "add" and the column "Anonymous" should be used. Default is "Sender".
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
@@ -15,7 +15,7 @@
 #' @importFrom dplyr summarise
 #' @importFrom methods is
 #' @export
-#' @return A summary of tokens over time
+#' @return A summary of tokens over time. Input will be ordered by TimeOrder column.
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_tokens_over_time(data)
@@ -37,6 +37,7 @@ plot_tokens_over_time <- function(data,
 
   # checking data
   if (!is.data.frame(data)) {stop("'data' must be a dataframe parsed with parse_chat()")}
+  if (!is.numeric(data$TimeOrder)) {stop("'TimeOrder' must be a numeric column in input dataframe")}
 
   # start- and endtime are convertable to POSIXct
   if (is.character(starttime) == FALSE | is.na(as.POSIXct(starttime,tz = "UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by as.POSIXct().")
@@ -85,6 +86,9 @@ plot_tokens_over_time <- function(data,
   # limiting data to time and namescope
   data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ]
 
+  # Ordering data by TimeOrder
+  data <- data[order(data$TimeOrder),]
+
   # building helper dataframe
   helperframe <- data[, c("DateTime", "Sender", "TokCount")]
 
@@ -95,8 +99,12 @@ plot_tokens_over_time <- function(data,
 
   # basic barchart
   if (plot == "alltime") {
+
+    # removing NAs for plotting
+    Plottingframe <- data[!is.na(data$TokCount),]
+
     # plotting chart
-    out <- ggplot(data, aes(x = DateTime, y = TokCount, color = Sender, fill = Sender)) +
+    out <- ggplot(Plottingframe, aes(x = DateTime, y = TokCount, color = Sender, fill = Sender)) +
       theme_minimal() +
       geom_bar(stat = "identity") +
       labs(
@@ -109,8 +117,12 @@ plot_tokens_over_time <- function(data,
 
   # barchart by year
   if (plot == "year") {
+
+    # removing NAs for plotting
+    Plottingframe <- helperframe[!is.na(helperframe$TokCount),]
+
     # plotting by year
-    out <- ggplot(helperframe, aes(x = as.factor(year), y = TokCount, color = Sender, fill = Sender)) +
+    out <- ggplot(Plottingframe, aes(x = as.factor(year), y = TokCount, color = Sender, fill = Sender)) +
       theme_minimal() +
       geom_bar(stat = "identity") +
       labs(
@@ -124,8 +136,11 @@ plot_tokens_over_time <- function(data,
   # barchart per day
   if (plot == "day") {
 
+    # removing NAs for plotting
+    Plottingframe <- helperframe[!is.na(helperframe$TokCount),]
+
     # plotting by weekday
-    out <- ggplot(helperframe, aes(x = day, y = TokCount, color = Sender, fill = Sender)) +
+    out <- ggplot(Plottingframe, aes(x = day, y = TokCount, color = Sender, fill = Sender)) +
       theme_minimal() +
       geom_bar(stat = "identity") +
       labs(
@@ -150,8 +165,12 @@ plot_tokens_over_time <- function(data,
     # preprocessing hour variable
     helperframe$hour <- factor(helperframe$hour, levels = c(1:23, 0))
 
+    # removing NAs for plotting
+    Plottingframe <- helperframe[!is.na(helperframe$TokCount),]
+    Plottingframe$hour <- factor(Plottingframe$hour, levels = c(1:23, 0))
+
     # plotting by hour
-    out <- ggplot(helperframe, aes(x = hour, y = TokCount, color = Sender, fill = Sender)) +
+    out <- ggplot(Plottingframe, aes(x = hour, y = TokCount, color = Sender, fill = Sender)) +
       theme_minimal() +
       geom_bar(stat = "identity") +
       labs(
@@ -193,7 +212,7 @@ plot_tokens_over_time <- function(data,
     # plotting Heatmap
     out <- ggplot(helperframe, aes(hour, day)) +
       theme_minimal() +
-      geom_tile(aes(fill = `Number of Tokens`), colour = "black") +
+      geom_tile(aes(fill = `Number of Tokens`), colour = "black", width=1) +
       labs(
         title = "Tokens by Weekday and Hour",
         subtitle = paste(starttime, " - ", endtime),

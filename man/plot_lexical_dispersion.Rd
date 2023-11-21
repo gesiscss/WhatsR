@@ -16,7 +16,7 @@ plot_lexical_dispersion(
 )
 }
 \arguments{
-\item{data}{A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonimize = FALSE or anonimize = "add".}
+\item{data}{A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}} using anonymize = FALSE or anonymize = "add".}
 
 \item{names}{A vector of author names that the plots will be restricted to.}
 

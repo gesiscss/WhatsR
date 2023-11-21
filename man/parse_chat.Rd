@@ -8,7 +8,7 @@ parse_chat(
   path,
   os = "auto",
   language = "auto",
-  anonimize = "add",
+  anonymize = "add",
   consent = NA,
   emoji_dictionary = "internal",
   smilie_dictionary = "wikipedia",
@@ -24,7 +24,7 @@ parse_chat(
 
 \item{language}{Indicates the language setting of the phone with which the messages were exported. Default is "auto" trying to match either 'English' or 'German'. More languages might be supported in the future.}
 
-\item{anonimize}{TRUE results in the vector of sender names being anonymized and columns containing personal identifiable information to be deleted or restricted, FALSE displays the actual names and all content, "add" adds
+\item{anonymize}{TRUE results in the vector of sender names being anonymized and columns containing personal identifiable information to be deleted or restricted, FALSE displays the actual names and all content, "add" adds
 anonomized columns to the full info columns. Do not blindly trust this and always double check.}
 
 \item{consent}{String containing a consent message. All messages from chatters who have not posted this *exact* message into the chat will be deleted. Default is NA, no deleting anything.}
@@ -43,7 +43,7 @@ and manually added ones.}
 \item{verbose}{Prints progress messages for parse_chat() to the console if TRUE, default is FALSE.}
 }
 \value{
-A dataframe containing one row per message and 11,15, or 19 columns, depending on the setting of the anonimize parameter
+A dataframe containing one row per message and 11,15, or 19 columns, depending on the setting of the anonymize parameter
 }
 \description{
 Creates a data frame from an exported 'WhatsApp' chat log containing one row per message. Some columns

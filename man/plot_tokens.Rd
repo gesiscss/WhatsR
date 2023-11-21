@@ -23,7 +23,7 @@ plot_tokens(
 
 \item{endtime}{Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.}
 
-\item{plot}{The type of plot to be used. Options include "bar","box","violin" and "cumsum". Default is "bar".}
+\item{plot}{The type of plot to be used. Options include "bar","box","violin" and "cumsum". Default is "bar". NA values will be removed before plotting. For "violin", Senders with less than 2 messages are removed.}
 
 \item{return_data}{If TRUE, returns the subsetted data frame. Default is FALSE.}
 

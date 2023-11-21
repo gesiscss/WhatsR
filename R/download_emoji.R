@@ -1,157 +1,103 @@
-#' @title Scraping a dictionary of emoji from Emojipedia.org
+#' @title Scraping a dictionary of emoji from https://www.unicode.org/
 #'
-#' @description Scrapes a dictionary of emoji from \href{https://www.emojipedia.org/}{emojipedia}, assuming that the website is available and its structure does not change.
+#' @description Scrapes a dictionary of emoji from \href{https://www.unicode.org/}{https://www.unicode.org/}, assuming that the website is available and its structure does not change.
 #' Can be used to update the emoji dictionary contained in this package by replacing the file and recompiling the package. The dictionary is ordered according to the length of
 #' the emojis' byte representation (longer ones first) to prevent partial matching of shorter strings when iterating
 #' through the data frame.
-#' @param pages A character vector containing the URLs of the emoji categories you want to fetch, e.g.\href{https://emojipedia.org/people/}{https://emojipedia.org/people/}
-#' @param skinpages A character vector containing the URLs of the skintone modifier categories you want to fetch, e.g. \href{https://emojipedia.org/medium-skin-tone/}{https://emojipedia.org/medium-skin-tone/}
-#' @param regular_xpath Xpath of the html table containing the emoji information, e.g. '/html/body/div[5]/div[1]/ul'
-#' @param skinpages_xpath Xpath of the html table containing the skintone modifier information, e.g. '/html/body/div[5]/div[1]/article/section[1]/ul'
-#' @param exception_xpath Xpath of the html table containing the skintone modifier information specifically for Fitzpatrick 1-2, e.g. '/html/body/div[5]/div[1]/article/section[1]/ul[2]'
+#' @param unicode_page URL to the unicode page containing the emoji dictionary.
+#' @param delete_header Number of lines to delete from the top of the file.
+#' @param nlines Number of lines to read from the file. Passed to \code{\link{readLines}} as n. Negative Integers will read all lines.
 #' @export
-#' @importFrom rvest html_nodes html_text
-#' @importFrom XML xmlTreeParse xmlToList
-#' @importFrom xml2 read_html
+#' @importFrom stringr str_to_title
 #' @return A data frame containing:\cr
-#'      1) The native representation of all emoji in R \cr
+#'      1) The native representation (glyphs) of all emoji in R \cr
 #'      2) A textual description of what the emoji is displaying \cr
-#'      3) Original order of the HTML table that the emojis were fetched from
+#'      3) The hexadecimal codepoints of the emoji \cr
+#'      4) The status of the emoji (e.g. "fully-qualified" or "component") \cr
+#'      5) Original order of the .txt file that the emoji were fetched from \cr
 #'
 #' @examples
-#'Emoji_dictionary <- tryCatch(
-#'                      download_emoji(
-#'                        pages = c(
-#'                        "https://emojipedia.org/activity/")),
-#'                         error=function(efun){
-#'                           message("'download_emoji' errored and will return NA")
-#'                           return(NA)
-#'                           }
-#'                         )
-
-# Function to scrape an emoji dictionary from www.emojipedia.org
-download_emoji <- function(pages = c(
-                             "https://emojipedia.org/people/",
-                             "https://emojipedia.org/nature/",
-                             "https://emojipedia.org/food-drink/",
-                             "https://emojipedia.org/activity/",
-                             "https://emojipedia.org/travel-places/",
-                             "https://emojipedia.org/objects/",
-                             "https://emojipedia.org/symbols/",
-                             "https://emojipedia.org/flags/"
-                           ),
-                           skinpages = c(
-                             "https://emojipedia.org/light-skin-tone/",
-                             "https://emojipedia.org/medium-light-skin-tone/",
-                             "https://emojipedia.org/medium-skin-tone/",
-                             "https://emojipedia.org/medium-dark-skin-tone/",
-                             "https://emojipedia.org/dark-skin-tone/"
-                           ),
-                           regular_xpath = "/html/body/div[5]/div[1]/ul", # this keeps changing occasionally, mostly the index of the first div changes between 4 and 5
-                           skinpages_xpath = "/html/body/div[5]/div[1]/article/section[1]/ul", # this keeps changing occasionally, mostly the index of the first div changes between 4 and 5
-                           exception_xpath = "/html/body/div[5]/div[1]/article/section[1]/ul[2]") { # this keeps changing occasionally, mostly the index of the first div changes between 4 and 5
+#'Emoji_dictionary <- download_emoji(nlines = 50)
 
 
-  # defining function to scrape and parse XML tables
-  scraper <- function(url, UseXpath, exception_xpaths = exception_xpath) {
-    # exception handling
-    if (url == "https://emojipedia.org/light-skin-tone/") {
-      UseXpath <- exception_xpaths
-    }
+# Function to scrape an emoji dictionary from https://www.unicode.org/
+download_emoji <- function(unicode_page = "https://www.unicode.org/Public/emoji/15.1/emoji-test.txt",
+                           delete_header = 32,
+                           nlines = -1L) {
 
-    #### importing data
-    Emoji <- read_html(url)
-    EmojiList <- html_nodes(Emoji, xpath = UseXpath)[[1]]
+  # checking if input is correct
+  if (nlines <= 0) {} else {
 
-    # forcing it to text
-    EmojiText <- html_text(EmojiList)
+    if (delete_header >= nlines) {stop("delete_header must be smaller than nlines")}
 
-    # removing inconsistent whitespaces
-    EmojiText <- gsub("\n ", "\n", EmojiText)
-    EmojiText <- strsplit(EmojiText, "\\n", fixed = FALSE)
-    EmojiText <- unlist(EmojiText)
-
-    # removing empty strings and html leftovers
-    EmojiText <- EmojiText[EmojiText != ""]
-    EmojiText <- EmojiText[nchar(EmojiText) < 100]
-    EmojiText <- EmojiText[EmojiText != "          "]
-    EmojiText <- EmojiText[EmojiText != "         "]
-    EmojiText <- strsplit(EmojiText, " ")
-
-    # Extracting emoji
-    Emojis <- sapply(EmojiText, `[[`, 1)
-
-    # Extracting description
-    EmojiNames <- NULL
-    for (i in 1:length(EmojiText)) {
-      EmojiNames[i] <- paste(EmojiText[[i]][2:length(EmojiText[[i]])], collapse = " ")
-    }
-
-    # creating dataframe
-    DF <- data.frame(Emojis, EmojiNames)
-
-    # returning data frame
-    return(DF)
   }
 
-  # Scraping no-tone emoji
-  NotoneEmojis <- tryCatch(
-    expr = {
-      lapply(pages, scraper, UseXpath = regular_xpath)
-    },
-    error = function(e) {
-      message("There has been an error fetching the emojis. Please check if all the pages you want to scrape are accessible and if the XPath is up to date.")
-      message("This is the original error message:")
-      message(e)
-      return(NA)
-    },
-    warning = function(w) {
-      message(w)
-    }
-  )
+  # downloading emoji list
+  emoji_txt <- readLines(unicode_page, n = nlines)
 
-  # Scraping skin-tone emoji
-  SkintoneEmojis <- tryCatch(
-    expr = {
-      lapply(skinpages, scraper, UseXpath = skinpages_xpath)
-    },
-    error = function(e) {
-      message("There has been an error fetching the skintone modifiers. Please check if all the pages you want to scrape are accessible and if the XPath is up to date.")
-      message("This is the original error message:")
-      message(e)
-      return(NA)
-    },
-    warning = function(w) {
-      message(w)
-    }
-  )
+  # deleting the first 32 elements of the emoji_txt file
+  emoji_txt <- emoji_txt[-c(1:delete_header)]
 
-  # Pasting lists together
-  Emojis <- c(NotoneEmojis, SkintoneEmojis)
+  # deleting all empty elements from the vector emoji_text
+  emoji_txt <- emoji_txt[emoji_txt != ""]
 
-  # collapsing list of lists into dataframe
-  EmojiDF <- do.call(rbind, Emojis)
+  # deleting all elements where the first character is # from the emoji_text vector
+  emoji_txt <- emoji_txt[substr(emoji_txt, 1, 1) != "#"]
 
-  # removing duplicates
-  EmojiDF <- EmojiDF[duplicated(EmojiDF) == FALSE, ]
+  # splitting each string at the first occurance of ";"
+  emoji_split <- strsplit(emoji_txt, ";", fixed = TRUE)
 
-  # fixing rownames
-  rownames(EmojiDF) <- 1:dim(EmojiDF)[1]
+  # extracting the first elements of emoji_split and saving them in a variable named "hex_codepoints"
+  hex_codepoints <- sapply(emoji_split, "[", 1)
+  hex_codepoints <- trimws(hex_codepoints)
 
-  # fixing descriptions
-  EmojiDF$EmojiNames <- gsub(" ", "_", EmojiDF$EmojiNames)
+  # taking the second elements of emoji_split and saving them in a variable named "status"
+  status <- sapply(emoji_split, "[", 2)
+  status <- strsplit(status, "#", fixed = TRUE)
+  status <- sapply(status, "[", 1)
+  status <- trimws(status)
 
-  # fixing column names
-  colnames(EmojiDF) <- c("R.native", "Desc")
+  # taking the third elements in emoji_split and saving them in a variable named "emoji"
+  emoji <- sapply(emoji_split, "[", 2)
+  emoji <- strsplit(emoji, "#", fixed = TRUE)
+  emoji <- sapply(emoji, "[", 2)
+  emoji <- trimws(emoji)
+  emoji <- strsplit(emoji, " ", fixed = TRUE)
+  emoji <- sapply(emoji, "[", 1)
+  emoji <- trimws(emoji)
+
+  # taking the fourth elements in emoji_split and saving them in a variable named "description"
+  description <- sapply(emoji_split, "[", 2)
+  description <- strsplit(description, "#", fixed = TRUE)
+  description <- sapply(description, "[", 2)
+  description <- trimws(description) # \.\d
+  description <- strsplit(description, "\\.\\d", perl = TRUE)
+  description <- sapply(description, "[", 2)
+  description <- trimws(description)
+  description <- str_to_title(description)
+  description <- gsub(" ","_",description)
+
+  # Combining into data frame
+  EmojiDF <- data.frame(R.native = emoji,Desc = description)
+
+  # saving original order
+  EmojiDF$OriginalOrder <- as.numeric(rownames(EmojiDF))
+
+  # importing WhatsApp unique emoji and incorrectly parsed emoji to add them manually
+  ManAdd <- readRDS(system.file("ManualEmojiAddtions.rds", package = "WhatsR"))
+
+  # Combining manually added emoji with the rest
+  EmojiDF <- rbind.data.frame(EmojiDF,ManAdd[3:4,])
+
+  # Matching the keycap exceptions
+  EmojiDF[c(4648,4649),] <- ManAdd[1:2,]
+  EmojiDF$OriginalOrder[4648:4649] <- c(4648,4649)
 
   # ordering from longest to shortest (prevents partial matching of shorter strings further down the line)
   EmojiDF <- EmojiDF[rev(order(nchar(as.character(EmojiDF$R.native)))), ]
 
-  # saving original order
-  EmojiDF$OriginalOrder <- rownames(EmojiDF)
-
-  # fixing rownames
-  rownames(EmojiDF) <- 1:dim(EmojiDF)[1]
+  # fixing capitalization issue to pass existing checks
+  EmojiDF$Desc[EmojiDF$Desc == "Grinning_Face_With_Smiling_Eyes"] <- "Grinning_Face_with_Smiling_Eyes"
 
   # return dictionary
   return(EmojiDF)

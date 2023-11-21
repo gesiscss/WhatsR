@@ -186,7 +186,7 @@ plot_messages <- function(data,
     # plotting Heatmap
     output <- ggplot(helperframe2, aes(hour, day)) +
       theme_minimal() +
-      geom_tile(aes(fill = `Number of Messages`), colour = "black") +
+      geom_tile(aes(fill = `Number of Messages`), colour = "black",width=1) +
       labs(
         title = "Messages by Weekday and Hour",
         subtitle = paste(starttime, " - ", endtime),

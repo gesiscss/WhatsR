@@ -170,7 +170,7 @@ plot_smilies <- function(data,
     # plotting Heatmap
     out <- ggplot(helperframe2, aes(hour, day)) +
       theme_minimal() +
-      geom_tile(aes(fill = `Number of Smilies`), colour = "black") +
+      geom_tile(aes(fill = `Number of Smilies`), colour = "black",width=1) +
       labs(
         title = "Smilies by Weekday and Hour",
         subtitle = paste(starttime, " - ", endtime),

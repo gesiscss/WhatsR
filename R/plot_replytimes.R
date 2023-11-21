@@ -21,7 +21,7 @@
 #' @importFrom dplyr summarise
 #' @importFrom methods is
 #' @export
-#' @return Plots for Replytimes or Reactiontimes of authors
+#' @return Plots for Replytimes or Reactiontimes of authors. Input will be ordered by TimeOrder column.
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_replytimes(data)
@@ -44,6 +44,7 @@ plot_replytimes <- function(data,
 
   # checking data
   if (!is.data.frame(data)) {stop("'data' must be a dataframe parsed with parse_chat()")}
+  if (!is.numeric(data$TimeOrder)) {stop("'TimeOrder' must be a numeric column in input dataframe")}
 
   # start- and endtime are convertable to POSIXct
   if (is.character(starttime) == FALSE | is.na(as.POSIXct(starttime,tz = "UTC"))) stop("starttime has to be a character string in the form of 'yyyy-mm-dd hh:mm' that can be converted by as.POSIXct().")
@@ -97,6 +98,9 @@ plot_replytimes <- function(data,
 
   # limiting data to time and namescope
   data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ]
+
+  # Ordering data by TimeOrder
+  data <- data[order(data$TimeOrder),]
 
   # aggregating sessions into messages
   if (aggregate_sessions == TRUE) {
@@ -179,8 +183,12 @@ plot_replytimes <- function(data,
 
   if (plot == "box") {
     if (type == "replytime") {
+
+      # removing NA values before plotting
+      Plottingframe <- Sessionframe[!is.na(Sessionframe$ReactionTime),]
+
       # Distribution of response times per person (logscale)
-      out <- ggplot(Sessionframe, aes(x = Sender, y = log(ReactionTime + 1), color = Sender)) +
+      out <- ggplot(Plottingframe, aes(x = Sender, y = log(ReactionTime + 1), color = Sender)) +
         theme_minimal() +
         geom_boxplot() +
         theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +
@@ -193,8 +201,12 @@ plot_replytimes <- function(data,
     }
 
     if (type == "reactiontime") {
-      # Distribution of responsd to times per person (logscale)
-      out <- ggplot(Sessionframe, aes(x = Sender, y = log(RepliedToAfter + 1), color = Sender)) +
+
+      # removing NA values before plotting
+      Plottingframe <- Sessionframe[!is.na(Sessionframe$RepliedToAfter),]
+
+      # Distribution of responsetimes per person (logscale)
+      out <- ggplot(Plottingframe, aes(x = Sender, y = log(RepliedToAfter + 1), color = Sender)) +
         theme_minimal() +
         geom_boxplot() +
         theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2)) +

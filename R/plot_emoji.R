@@ -22,8 +22,17 @@
 #' @export
 #' @return Plots and/or the subset data frame based on author names, datetime and emoji occurrence
 #' @examples
+#' # importing data
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
+#'
+#' # opening AGG graphics device from the ragg package (replace tempfile with filepath)
+#' ragg::agg_png(tempfile(), width = 800, height = 600, res = 150)
+#'
+#' # plotting emoji
 #' plot_emoji(data,font_family="Times", exclude_sm = TRUE) #font_family = "Noto Color Emoji" on Linux
+#'
+#' # Close the AGG device
+#' dev.off()
 
 # Visualizing sent emoji
 plot_emoji <- function(data,
@@ -206,7 +215,7 @@ plot_emoji <- function(data,
     # plotting Heatmap
     out <- ggplot(helperframe2, aes(hour, day)) +
       theme_minimal() +
-      geom_tile(aes(fill = `Number of Emoji`), colour = "black") +
+      geom_tile(aes(fill = `Number of Emoji`), colour = "black",width=1) +
       labs(title = "Emoji by Weekday and Hour",
            subtitle = paste(starttime, " - ", endtime),
            x = "",

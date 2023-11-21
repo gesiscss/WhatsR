@@ -4,7 +4,7 @@
 #' @param names A vector of author names that the plots will be restricted to.
 #' @param starttime Datetime that is used as the minimum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
 #' @param endtime Datetime that is used as the maximum boundary for exclusion. Is parsed with \code{\link[base]{as.POSIXct}}. Standard format is "yyyy-mm-dd hh:mm". Is interpreted as UTC to be compatible with 'WhatsApp' timestamps.
-#' @param plot The type of plot to be used. Options include "bar","box","violin" and "cumsum". Default is "bar".
+#' @param plot The type of plot to be used. Options include "bar","box","violin" and "cumsum". Default is "bar". NA values will be removed before plotting. For "violin", Senders with less than 2 messages are removed.
 #' @param return_data If TRUE, returns the subsetted data frame. Default is FALSE.
 #' @param exclude_sm If TRUE, excludes the 'WhatsApp' System Messages from the descriptive statistics. Default is FALSE.
 #' @import ggplot2
@@ -85,7 +85,11 @@ plot_tokens <- function(data,
 
 
   if (plot == "bar") {
-    output <- ggplot(data, aes(x = Sender, fill = Sender, y = TokCount, color = Sender)) +
+
+    # removing NAs for plotting
+    Plottingframe <- data[!is.na(data$TokCount),]
+
+    output <- ggplot(Plottingframe, aes(x = Sender, fill = Sender, y = TokCount, color = Sender)) +
       theme_minimal() +
       geom_bar(stat = "identity") +
       labs(
@@ -98,8 +102,12 @@ plot_tokens <- function(data,
   }
 
   if (plot == "box") {
+
+    # removing NAs for plotting
+    Plottingframe <- data[!is.na(data$TokCount),]
+
     output <- ggplot(
-      data,
+      Plottingframe,
       aes(
         x = Sender, y = TokCount,
         color = Sender
@@ -117,8 +125,16 @@ plot_tokens <- function(data,
   }
 
   if (plot == "violin") {
+
+    # removing NAs for plotting
+    Plottingframe <- data[!is.na(data$TokCount),]
+
+    # removing groups with less than 2 observations for plotting violin plots
+    remove_names <- names(table(Plottingframe$Sender))[table(Plottingframe$Sender) < 2]
+    Plottingframe <- Plottingframe[!(Plottingframe$Sender %in% remove_names),]
+
     output <- ggplot(
-      data,
+      Plottingframe,
       aes(x = Sender, y = TokCount, fill = Sender, color = Sender)
     ) +
       theme_minimal() +
@@ -133,10 +149,17 @@ plot_tokens <- function(data,
   }
 
   if (plot == "cumsum") {
+
+    # computing for output
     data <- data[with(data, order(data$Sender, data$DateTime)), ]
     data$total <- do.call("c", tapply(data$TokCount, data$Sender, FUN = cumsum))
 
-    output <- ggplot(data, aes(x = DateTime, y = total, color = Sender)) +
+    # removing NAs for plotting
+    Plottingframe <- data[!is.na(data$TokCount),]
+    PlottingframePlottingframe <- data[with(Plottingframe, order(Plottingframe$Sender, Plottingframe$DateTime)), ]
+    Plottingframe$total <- do.call("c", tapply(Plottingframe$TokCount, Plottingframe$Sender, FUN = cumsum))
+
+    output <- ggplot(Plottingframe, aes(x = DateTime, y = total, color = Sender)) +
       theme_minimal() +
       geom_line() +
       labs(
