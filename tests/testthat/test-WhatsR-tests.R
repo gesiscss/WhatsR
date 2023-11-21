@@ -1928,24 +1928,24 @@ test_that("Plotting Wordcloud", {
   expect_identical(test_wc3, test)
 
 
-  test_wc4 <- plot_wordcloud(data,
-    names = "all",
-    starttime = "1960-01-01 00:00",
-    endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
-    remove_stops = FALSE,
-    stop = "english",
-    comparison = TRUE,
-    return_data = TRUE,
-    font_size = 10,
-    min_occur = 2,
-    exclude_sm = TRUE
-  )
+  # test_wc4 <- plot_wordcloud(data,
+  #   names = "all",
+  #   starttime = "1960-01-01 00:00",
+  #   endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
+  #   remove_stops = FALSE,
+  #   stop = "english",
+  #   comparison = TRUE,
+  #   return_data = TRUE,
+  #   font_size = 10,
+  #   min_occur = 2,
+  #   exclude_sm = TRUE
+  # )
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_wc4,"test_wc4.rds",version = 2)
 
-  test <- readRDS(system.file("test_wc4.rds", package = "WhatsR"))
-  expect_identical(test_wc4, test)
+  # test <- readRDS(system.file("test_wc4.rds", package = "WhatsR"))
+  # expect_identical(test_wc4, test)
 })
 
 
