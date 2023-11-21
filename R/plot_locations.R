@@ -1,4 +1,4 @@
-#' @title Plotting locations sent in 'WhatsApp' chat logs on maps
+#' @title Plotting locations sent in 'WhatsApp' chat logs on maps [DISABLED]
 #' @description Plots the location data that is sent in the 'WhatsApp' chatlog on an auto-scaled map. Requires unanonymized 'Location' column in data
 #' @param data A 'WhatsApp' chatlog that was parsed with \code{\link[WhatsR]{parse_chat}}with anonymize= FALSE or anonymize = "add".
 #' @param names A vector of author names that the plots will be restricted to.
