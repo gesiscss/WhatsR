@@ -57,8 +57,8 @@ jobs:
       if: runner.os == 'macOS'
       run: |
         brew install --cask basictex
-        sudo /usr/local/texlive/2021basic/bin/x86_64-darwin/tlmgr update --self --all
-        echo "/usr/local/texlive/2021basic/bin/x86_64-darwin" | sudo tee -a /etc/paths
+        echo "/Library/TeX/texbin" | sudo tee -a /etc/paths
+        sudo /Library/TeX/texbin/tlmgr update --self --all
 
     - name: Install rJava and other R dependencies
       run: |
