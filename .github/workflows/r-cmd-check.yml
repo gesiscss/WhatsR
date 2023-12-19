@@ -21,7 +21,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Cache LaTeX packages
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           /usr/local/texlive
@@ -49,14 +49,9 @@ jobs:
     - name: Install Windows system dependencies
       if: runner.os == 'Windows'
       run: |
-        choco install miktex -y --no-progress
-        $miktexPath = "C:\Program Files\MiKTeX\miktex\bin\x64"
-        if (Test-Path $miktexPath) {
-          echo "$miktexPath" | Out-File -Append -FilePath $Env:GITHUB_PATH
-          & "$miktexPath\initexmf.exe" --update-fndb
-        } else {
-          Write-Error "MiKTeX installation path not found"
-        }
+        choco install miktex -y
+        echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $Env:GITHUB_PATH
+        & "C:\Program Files\MiKTeX\miktex\bin\x64\initexmf.exe" --update-fndb
 
 
     - name: Install macOS system dependencies
