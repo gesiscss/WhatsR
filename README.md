@@ -15,8 +15,6 @@
   </tr>
 </table>
 
-
-
 ## How to set it up?
  
 ### 1) Requirements
