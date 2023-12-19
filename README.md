@@ -1,6 +1,20 @@
-# `WhatsR` <img src="inst/WhatsR_sticker.png" align="right" width="250" height="250"/>
-[![DOI](https://zenodo.org/badge/633831271.svg)](https://zenodo.org/badge/latestdoi/633831271) <br> <br>
-This is an R-package to import exported WhatsApp chatlogs, parse them into a usable dataframe format and thereby enable further analysis. This parser was built with the goal to work with chat logs extracted on Android as well as iOS devices, run on Linux, Mac and Windows and to be able to handle multiple languages. Currently, only English and German are supported, but in principle, other languages could be added relatively easily (see below). The repo also contains a function to scrape and update the emoji_dictionary, should new emoji be added to WhatsApp in the meantime.
+# WhatsR
+[![DOI](https://zenodo.org/badge/633831271.svg)](https://zenodo.org/badge/latestdoi/633831271)
+[![R-CMD-check](https://github.com/JuKo007/WhatsR/workflows/R-CMD-check/badge.svg)](https://github.com/JuKo007/WhatsR/actions)
+[![CRAN status](https://www.r-pkg.org/badges/version/WhatsR)](https://www.r-pkg.org/badges/version/WhatsR)
+[![Downloads](https://cranlogs.r-pkg.org/badges/WhatsR)](https://cran.r-project.org/package=WhatsR)
+
+<table>
+  <tr>
+    <td style="text-align: justify; width: 80%; padding-right: 15px;">
+      This is an R-package to import exported WhatsApp chatlogs, parse them into a usable dataframe format and thereby enable further analysis. This parser was built with the goal to work with chat logs extracted on Android as well as iOS devices, run on Linux, Mac and Windows, and to be able to handle multiple languages. Currently, only English and German are supported, but in principle, other languages could be added relatively easily (see below). The repo also contains a function to scrape and update the emoji_dictionary, should new emoji be added to WhatsApp in the meantime.
+    </td>
+    <td>
+      <img src="man/figures/WhatsR_sticker.png" width="120" height="139"/>
+    </td>
+  </tr>
+</table>
+
  
 ## How to set it up?
  
