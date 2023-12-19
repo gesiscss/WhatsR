@@ -34,11 +34,18 @@ jobs:
         sudo apt-get install -y libcurl4-gnutls-dev default-jdk
         sudo R CMD javareconf
 
+    - name: Install Windows system dependencies
+      if: runner.os == 'Windows'
+      run: |
+        choco install miktex -y
+        RefreshEnv.cmd
+        initexmf --update-fndb
+
     - name: Install rJava and other R dependencies
       run: |
         Rscript -e "install.packages('rJava')"
         Rscript -e "install.packages('remotes')"
-        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat'))"
+        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat', 'ragg'))"
 
     - name: Check
       shell: bash
