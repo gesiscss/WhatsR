@@ -49,9 +49,15 @@ jobs:
     - name: Install Windows system dependencies
       if: runner.os == 'Windows'
       run: |
-        choco install miktex -y
-        echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $Env:GITHUB_PATH
-        & "C:\Program Files\MiKTeX\miktex\bin\x64\initexmf.exe" --update-fndb
+        choco install miktex -y --no-progress
+        $miktexPath = "C:\Program Files\MiKTeX\miktex\bin\x64"
+        if (Test-Path $miktexPath) {
+          echo "$miktexPath" | Out-File -Append -FilePath $Env:GITHUB_PATH
+          & "$miktexPath\initexmf.exe" --update-fndb
+        } else {
+          Write-Error "MiKTeX installation path not found"
+        }
+
 
     - name: Install macOS system dependencies
       if: runner.os == 'macOS'
