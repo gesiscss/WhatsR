@@ -36,7 +36,8 @@ jobs:
 
     - name: Install rJava
       run: |
-        install.packages('rJava')
+        Rscript -e "install.packages('rJava')"
+
 
     - name: Install R dependencies
       run: |
