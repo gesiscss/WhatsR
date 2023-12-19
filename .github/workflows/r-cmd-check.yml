@@ -31,21 +31,29 @@ jobs:
         sudo apt-get update -y
         sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev
         sudo apt-get install -y libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libfontconfig1-dev
+        sudo apt-get install -y libharfbuzz-dev libfribidi-dev
         sudo apt-get install -y libcurl4-gnutls-dev default-jdk
         sudo R CMD javareconf
+        sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
 
     - name: Install Windows system dependencies
       if: runner.os == 'Windows'
       run: |
         choco install miktex -y
-        RefreshEnv.cmd
-        initexmf --update-fndb
+        echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $Env:GITHUB_PATH
+        & "C:\Program Files\MiKTeX\miktex\bin\x64\initexmf.exe" --update-fndb
+
+    - name: Install macOS system dependencies
+      if: runner.os == 'macOS'
+      run: |
+        brew install --cask mactex
+        sudo tlmgr update --self --all
 
     - name: Install rJava and other R dependencies
       run: |
         Rscript -e "install.packages('rJava')"
         Rscript -e "install.packages('remotes')"
-        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat', 'ragg'))"
+        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat', 'ragg'))"
 
     - name: Check
       shell: bash
