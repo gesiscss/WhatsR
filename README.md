@@ -1,6 +1,6 @@
 # WhatsR
 [![DOI](https://zenodo.org/badge/633831271.svg)](https://zenodo.org/badge/latestdoi/633831271)
-[![R-CMD-check](https://github.com/JuKo007/WhatsR/workflows/r-cmd-check/badge.svg)](https://github.com/JuKo007/WhatsR/actions)
+[![R-CMD-check](https://github.com/gesiscss/WhatsR/workflows/r-cmd-check/badge.svg)](https://github.com/gesiscss/WhatsR/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/WhatsR)](https://www.r-pkg.org/badges/version/WhatsR)
 [![Downloads](https://cranlogs.r-pkg.org/badges/WhatsR)](https://cran.r-project.org/package=WhatsR)
 
