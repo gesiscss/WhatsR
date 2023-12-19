@@ -38,12 +38,10 @@ jobs:
       run: |
         Rscript -e "install.packages('rJava')"
 
-
-    - name: Install R dependencies
+    - name: Install other R dependencies
       run: |
-        install.packages('remotes')
-        options(repos = c(CRAN = 'https://cloud.r-project.org'))
-        remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata'))
+        Rscript -e "install.packages('remotes')"
+        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata'))"
 
     - name: Check
       run: R CMD build . && R CMD check *tar.gz --as-cran
