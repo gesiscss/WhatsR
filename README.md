@@ -3,6 +3,7 @@
 [![R-CMD-check](https://github.com/gesiscss/WhatsR/actions/workflows/r-cmd-check.yml/badge.svg)](https://github.com/gesiscss/WhatsR/actions/workflows/r-cmd-check.yml)
 [![CRAN status](https://www.r-pkg.org/badges/version/WhatsR)](https://www.r-pkg.org/badges/version/WhatsR)
 [![Downloads](https://cranlogs.r-pkg.org/badges/WhatsR)](https://cran.r-project.org/package=WhatsR)
+[![TotalDownloads](https://cranlogs.r-pkg.org/badges/grand-total/WhatsR?color=orange)](https://CRAN.R-project.org/package=WhatsR)
 
 <table border="0">
   <tr>

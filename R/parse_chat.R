@@ -193,7 +193,7 @@ parse_chat <- function(path,
   # Deleting left-to-right markers if present
   ReplacedSpecialCharactersChat <- gsub("\u200e", "", ReplacedSpecialCharactersChat)
 
-  # Deleting zero-width no break space sif present
+  # Deleting zero-width no break spaces if present
   ReplacedSpecialCharactersChat <- gsub("\uFEFF", "", ReplacedSpecialCharactersChat)
 
   # printing info

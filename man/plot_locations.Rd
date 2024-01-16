@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_locations.R
 \name{plot_locations}
 \alias{plot_locations}
-\title{Plotting locations sent in 'WhatsApp' chat logs on maps [DISABLED]}
+\title{Plotting locations sent in 'WhatsApp' chat logs on maps}
 \usage{
 plot_locations(
   data,
@@ -40,7 +40,7 @@ plot_locations(
 
 \item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.}
 
-\item{API_key}{API key for \code{\link[ggmap]{register_stadiamaps}}. Default is "fbb7105f-27c1-49a0-96f8-926dfddcae32". See also: \url{https://developers.google.com/maps/documentation/geocoding/get-api-key}}
+\item{API_key}{API key for \code{\link[ggmap]{register_stadiamaps}}. Default is "fbb7105f-27c1-49a0-96f8-926dfddcae32". See also: \url{https://rdrr.io/cran/ggmap/man/register_stadiamaps.html}}
 
 \item{map_type}{Type of map to be used. Passed down to \code{\link[ggmap]{get_stadiamap}}. Default is "alidade_smooth".}
 }

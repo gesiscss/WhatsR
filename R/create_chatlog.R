@@ -328,6 +328,8 @@ create_chatlog <- function(n_messages = 150,
   }
 
   #### Add System messages
+  # TODO: Ensure that the system messages with telephone number changes do have a timestamp!
+
 
   # sample messages to replace with WhatsApp system messages
   Messages[1] <- substr(WAStrings[1], 2, nchar(WAStrings[1]) - 1)
@@ -436,12 +438,14 @@ create_chatlog <- function(n_messages = 150,
 
     # first message
     Messages[1] <- paste0(ts[1], Messages[1])
+
   } else {
+
     # system messages with names
     Messages[sm_rows][c(1:4, 15:17, 19)] <- paste0(ts[sm_rows][c(1:4, 15:17, 19)], Names[sm_rows][c(1:4, 15:17, 19)], Messages[sm_rows][c(1:4, 15:17, 19)])
 
     # system messages without names
-    Messages[sm_rows][c(5:14, 20)] <- paste0(ts[sm_rows][c(5:14, 20)], Messages[sm_rows][c(5:14, 20)])
+    Messages[sm_rows][c(5:14,18,20)] <- paste0(ts[sm_rows][c(5:14,18,20)], Messages[sm_rows][c(5:14,18,20)])
 
     # other messages (with names)
     Messages[-c(1, sm_rows)] <- paste0(ts[-c(1, sm_rows)], Names[c(-c(1, sm_rows))], Messages[c(-c(1, sm_rows))])
