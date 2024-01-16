@@ -1020,7 +1020,7 @@ test_that("tailoring function", {
   )
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
-  #saveRDS(tailored_data4,"TailoredData4.rds",version = 2)
+  # saveRDS(tailored_data4,"TailoredData4.rds",version = 2)
 
   test <- readRDS(system.file("TailoredData4.rds", package = "WhatsR"))
   expect_identical(tailored_data4,test)
@@ -1982,8 +1982,6 @@ test_that("Plotting Network", {
   test <- readRDS(system.file("test_network1.rds", package = "WhatsR"))
   expect_identical(test_network1, test)
 
-  # TODO: This fails only when running check from RStudio, not with devtools::test()
-  # Seems to be a bug: https://github.com/hadley/r-pkgs/issues/483
   test_network2 <- plot_network(data,
     names = "all",
     starttime = "1960-01-01 00:00",
@@ -2016,8 +2014,6 @@ test_that("Plotting Network", {
   test <- readRDS(system.file("test_network3.rds", package = "WhatsR"))
   expect_identical(test_network3, test)
 
-  # TODO: This fails only when running check from RStudio, not with devtools::test()
-  # Seems to be a bug: https://github.com/hadley/r-pkgs/issues/483
   test_network4 <- plot_network(data,
     names = "all",
     starttime = "1960-01-01 00:00",

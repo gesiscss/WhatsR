@@ -29,7 +29,7 @@
 [1/29/18, 23:58:03] Alice: Works! But does it also recognize multiple links? https://github.com/JuKo007 https://github.com/JuKo007
 [1/29/18, 23:59:03] Alice: Cool :)
 [1/29/18, 23:59:03] Bob: ‎How about Locations?
-[1/29/18, 23:59:03] Bob: Location: https://maps.google.com/?q=50.9425526,6.9523387
+[1/29/18, 23:59:03] Bob: location: https://maps.google.com/?q=50.9425526,6.9523387
 [1/29/18, 23:59:03] Alice: live location shared
 [1/29/18, 23:59:03] Bob: Works, nice! :)
 [1/29/18, 23:59:03] Bob: Carol, can you post a self-deleting photo to show how this shows up in the logs?
