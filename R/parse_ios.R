@@ -26,7 +26,7 @@ parse_ios <- function(chatlog,
                       media_omitted = "<media omitted>",
                       media_indicator = "^<attached:\\s(.)*?\\.(.)*?>$",
                       sent_location = paste0(
-                        "Location: (?=https:\\/\\/maps\\.google\\.com\\/",
+                        "location: (?=https:\\/\\/maps\\.google\\.com\\/",
                         "\\?q=\\d\\d.\\d{6}\\,\\d\\.\\d{6})"
                       ),
                       live_location = "^live location shared$",

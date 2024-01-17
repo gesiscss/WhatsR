@@ -14,6 +14,7 @@ create_chatlog(
   n_smilies = 20,
   n_diff_smilies = 15,
   n_media = 10,
+  media_excluded = TRUE,
   n_sdp = 3,
   startdate = "01.01.2019",
   enddate = "31.12.2022",
@@ -41,7 +42,9 @@ create_chatlog(
 
 \item{n_diff_smilies}{Number of different smilies that are used in the simulated chat.}
 
-\item{n_media}{Number of messages that contain omitted media files. Must be smaller or equal to n_messages.}
+\item{n_media}{Number of messages that contain media files. Must be smaller or equal to n_messages.}
+
+\item{media_excluded}{Whether media files were excluded in simulated export or not. Default is TRUE.}
 
 \item{n_sdp}{Number of messages that contain self-deleting photos. Must be smaller or equal to n_messages.}
 

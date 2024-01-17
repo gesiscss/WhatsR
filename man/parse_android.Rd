@@ -9,7 +9,7 @@ parse_android(
   newline_indicator = "\\n",
   media_omitted = "<media omitted>",
   media_indicator = "(file attached)",
-  sent_location = paste0("Location: (?=https:\\\\/\\\\/maps\\\\.google\\\\.com\\\\/",
+  sent_location = paste0("location: (?=https:\\\\/\\\\/maps\\\\.google\\\\.com\\\\/",
     "\\\\?q=\\\\d\\\\d.\\\\d{6}\\\\,\\\\d\\\\.\\\\d{6})"),
   live_location = "^live location shared$",
   datetime_indicator = paste("(?!^)(?=((\\\\d{2}\\\\.\\\\d{2}\\\\.\\\\d{2})|(\\\\d{1,2}",
