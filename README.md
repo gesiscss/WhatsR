@@ -215,7 +215,7 @@ plot_smilies(data, plot = "cumsum", exclude_sm = TRUE)
 Amount of sent emoji per person
 
 ```
-plot_emoji(data, plot = "splitbar", min.occur = 50, exclude_sm = TRUE)
+plot_emoji(data, plot = "splitbar", min_occur = 50, exclude_sm = TRUE)
 ```
 ![](man/figures/plot_emoji()_splitbar.png)
 
