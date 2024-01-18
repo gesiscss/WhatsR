@@ -103,7 +103,7 @@ summarize_chat <- function(data, exclude_sm = FALSE) {
     Basics$NumberOfSmilies <- sum(!is.na(unlist(data$Smilies)))
   }
 
-  # NumberOfSystemMessages (We need to do this before so we can stil pick them up)
+  # NumberOfSystemMessages (We need to do this before so we can still pick them up)
   if ("SystemMessage" %in% vars) {
     Basics$NumberOfSystemMessages <- sum(!is.na(data$SystemMessage))
   }
