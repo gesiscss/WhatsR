@@ -5,16 +5,9 @@
 [![Downloads](https://cranlogs.r-pkg.org/badges/WhatsR)](https://cran.r-project.org/package=WhatsR)
 [![TotalDownloads](https://cranlogs.r-pkg.org/badges/grand-total/WhatsR?color=orange)](https://CRAN.R-project.org/package=WhatsR)
 
-<table border="0">
-  <tr>
-    <td style="width: 80%;">
-      This is an R-package to import exported WhatsApp chatlogs, parse them into a usable dataframe format and thereby enable further analysis. This parser was built with the goal to work with chat logs extracted on Android as well as iOS devices, run on Linux, Mac and Windows, and to be able to handle multiple languages. Currently, only English and German are supported, but in principle, other languages could be added relatively easily (see below). The repo also contains a function to scrape and update the emoji_dictionary, should new emoji be added to WhatsApp in the meantime.
-    </td>
-    <td style="width: 20%;">
-      <img src="man/figures/WhatsR_sticker.png" alt="WhatsR Sticker" style="width:100%; height:auto;">
-    </td>
-  </tr>
-</table>
+<img src="man/figures/WhatsR_sticker.png" align="right" alt="WhatsR Sticker" width="120">
+
+This is an R-package to import exported WhatsApp chatlogs, parse them into a usable dataframe format and thereby enable further analysis. This parser was built with the goal to work with chat logs extracted on Android as well as iOS devices, run on Linux, Mac and Windows, and to be able to handle multiple languages. Currently, only English and German are supported, but in principle, other languages could be added relatively easily (see below). The repo also contains a function to scrape and update the emoji_dictionary, should new emoji be added to WhatsApp in the meantime.
 
 ## How to set it up?
  

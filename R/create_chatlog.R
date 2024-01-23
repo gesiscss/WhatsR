@@ -62,7 +62,7 @@ create_chatlog <- function(n_messages = 150,
   assert_numeric(n_locations, lower = 0, upper = 1000, len = 1)
   assert_numeric(n_smilies, lower = 0, upper = 80000, len = 1)
   assert_numeric(n_media, lower = 0, upper = 1000, len = 1)
-  assert_logical(media_excluded,len=1)
+  assert_logical(media_excluded,len = 1)
 
   # ensuring that n_variables are not larger than the number of messages
   if (n_messages <= n_emoji & n_messages <= n_links & n_messages <= n_locations & n_messages <= n_smilies & n_messages <= n_media & n_messages <= n_sdp) {
@@ -125,7 +125,7 @@ create_chatlog <- function(n_messages = 150,
 
   # checking
   if (n_messages < min_messages) {
-    warning(paste("'n_messages' is too small to satisfy specified chat characteristics. Should be at least",min_messages,"for this configuration.",sep=" "))
+    warning(paste("'n_messages' is too small to satisfy specified chat characteristics. Should be at least",min_messages,"for this configuration.",sep = " "))
     stop()
   }
 
@@ -403,7 +403,7 @@ create_chatlog <- function(n_messages = 150,
   }
 
   # sampling messages to add locations to
-  location_rows <- sample(free_messages, n_locations-1)
+  location_rows <- sample(free_messages, n_locations - 1)
 
   # adding locations to messages
   for (i in location_rows) {
@@ -449,13 +449,13 @@ create_chatlog <- function(n_messages = 150,
       if (os == "android") {
         media_files <- paste(media_files, "(Datei angeh\u00E4ngt)")
       } else {
-        media_files <- paste("<angeh\u00E4ngt: ",media_files, ">", sep="")
+        media_files <- paste("<angeh\u00E4ngt: ",media_files, ">", sep = "")
       }
     } else {
       if (os == "android") {
         media_files <- paste(media_files, "(file attached)")
       } else {
-        media_files <- paste("<attached: ",media_files, ">", sep="")
+        media_files <- paste("<attached: ",media_files, ">", sep = "")
       }
     }
     # replacing messages with media files

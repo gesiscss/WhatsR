@@ -12,6 +12,7 @@
 #' @param datetime_indicator Regex for detecting the DateTime indicator at the beginning of each message.
 #' @param newline_replace replacement string for a newline character in parsed message. Default is " start_newline ".
 #' @param media_replace replacement string for omitted media files. Default is " media_omitted ".
+#' @param foursquare_loc Regex for detecting sent Locations as FourSquare Links.
 #' @export
 #' @importFrom qdapRegex rm_default
 #' @importFrom stringi stri_split_fixed stri_split_regex stri_split stri_extract_all
@@ -35,7 +36,8 @@ parse_android <- function(chatlog,
                             sep = ""
                           ),
                           newline_replace = " start_newline ",
-                          media_replace = " media_omitted ") {
+                          media_replace = " media_omitted ",
+                          foursquare_loc = "^.*: https://foursquare.com/v/.*$") {
 
   # Replacing string for omitted media
   chat1 <- gsub(
@@ -130,6 +132,10 @@ parse_android <- function(chatlog,
   Location <- stri_extract_all(Message, regex = paste(c(live_location, sent_location), collapse = "|"))
   Location[sapply(Location, length) == 0] <- NA
   Location <- unlist(Location)
+
+  # Add foursquare columns
+  Location_fs <- stri_extract_all(Message, regex = foursquare_loc)
+  Location[!is.na(Location_fs)] <- unlist(Location_fs)[!is.na(Location_fs)]
 
   # binding the columns together
   Result <- cbind.data.frame(DateTime,

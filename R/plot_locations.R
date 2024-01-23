@@ -111,7 +111,8 @@ plot_locations <- function(data,
    data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ]
 
    # extracting locations with geocoordinates
-   Places <- unlist(stri_extract_all(data$Location, regex = "(<?)https.*"))
+   # TODO: Subset to only use google maps locations!
+   Places <- unlist(stri_extract_all(data$Location, regex = "(<?)https://maps.google.com.*"))
    Places <- Places[!is.na(Places)]
 
    # breaking out of function if no locations are present
@@ -137,7 +138,7 @@ plot_locations <- function(data,
    }
 
    # creating LatLong dataframe
-   Metainfo <- data[grepl(pattern = "(<?)https.*", x = data$Location, perl = TRUE), c("DateTime", "Sender")]
+   Metainfo <- data[grepl(pattern = "(<?)https://maps.google.com.*", x = data$Location, perl = TRUE), c("DateTime", "Sender")]
    LatLong <- cbind.data.frame(Metainfo, LatLong)
 
    # round locations and add some leeway
