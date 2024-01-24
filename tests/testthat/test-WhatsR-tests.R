@@ -43,7 +43,7 @@ test_that("Updating emoji dictionary",{
 # german android 24h
 test_that("chatlogs: German, android, 24h", {
   test1 <- create_chatlog(
-    n_messages = 450,
+    n_messages = 1450,
     n_chatters = 45,
     n_emoji = 99,
     n_links = 99,
@@ -58,14 +58,14 @@ test_that("chatlogs: German, android, 24h", {
   )
 
   expect_equal(class(test1), "character")
-  expect_equal(length(test1), 450)
+  expect_equal(length(test1), 1450)
 })
 
 # german ios 24 h
 test_that("creating chatlogs: German, ios, 24h", {
   # german android 24h
   test1 <- create_chatlog(
-    n_messages = 450,
+    n_messages = 1450,
     n_chatters = 45,
     n_emoji = 99,
     n_links = 99,
@@ -80,7 +80,7 @@ test_that("creating chatlogs: German, ios, 24h", {
   )
 
   expect_equal(class(test1), "character")
-  expect_equal(length(test1), 450)
+  expect_equal(length(test1), 1450)
 })
 
 
@@ -88,7 +88,7 @@ test_that("creating chatlogs: German, ios, 24h", {
 test_that("creating chatlogs: English, android, 24h", {
   # german android 24h
   test1 <- create_chatlog(
-    n_messages = 450,
+    n_messages = 1450,
     n_chatters = 45,
     n_emoji = 99,
     n_links = 99,
@@ -103,7 +103,7 @@ test_that("creating chatlogs: English, android, 24h", {
   )
 
   expect_equal(class(test1), "character")
-  expect_equal(length(test1), 450)
+  expect_equal(length(test1), 1450)
 })
 
 
@@ -111,7 +111,7 @@ test_that("creating chatlogs: English, android, 24h", {
 test_that("creating chatlogs: English, ios, 24h", {
   # german android 24h
   test1 <- create_chatlog(
-    n_messages = 450,
+    n_messages = 1450,
     n_chatters = 45,
     n_emoji = 99,
     n_links = 99,
@@ -126,7 +126,7 @@ test_that("creating chatlogs: English, ios, 24h", {
   )
 
   expect_equal(class(test1), "character")
-  expect_equal(length(test1), 450)
+  expect_equal(length(test1), 1450)
 })
 
 
@@ -134,7 +134,7 @@ test_that("creating chatlogs: English, ios, 24h", {
 test_that("creating chatlogs: German, android, ampm", {
   # german android 24h
   test1 <- create_chatlog(
-    n_messages = 450,
+    n_messages = 1450,
     n_chatters = 45,
     n_emoji = 99,
     n_links = 99,
@@ -149,7 +149,7 @@ test_that("creating chatlogs: German, android, ampm", {
   )
 
   expect_equal(class(test1), "character")
-  expect_equal(length(test1), 450)
+  expect_equal(length(test1), 1450)
 })
 
 
@@ -157,7 +157,7 @@ test_that("creating chatlogs: German, android, ampm", {
 test_that("creating chatlogs: German, ios, ampm", {
   # german android 24h
   test1 <- create_chatlog(
-    n_messages = 450,
+    n_messages = 1450,
     n_chatters = 45,
     n_emoji = 99,
     n_links = 99,
@@ -172,7 +172,7 @@ test_that("creating chatlogs: German, ios, ampm", {
   )
 
   expect_equal(class(test1), "character")
-  expect_equal(length(test1), 450)
+  expect_equal(length(test1), 1450)
 })
 
 
@@ -180,7 +180,7 @@ test_that("creating chatlogs: German, ios, ampm", {
 test_that("creating chatlogs: English, android, ampm", {
   # german android 24h
   test1 <- create_chatlog(
-    n_messages = 450,
+    n_messages = 1450,
     n_chatters = 45,
     n_emoji = 99,
     n_links = 99,
@@ -195,7 +195,7 @@ test_that("creating chatlogs: English, android, ampm", {
   )
 
   expect_equal(class(test1), "character")
-  expect_equal(length(test1), 450)
+  expect_equal(length(test1), 1450)
 })
 
 
@@ -203,7 +203,7 @@ test_that("creating chatlogs: English, android, ampm", {
 test_that("creating chatlogs: English, ios, ampm", {
   # german android 24h
   test1 <- create_chatlog(
-    n_messages = 450,
+    n_messages = 1450,
     n_chatters = 45,
     n_emoji = 99,
     n_links = 99,
@@ -218,7 +218,7 @@ test_that("creating chatlogs: English, ios, ampm", {
   )
 
   expect_equal(class(test1), "character")
-  expect_equal(length(test1), 450)
+  expect_equal(length(test1), 1450)
 })
 
 

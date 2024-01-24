@@ -12,12 +12,12 @@
 ﻿[29.01.18, 11:45:03 PM] Bob: Ja ist es!
 ﻿[29.01.18, 11:45:03 PM] Carol: Ich glaube auch!
 ﻿[29.01.18, 11:45:03 PM] Bob: Der ist dazu da die funktionsweise des Parsers zu demonstrieren
-﻿[29.01.18, 11:46:03 PM] Alice: ‎<angehängt: PTT-20180129-WA0025.opus>
+﻿[29.01.18, 11:46:03 PM] Alice: ‎<Anhang: PTT-20180129-WA0025.opus>
 ﻿[29.01.18, 11:46:03 PM] Bob: Ah, er kann also auch erkennen ob Voicemails gesendet wurden!
 ﻿[29.01.18, 11:46:03 PM] Bob: Das ist praktisch!
 ﻿[29.01.18, 11:47:03 PM] Bob: Oder?
 ﻿[29.01.18, 11:47:03 PM] Alice: ja😄
-﻿[29.01.18, 11:47:03 PM] Bob: <Medien ausgeschlossen>
+﻿[29.01.18, 11:47:03 PM] Bob: Bild weggelassen
 ﻿[29.01.18, 11:47:03 PM] Alice: und Emojis gehen auch!
 ﻿[29.01.18, 11:47:03 PM] Bob: Was ist mit normalen Smilies?
 ﻿[29.01.18, 11:49:03 PM] Alice: ‎Keine Ahnung, lass uns das doch mal ausprobieren

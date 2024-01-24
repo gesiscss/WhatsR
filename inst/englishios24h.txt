@@ -17,7 +17,7 @@
 [1/29/18, 23:46:03] Bob: Thats handy!
 [1/29/18, 23:47:03] Bob: Isn't it?
 [1/29/18, 23:47:03] Alice: yes😄
-[1/29/18, 23:47:03] Bob: <Medien ausgeschlossen>
+[1/29/18, 23:47:03] Bob: image omitted
 [1/29/18, 23:47:03] Alice: and Emoji work too!
 [1/29/18, 23:47:03] Bob: What about regular smilies?
 [1/29/18, 23:49:03] Alice: ‎No idea, lets try it out!
@@ -29,7 +29,7 @@
 [1/29/18, 23:58:03] Alice: Works! But does it also recognize multiple links? https://github.com/JuKo007 https://github.com/JuKo007
 [1/29/18, 23:59:03] Alice: Cool :)
 [1/29/18, 23:59:03] Bob: ‎How about Locations?
-[1/29/18, 23:59:03] Bob: location: https://maps.google.com/?q=50.9425526,6.9523387
+[1/29/18, 23:59:03] Bob: Location: https://maps.google.com/?q=50.9425526,6.9523387
 [1/29/18, 23:59:03] Alice: live location shared
 [1/29/18, 23:59:03] Bob: Works, nice! :)
 [1/29/18, 23:59:03] Bob: Carol, can you post a self-deleting photo to show how this shows up in the logs?

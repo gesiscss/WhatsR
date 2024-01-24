@@ -14,6 +14,7 @@
 #' @param n_media Number of messages that contain media files. Must be smaller or equal to n_messages.
 #' @param media_excluded Whether media files were excluded in simulated export or not. Default is TRUE.
 #' @param n_sdp Number of messages that contain self-deleting photos. Must be smaller or equal to n_messages.
+#' @param n_deleted Number of messages that contain deleted messages. Must be smaller or equal to n_messages.
 #' @param startdate Earliest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate. Input is interpreted as UTC
 #' @param enddate Latest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate. Input is interpreted as UTC
 #' @param language Parameter for the language setting of the exporting phone. Influences structure of system messages
@@ -27,7 +28,7 @@
 #' @return A .txt file with a simulated 'WhatsApp' chat containing lorem ipsum but all structural properties of actual chats.
 #'
 #' @examples
-#' SimulatedChat <- create_chatlog(path=NA)
+#' SimulatedChat <- create_chatlog(path = NA)
 #
 create_chatlog <- function(n_messages = 150,
                            n_chatters = 2,
@@ -40,6 +41,7 @@ create_chatlog <- function(n_messages = 150,
                            n_media = 10,
                            media_excluded = TRUE,
                            n_sdp = 3,
+                           n_deleted = 5,
                            startdate = "01.01.2019",
                            enddate = "31.12.2022",
                            language = "german",
@@ -62,10 +64,11 @@ create_chatlog <- function(n_messages = 150,
   assert_numeric(n_locations, lower = 0, upper = 1000, len = 1)
   assert_numeric(n_smilies, lower = 0, upper = 80000, len = 1)
   assert_numeric(n_media, lower = 0, upper = 1000, len = 1)
+  assert_numeric(n_deleted, lower = 0, upper = 1000, len = 1)
   assert_logical(media_excluded,len = 1)
 
   # ensuring that n_variables are not larger than the number of messages
-  if (n_messages <= n_emoji & n_messages <= n_links & n_messages <= n_locations & n_messages <= n_smilies & n_messages <= n_media & n_messages <= n_sdp) {
+  if (n_messages <= n_emoji & n_messages <= n_links & n_messages <= n_locations & n_messages <= n_smilies & n_messages <= n_media & n_messages <= n_sdp & n_messages <= n_deleted) {
     warning("The number of messages containing a specific feature must be smaller than the overall number of messages. Try increasing n_messages.")
     stop()
   }
@@ -118,7 +121,7 @@ create_chatlog <- function(n_messages = 150,
   }
 
   # checking that there are enough messages to satisfy desired amount of links, emoji etc.
-  min_messages <- 20 + n_locations + n_sdp + n_media + max(n_links,n_emoji,n_smilies)
+  min_messages <- 20 + n_locations + n_sdp + n_media + n_deleted + max(n_links,n_emoji,n_smilies)
 
   # adding buffer
   min_messages <- min_messages + 50
@@ -302,7 +305,6 @@ create_chatlog <- function(n_messages = 150,
   #### Adding System messages
 
   # sample messages to replace with WhatsApp system messages
-  Messages[1] <- substr(WAStrings[1], 2, nchar(WAStrings[1]) - 1)
   sm_rows <- sample(2:n_messages, 20)
 
   # transpose WAStrings for easier handling
@@ -310,6 +312,7 @@ create_chatlog <- function(n_messages = 150,
 
   # Create system messages from RegExes built to detect them and insert them
   # according to specified language and operating system
+
   if (language == "german") {
 
     if (os == "android") {
@@ -321,9 +324,25 @@ create_chatlog <- function(n_messages = 150,
 
       # deleting/replacing unnecessary parts
       WAStrings[6] <- "Standort: https://maps.google.com/?q=-37.46874211,-23.82071615"
-      WAString <- WAStrings[-c(4), ]
-      WAStrings[21] <- "+ 49 000 000 hat zu 004900000000 gewechselt."
+      WAStrings <- WAStrings[-c(4)]
+      WAStrings[20] <- "+ 49 000 000 hat zu 004900000000 gewechselt."
       WAStrings[3] <- "2 Kontakte.vcf (Datei angeh\u0061\u0308ngt)"
+
+      # selecting multi-option system messages
+      WAStrings[1] <- gsub("(","",WAStrings[1],fixed = TRUE)
+      WAStrings[1] <- gsub(")","",WAStrings[1],fixed = TRUE)
+      WAStrings[1] <- sample(unlist(strsplit(WAStrings[1],"|",fixed = TRUE)),1)
+      Messages[1] <- WAStrings[1]
+
+      WAStrings[2] <- gsub("(","",WAStrings[2],fixed = TRUE)
+      WAStrings[2] <- gsub(")","",WAStrings[2],fixed = TRUE)
+      WAStrings[2] <- sample(unlist(strsplit(WAStrings[2],"|",fixed = TRUE)),1)
+
+      WAStrings[21] <- gsub("(","",WAStrings[21],fixed = TRUE)
+      WAStrings[21] <- gsub(")","",WAStrings[21],fixed = TRUE)
+      WAStrings[21] <- sample(unlist(strsplit(WAStrings[21],"|",fixed = TRUE)),1)
+
+      WAStrings[c(4)] <- sample(c("<Medien ausgeschlossen>","<Videonachricht weggelassen>"),1)
 
       # replace messages with system messages
       Messages[sm_rows] <- WAStrings[c(3, 5:23)]
@@ -338,9 +357,25 @@ create_chatlog <- function(n_messages = 150,
 
       # deleting/replacing unnecessary parts
       WAStrings[6] <- "Standort: https://maps.google.com/?q=-37.46874211,-23.82071615"
-      WAStrings[3] <- "<angeh\u0061\u0308ngt: 3 Filename.vcf>"
+      WAStrings[3] <- "<Anhang: 3 Filename.vcf>"
       WAStrings[21] <- "+ 49 000 000 hat zu 004900000000 gewechselt."
       WAStrings <- WAStrings[-c(4)]
+
+      # selecting multi-option system messages
+      WAStrings[1] <- gsub("(","",WAStrings[1],fixed = TRUE)
+      WAStrings[1] <- gsub(")","",WAStrings[1],fixed = TRUE)
+      WAStrings[1] <- sample(unlist(strsplit(WAStrings[1],"|",fixed = TRUE)),1)
+      Messages[1] <- WAStrings[1]
+
+      WAStrings[2] <- gsub("(","",WAStrings[2],fixed = TRUE)
+      WAStrings[2] <- gsub(")","",WAStrings[2],fixed = TRUE)
+      WAStrings[2] <- sample(unlist(strsplit(WAStrings[2],"|",fixed = TRUE)),1)
+
+      WAStrings[22] <- gsub("(","",WAStrings[22],fixed = TRUE)
+      WAStrings[22] <- gsub(")","",WAStrings[22],fixed = TRUE)
+      WAStrings[22] <- sample(unlist(strsplit(WAStrings[22],"|",fixed = TRUE)),1)
+
+      WAStrings[c(4)] <- sample(c(paste(c("Bild","Audio","Video","Videonachricht","GIF","Sticker"),"weggelassen"),"Kontaktkarte ausgelassen"),1)
 
       # replace messages with system messages
       Messages[sm_rows] <- WAStrings[c(3, 5:23)]
@@ -349,6 +384,7 @@ create_chatlog <- function(n_messages = 150,
   } else {
 
     if (os == "android") {
+
       # replacing regex strings
       WAStrings <- gsub("$", "", WAStrings, fixed = TRUE)
       WAStrings <- gsub("^", "", WAStrings, fixed = TRUE)
@@ -357,14 +393,32 @@ create_chatlog <- function(n_messages = 150,
 
       # deleting/replacing unnecessary parts
       WAStrings[6] <- "location: https://maps.google.com/?q=-37.46874211,-23.82071615"
-      WAString <- WAStrings[-c(4), ]
+      WAStrings <- WAStrings[-c(4)]
       WAStrings[3] <- "3 Filename.vcf (file attached)"
-      WAStrings[21] <- "+ 49 000 000 changed to 004900000000."
+      WAStrings[20] <- "+ 49 000 000 changed to 004900000000."
+
+      # selecting multi-option system messages
+      WAStrings[1] <- gsub("(","",WAStrings[1],fixed = TRUE)
+      WAStrings[1] <- gsub(")","",WAStrings[1],fixed = TRUE)
+      WAStrings[1] <- sample(unlist(strsplit(WAStrings[1],"|",fixed = TRUE)),1)
+      Messages[1] <- WAStrings[1]
+
+      WAStrings[2] <- gsub("(","",WAStrings[2],fixed = TRUE)
+      WAStrings[2] <- gsub(")","",WAStrings[2],fixed = TRUE)
+      WAStrings[2] <- sample(unlist(strsplit(WAStrings[2],"|",fixed = TRUE)),1)
+
+      WAStrings[21] <- gsub("(","",WAStrings[21],fixed = TRUE)
+      WAStrings[21] <- gsub(")","",WAStrings[21],fixed = TRUE)
+      WAStrings[21] <- sample(unlist(strsplit(WAStrings[21],"|",fixed = TRUE)),1)
+
+
+      WAStrings[c(4)] <- sample(c("<Media omitted>","<Video message omitted>"),1)
 
       # replace messages with system messages
       Messages[sm_rows] <- WAStrings[c(3, 5:23)]
 
     } else {
+
       # replacing regex strings
       WAStrings <- gsub("$", "", WAStrings, fixed = TRUE)
       WAStrings <- gsub("^", "", WAStrings, fixed = TRUE)
@@ -372,10 +426,25 @@ create_chatlog <- function(n_messages = 150,
       WAStrings <- gsub("\\.", ".", WAStrings, fixed = TRUE)
 
       # deleting/replacing unnecessary parts
-      WAStrings[6] <- "location: https://maps.google.com/?q=-37.46874211,-23.82071615"
+      WAStrings[6] <- "Location: https://maps.google.com/?q=-37.46874211,-23.82071615"
       WAStrings[3] <- "<attached: 3 Filename.vcf>"
       WAStrings[21] <- "+ 49 000 000 changed to 004900000000."
       WAStrings <- WAStrings[-c(4)]
+
+      WAStrings[1] <- gsub("(","",WAStrings[1],fixed = TRUE)
+      WAStrings[1] <- gsub(")","",WAStrings[1],fixed = TRUE)
+      WAStrings[1] <- sample(unlist(strsplit(WAStrings[1],"|",fixed = TRUE)),1)
+      Messages[1] <- WAStrings[1]
+
+      WAStrings[2] <- gsub("(","",WAStrings[2],fixed = TRUE)
+      WAStrings[2] <- gsub(")","",WAStrings[2],fixed = TRUE)
+      WAStrings[2] <- sample(unlist(strsplit(WAStrings[2],"|",fixed = TRUE)),1)
+
+      WAStrings[22] <- gsub("(","",WAStrings[22],fixed = TRUE)
+      WAStrings[22] <- gsub(")","",WAStrings[22],fixed = TRUE)
+      WAStrings[22] <- sample(unlist(strsplit(WAStrings[22],"|",fixed = TRUE)),1)
+
+      WAStrings[c(4)] <- sample(c(paste(c("image","audio","video","video message","GIF","sticker"),"omitted"),"contact card omitted"),1)
 
       # replace messages with system messages
       Messages[sm_rows] <- WAStrings[c(3, 5:23)]
@@ -396,10 +465,21 @@ create_chatlog <- function(n_messages = 150,
   )
 
   # creating location links
-  if (language == "english") {
-    locations <- paste("location: https://maps.google.com/?q=", locations, sep = "")
+  if (os == "android") {
+
+    if (language == "english") {
+      locations <- paste("location: https://maps.google.com/?q=", locations, sep = "")
+    } else {
+      locations <- paste("Standort: https://maps.google.com/?q=", locations, sep = "")
+    }
+
   } else {
-    locations <- paste("Standort: https://maps.google.com/?q=", locations, sep = "")
+
+    if (language == "english") {
+      locations <- paste("Location: https://maps.google.com/?q=", locations, sep = "")
+    } else {
+      locations <- paste("Standort: https://maps.google.com/?q=", locations, sep = "")
+    }
   }
 
   # sampling messages to add locations to
@@ -433,23 +513,61 @@ create_chatlog <- function(n_messages = 150,
   media_rows <- sample(free_messages, n_media)
 
   if (media_excluded == TRUE) {
-    # replacing free messages with omittance indicator
-    for (i in media_rows) {
-      Messages[i] <-  WAStrings[5]
+
+    if (os == "android") {
+
+      if (language == "english") {
+
+        # replacing free messages with omittance indicator
+        for (i in media_rows) {
+          Messages[i] <-  sample(c("<Media omitted>","<Video message omitted>"),1)
+        }
+
+      } else {
+
+        # replacing free messages with omittance indicator
+        for (i in media_rows) {
+          Messages[i] <-  sample(c("<Medien ausgeschlossen>","<Videonachricht weggelassen>"),1)
+        }
+
+      }
+
+    } else {
+
+      if (language == "english") {
+
+        # replacing free messages with omittance indicator
+        for (i in media_rows) {
+          Messages[i] <-  sample(c(paste(c("image","audio","video","video message","GIF","sticker"),"omitted"),"contact card omitted"),1)
+        }
+
+      } else {
+
+        # replacing free messages with omittance indicator
+        for (i in media_rows) {
+          Messages[i] <-  sample(c(paste(c("Bild","Audio","Video","Videonachricht","GIF","Sticker"),"weggelassen"),"Kontaktkarte ausgelassen"),1)
+        }
+
+      }
+
     }
+
   } else {
+
     # defining media files
     media_files <- c("PTT-20231224-WA0000.opus",
                      "IMG-20231224-WA0001.jpg",
                      "VID-20231227-WA0002.mp4",
-                     "DOC-20240108-WA0007.")
+                     "DOC-20240108-WA0007.zip",
+                     "DOC-20240108-WA0007.pdf",
+                     "DOC-20240108-WA0007.docx")
 
     # building messages in OS and language specific way
     if (language == "german") {
       if (os == "android") {
         media_files <- paste(media_files, "(Datei angeh\u00E4ngt)")
       } else {
-        media_files <- paste("<angeh\u00E4ngt: ",media_files, ">", sep = "")
+        media_files <- paste("<Anhang: ",media_files, ">", sep = "")
       }
     } else {
       if (os == "android") {
@@ -477,6 +595,9 @@ create_chatlog <- function(n_messages = 150,
     Messages[i] <- paste(Messages[i], paste(sample(Links$x, sample(c(1:5), 1), replace = TRUE), collapse = " "), sep = " ")
   }
 
+  # updating free messages
+  free_messages <- free_messages[!free_messages %in% link_rows]
+
 
   #### Adding Emoji
 
@@ -488,6 +609,9 @@ create_chatlog <- function(n_messages = 150,
     Messages[i] <- paste(Messages[i], paste(sample(EmojiDictionary$R.native, sample(c(1:5), 1), replace = TRUE), collapse = " "), sep = " ")
   }
 
+  # updating free messages
+  free_messages <- free_messages[!free_messages %in% emoji_rows]
+
 
   #### Adding Smilies
 
@@ -498,6 +622,21 @@ create_chatlog <- function(n_messages = 150,
   for (i in smilie_rows) {
     Messages[i] <- paste(Messages[i], paste(sample(smilies, sample(c(1:5), 1), replace = TRUE), collapse = " "), sep = " ")
   }
+
+  # updating free messages
+  free_messages <- free_messages[!free_messages %in% smilie_rows]
+
+
+  #### Adding deleted messages
+  deleted_rows <- sample(free_messages, n_deleted)
+
+  # Adding smilies at end of message
+  for (i in deleted_rows) {
+    Messages[i] <- WAStrings[21]
+  }
+
+  # updating free messages
+  free_messages <- free_messages[!free_messages %in% deleted_rows]
 
 
   #### Pasting timestamps, names and messages together, based on OS structure
@@ -530,7 +669,6 @@ create_chatlog <- function(n_messages = 150,
     # first message
     Messages[1] <- paste0(ts[1], Messages[1])
   }
-
 
   # write simulated chat log to file
   if (!is.na(path)) {

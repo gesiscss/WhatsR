@@ -16,7 +16,8 @@ parse_android(
     "\\\\/\\\\d{1,2}\\\\/\\\\d{2})),\\\\s\\\\d{2}\\\\:\\\\d{2}((\\\\s\\\\-)|(\\\\s(?i:(am|pm))\\\\s\\\\-)))",
     sep = ""),
   newline_replace = " start_newline ",
-  media_replace = " media_omitted "
+  media_replace = " media_omitted ",
+  foursquare_loc = "^.*: https://foursquare.com/v/.*$"
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ parse_android(
 \item{newline_replace}{replacement string for a newline character in parsed message. Default is " start_newline ".}
 
 \item{media_replace}{replacement string for omitted media files. Default is " media_omitted ".}
+
+\item{foursquare_loc}{Regex for detecting sent Locations as FourSquare Links.}
 }
 \value{
 A data frame containing the timestamp, name of the sender and message body

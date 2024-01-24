@@ -280,6 +280,12 @@ parse_chat <- function(path,
   ParsedChat$Sender[!is.na(StartMessagePresent)] <- "WhatsApp System Message"
   ParsedChat$Message[!is.na(StartMessagePresent)] <- NA
 
+  # number change detection
+  NumberChangePresent <- unlist(stri_extract_all_regex(str = ParsedChat$Message, pattern = UserNumberChangeUnknown))
+  ParsedChat$SystemMessage[is.na(ParsedChat$SystemMessage)] <- NumberChangePresent[is.na(ParsedChat$SystemMessage)]
+  ParsedChat$Sender[!is.na(NumberChangePresent)] <- "WhatsApp System Message"
+  ParsedChat$Message[!is.na(NumberChangePresent)] <- NA
+
 
   # printing info
   if (verbose) {cat("Differentiated System Messages from User generated content \U2713 \n")}
@@ -474,12 +480,12 @@ parse_chat <- function(path,
 
   # deleting live locations with captions (without deleting the caption)
   # FIXME: This is only for german -> fix
-  Flat <- gsub(
-    x = Flat,
-    pattern = "^Live-Standort wird geteilt\\.",
-    replacement = "",
-    perl = T
-  )
+  #Flat <- gsub(
+  #  x = Flat,
+  #  pattern = "^Live-Standort wird geteilt\\.",
+  #  replacement = "",
+  # perl = T
+  #)
 
   # printing info
   if (verbose) {cat("Deleted live location indicators from flat text column \U2713 \n")}
@@ -763,7 +769,7 @@ parse_chat <- function(path,
     # print info
     if (verbose) {cat("Shortened links to domains \U2713 \n")}
 
-    # Anonymizing love locations
+    # Anonymizing live locations
     DF$Location_anon <- DF$Location
     DF$Location_anon[!is.na(DF$Location) & DF$Location != gsub("$","",gsub("^","",LiveLocation, fixed = TRUE),fixed = TRUE)] <- "Location shared"
 

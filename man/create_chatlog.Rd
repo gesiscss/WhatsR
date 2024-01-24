@@ -16,6 +16,7 @@ create_chatlog(
   n_media = 10,
   media_excluded = TRUE,
   n_sdp = 3,
+  n_deleted = 5,
   startdate = "01.01.2019",
   enddate = "31.12.2022",
   language = "german",
@@ -48,6 +49,8 @@ create_chatlog(
 
 \item{n_sdp}{Number of messages that contain self-deleting photos. Must be smaller or equal to n_messages.}
 
+\item{n_deleted}{Number of messages that contain deleted messages. Must be smaller or equal to n_messages.}
+
 \item{startdate}{Earliest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate. Input is interpreted as UTC}
 
 \item{enddate}{Latest possible date for messages. Format is 'dd.mm.yyyy'. Timestamps for messages are created automatically between startdate and enddate. Input is interpreted as UTC}
@@ -71,5 +74,5 @@ containing lorem ipsum, emoji, links, smilies, location, omitted media files, li
 time format settings. 'WhatsApp' system messages are formatted according to specified phone operating system and language.
 }
 \examples{
-SimulatedChat <- create_chatlog(path=NA)
+SimulatedChat <- create_chatlog(path = NA)
 }
