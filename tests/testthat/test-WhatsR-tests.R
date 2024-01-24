@@ -1338,88 +1338,87 @@ test_that("Plotting Media", {
   expect_identical(test_media4, test)
 })
 
-# TODO: Reenable test once ggmap update is available on CRAN
-# test_that("Plotting Location", {
-#
-#   # Hushing printing messages resulting from testing environment configuration
-#   hush <- function(code) {
-#     if (.Platform$OS.type == "windows") {
-#       sink("")
-#       sink()
-#
-#     } else {
-#       sink("/dev/null")
-#       sink()
-#     }
-#     tmp <- code
-#   }
-#
-#   data <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"))
-#
-#   test_location1  <- plot_locations(data,
-#                                     return_data = TRUE,
-#                                     jitter_val = 1,
-#                                     jitter_seed = 123,
-#                                     mapzoom = 10,
-#                                     map_leeway = 0.1,
-#                                     exclude_sm = TRUE)
-#
-#
-#   # generate and write file [Use this to recreate test files when parse_chat() changed]
-#   #saveRDS(test_location1,"test_location1.rds",version = 2)
-#
-#   test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
-#   expect_identical(test_location1, test)
-#
-#   test_location2  <- plot_locations(data,
-#                                     return_data = TRUE,
-#                                     jitter_val = NA,
-#                                     jitter_seed = 567,
-#                                     mapzoom = 10,
-#                                     map_leeway = 0.1,
-#                                     exclude_sm = TRUE)
-#
-#   # generate and write file [Use this to recreate test files when parse_chat() changed]
-#   #saveRDS(test_location2,"test_location2.rds",version = 2)
-#
-#   test <- readRDS(system.file("test_location2.rds", package = "WhatsR"))
-#   expect_identical(test_location2, test)
-#
-#
-#
-#   test_location3  <- plot_locations(data,
-#                                     return_data = TRUE,
-#                                     jitter_val = 0.5,
-#                                     jitter_seed = 890,
-#                                     mapzoom = 10,
-#                                     map_leeway = 0.1,
-#                                     exclude_sm = TRUE)
-#
-#   # generate and write file [Use this to recreate test files when parse_chat() changed]
-#   #saveRDS(test_location3,"test_location3.rds",version = 2)
-#
-#   test <- readRDS(system.file("test_location3.rds", package = "WhatsR"))
-#   expect_identical(test_location3, test)
-#
-#
-#   test_location4  <- plot_locations(data,
-#                                     return_data = TRUE,
-#                                     jitter_val = 0.5,
-#                                     jitter_seed = 345,
-#                                     mapzoom = 10,
-#                                     map_leeway = 0.3,
-#                                     exclude_sm = TRUE)
-#
-#   # generate and write file [Use this to recreate test files when parse_chat() changed]
-#   #saveRDS(test_location4,"test_location4.rds",version = 2)
-#
-#   test <- readRDS(system.file("test_location4.rds", package = "WhatsR"))
-#   expect_identical(test_location4, test)
-#
-#   # testing if jittering has worked
-#   expect_identical(identical(test_location1$Lat,test_location2$Lat,test_location3$Lat,test_location4$Lat),FALSE)
-#
-# })
+ test_that("Plotting Location", {
+
+   # Hushing printing messages resulting from testing environment configuration
+   hush <- function(code) {
+     if (.Platform$OS.type == "windows") {
+       sink("")
+       sink()
+
+     } else {
+       sink("/dev/null")
+       sink()
+     }
+     tmp <- code
+   }
+
+   data <- parse_chat(system.file("englishiosampm.txt", package = "WhatsR"))
+
+   test_location1  <- plot_locations(data,
+                                     return_data = TRUE,
+                                    jitter_val = 1,
+                                    jitter_seed = 123,
+                                    mapzoom = 10,
+                                     map_leeway = 0.1,
+                                     exclude_sm = TRUE)
+
+
+   # generate and write file [Use this to recreate test files when parse_chat() changed]
+  #saveRDS(test_location1,"test_location1.rds",version = 2)
+
+   test <- readRDS(system.file("test_location1.rds", package = "WhatsR"))
+   expect_identical(test_location1, test)
+
+   test_location2  <- plot_locations(data,
+                                     return_data = TRUE,
+                                     jitter_val = NA,
+                                     jitter_seed = 567,
+                                     mapzoom = 10,
+                                     map_leeway = 0.1,
+                                     exclude_sm = TRUE)
+
+   # generate and write file [Use this to recreate test files when parse_chat() changed]
+   #saveRDS(test_location2,"test_location2.rds",version = 2)
+
+   test <- readRDS(system.file("test_location2.rds", package = "WhatsR"))
+   expect_identical(test_location2, test)
+
+
+
+   test_location3  <- plot_locations(data,
+                                     return_data = TRUE,
+                                     jitter_val = 0.5,
+                                     jitter_seed = 890,
+                                     mapzoom = 10,
+                                     map_leeway = 0.1,
+                                     exclude_sm = TRUE)
+
+   # generate and write file [Use this to recreate test files when parse_chat() changed]
+   #saveRDS(test_location3,"test_location3.rds",version = 2)
+
+   test <- readRDS(system.file("test_location3.rds", package = "WhatsR"))
+   expect_identical(test_location3, test)
+
+
+   test_location4  <- plot_locations(data,
+                                     return_data = TRUE,
+                                     jitter_val = 0.5,
+                                     jitter_seed = 345,
+                                     mapzoom = 10,
+                                     map_leeway = 0.3,
+                                     exclude_sm = TRUE)
+
+   # generate and write file [Use this to recreate test files when parse_chat() changed]
+   #saveRDS(test_location4,"test_location4.rds",version = 2)
+
+   test <- readRDS(system.file("test_location4.rds", package = "WhatsR"))
+   expect_identical(test_location4, test)
+
+   # testing if jittering has worked
+   expect_identical(identical(test_location1$Lat,test_location2$Lat,test_location3$Lat,test_location4$Lat),FALSE)
+
+ })
 
 
 
@@ -1845,8 +1844,8 @@ test_that("Plotting Smilies", {
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_smilies4,"test_smilies4.rds",version = 2)
 
-  test <- readRDS(system.file("test_smilies4.rds", package = "WhatsR"))
-  expect_identical(test_smilies4, test)
+   test <- readRDS(system.file("test_smilies4.rds", package = "WhatsR"))
+   expect_identical(test_smilies4, test)
 })
 
 
@@ -1928,24 +1927,24 @@ test_that("Plotting Wordcloud", {
   expect_identical(test_wc3, test)
 
 
-  # test_wc4 <- plot_wordcloud(data,
-  #   names = "all",
-  #   starttime = "1960-01-01 00:00",
-  #   endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
-  #   remove_stops = FALSE,
-  #   stop = "english",
-  #   comparison = TRUE,
-  #   return_data = TRUE,
-  #   font_size = 10,
-  #   min_occur = 2,
-  #   exclude_sm = TRUE
-  # )
+   test_wc4 <- plot_wordcloud(data,
+     names = "all",
+     starttime = "1960-01-01 00:00",
+     endtime = as.character(as.POSIXct(Sys.time(), tz = "UTC")),
+     remove_stops = FALSE,
+     stop = "english",
+     comparison = TRUE,
+     return_data = TRUE,
+     font_size = 10,
+     min_occur = 2,
+     exclude_sm = TRUE
+   )
 
   # generate and write file [Use this to recreate test files when parse_chat() changed]
   #saveRDS(test_wc4,"test_wc4.rds",version = 2)
 
-  # test <- readRDS(system.file("test_wc4.rds", package = "WhatsR"))
-  # expect_identical(test_wc4, test)
+   test <- readRDS(system.file("test_wc4.rds", package = "WhatsR"))
+   expect_identical(test_wc4, test)
 })
 
 
