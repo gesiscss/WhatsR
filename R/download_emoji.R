@@ -8,7 +8,7 @@
 #' @param delete_header Number of lines to delete from the top of the file.
 #' @param nlines Number of lines to read from the file. Passed to \code{\link{readLines}} as n. Negative Integers will read all lines.
 #' @export
-#' @importFrom stringr str_to_title
+#' @importFrom stringi stri_trans_totitle
 #' @return A data frame containing:\cr
 #'      1) The native representation (glyphs) of all emoji in R \cr
 #'      2) A textual description of what the emoji is displaying \cr
@@ -74,7 +74,7 @@ download_emoji <- function(unicode_page = "https://www.unicode.org/Public/emoji/
   description <- strsplit(description, "\\.\\d", perl = TRUE)
   description <- sapply(description, "[", 2)
   description <- trimws(description)
-  description <- str_to_title(description)
+  description <- stri_trans_totitle(description)
   description <- gsub(" ","_",description)
 
   # Combining into data frame

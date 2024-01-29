@@ -412,6 +412,7 @@ parse_chat <- function(path,
   if (verbose) {cat("Removed emoji, newlines and media file indicators from flat text column \U2713 \n")}
 
   # deleting the file attachments from flattened message
+  # FIXME: https://github.com/gesiscss/WhatsR/issues/21
   if (os == "android") {
     Flat <- gsub(paste0("(.)*?", substring(DeleteAttached, 4, nchar(DeleteAttached) - 1), "($|\\s)"), "", Flat, perl = TRUE)
   } else if (os == "ios") {
