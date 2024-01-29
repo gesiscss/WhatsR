@@ -246,7 +246,7 @@ test_that("Parsing Chatlogs: German, Android, 24h; default", {
 
   # load and check file
   test <- readRDS(system.file("GermanAndroid24H_default.rds", package = "WhatsR"))
-  expect_identical(hush(parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"))), test) # creates warning
+  expect_identical(hush(parse_chat(system.file("germanandroid24h.txt", package = "WhatsR"))), test)
 })
 
 test_that("Parsing Chatlogs: German, Ios, 24h; default", {
