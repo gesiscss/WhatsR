@@ -15,7 +15,6 @@
 #' of smilies containing all mentions from https://de.wiktionary.org/w/index.php?title=Verzeichnis:International/Smileys
 #' and manually added ones.
 #' @param rpnl Replace newline. A character string for replacing line breaks within messages for the parsed message for better readability. Default is " start_newline ".
-#' @param rpom Replace omitted media. A character string replacing the indicator for omitted media files for better readability. Default is " media_omitted ".
 #' @param verbose Prints progress messages for parse_chat() to the console if TRUE, default is FALSE.
 #' @importFrom readr parse_character
 #' @importFrom qdapRegex rm_url rm_between ex_emoticon rm_non_words
@@ -38,7 +37,6 @@ parse_chat <- function(path,
                        emoji_dictionary = "internal",
                        smilie_dictionary = "wikipedia",
                        rpnl = " start_newline ",
-                       rpom = " media_omitted ",
                        verbose = FALSE
                        ) {
 
@@ -51,7 +49,6 @@ parse_chat <- function(path,
   if (!(emoji_dictionary == "internal" | file.exists(emoji_dictionary))) {stop("'emoji_dictionary' must be 'internal' or valid path to a dictionary scraped using download_emoji()")}# TODO
   if (!(smilie_dictionary == "emoticons" | smilie_dictionary == "wikipedia")) {stop("'smilie_dictionary' must be 'emoticons' or 'wikipedia'")}
   if (!is.character(rpnl)) {stop("'rpnl' must be a character string")}
-  if (!is.character(rpom)) {stop("'rpom' must be a character string")}
   if (!is.logical(verbose)) {stop("'verbose' must be either TRUE or FALSE")}
 
   # Importing raw chat file

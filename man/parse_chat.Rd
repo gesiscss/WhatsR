@@ -13,7 +13,6 @@ parse_chat(
   emoji_dictionary = "internal",
   smilie_dictionary = "wikipedia",
   rpnl = " start_newline ",
-  rpom = " media_omitted ",
   verbose = FALSE
 )
 }
@@ -37,8 +36,6 @@ of smilies containing all mentions from https://de.wiktionary.org/w/index.php?ti
 and manually added ones.}
 
 \item{rpnl}{Replace newline. A character string for replacing line breaks within messages for the parsed message for better readability. Default is " start_newline ".}
-
-\item{rpom}{Replace omitted media. A character string replacing the indicator for omitted media files for better readability. Default is " media_omitted ".}
 
 \item{verbose}{Prints progress messages for parse_chat() to the console if TRUE, default is FALSE.}
 }
