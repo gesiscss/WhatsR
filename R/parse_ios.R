@@ -44,7 +44,7 @@ parse_ios <- function(chatlog,
   # for present media data
   chatA <- gsub(
     pattern = media_omitted,
-    chatlog,
+    x = chatlog,
     replacement = media_replace,
     perl = TRUE
   )
