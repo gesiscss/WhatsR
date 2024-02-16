@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">WhatsR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4</span>
       </span>
     </div>
 
@@ -63,15 +63,9 @@
 <div class="section level1">
 <div class="page-header"><h1 id="whatsr">WhatsR<a class="anchor" aria-label="anchor" href="#whatsr"></a>
 </h1></div>
-<p><a href="https://zenodo.org/badge/latestdoi/633831271" class="external-link"><img src="https://zenodo.org/badge/633831271.svg" alt="DOI"></a></p>
-<div style="display: flex; align-items: flex-start;">
-<div style="flex: 1; text-align: justify;">
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>This is an R<span class="sc">-</span>package to import exported WhatsApp chatlogs, parse them into a usable dataframe format and thereby enable further analysis. This parser was built with the goal to work with chat logs extracted on Android as well as iOS devices, run on Linux, Mac and Windows, and to be able to handle multiple languages. Currently, only English and German are supported, but <span class="cf">in</span> principle, other languages could be added relatively <span class="fu">easily</span> (see below). The repo also contains a <span class="cf">function</span> to scrape and update the emoji_dictionary, should new emoji be added to WhatsApp <span class="cf">in</span> the meantime.</span></code></pre></div>
-</div>
-<div style="margin-left: 10px;">
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="sc">&lt;</span>img src<span class="ot">=</span><span class="st">"man/figures/WhatsR_sticker.png"</span> width<span class="ot">=</span><span class="st">"150"</span> height<span class="ot">=</span><span class="st">"150"</span><span class="sc">/</span><span class="er">&gt;</span></span></code></pre></div>
-</div>
-</div>
+<p><a href="https://zenodo.org/badge/latestdoi/633831271" class="external-link"><img src="https://zenodo.org/badge/633831271.svg" alt="DOI"></a> <a href="https://github.com/gesiscss/WhatsR/actions/workflows/r-cmd-check.yml" class="external-link"><img src="https://github.com/gesiscss/WhatsR/actions/workflows/r-cmd-check.yml/badge.svg" alt="R-CMD-check"></a> <a href="https://www.r-pkg.org/badges/version/WhatsR" class="external-link"><img src="https://www.r-pkg.org/badges/version/WhatsR" alt="CRAN status"></a> <a href="https://cran.r-project.org/package=WhatsR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/WhatsR" alt="Downloads"></a> <a href="https://CRAN.R-project.org/package=WhatsR" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/WhatsR?color=orange" alt="TotalDownloads"></a></p>
+<p><img src="reference/figures/WhatsR_sticker.png" align="right" alt="WhatsR Sticker" width="120"></p>
+<p>This is an R-package to import exported WhatsApp chatlogs, parse them into a usable dataframe format and thereby enable further analysis. This parser was built with the goal to work with chat logs extracted on Android as well as iOS devices, run on Linux, Mac and Windows, and to be able to handle multiple languages. Currently, only English and German are supported, but in principle, other languages could be added relatively easily (see below). The repo also contains a function to scrape and update the emoji_dictionary, should new emoji be added to WhatsApp in the meantime.</p>
 <div class="section level2">
 <h2 id="how-to-set-it-up">How to set it up?<a class="anchor" aria-label="anchor" href="#how-to-set-it-up"></a>
 </h2>
@@ -87,7 +81,7 @@
 <div class="section level3">
 <h3 id="id_2-installing-it">2) Installing it<a class="anchor" aria-label="anchor" href="#id_2-installing-it"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co"># for the most up-to-date GitHub version</span></span>
 <span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
 <span> <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"gesiscss/WhatsR"</span><span class="op">)</span></span>
@@ -99,7 +93,7 @@
 <div class="section level3">
 <h3 id="id_3-testing-it">3) Testing it<a class="anchor" aria-label="anchor" href="#id_3-testing-it"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co"># creating simulated chatlog (saved in working directory)</span></span>
 <span> <span class="va">simulated_raw_chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_chatlog.html">create_chatlog</a></span><span class="op">(</span>language <span class="op">=</span> <span class="st">"english"</span><span class="op">)</span></span>
 <span> </span>
@@ -120,7 +114,7 @@
 <li><p>For Android Phones: <a href="https://faq.whatsapp.com/en/android/23756533/?category=5245251" class="external-link uri">https://faq.whatsapp.com/en/android/23756533/?category=5245251</a></p></li>
 <li><p>For Iphones: <a href="https://faq.whatsapp.com/en/iphone/20888066/?category=5245251#email" class="external-link uri">https://faq.whatsapp.com/en/iphone/20888066/?category=5245251#email</a></p></li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="co"># parsing it</span></span>
 <span> <span class="va">simulated_parse_chat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/parse_chat.html">parse_chat</a></span><span class="op">(</span><span class="st">"PATH/TO/YOUR/EXPORTED/FILE.txt"</span><span class="op">)</span></span>
 <span> </span>
@@ -133,7 +127,7 @@
 <h2 id="scientific-use">Scientific use<a class="anchor" aria-label="anchor" href="#scientific-use"></a>
 </h2>
 <p>If you are using this package for your research, please cite it accordingly. You get the citation as a BibTex by running</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"WhatsR"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>To cite package ‘WhatsR’ in publications use:
 
@@ -259,7 +253,7 @@ $Person_2$TokenStats
 <h3 id="sent-emoji">Sent Emoji<a class="anchor" aria-label="anchor" href="#sent-emoji"></a>
 </h3>
 <p>Amount of sent emoji per person</p>
-<pre><code><span><span class="fu"><a href="reference/plot_emoji.html">plot_emoji</a></span><span class="op">(</span><span class="va">data</span>, plot <span class="op">=</span> <span class="st">"splitbar"</span>, min.occur <span class="op">=</span> <span class="fl">50</span>, exclude_sm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="fu"><a href="reference/plot_emoji.html">plot_emoji</a></span><span class="op">(</span><span class="va">data</span>, plot <span class="op">=</span> <span class="st">"splitbar"</span>, min_occur <span class="op">=</span> <span class="fl">50</span>, exclude_sm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 <p><img src="reference/figures/plot_emoji()_splitbar.png"></p>
 </div>
 <div class="section level3">

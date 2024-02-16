@@ -19,7 +19,7 @@ time format settings. 'WhatsApp' system messages are formatted according to spec
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">WhatsR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4</span>
       </span>
     </div>
 
@@ -58,7 +58,9 @@ time format settings. 'WhatsApp' system messages are formatted according to spec
 <span>  n_smilies <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>  n_diff_smilies <span class="op">=</span> <span class="fl">15</span>,</span>
 <span>  n_media <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  media_excluded <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  n_sdp <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  n_deleted <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  startdate <span class="op">=</span> <span class="st">"01.01.2019"</span>,</span>
 <span>  enddate <span class="op">=</span> <span class="st">"31.12.2022"</span>,</span>
 <span>  language <span class="op">=</span> <span class="st">"german"</span>,</span>
@@ -104,11 +106,19 @@ time format settings. 'WhatsApp' system messages are formatted according to spec
 
 
 <dt>n_media</dt>
-<dd><p>Number of messages that contain omitted media files. Must be smaller or equal to n_messages.</p></dd>
+<dd><p>Number of messages that contain media files. Must be smaller or equal to n_messages.</p></dd>
+
+
+<dt>media_excluded</dt>
+<dd><p>Whether media files were excluded in simulated export or not. Default is TRUE.</p></dd>
 
 
 <dt>n_sdp</dt>
 <dd><p>Number of messages that contain self-deleting photos. Must be smaller or equal to n_messages.</p></dd>
+
+
+<dt>n_deleted</dt>
+<dd><p>Number of messages that contain deleted messages. Must be smaller or equal to n_messages.</p></dd>
 
 
 <dt>startdate</dt>
@@ -148,7 +158,7 @@ time format settings. 'WhatsApp' system messages are formatted according to spec
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">SimulatedChat</span> <span class="op">&lt;-</span> <span class="fu">create_chatlog</span><span class="op">(</span>path<span class="op">=</span><span class="cn">NA</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">SimulatedChat</span> <span class="op">&lt;-</span> <span class="fu">create_chatlog</span><span class="op">(</span>path <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>

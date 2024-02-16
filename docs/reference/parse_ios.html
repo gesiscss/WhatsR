@@ -19,7 +19,7 @@ called from within parse_chat"><!-- mathjax --><script src="https://cdnjs.cloudf
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">WhatsR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4</span>
       </span>
     </div>
 
@@ -53,7 +53,7 @@ called from within <code><a href="parse_chat.html">parse_chat</a></code></p>
 <span>  newline_indicator <span class="op">=</span> <span class="st">"\n"</span>,</span>
 <span>  media_omitted <span class="op">=</span> <span class="st">"&lt;media omitted&gt;"</span>,</span>
 <span>  media_indicator <span class="op">=</span> <span class="st">"^&lt;attached:\\s(.)*?\\.(.)*?&gt;$"</span>,</span>
-<span>  sent_location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Location: (?=https:\\/\\/maps\\.google\\.com\\/"</span>,</span>
+<span>  sent_location <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"location: (?=https:\\/\\/maps\\.google\\.com\\/"</span>,</span>
 <span>    <span class="st">"\\?q=\\d\\d.\\d{6}\\,\\d\\.\\d{6})"</span><span class="op">)</span>,</span>
 <span>  live_location <span class="op">=</span> <span class="st">"^live location shared$"</span>,</span>
 <span>  datetime_indicator <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|"</span>,</span>
@@ -61,7 +61,8 @@ called from within <code><a href="parse_chat.html">parse_chat</a></code></p>
 <span>    <span class="st">"s(?i:(pm|am)))|(\\s(?i:(pm|am)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])"</span>,</span>
 <span>    sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
 <span>  newline_replace <span class="op">=</span> <span class="st">" start_newline "</span>,</span>
-<span>  media_replace <span class="op">=</span> <span class="st">" media_omitted "</span></span>
+<span>  media_replace <span class="op">=</span> <span class="st">" media_omitted "</span>,</span>
+<span>  foursquare_loc <span class="op">=</span> <span class="st">"^.*: https://foursquare.com/v/.*$"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -101,6 +102,10 @@ called from within <code><a href="parse_chat.html">parse_chat</a></code></p>
 
 <dt>media_replace</dt>
 <dd><p>Replacement string for omitted media files. Default is " media_omitted ".</p></dd>
+
+
+<dt>foursquare_loc</dt>
+<dd><p>Regex for detecting sent Locations as FourSquare Links.</p></dd>
 
 </dl></div>
     <div id="value">
