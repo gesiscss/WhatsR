@@ -60,8 +60,8 @@ jobs:
       run: |
         brew install --cask basictex
         echo "/Library/TeX/texbin" >> $GITHUB_PATH
-        sudo /Library/TeX/texbin/tlmgr update --self --all
-        sudo /Library/TeX/texbin/tlmgr install collection-latex collection-latexrecommended collection-fontsrecommended
+        # sudo /Library/TeX/texbin/tlmgr update --self --all
+        # sudo /Library/TeX/texbin/tlmgr install collection-latex collection-latexrecommended collection-fontsrecommended
 
 
     - name: Install rJava and other R dependencies
