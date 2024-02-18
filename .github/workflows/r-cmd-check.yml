@@ -62,6 +62,7 @@ jobs:
         echo "/Library/TeX/texbin" >> $GITHUB_PATH
         # sudo /Library/TeX/texbin/tlmgr update --self --all
         # sudo /Library/TeX/texbin/tlmgr install collection-latex collection-latexrecommended collection-fontsrecommended
+        tlmgr install inconsolata
 
 
     - name: Install rJava and other R dependencies
