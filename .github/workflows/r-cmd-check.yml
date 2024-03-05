@@ -64,6 +64,8 @@ jobs:
         # sudo /Library/TeX/texbin/tlmgr install collection-latex collection-latexrecommended collection-fontsrecommended
         sudo /Library/TeX/texbin/tlmgr update --self
         sudo /Library/TeX/texbin/tlmgr install inconsolata
+        # Install recommended fonts, including Helvetica
+        sudo /Library/TeX/texbin/tlmgr install collection-fontsrecommended
 
 
     - name: Install rJava and other R dependencies
