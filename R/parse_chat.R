@@ -806,6 +806,12 @@ parse_chat <- function(path,
   # add them
   DF <- cbind.data.frame(DF, TimeOrder, DisplayOrder)
 
+  # adding attributes
+  attributes(DF) <- c(attributes(DF),
+                      parsedAt = as.POSIXct(Sys.time()),
+                      language = language,
+                      detectedOS = os)
+
   # return datframe
   return(DF)
 
