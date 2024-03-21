@@ -58,7 +58,7 @@ jobs:
     - name: Install macOS system dependencies
       if: runner.os == 'macOS'
       run: |
-        brew install --cask basictex || (curl -L -o basictex.pkg "https://mirror.ctan.org/systems/mac/mactex/mactex-basictex-latest.pkg" && sudo installer -pkg basictex.pkg -target /)
+        brew install --cask basictex || (curl -L -o basictex.pkg "https://de.mirrors.cicku.me/ctan/systems/mac/mactex/BasicTeX.pkg" && sudo installer -pkg basictex.pkg -target /)
         echo "/Library/TeX/texbin" >> $GITHUB_PATH
         # sudo /Library/TeX/texbin/tlmgr update --self --all
         # sudo /Library/TeX/texbin/tlmgr install collection-latex collection-latexrecommended collection-fontsrecommended
