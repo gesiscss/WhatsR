@@ -1416,7 +1416,6 @@ test_that("Plotting Media", {
                                     jitter_val = 1,
                                     jitter_seed = 123,
                                     mapzoom = 10,
-                                     map_leeway = 0.1,
                                      exclude_sm = TRUE)
 
 
@@ -1431,7 +1430,6 @@ test_that("Plotting Media", {
                                      jitter_val = NA,
                                      jitter_seed = 567,
                                      mapzoom = 10,
-                                     map_leeway = 0.1,
                                      exclude_sm = TRUE)
 
    # generate and write file [Use this to recreate test files when parse_chat() changed]
@@ -1447,7 +1445,6 @@ test_that("Plotting Media", {
                                      jitter_val = 0.5,
                                      jitter_seed = 890,
                                      mapzoom = 10,
-                                     map_leeway = 0.1,
                                      exclude_sm = TRUE)
 
    # generate and write file [Use this to recreate test files when parse_chat() changed]
@@ -1462,7 +1459,6 @@ test_that("Plotting Media", {
                                      jitter_val = 0.5,
                                      jitter_seed = 345,
                                      mapzoom = 10,
-                                     map_leeway = 0.3,
                                      exclude_sm = TRUE)
 
    # generate and write file [Use this to recreate test files when parse_chat() changed]

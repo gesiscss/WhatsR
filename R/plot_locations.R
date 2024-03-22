@@ -8,18 +8,18 @@
 #' @param return_data If TRUE, returns a data frame of LatLon coordinates extracted from the chat for more elaborate plotting. Default is FALSE.
 #' @param jitter_value Amount of random jitter to add to the geolocations to hide exact locations. Default value is 0.01. Can be NA for exact locations.
 #' @param jitter_seed Seed for adding random jitter to coordinates. Passed to \code{\link[base]{set.seed}}
-#' @param map_leeway Adds additional space to the map so that points do not sit exactly at the border of the plot. Default value is 5.
 #' @param exclude_sm If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.
-#' @param API_key API key for \code{\link[ggmap]{register_stadiamaps}}. Default is "fbb7105f-27c1-49a0-96f8-926dfddcae32". See also: \url{https://rdrr.io/cran/ggmap/man/register_stadiamaps.html}
-#' @param map_type Type of map to be used. Passed down to \code{\link[ggmap]{get_stadiamap}}. Default is "alidade_smooth".
 #' @import ggplot2
 #' @importFrom anytime anytime
 #' @importFrom dplyr %>%
 #' @importFrom dplyr group_by
 #' @importFrom dplyr summarise
-#' @importFrom ggmap get_stadiamap
-#' @importFrom ggmap register_stadiamaps
-#' @importFrom ggmap ggmap
+#' @importFrom leaflet leaflet
+#' @importFrom leaflet addTiles
+#' @importFrom leaflet setView
+#' @importFrom leaflet addCircleMarkers
+#' @importFrom leaflet addLegend
+#' @importFrom grDevices rainbow
 #' @importFrom stats runif
 #' @importFrom stringi stri_extract_all
 #' @importFrom methods is
@@ -27,7 +27,7 @@
 #' @return Plots for geolocation and/or a data frame of latitude and longitude coordinates
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
-#' plot_locations(data, mapzoom = 10)
+#' plot_locations(data)
 #'
 ### Plotting locations conained in WhatsApp chat logs on maps
 plot_locations <- function(data,
@@ -36,28 +36,13 @@ plot_locations <- function(data,
                            endtime = "2200-01-01 00:00",
                            mapzoom = 5,
                            return_data = FALSE,
-                           jitter_value = 0.01,
-                           jitter_seed = 123,
-                           map_leeway = 0.1,
-                           exclude_sm = FALSE,
-                           API_key = "fbb7105f-27c1-49a0-96f8-926dfddcae32",
-                           map_type = "alidade_smooth") {
+                           jitter_value = NA,
+                           jitter_seed = 12345,
+                           exclude_sm = FALSE
+                           ) {
 
    # First of all, we assign local variable with NULL to prevent package build error: https://www.r-bloggers.com/no-visible-binding-for-global-variable/
    cond <- Lon <- Lat <- Sender <- NULL
-
-   # catching bad params
-
-   # API Key
-   tryCatch({
-     register_stadiamaps(API_key, write = FALSE)
-   }, warning = function(warning_condition) {
-     message(cond)
-   }, error = function(error_condition) {
-     message("An error occured while registering the Stadiamaps API key. Please check your API key and try again.")
-     message(error_condition)
-   }, finally = {
-   })
 
    # checking data
    if (!is.data.frame(data)) {stop("'data' must be a dataframe parsed with parse_chat()")}
@@ -110,8 +95,7 @@ plot_locations <- function(data,
    # limiting data to time and namescope
    data <- data[is.element(data$Sender, names) & data$DateTime >= starttime & data$DateTime <= endtime, ]
 
-   # extracting locations with geocoordinates
-   # TODO: Subset to only use google maps locations!
+   # extracting locations with geo-coordinates
    Places <- unlist(stri_extract_all(data$Location, regex = "(<?)https://maps.google.com.*"))
    Places <- Places[!is.na(Places)]
 
@@ -142,45 +126,34 @@ plot_locations <- function(data,
    LatLong <- cbind.data.frame(Metainfo, LatLong)
 
    # round locations and add some leeway
-   location <- c(
-     floor(min(LatLong[, 4])) - map_leeway,
-     floor(min(LatLong[, 3])) - map_leeway,
-    ceiling(max(LatLong[, 4])) + map_leeway,
-    ceiling(max(LatLong[, 3])) + map_leeway
-   )
+   #location <- c(
+   #   floor(min(LatLong[, 4])) - map_leeway,
+   #   floor(min(LatLong[, 3])) - map_leeway,
+   #  ceiling(max(LatLong[, 4])) + map_leeway,
+   #  ceiling(max(LatLong[, 3])) + map_leeway
+   # )
 
-   # Fetch the map [This should fail gracefully when there's no internet connection]
-   map <- tryCatch(
-     {
-       # trying to download map data
-       get_stadiamap(bbox = location, maptype = map_type, zoom = mapzoom, messaging = FALSE)
-     },
-     error = function(err) {
-       message("Could not download Stadiamaps map data. Do you have an Internet connection?")
-       #message(err)
-       return(NULL)
-     },
-     warning = function(warn) {
-       message("get_map()= returned a warning:")
-       message(warn)
-       return(NULL)
-     }
-   )
+   # Create a color palette
+   unique_senders <- unique(LatLong$Sender)
+   colors <- rainbow(length(unique_senders))
 
-   if (!is.null(map)) {
+   # Assign colors to groups by creating a factor with levels in the order of appearance
+   LatLong$color <- colors[match(LatLong$Sender, unique_senders)]
 
-     # Add the points layer
-     map <- ggmap(map) +
-       geom_point(data = LatLong, aes(x = Lon, y = Lat, fill = Sender), color = "black", size = 2, pch = 21) +
-       labs(
-         title = "Locations in Conversation",
-         subtitle = paste(starttime, " - ", endtime),
-         x = "Longitude",
-         y = "Latitude"
-       )
-
-     # plot
-     plot(map)
+   # plotting
+   map <- leaflet(LatLong) %>%
+           addTiles() %>%
+           setView(LatLong$Lon[1],LatLong$Lat[1],zoom = mapzoom) %>%
+           addCircleMarkers(~Lon,
+                            ~Lat,
+                            color = ~color,
+                            popup = ~DateTime,
+                            radius = 6,
+                            fillOpacity = 0.9) %>%
+           addLegend("bottomleft",
+                     colors = colors,
+                     labels = unique_senders,
+                     title = "Sender")
 
      # returning LatLon data if desired
      if (return_data == TRUE) {
@@ -188,9 +161,5 @@ plot_locations <- function(data,
      } else {
        return(map)
      }
-
-
-   } else{return(NA)}
-
 
  }
