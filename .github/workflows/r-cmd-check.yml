@@ -72,7 +72,7 @@ jobs:
       run: |
         Rscript -e "install.packages('rJava')"
         Rscript -e "install.packages('remotes')"
-        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat', 'ragg', 'data.table'))"
+        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat', 'ragg', 'data.table', 'leaflet'))"
 
     - name: Check
       shell: bash
