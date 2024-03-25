@@ -17,7 +17,7 @@
 #' @importFrom visNetwork visNetwork visEdges
 #' @importFrom methods is
 #' @export
-#' @return A network visualization of authors in 'WhatsApp' chat logs where each subsequent message is considered a reply to the previous one. Input will be ordered by TimeOrder column.
+#' @return A network visualization of senders in 'WhatsApp' chat logs where each subsequent message is considered a reply to the previous one. Input will be ordered by TimeOrder column.
 #' @examples
 #' data <- readRDS(system.file("ParsedWhatsAppChat.rds", package = "WhatsR"))
 #' plot_network(data)
@@ -111,7 +111,7 @@ plot_network <- function(data,
   }
 
 
-  # collapsing into messages into sessions
+  # collapsing messages into sessions
   if (collapse_sessions == TRUE) {
     # finding start and end postions of streaks
     streaks <- data.table(Tempframe$Sender)[, .(start = .I[1], end = .I[.N]), by = rleid(Tempframe$Sender)][, rleid := NULL][]
@@ -287,6 +287,7 @@ plot_network <- function(data,
   # specifiying unique interactions
   NetFrame <- NetFrame[-c(is.na(NetFrame$Sender) | is.na(NetFrame$AnsweredTo)), ]
   NetFrame$Sender <- gsub(" ","_",NetFrame$Sender)
+  NetFrame$AnsweredTo <- gsub(" ","_",NetFrame$AnsweredTo) # FIXME: REMOVE THIS IF FUNCTION BREAKS
   Interaction <- paste(NetFrame$Sender, NetFrame$AnsweredTo)
   Added_Netframe <- cbind.data.frame(Interaction, NetFrame)
 

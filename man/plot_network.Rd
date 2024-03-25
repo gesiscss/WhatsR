@@ -33,7 +33,7 @@ plot_network(
 \item{exclude_sm}{If TRUE, excludes the 'WhatsApp' system messages from the descriptive statistics. Default is FALSE.}
 }
 \value{
-A network visualization of authors in 'WhatsApp' chat logs where each subsequent message is considered a reply to the previous one. Input will be ordered by TimeOrder column.
+A network visualization of senders in 'WhatsApp' chat logs where each subsequent message is considered a reply to the previous one. Input will be ordered by TimeOrder column.
 }
 \description{
 Plots a network for replies between authors in chat logs. Each message is evaluated as a reply to the previous one.
