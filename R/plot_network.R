@@ -287,7 +287,7 @@ plot_network <- function(data,
   # specifiying unique interactions
   NetFrame <- NetFrame[-c(is.na(NetFrame$Sender) | is.na(NetFrame$AnsweredTo)), ]
   NetFrame$Sender <- gsub(" ","_",NetFrame$Sender)
-  NetFrame$AnsweredTo <- gsub(" ","_",NetFrame$AnsweredTo) # FIXME: REMOVE THIS IF FUNCTION BREAKS
+  NetFrame$AnsweredTo <- gsub(" ","_",NetFrame$AnsweredTo)
   Interaction <- paste(NetFrame$Sender, NetFrame$AnsweredTo)
   Added_Netframe <- cbind.data.frame(Interaction, NetFrame)
 
