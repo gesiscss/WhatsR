@@ -60,7 +60,7 @@ This is an R-package to import exported WhatsApp chatlogs, parse them into a usa
 ```
 
 ## Scientific use
-If you are using this package for your research, please cite it accordingly. You get the citation as a BibTex by running
+If you are using this package for your research, please cite the corresponding paper accordingly. You get the citation as a BibTex by running
 ```R
 citation("WhatsR")
 ```
@@ -68,18 +68,21 @@ citation("WhatsR")
 ```
 To cite package ‘WhatsR’ in publications use:
 
-  Kohne J (2023). “WhatsR - An R-package for parsing, anonymizing and visualizing exported
-  WhatsApp chat logs.” doi:10.5281/zenodo.7875622, <https://doi.org/10.5281/zenodo.7875622>.
+Kohne, J., Montag, C. ChatDashboard: A Framework to collect, link, and process donated WhatsApp Chat Log Data. Behav Res 56, 3658–3684 (2024). https://doi.org/10.3758/s13428-023-02276-1
 
 A BibTeX entry for LaTeX users is
 
-  @Misc{,
-    title = {WhatsR - An R-package for parsing, anonymizing and visualizing exported WhatsApp chat logs},
-    doi = {10.5281/zenodo.7875622},
-    url = {https://doi.org/10.5281/zenodo.7875622},
-    year = {2023},
-    author = {J. Kohne},
-  }
+@article{kohne2024chatdashboard,
+  title={Chat{D}ashboard: {A} {F}ramework to collect, link, and process donated {W}hats{A}pp {C}hat {L}og {D}ata},
+  author={Kohne, Julian and Montag, Christian},
+  journal={Behavior Research Methods},
+  volume={56},
+  number = {4},
+  pages={3658--3684},
+  year={2024},
+  publisher={Springer},
+  doi={10.3758/s13428-023-02276-1}
+}
 
 ```
 

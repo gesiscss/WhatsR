@@ -1,8 +1,16 @@
-bibentry(
- bibtype= "Misc",
- title = "WhatsR - An R-package for parsing, anonymizing and visualizing exported WhatsApp chat logs",
- doi = "10.5281/zenodo.7875622",
- url = "https://doi.org/10.5281/zenodo.7875622",   
- year = "2023",
- author = "J. Kohne"
+# 'CITATION' file for the WhatsR package
+
+citHeader("To cite package ‘WhatsR’ in publications use:")
+
+citEntry(
+  entry = "Article",
+  title = "ChatDashboard: A Framework to collect, link, and process donated WhatsApp Chat Log Data",
+  author = personList(as.person("Julian Kohne [aut]"), as.person("Christian Montag [aut]")),
+  year = "2024",
+  journal = "Behavior Research Methods",
+  volume = "56",
+  number = "4",
+  pages = "3658--3684",
+  doi = "10.3758/s13428-023-02276-1"
 )
+
