@@ -2,10 +2,10 @@
 
 citHeader("To cite package ‘WhatsR’ in publications use:")
 
-citEntry(
-  entry = "Article",
+bibentry(
+  bibtype = "Article",
   title = "ChatDashboard: A Framework to collect, link, and process donated WhatsApp Chat Log Data",
-  author = personList(as.person("Julian Kohne [aut]"), as.person("Christian Montag [aut]")),
+  author = c(person("Julian", "Kohne", role = "aut"), person("Christian", "Montag", role = "aut")),
   year = "2024",
   journal = "Behavior Research Methods",
   volume = "56",
