@@ -77,6 +77,7 @@ jobs:
 
     - name: Install rJava and other R dependencies
       run: |
+        export _R_CHECK_FORCE_SUGGESTS_ = false
         Rscript -e "install.packages('rJava')"
         Rscript -e "install.packages('remotes')"
         Rscript -e "remotes::install_cran(c('stringi', 'qdapRegex', 'readr', 'tokenizers', 'data.table', 'ggplot2', 'anytime', 'mgsub', 'stats', 'qdap', 'ggwordcloud', 'dplyr', 'ragg', 'checkmate', 'visNetwork', 'lubridate', 'methods', 'leaflet'))"
