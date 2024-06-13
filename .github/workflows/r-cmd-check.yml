@@ -77,11 +77,13 @@ jobs:
 
     - name: Install rJava and other R dependencies
       run: |
-        export _R_CHECK_FORCE_SUGGESTS_ = false
         Rscript -e "install.packages('rJava')"
         Rscript -e "install.packages('remotes')"
         Rscript -e "remotes::install_cran(c('stringi', 'qdapRegex', 'readr', 'tokenizers', 'data.table', 'ggplot2', 'anytime', 'mgsub', 'stats', 'qdap', 'ggwordcloud', 'dplyr', 'ragg', 'checkmate', 'visNetwork', 'lubridate', 'methods', 'leaflet'))"
 
     - name: Check
       shell: bash
-      run: R CMD build . && R CMD check *tar.gz --as-cran
+      run: |
+        export _R_CHECK_FORCE_SUGGESTS_=false
+        R CMD build .
+        R CMD check *tar.gz --as-cran
