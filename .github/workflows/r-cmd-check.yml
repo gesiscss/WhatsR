@@ -5,7 +5,6 @@ on: [push, pull_request]
 jobs:
   check:
     runs-on: ${{ matrix.config.os }}
-    timeout-minutes: 660
     strategy:
       fail-fast: false
       matrix:
@@ -31,18 +30,10 @@ jobs:
         key: ${{ runner.os }}-texlive-${{ hashFiles('**/DESCRIPTION') }}
         restore-keys: ${{ runner.os }}-texlive-
 
-    - name: Cache R
-      uses: actions/cache@v4
-      with:
-        path: |
-          ${{ runner.tool_cache }}/R
-        key: ${{ runner.os }}-R-${{ matrix.config.r }}
-
     - name: Set up R
       uses: r-lib/actions/setup-r@v2.6.5
       with:
         r-version: ${{ matrix.config.r }}
-      continue-on-error: true
 
     - name: Install Linux system dependencies
       if: runner.os == 'Linux'
@@ -55,14 +46,12 @@ jobs:
         sudo apt-get install -y libglpk-dev
         sudo R CMD javareconf
         sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
-
     - name: Install Windows system dependencies
       if: runner.os == 'Windows'
       run: |
         choco install miktex -y
         echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $Env:GITHUB_PATH
         & "C:\Program Files\MiKTeX\miktex\bin\x64\initexmf.exe" --update-fndb
-
     - name: Install macOS system dependencies
       if: runner.os == 'macOS'
       run: |
@@ -74,16 +63,11 @@ jobs:
         sudo /Library/TeX/texbin/tlmgr install inconsolata
         # Install recommended fonts, including Helvetica
         sudo /Library/TeX/texbin/tlmgr install collection-fontsrecommended
-
     - name: Install rJava and other R dependencies
       run: |
         Rscript -e "install.packages('rJava')"
         Rscript -e "install.packages('remotes')"
-        Rscript -e "remotes::install_cran(c('stringi', 'qdapRegex', 'readr', 'tokenizers', 'data.table', 'ggplot2', 'anytime', 'mgsub', 'stats', 'qdap', 'ggwordcloud', 'dplyr', 'ragg', 'checkmate', 'visNetwork', 'lubridate', 'methods', 'leaflet'))"
-
+        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat', 'ragg', 'data.table', 'leaflet'))"
     - name: Check
       shell: bash
-      run: |
-        export _R_CHECK_FORCE_SUGGESTS_=false
-        R CMD build .
-        R CMD check *tar.gz --as-cran
+      run: R CMD build . && R CMD check *tar.gz --as-cran
