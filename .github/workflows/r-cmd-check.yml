@@ -46,15 +46,13 @@ jobs:
         sudo apt-get install -y libglpk-dev
         sudo R CMD javareconf
         sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
-
     - name: Install Windows system dependencies
       if: runner.os == 'Windows'
       run: |
+        choco install rtools -y
         choco install miktex -y
         echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $Env:GITHUB_PATH
         & "C:\Program Files\MiKTeX\miktex\bin\x64\initexmf.exe" --update-fndb
-
-
     - name: Install macOS system dependencies
       if: runner.os == 'macOS'
       run: |
@@ -66,15 +64,11 @@ jobs:
         sudo /Library/TeX/texbin/tlmgr install inconsolata
         # Install recommended fonts, including Helvetica
         sudo /Library/TeX/texbin/tlmgr install collection-fontsrecommended
-
-
     - name: Install rJava and other R dependencies
       run: |
         Rscript -e "install.packages('rJava')"
         Rscript -e "install.packages('remotes')"
         Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat', 'ragg', 'data.table', 'leaflet'))"
-
     - name: Check
       shell: bash
       run: R CMD build . && R CMD check *tar.gz --as-cran
-
