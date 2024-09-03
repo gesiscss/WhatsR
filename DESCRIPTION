@@ -19,4 +19,5 @@ RoxygenNote: 7.3.1
 Suggests: extrafont, tm,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-
+URL: https://gesiscss.github.io/WhatsR/, https://github.com/gesiscss/WhatsR
+BugReports: https://github.com/gesiscss/WhatsR/issues
