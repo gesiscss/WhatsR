@@ -215,10 +215,13 @@ plot_emoji(data, plot = "splitbar", min_occur = 50, exclude_sm = TRUE)
 ```
 ![](man/figures/plot_emoji()_splitbar.png)
 
-### Location Visualization [Temporarily disabled]
+### Location Visualization
 Plotting mentioned locations by persons
 
-Currently disabled until changes in ggmap make it to CRAN
+```
+plot_locations(data)
+```
+![](man/figures/plot_locations().png)
 
 ### Replytimes
 Plotting time it takes to respond
