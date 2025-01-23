@@ -15,7 +15,7 @@ jobs:
           - {os: windows-latest, r: 'release'}
           - {os: windows-latest, r: 'oldrel'}
           - {os: macOS-latest, r: 'release'}
-          - {os: macOS-11, r: 'release', arch: 'arm64'}
+          - {os: macOS-latest, r: 'release', arch: 'arm64'}
 
     steps:
     - uses: actions/checkout@v4
