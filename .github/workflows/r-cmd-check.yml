@@ -1,9 +1,5 @@
-ok lets now go to the windows release fail. Do you think these changes could fix the issue?
-
 name: R-CMD-check
-
 on: [push, pull_request]
-
 jobs:
   check:
     runs-on: ${{ matrix.config.os }}
