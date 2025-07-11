@@ -601,7 +601,7 @@ parse_chat <- function(path,
   )
 
 
-  # Creating new variable for number of Tokens [this only count user-generated tokens, not system messages]
+  # Creating new variable for number of Tokens [this only counts user-generated tokens, not system messages]
   DF$TokCount <- sapply(DF$TokVec,function(x){
 
     a <- unlist(x)
