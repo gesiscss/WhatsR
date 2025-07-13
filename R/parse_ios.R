@@ -80,6 +80,15 @@ parse_ios <- function(chatlog,
   })
   DateTime <- substring(DateTime, 2)
 
+  # Add the german AM/PM abbreviations and replace accordingly
+  # so lubridate can parse it
+  if (sum(grepl("morgens|vorm.|mittags|nachm.|abends|nachts",DateTime)) > 0) {
+
+    DateTime <- gsub("morgens|vorm.|nachts", "AM",DateTime)
+    DateTime <- gsub("mittags|nachm.|abends", "PM",DateTime)
+
+  }
+
   # Setting orders for time parsing
   timestrings <- c(
     "dmy, HMS",

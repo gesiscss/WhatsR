@@ -90,6 +90,7 @@ download_emoji <- function(unicode_page = "https://www.unicode.org/Public/emoji/
   EmojiDF <- rbind.data.frame(EmojiDF,ManAdd[3:4,])
 
   # Matching the keycap exceptions
+  # TODO: This doesn't work when not using the Full document with nlines!
   EmojiDF[c(4648,4649),] <- ManAdd[1:2,]
   EmojiDF$OriginalOrder[4648:4649] <- c(4648,4649)
 

@@ -5,7 +5,7 @@
 [1/29/18, 12:24:15 PM] You removed Mallory
 [1/29/18, 12:25:03 PM] You added Alice
 [1/29/18, 12:24:16 PM] You added Bob
-[1/29/18, 12:26:03 PM] You changed the subject from "WhatsAppParserTest🙈" to "Whatsappparsertest2"
+[1/29/18, 12:26:03 PM] You changed the group name to "Whatsappparsertest2"
 ﻿[1/29/18, 12:26:03 PM] You changed this group's icon
 [1/29/18, 12:26:03 PM] Dave: Test test
 [1/29/18, 11:33:03 PM] Alice: Is this a chat log?
