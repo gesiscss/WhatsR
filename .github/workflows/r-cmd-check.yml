@@ -65,7 +65,9 @@ jobs:
       # Build + check
       - uses: r-lib/actions/check-r-package@v2
         with:
-          args: '--no-manual --as-cran'
+          args: |
+            --no-manual
+            --as-cran
 
       # Save logs and tarball
       - name: Upload check artefacts
