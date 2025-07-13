@@ -4,71 +4,76 @@ on: [push, pull_request]
 
 jobs:
   check:
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
-        config:
-          - {os: ubuntu-latest, r: 'devel'}
-          - {os: ubuntu-latest, r: 'release'}
-          - {os: ubuntu-latest, r: 'oldrel'}
-          - {os: windows-latest, r: 'release'}
-          - {os: windows-latest, r: 'oldrel'}
-          - {os: macOS-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release', arch: 'arm64'}
+        include:
+          # Linux
+          - {os: ubuntu-latest , r: devel  }
+          - {os: ubuntu-latest , r: release}
+          - {os: ubuntu-latest , r: oldrel }
+
+          # Windows
+          - {os: windows-latest, r: release}
+          - {os: windows-latest, r: oldrel }
+
+          # macOS (Intel and Apple Silicon)
+          - {os: macos-latest  , r: release}   # Intel
+          - {os: macos-14      , r: release}   # Apple Silicon
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      TZ: UTC
+      _R_CHECK_CRAN_INCOMING_REMOTE_: false
 
     steps:
-    - uses: actions/checkout@v4
+      # Checkout (updated to the current major tag)
+      - uses: actions/checkout@v4
 
-    - name: Cache LaTeX packages
-      uses: actions/cache@v4
-      with:
-        path: |
-          /usr/local/texlive
-          ~/Library/TinyTeX
-          ~/AppData/Roaming/TinyTeX
-        key: ${{ runner.os }}-texlive-${{ hashFiles('**/DESCRIPTION') }}
-        restore-keys: ${{ runner.os }}-texlive-
+      # R (auto-installs Rtools on Windows)
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.r }}
 
-    - name: Set up R
-      uses: r-lib/actions/setup-r@v2
-      with:
-        r-version: ${{ matrix.config.r }}
+      # Java for rJava / openNLP
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
 
-    - name: Install Linux system dependencies
-      if: runner.os == 'Linux'
-      run: |
-        sudo apt-get update -y
-        sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev
-        sudo apt-get install -y libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libfontconfig1-dev
-        sudo apt-get install -y libharfbuzz-dev libfribidi-dev
-        sudo apt-get install -y libcurl4-gnutls-dev default-jdk
-        sudo apt-get install -y libglpk-dev
-        sudo R CMD javareconf
-        sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
-    - name: Install Windows system dependencies
-      if: runner.os == 'Windows'
-      run: |
-        choco install rtools --version=4.2.0 -y
-        choco install miktex -y
-        echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $Env:GITHUB_PATH
-        & "C:\Program Files\MiKTeX\miktex\bin\x64\initexmf.exe" --update-fndb
-    - name: Install macOS system dependencies
-      if: runner.os == 'macOS'
-      run: |
-        brew install --cask basictex || (curl -L -o basictex.pkg "https://de.mirrors.cicku.me/ctan/systems/mac/mactex/BasicTeX.pkg" && sudo installer -pkg basictex.pkg -target /)
-        echo "/Library/TeX/texbin" >> $GITHUB_PATH
-        # sudo /Library/TeX/texbin/tlmgr update --self --all
-        # sudo /Library/TeX/texbin/tlmgr install collection-latex collection-latexrecommended collection-fontsrecommended
-        sudo /Library/TeX/texbin/tlmgr update --self
-        sudo /Library/TeX/texbin/tlmgr install inconsolata
-        # Install recommended fonts, including Helvetica
-        sudo /Library/TeX/texbin/tlmgr install collection-fontsrecommended
-    - name: Install rJava and other R dependencies
-      run: |
-        Rscript -e "install.packages('rJava')"
-        Rscript -e "install.packages('remotes')"
-        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat', 'ragg', 'data.table', 'leaflet'))"
-    - name: Check
-      shell: bash
-      run: R CMD build . && R CMD check *tar.gz --as-cran
+      # TinyTeX (cross-platform LaTeX)
+      - uses: r-lib/actions/setup-tinytex@v2
+
+      # Extra system libs on Linux
+      - name: Install Linux system libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev \
+              libudunits2-dev libgdal-dev libgeos-dev libproj-dev libglpk-dev \
+              libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev \
+              libtiff5-dev libjpeg-dev libfontconfig1-dev
+
+      # Install DESCRIPTION dependencies (cached)
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: rcmdcheck
+          needs: rJava
+
+      # Build + check
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          args: --as-cran
+
+      # Save logs and tarball
+      - name: Upload check artefacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-${{ matrix.os }}-${{ matrix.r }}
+          path: |
+            *.tar.gz
+            check/**
+          if-no-files-found: ignore
