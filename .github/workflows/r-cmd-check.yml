@@ -5,7 +5,6 @@ on: [push, pull_request]
 jobs:
   check:
     runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
@@ -19,9 +18,9 @@ jobs:
           - {os: windows-latest, r: release}
           - {os: windows-latest, r: oldrel }
 
-          # macOS (Intel and Apple Silicon)
-          - {os: macos-latest  , r: release}   # Intel
-          - {os: macos-14      , r: release}   # Apple Silicon
+          # macOS (Intel + Apple Silicon)
+          - {os: macos-latest  , r: release}
+          - {os: macos-14      , r: release}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -29,24 +28,19 @@ jobs:
       _R_CHECK_CRAN_INCOMING_REMOTE_: false
 
     steps:
-      # Checkout (updated to the current major tag)
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4        # 4.2.2
 
-      # R (auto-installs Rtools on Windows)
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.r }}
 
-      # Java for rJava / openNLP
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
 
-      # TinyTeX (cross-platform LaTeX)
       - uses: r-lib/actions/setup-tinytex@v2
 
-      # Extra system libs on Linux
       - name: Install Linux system libraries
         if: runner.os == 'Linux'
         run: |
@@ -56,20 +50,14 @@ jobs:
               libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev \
               libtiff5-dev libjpeg-dev libfontconfig1-dev
 
-      # Install DESCRIPTION dependencies (cached)
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: rcmdcheck
           needs: rJava
 
-      # Build + check
+      # ---- no args: line — defaults to c("--no-manual","--as-cran") ----
       - uses: r-lib/actions/check-r-package@v2
-        with:
-          args: |
-            --no-manual
-            --as-cran
 
-      # Save logs and tarball
       - name: Upload check artefacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -79,3 +67,4 @@ jobs:
             *.tar.gz
             check/**
           if-no-files-found: ignore
+
