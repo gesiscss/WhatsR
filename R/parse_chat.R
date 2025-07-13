@@ -58,8 +58,19 @@ parse_chat <- function(path,
   if (verbose) {cat("Imported raw chat file \U2713 \n")}
 
   # Regex that detects 24h/ampm, american date format, european date format and all combinations for ios and android
-  TimeRegex_android <- c("(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2,4})),\\s\\d{2}\\:\\d{2}((\\s\\-)|(\\s(?i:(am|pm))\\s\\-)))")
-  TimeRegex_ios <- c("(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2,4})),\\s\\d{1,2}\\:\\d{2}((\\:\\d{2}\\s(?i:(pm|am)))|(\\s(?i:(pm|am)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])")
+
+  # TODO: This is the current best working version
+  # TimeRegex_android <- "(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}/\\d{1,2}/\\d{2,4})),\\s\\d{1,2}:\\d{2}(?:\\s*\\p{Zs}*\\s*(AM|PM))?\\s-)"
+  # TimeRegex_ios <- c("(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2,4})),\\s\\d{1,2}\\:\\d{2}((\\:\\d{2}\\s(?i:(pm|am)))|(\\s(?i:(pm|am)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])")
+
+  # TODO: This is an alternative version that doesnt work as well
+  #TimeRegex_android <- c("(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2,4})),\\s\\d{2}\\:\\d{2}((\\s\\-)|(\\s(?i:(am|pm))\\s\\-)))")
+  #TimeRegex_ios <-  TimeRegex_ios <- "(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}[\\/\\-]\\d{1,2}[\\/\\-]\\d{2,4})),\\s\\d{1,2}\\:\\d{2}((\\:\\d{2}\\s(?i:(pm|am)))|(\\s(?i:(pm|am)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])"
+
+  # TODO: This is the new version, also accounting for German AM/PM translations
+  TimeRegex_android <- "(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}/\\d{1,2}/\\d{2,4})),\\s\\d{1,2}:\\d{2}(?:\\s*\\p{Zs}*\\s*(?i:(AM|PM|morgens|vorm\\.|mittags|nachm\\.|abends|nachts)))?\\s-)"
+  TimeRegex_ios <- "(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2,4})),\\s\\d{1,2}:\\d{2}((\\:\\d{2}\\s(?i:(pm|am|morgens|vorm\\.|mittags|nachm\\.|abends|nachts)))|(\\s(?i:(pm|am|morgens|vorm\\.|mittags|nachm\\.|abends|nachts)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])"
+
 
 
   ### reducing RawChat to workable size for language and os detection (if necessary) ####
@@ -186,6 +197,23 @@ parse_chat <- function(path,
   VideoCallNoResponse <- Indicators$VideoCallNoResponse
   NewContactCreation <- Indicators$NewContactCreation
   FoursquareLoc <- Indicators$FoursquareLoc
+  SelfDelMessageDuration <- Indicators$SelfDelMessageDuration
+  VideoNote <- Indicators$VideoNote
+  ContactBlocked <- Indicators$ContactBlocked
+  ContactUnblocked <- Indicators$ContactUnblocked
+  MetaAIChatDisclaimer <- Indicators$MetaAIChatDisclaimer
+  MetaAIInfo <- Indicators$MetaAIInfo
+  SelfDelMsgActivateSelf <- Indicators$SelfDelMsgActivateSelf
+  SelfDelMsgDeactivateSelf <- Indicators$SelfDelMsgDeactivateSelf
+  GroupPicDelete <- Indicators$GroupPicDelete
+  AdminJoinApprovalActivate <- Indicators$AdminJoinApprovalActivate
+  GroupDescDelete <- Indicators$GroupDescDelete
+  GroupMultiadd <- Indicators$GroupMultiadd
+  ExtendedChatProtection <- Indicators$ExtendedChatProtection
+  ExtendedChatProtectionOff <- Indicators$ExtendedChatProtectionOff
+  GroupNameChangeOnCreate <- Indicators$GroupNameChangeOnCreate
+  AdminNow <- Indicators$AdminNow
+  NoAdminNow <- Indicators$NoAdminNow
 
   # print info
   if (verbose) {cat(paste("Imported matching strings for: ", paste(language, os, sep = " "), " \U2713 \n", sep = ""))}
@@ -239,6 +267,9 @@ parse_chat <- function(path,
   }
 
   # Setting WhatsApp system messages indicator RegExes
+  # INFO: If any if these weirdly doesn't match a seemingly identical string,
+  # check for non-breaking spaces and invisible characters using charToRaw() on the
+  # original string!
   WAStrings <- c(
     StartMessage,
     StartMessageGroup,
@@ -263,19 +294,35 @@ parse_chat <- function(path,
     VideoCallTaken,
     VoiceCallNoResponse,
     VideoCallNoResponse,
-    NewContactCreation
+    NewContactCreation,
+    SelfDelMessageDuration,
+    ContactBlocked,
+    ContactUnblocked,
+    MetaAIChatDisclaimer,
+    MetaAIInfo,
+    SelfDelMsgActivateSelf,
+    GroupPicDelete,
+    AdminJoinApprovalActivate,
+    GroupDescDelete,
+    GroupMultiadd,
+    SelfDelMsgDeactivateSelf,
+    ExtendedChatProtection,
+    ExtendedChatProtectionOff,
+    GroupNameChangeOnCreate,
+    AdminNow,
+    NoAdminNow
   )
 
   # checking whether a WhatsApp message was parsed into the sender column
   WAMessagePresent <- unlist(stri_extract_all_regex(str = ParsedChat$Sender, pattern = paste(WAStrings, collapse = "|")))
-  ParsedChat$SystemMessage <- WAMessagePresent
+  ParsedChat$SystemMessage[!is.na(WAMessagePresent)] <- WAMessagePresent[!is.na(WAMessagePresent)]
   ParsedChat$Sender[!is.na(WAMessagePresent)] <- "WhatsApp System Message"
 
   # checking Whatsapp System Messages that are erroneously attributed to a chat participant:
-  StartMessagePresent <- unlist(stri_extract_all_regex(str = ParsedChat$Message, pattern = StartMessage))
-  ParsedChat$SystemMessage[is.na(ParsedChat$SystemMessage)] <- StartMessagePresent[is.na(ParsedChat$SystemMessage)]
-  ParsedChat$Sender[!is.na(StartMessagePresent)] <- "WhatsApp System Message"
-  ParsedChat$Message[!is.na(StartMessagePresent)] <- NA
+  WAMessagePresent <- unlist(stri_extract_all_regex(str = ParsedChat$Message, pattern = paste(WAStrings, collapse = "|")))
+  ParsedChat$SystemMessage[!is.na(WAMessagePresent)] <- WAMessagePresent[!is.na(WAMessagePresent)]
+  ParsedChat$Sender[!is.na(WAMessagePresent)] <- "WhatsApp System Message"
+  ParsedChat$Message[!is.na(WAMessagePresent)] <- NA
 
   # number change detection
   NumberChangePresent <- unlist(stri_extract_all_regex(str = ParsedChat$Message, pattern = UserNumberChangeUnknown))
@@ -539,6 +586,13 @@ parse_chat <- function(path,
     replacement = NA,
     perl = T
   )
+  # replacing video notes in flattened message
+  Flat <- gsub(
+    x = Flat,
+    pattern = VideoNote,
+    replacement = NA,
+    perl = T
+  )
 
   ## Removing deleted messages
   Flat <- gsub(
@@ -601,7 +655,8 @@ parse_chat <- function(path,
   )
 
 
-  # Creating new variable for number of Tokens [this only counts user-generated tokens, not system messages]
+  # Creating new variable for number of Tokens
+  # IMPORTANT: [this only counts user-generated tokens, not system messages]
   DF$TokCount <- sapply(DF$TokVec,function(x){
 
     a <- unlist(x)

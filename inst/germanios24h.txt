@@ -5,7 +5,7 @@
 ﻿﻿[29.01.18, 12:24:03] Du hast Mallory entfernt.
 ﻿﻿[29.01.18, 12:25:03] Du hast Alice hinzugefügt.
 ﻿﻿[29.01.18, 12:24:03] Du hast Bob hinzugefügt.
-﻿﻿[29.01.18, 12:26:03] Du hast den Betreff von "WhatsAppParserTest🙈" zu "Whatsappparsertest2" geändert.
+﻿﻿[29.01.18, 12:26:03] Du hast den Gruppennamen zu "Whatsappparsertest2" geändert.
 ﻿﻿[29.01.18, 12:26:03] Du hast das Gruppenbild geändert.
 ﻿[﻿29.01.18, 12:26:03] Dave: Test test
 ﻿[29.01.18, 23:33:03] Alice: Ist das hier ein Chatverlauf?
