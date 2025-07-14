@@ -3,8 +3,8 @@ Type: Package
 Title: Parsing, Anonymizing and Visualizing Exported 'WhatsApp' Chat Logs
 Version: 1.0.6
 Date: 2024-07-32
-Author: Julian Kohne <julian.kohne@gesis.org>
-Maintainer: Julian Kohne <julian.kohne@gesis.org>
+Authors@R: person("Julian", "Kohne", email = "julian.kohne@gesis.org",
+                  role = c("aut", "cre"))
 Description: Imports 'WhatsApp' chat logs and parses them into
     a usable dataframe object. The parser works on chats exported 
     from Android or iOS phones and on Linux, macOS and Windows. The parser has  multiple options for extracting smileys and emojis
