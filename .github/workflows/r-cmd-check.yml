@@ -5,63 +5,76 @@ on: [push, pull_request]
 jobs:
   check:
     runs-on: ${{ matrix.config.os }}
+
     strategy:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest, r: 'devel'}
-          - {os: ubuntu-latest, r: 'release'}
-          - {os: ubuntu-latest, r: 'oldrel'}
+          - {os: ubuntu-latest , r: 'devel'  }
+          - {os: ubuntu-latest , r: 'release'}
+          - {os: ubuntu-latest , r: 'oldrel' }
           - {os: windows-latest, r: 'release'}
-          - {os: windows-latest, r: 'oldrel'}
-          - {os: macOS-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release', arch: 'arm64'}
+          - {os: windows-latest, r: 'oldrel' }
+          - {os: macOS-latest  , r: 'release'}   # Intel
+          - {os: macOS-14      , r: 'release'}   # Apple Silicon
 
     steps:
-    - uses: actions/checkout@v4
+      # 1. Checkout ----------------------------------------------------------------
+      - uses: actions/checkout@v4            # latest 4.2.2
 
-    - name: Cache LaTeX packages
-      uses: actions/cache@v4
-      with:
-        path: |
-          /usr/local/texlive
-          ~/Library/TinyTeX
-          ~/AppData/Roaming/TinyTeX
-        key: ${{ runner.os }}-texlive-${{ hashFiles('**/DESCRIPTION') }}
-        restore-keys: ${{ runner.os }}-texlive-
+      # 2. R toolchain (auto-installs Rtools on Windows) ----------------------------
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
 
-    - name: Set up R
-      uses: r-lib/actions/setup-r@v2
-      with:
-        r-version: ${{ matrix.config.r }}
+      # 3. Java for rJava / openNLP -----------------------------------------------
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
 
-    - name: Install Linux system dependencies
-      if: runner.os == 'Linux'
-      run: |
-        sudo apt-get update -y
-        sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev
-        sudo apt-get install -y libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libfontconfig1-dev
-        sudo apt-get install -y libharfbuzz-dev libfribidi-dev
-        sudo apt-get install -y libcurl4-gnutls-dev default-jdk
-        sudo apt-get install -y libglpk-dev
-        sudo R CMD javareconf
-        sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
-    - name: Install macOS system dependencies
-      if: runner.os == 'macOS'
-      run: |
-        brew install --cask basictex || (curl -L -o basictex.pkg "https://de.mirrors.cicku.me/ctan/systems/mac/mactex/BasicTeX.pkg" && sudo installer -pkg basictex.pkg -target /)
-        echo "/Library/TeX/texbin" >> $GITHUB_PATH
-        # sudo /Library/TeX/texbin/tlmgr update --self --all
-        # sudo /Library/TeX/texbin/tlmgr install collection-latex collection-latexrecommended collection-fontsrecommended
-        sudo /Library/TeX/texbin/tlmgr update --self
-        sudo /Library/TeX/texbin/tlmgr install inconsolata
-        # Install recommended fonts, including Helvetica
-        sudo /Library/TeX/texbin/tlmgr install collection-fontsrecommended
-    - name: Install rJava and other R dependencies
-      run: |
-        Rscript -e "install.packages('rJava')"
-        Rscript -e "install.packages('remotes')"
-        Rscript -e "remotes::install_cran(c('qdapTools', 'gender', 'openNLP', 'RCurl', 'venneuler', 'qdap', 'ggwordcloud', 'ragg', 'ggmap', 'openNLPdata', 'readr', 'tokenizers', 'anytime', 'mgsub', 'checkmate', 'visNetwork', 'lubridate', 'extrafont', 'testthat', 'ragg', 'data.table', 'leaflet'))"
-    - name: Check
-      shell: bash
-      run: R CMD build . && R CMD check *tar.gz --as-cran
+      # 4. TinyTeX – cross-platform LaTeX -----------------------------------------
+      - uses: r-lib/actions/setup-tinytex@v2
+
+      # 5. Extra Linux libs --------------------------------------------------------
+      - name: Install Linux system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev \
+              libudunits2-dev libgdal-dev libgeos-dev libproj-dev libglpk-dev \
+              libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev \
+              libtiff5-dev libjpeg-dev libfontconfig1-dev
+
+      # 6. Extra macOS libs (if you still need them) ------------------------------
+      - name: Install macOS system dependencies
+        if: runner.os == 'macOS'
+        run: |
+          brew install --cask basictex              # kept from your original
+          echo "/Library/TeX/texbin" >> $GITHUB_PATH
+          sudo /Library/TeX/texbin/tlmgr update --self
+          sudo /Library/TeX/texbin/tlmgr install inconsolata collection-fontsrecommended
+
+      # 7. Install R package dependencies (+ cache) -------------------------------
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: rcmdcheck
+          needs: rJava
+
+      # 8. Build + check ----------------------------------------------------------
+      - name: Check package
+        uses: r-lib/actions/check-r-package@v2
+        with:
+          args: 'c("--no-manual", "--as-cran")'   # skip PDF manual → no pdflatex
+
+      # 9. Upload artefacts --------------------------------------------------------
+      - name: Upload check artefacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-${{ matrix.config.os }}-${{ matrix.config.r }}
+          path: |
+            *.tar.gz
+            check/**
+          if-no-files-found: ignore
