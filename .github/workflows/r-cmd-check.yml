@@ -46,13 +46,6 @@ jobs:
         sudo apt-get install -y libglpk-dev
         sudo R CMD javareconf
         sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
-    - name: Install Windows system dependencies
-      if: runner.os == 'Windows'
-      run: |
-        choco install rtools --version=4.2.0 -y
-        choco install miktex -y
-        echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -Append -FilePath $Env:GITHUB_PATH
-        & "C:\Program Files\MiKTeX\miktex\bin\x64\initexmf.exe" --update-fndb
     - name: Install macOS system dependencies
       if: runner.os == 'macOS'
       run: |
