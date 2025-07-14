@@ -20,7 +20,7 @@ jobs:
 
     steps:
       # 1. Checkout ----------------------------------------------------------------
-      - uses: actions/checkout@v4            # latest 4.2.2
+      - uses: actions/checkout@v4             # latest 4.2.2
 
       # 2. R toolchain (auto-installs Rtools on Windows) ----------------------------
       - name: Set up R
@@ -47,11 +47,11 @@ jobs:
               libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev \
               libtiff5-dev libjpeg-dev libfontconfig1-dev
 
-      # 6. Extra macOS libs (if you still need them) ------------------------------
+      # 6. Extra macOS libs (optional) --------------------------------------------
       - name: Install macOS system dependencies
         if: runner.os == 'macOS'
         run: |
-          brew install --cask basictex              # kept from your original
+          brew install --cask basictex
           echo "/Library/TeX/texbin" >> $GITHUB_PATH
           sudo /Library/TeX/texbin/tlmgr update --self
           sudo /Library/TeX/texbin/tlmgr install inconsolata collection-fontsrecommended
