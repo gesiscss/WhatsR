@@ -30,7 +30,7 @@
 #' @examples
 #' SimulatedChat <- create_chatlog(path = NA)
 #
-create_chatlog <- function(n_messages = 150,
+create_chatlog <- function(n_messages = 250,
                            n_chatters = 2,
                            n_emoji = 50,
                            n_diff_emoji = 20,
@@ -42,8 +42,8 @@ create_chatlog <- function(n_messages = 150,
                            media_excluded = TRUE,
                            n_sdp = 3,
                            n_deleted = 5,
-                           startdate = "01.01.2019",
-                           enddate = "31.12.2022",
+                           startdate = "01.01.2022",
+                           enddate = "07.08.2025",
                            language = "german",
                            time_format = "24h",
                            os = "android",
@@ -59,7 +59,6 @@ create_chatlog <- function(n_messages = 150,
   assert_numeric(n_chatters, lower = 2, upper = 50, len = 1)
   assert_numeric(n_emoji, lower = 0, upper = 80000, len = 1)
   assert_numeric(n_diff_emoji, lower = 1, upper = 3315, len = 1)
-  assert_numeric(n_diff_emoji, lower = 1, upper = 321, len = 1)
   assert_numeric(n_links, lower = 0, upper = 1000, len = 1)
   assert_numeric(n_locations, lower = 0, upper = 1000, len = 1)
   assert_numeric(n_smilies, lower = 0, upper = 80000, len = 1)
@@ -121,7 +120,7 @@ create_chatlog <- function(n_messages = 150,
   }
 
   # checking that there are enough messages to satisfy desired amount of links, emoji etc.
-  min_messages <- 20 + n_locations + n_sdp + n_media + n_deleted + max(n_links,n_emoji,n_smilies)
+  min_messages <- 50 + n_locations + n_sdp + n_media + n_deleted + max(n_links,n_emoji,n_smilies)
 
   # adding buffer
   min_messages <- min_messages + 50
@@ -171,15 +170,15 @@ create_chatlog <- function(n_messages = 150,
   # subsetting WAstrings
   if (language == "english") {
     if (os == "android") {
-      WAStrings <- WAStrings[3, 2:25]
+      WAStrings <- WAStrings[3, 2:51]
     } else {
-      WAStrings <- WAStrings[4, 2:25]
+      WAStrings <- WAStrings[4, 2:51]
     }
   } else {
     if (os == "android") {
-      WAStrings <- WAStrings[1, 2:25]
+      WAStrings <- WAStrings[1, 2:51]
     } else {
-      WAStrings <- WAStrings[2, 2:25]
+      WAStrings <- WAStrings[2, 2:51]
     }
   }
 
@@ -212,6 +211,7 @@ create_chatlog <- function(n_messages = 150,
         ts <- strftime(ts, format = "%d.%m.%y, %H:%M - ", tz = "UTC")
       } else {
         ts <- strftime(ts, format = "%d.%m.%y, %I:%M %p - ", tz = "UTC")
+        ts <- {m <- gregexpr("AM|PM", ts); regmatches(ts, m) <- lapply(regmatches(ts, m), \(x) sapply(x, \(y) sample(if(y == "AM") c("morgens","vorm.","mittags") else c("nachm.","abends","nachts"),1)))}
       }
     } else {
       if (time_format == "24h") {
@@ -305,7 +305,7 @@ create_chatlog <- function(n_messages = 150,
   #### Adding System messages
 
   # sample messages to replace with WhatsApp system messages
-  sm_rows <- sample(2:n_messages, 20)
+  sm_rows <- sample(2:n_messages, 50)
 
   # transpose WAStrings for easier handling
   WAStrings <- t(WAStrings)
@@ -316,6 +316,9 @@ create_chatlog <- function(n_messages = 150,
   if (language == "german") {
 
     if (os == "android") {
+
+      # GERMAN, Android
+
       # replacing regex strings
       WAStrings <- gsub("$", "", WAStrings, fixed = TRUE)
       WAStrings <- gsub("^", "", WAStrings, fixed = TRUE)
@@ -344,10 +347,50 @@ create_chatlog <- function(n_messages = 150,
 
       WAStrings[c(4)] <- sample(c("<Medien ausgeschlossen>","<Videonachricht weggelassen>"),1)
 
+      WAStrings[7] <- gsub("(","",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- gsub(")","",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- gsub("\".*?\"","Bockwurst",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- sample(unlist(strsplit(WAStrings[7],"|", fixed = TRUE)),1)
+
+      WAStrings[9] <- gsub("?s*","",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("(.+?)","„Bockwurst“",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("[\"„“”](.*?)[\"„“”]",'"Bockwurst"',WAStrings[9],fixed = TRUE)
+
+      WAStrings[11] <- gsub("?s*","",WAStrings[11],fixed = TRUE)
+
+      WAStrings[31] <- gsub(".*","Bob",WAStrings[31],fixed = TRUE)
+
+      WAStrings[32] <- gsub(".*:?","Beschriebender Text",WAStrings[32],fixed = TRUE)
+      WAStrings[32] <- gsub(".*","123456",WAStrings[32],fixed = TRUE)
+
+      WAStrings[33] <-  gsub(".+?","7 Tage",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub("(?:","",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub(")?","",WAStrings[33],fixed = TRUE)
+
+      WAStrings[37] <-  gsub("s+"," ",WAStrings[37],fixed = TRUE)
+      WAStrings[37] <-  gsub("start_newline","\n",WAStrings[37],fixed = TRUE)
+
+      WAStrings[38] <-  gsub("s+"," ",WAStrings[38],fixed = TRUE)
+      WAStrings[38] <-  gsub("start_newline","\n",WAStrings[38],fixed = TRUE)
+
+      WAStrings[43] <-  gsub("(?:","",WAStrings[43],fixed = TRUE)
+      WAStrings[43] <-  gsub(")?","",WAStrings[43],fixed = TRUE)
+
+      WAStrings[44] <- gsub(".*?","Bob",WAStrings[44],fixed = TRUE)
+
+      WAStrings[45] <- gsub(".*","Bob",WAStrings[45],fixed = TRUE)
+
+      WAStrings[46] <- gsub(".*?","Bob",WAStrings[46],fixed = TRUE)
+      WAStrings[46] <- gsub("„.*?“","„Gruppennamne“",WAStrings[46],fixed = TRUE)
+
+      WAStrings[49] <- gsub(".*","Bob",WAStrings[49],fixed = TRUE)
+
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[c(3, 5:23)]
+      Messages[sm_rows][1:length(WAStrings[c(3, 5:49)])] <- WAStrings[c(3, 5:49)]
 
     } else {
+
+      # GERMAN, IOS
 
       # replacing regex strings
       WAStrings <- gsub("$", "", WAStrings, fixed = TRUE)
@@ -371,25 +414,98 @@ create_chatlog <- function(n_messages = 150,
       WAStrings[2] <- gsub(")","",WAStrings[2],fixed = TRUE)
       WAStrings[2] <- sample(unlist(strsplit(WAStrings[2],"|",fixed = TRUE)),1)
 
+      #
+
+      WAStrings[c(4)] <- sample(c(paste(c("Bild","Audio","Video","Videonachricht","GIF","Sticker"),"weggelassen"),"Kontaktkarte ausgelassen"),1)
+
+      WAStrings[7] <- gsub("(","",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- gsub(")","",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- gsub(".*?","Gruppenname",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- sample(unlist(strsplit(WAStrings[7],"|", fixed = TRUE)),1)
+
+      WAStrings[9] <- gsub("?\\s*","",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("(.+?)",' "Bockwurst" ',WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("(.+?)","Bob",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub(" „Bockwurst“ .","„Bockwurst“.",WAStrings[9],fixed = TRUE)
+
+      WAStrings[11] <- gsub("?\\s*","",WAStrings[11],fixed = TRUE)
+
+      WAStrings[21] <- gsub("(","",WAStrings[21],fixed = TRUE)
+      WAStrings[21] <- gsub(")","",WAStrings[21],fixed = TRUE)
+      WAStrings[21] <- sample(unlist(strsplit(WAStrings[21],"|",fixed = TRUE)),1)
+
+      #
+
       WAStrings[22] <- gsub("(","",WAStrings[22],fixed = TRUE)
       WAStrings[22] <- gsub(")","",WAStrings[22],fixed = TRUE)
       WAStrings[22] <- sample(unlist(strsplit(WAStrings[22],"|",fixed = TRUE)),1)
 
-      WAStrings[c(4)] <- sample(c(paste(c("Bild","Audio","Video","Videonachricht","GIF","Sticker"),"weggelassen"),"Kontaktkarte ausgelassen"),1)
+      WAStrings[27] <- paste0("Sprachanruf. ", sample(1:9999, 1, replace = TRUE), ".", sample(c("Sek", "Min", "Std"), 1, replace = TRUE), ".")
+
+      WAStrings[28] <- paste0("Videoanruf. ", sample(1:9999, 1, replace = TRUE), ".", sample(c("Sek", "Min", "Std"), 1, replace = TRUE), ".")
+
+      WAStrings[29] <- gsub("\\s"," ",WAStrings[29],fixed = TRUE)
+
+      WAStrings[30] <- gsub("\\s"," ",WAStrings[30],fixed = TRUE)
+
+      WAStrings[31] <- gsub(".*", "Bob", WAStrings[31] , fixed = TRUE)
+
+      WAStrings[32] <- gsub(".*:","Beschriebender Text:",WAStrings[32],fixed = TRUE)
+      WAStrings[32] <- gsub(".*","123456",WAStrings[32],fixed = TRUE)
+
+      WAStrings[33] <-  gsub("\\s+"," ",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub("\\s*"," ",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub(" .+ "," 7 Tage ",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub(".+ ","Bob ",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub("(?:","",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub(")?","",WAStrings[33],fixed = TRUE)
+
+      WAStrings[37] <-  gsub("\\s+"," ",WAStrings[37],fixed = TRUE)
+      WAStrings[37] <-  gsub("start_newline","\n",WAStrings[37],fixed = TRUE)
+
+      WAStrings[38] <- paste0("Nur Nachrichten, die @Meta", "\u00A0", "AI erwähnen oder die Personen mit Meta", "\u00A0", "AI teilen, können von Meta gelesen werden.")
+
+      WAStrings[39] <-  gsub(" .*? "," 7 Tage ",WAStrings[39],fixed = TRUE)
+      WAStrings[39] <-  gsub(".*? ","Bob ",WAStrings[39],fixed = TRUE)
+      WAStrings[39] <-  gsub("(?:","",WAStrings[39],fixed = TRUE)
+      WAStrings[39] <-  gsub(")?","",WAStrings[39],fixed = TRUE)
+
+      WAStrings[40] <- gsub(".*?","Bob",WAStrings[40],fixed = TRUE)
+      WAStrings[40] <-  gsub("(?:","",WAStrings[40],fixed = TRUE)
+      WAStrings[40] <-  gsub(")?","",WAStrings[40],fixed = TRUE)
+
+      WAStrings[41] <- gsub(".+?","Bob",WAStrings[41],fixed = TRUE)
+
+      WAStrings[42] <- gsub(".+?","Bob",WAStrings[42],fixed = TRUE)
+
+      WAStrings[43] <-  gsub("(?:","",WAStrings[43],fixed = TRUE)
+      WAStrings[43] <-  gsub(")?","",WAStrings[43],fixed = TRUE)
+      WAStrings[43] <-  gsub(".*?","Bob",WAStrings[43],fixed = TRUE)
+
+      WAStrings[44] <- gsub(".*?","Bob",WAStrings[44],fixed = TRUE)
+
+      WAStrings[45] <- gsub(".*","Bob",WAStrings[45],fixed = TRUE)
+
+      WAStrings[46] <- gsub(".*?","Bob",WAStrings[46],fixed = TRUE)
+      WAStrings[46] <- gsub("„.*?“","„Gruppennamne“",WAStrings[46],fixed = TRUE)
+
+      WAStrings[49] <- gsub(".*","Bob",WAStrings[49],fixed = TRUE)
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[c(3, 5:23)]
+      Messages[sm_rows][1:length(WAStrings[c(3, 5:49)])] <- WAStrings[c(3, 5:49)]
     }
 
   } else {
 
     if (os == "android") {
 
+      # ENGLISH, ANDROID
+
       # replacing regex strings
       WAStrings <- gsub("$", "", WAStrings, fixed = TRUE)
       WAStrings <- gsub("^", "", WAStrings, fixed = TRUE)
       WAStrings <- gsub("(.)*?", "Bob", WAStrings, fixed = TRUE)
-      WAStrings <- gsub("\\.", ".", WAStrings, fixed = TRUE)
+      WAStrings <- gsub("\\", "", WAStrings, fixed = TRUE)
 
       # deleting/replacing unnecessary parts
       WAStrings[6] <- "location: https://maps.google.com/?q=-37.46874211,-23.82071615"
@@ -411,13 +527,55 @@ create_chatlog <- function(n_messages = 150,
       WAStrings[21] <- gsub(")","",WAStrings[21],fixed = TRUE)
       WAStrings[21] <- sample(unlist(strsplit(WAStrings[21],"|",fixed = TRUE)),1)
 
-
       WAStrings[c(4)] <- sample(c("<Media omitted>","<Video message omitted>"),1)
 
+      WAStrings[7] <- gsub(".*?","Bockwurst",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- sample(unlist(strsplit(WAStrings[7],"|", fixed = TRUE)),1)
+
+      WAStrings[9] <- gsub("?s*","",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub(" (.+?) "," „Bockwurst“ ",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("[\"„“”](.*?)[\"„“”]","„Bockwurst“",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("(.+?) ","Bob ",WAStrings[9], fixed = TRUE)
+
+      WAStrings[11] <- gsub("?s*","",WAStrings[11],fixed = TRUE)
+
+      WAStrings[31] <- gsub(".*","Bob",WAStrings[31],fixed = TRUE)
+
+      WAStrings[32] <- gsub(".*:?","Descriptive Text:",WAStrings[32],fixed = TRUE)
+      WAStrings[32] <- gsub(".*","123456",WAStrings[32],fixed = TRUE)
+
+      WAStrings[33] <-  gsub(".*?","7 days",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub("(?:","",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub(")?","",WAStrings[33],fixed = TRUE)
+
+      WAStrings[37] <-  gsub("start_newline","\n",WAStrings[37],fixed = TRUE)
+
+      WAStrings[38] <-  gsub("start_newline","\n",WAStrings[38],fixed = TRUE)
+
+      WAStrings[39] <-  gsub("(?:","",WAStrings[39],fixed = TRUE)
+      WAStrings[39] <-  gsub(")?","",WAStrings[39],fixed = TRUE)
+
+      WAStrings[40] <-  gsub("(?:","",WAStrings[40],fixed = TRUE)
+      WAStrings[40] <-  gsub(")?","",WAStrings[40],fixed = TRUE)
+
+      WAStrings[43] <-  gsub("(?:","",WAStrings[43],fixed = TRUE)
+      WAStrings[43] <-  gsub(")?","",WAStrings[43],fixed = TRUE)
+
+      WAStrings[44] <- gsub(".*?","Bob",WAStrings[44],fixed = TRUE)
+
+      WAStrings[45] <- gsub(".*?","Bob",WAStrings[45],fixed = TRUE)
+
+      #WAStrings[46] <- gsub(".*?","Bob",WAStrings[46],fixed = TRUE) # TODO: FIX THIS
+      #WAStrings[46] <- gsub("„.*?“","„Gruppennamne“",WAStrings[46],fixed = TRUE) # TODO: FIX THIS
+
+      WAStrings[49] <- gsub(".*?","Bob",WAStrings[49],fixed = TRUE)
+
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[c(3, 5:23)]
+      Messages[sm_rows][1:length(WAStrings[c(3, 5:49)])] <- WAStrings[c(3, 5:49)]
 
     } else {
+
+      # ENGLISH, IOS
 
       # replacing regex strings
       WAStrings <- gsub("$", "", WAStrings, fixed = TRUE)
@@ -431,6 +589,7 @@ create_chatlog <- function(n_messages = 150,
       WAStrings[21] <- "+ 49 000 000 changed to 004900000000."
       WAStrings <- WAStrings[-c(4)]
 
+      # selecting multi-option system messages
       WAStrings[1] <- gsub("(","",WAStrings[1],fixed = TRUE)
       WAStrings[1] <- gsub(")","",WAStrings[1],fixed = TRUE)
       WAStrings[1] <- sample(unlist(strsplit(WAStrings[1],"|",fixed = TRUE)),1)
@@ -440,14 +599,76 @@ create_chatlog <- function(n_messages = 150,
       WAStrings[2] <- gsub(")","",WAStrings[2],fixed = TRUE)
       WAStrings[2] <- sample(unlist(strsplit(WAStrings[2],"|",fixed = TRUE)),1)
 
-      WAStrings[22] <- gsub("(","",WAStrings[22],fixed = TRUE)
-      WAStrings[22] <- gsub(")","",WAStrings[22],fixed = TRUE)
-      WAStrings[22] <- sample(unlist(strsplit(WAStrings[22],"|",fixed = TRUE)),1)
+      WAStrings[c(4)] <- sample(c(paste(c("image","audio","video","video message","GIF","sticker"),"omitted"),"Contact card omitted"),1)
 
-      WAStrings[c(4)] <- sample(c(paste(c("image","audio","video","video message","GIF","sticker"),"omitted"),"contact card omitted"),1)
+      WAStrings[7] <- gsub("(","",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- gsub(")","",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- gsub(".*?","Gruppenname",WAStrings[7],fixed = TRUE)
+      WAStrings[7] <- sample(unlist(strsplit(WAStrings[7],"|", fixed = TRUE)),1)
+
+
+      WAStrings[9] <- gsub("?s*","",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("(.+?)",'Bob',WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("(.*?)"," „Bockwurst“ ",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("  „Bockwurst“ ."," „Bockwurst“.",WAStrings[9],fixed = TRUE)
+
+      WAStrings[11] <- gsub("?\\s*","",WAStrings[11],fixed = TRUE)
+
+      WAStrings[21] <- gsub("(","",WAStrings[21],fixed = TRUE)
+      WAStrings[21] <- gsub(")","",WAStrings[21],fixed = TRUE)
+      WAStrings[21] <- sample(unlist(strsplit(WAStrings[21],"|",fixed = TRUE)),1)
+
+      WAStrings[27] <- paste0("Voice call. ", sample(1:9999, 1, replace = TRUE), " ", sample(c("sec", "min", "hrs"), 1, replace = TRUE), ".")
+
+      WAStrings[28] <- paste0("Video call. ", sample(1:9999, 1, replace = TRUE), " ", sample(c("sec", "min", "hrs"), 1, replace = TRUE), ".")
+
+      WAStrings[29] <- gsub("\\s"," ",WAStrings[29], fixed = TRUE)
+
+      WAStrings[30] <- gsub("\\s"," ",WAStrings[30],fixed = TRUE)
+
+      WAStrings[31] <- gsub(".*", "Bob", WAStrings[31] , fixed = TRUE)
+
+      WAStrings[32] <- gsub(".*:","Descriptive text:",WAStrings[32],fixed = TRUE)
+      WAStrings[32] <- gsub(".*","123456",WAStrings[32],fixed = TRUE)
+
+      WAStrings[33] <-  gsub(" .*? "," 7 days ",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub(".*? ","Bob ",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub("(?:","",WAStrings[33],fixed = TRUE)
+      WAStrings[33] <-  gsub(")?","",WAStrings[33],fixed = TRUE)
+
+      WAStrings[37] <-  gsub("\\s+"," ",WAStrings[37],fixed = TRUE)
+      WAStrings[37] <-  gsub("start_newline","\n",WAStrings[37],fixed = TRUE)
+
+      WAStrings[38] <- "Only messages that mention or people share with @Meta AI can be read by Meta. Meta can’t read any other messages in this chat, as your personal messages remain end-to-end encrypted.Messages are generated by AI. Some may be inaccurate or inappropriate."
+
+      WAStrings[39] <-  gsub(" .*? "," 7 days ",WAStrings[39],fixed = TRUE)
+      WAStrings[39] <-  gsub(".*? ","Bob ",WAStrings[39],fixed = TRUE)
+      WAStrings[39] <-  gsub("(?:","",WAStrings[39],fixed = TRUE)
+      WAStrings[39] <-  gsub(")?","",WAStrings[39],fixed = TRUE)
+
+      WAStrings[40] <- gsub(".*?","Bob",WAStrings[40],fixed = TRUE)
+      WAStrings[40] <-  gsub("(?:","",WAStrings[40],fixed = TRUE)
+      WAStrings[40] <-  gsub(")?","",WAStrings[40],fixed = TRUE)
+
+      WAStrings[41] <- gsub(".*?","Bob",WAStrings[41],fixed = TRUE)
+
+      WAStrings[42] <- gsub(".*?","Bob",WAStrings[42],fixed = TRUE)
+
+      WAStrings[43] <-  gsub("(?:","",WAStrings[43],fixed = TRUE)
+      WAStrings[43] <-  gsub(")?","",WAStrings[43],fixed = TRUE)
+      WAStrings[43] <-  gsub(".*?","Bob",WAStrings[43],fixed = TRUE)
+
+      WAStrings[44] <- gsub(".*?","Bob",WAStrings[44],fixed = TRUE)
+
+      WAStrings[45] <- gsub(".*?","Bob",WAStrings[45],fixed = TRUE)
+
+      #WAStrings[46] <- gsub(".*?","Bob",WAStrings[46],fixed = TRUE) # TODO: FIX THIS
+      #WAStrings[46] <- gsub("„.*?“","„Gruppennamne“",WAStrings[46],fixed = TRUE) # TODO: FIX THIS
+
+      WAStrings[49] <- gsub(".*?","Bob",WAStrings[49],fixed = TRUE)
 
       # replace messages with system messages
-      Messages[sm_rows] <- WAStrings[c(3, 5:23)]
+      Messages[sm_rows][1:length(WAStrings[c(3, 5:49)])] <- WAStrings[c(3, 5:49)]
     }
   }
 
@@ -640,6 +861,7 @@ create_chatlog <- function(n_messages = 150,
 
 
   #### Pasting timestamps, names and messages together, based on OS structure
+  # TODO: CONTINUE HERE
 
   if (os == "ios") {
 
