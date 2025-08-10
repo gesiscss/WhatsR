@@ -5,7 +5,7 @@
 \title{Creating test data in the structure of 'WhatsApp' chat logs}
 \usage{
 create_chatlog(
-  n_messages = 150,
+  n_messages = 250,
   n_chatters = 2,
   n_emoji = 50,
   n_diff_emoji = 20,
@@ -17,8 +17,8 @@ create_chatlog(
   media_excluded = TRUE,
   n_sdp = 3,
   n_deleted = 5,
-  startdate = "01.01.2019",
-  enddate = "31.12.2022",
+  startdate = "01.01.2022",
+  enddate = "07.08.2025",
   language = "german",
   time_format = "24h",
   os = "android",

@@ -17,9 +17,9 @@ parse_chat(
 )
 }
 \arguments{
-\item{path}{Character string containing the file path to the exported 'WhatsApp' chat log as a .txt file.}
+\item{path}{Character string containing the file path to the exported 'WhatsApp' chat log as a .txt file or .zip folder.}
 
-\item{os}{Operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the OS. Also supports "android" or "iOS".}
+\item{os}{Operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the OS. Also supports "android" or "ios".}
 
 \item{language}{Indicates the language setting of the phone with which the messages were exported. Default is "auto" trying to match either 'English' or 'German'. More languages might be supported in the future.}
 

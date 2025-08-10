@@ -3,8 +3,8 @@
 #' @description Creates a data frame from an exported 'WhatsApp' chat log containing one row per message. Some columns
 #' are saved as lists using the I() function so that multiple elements can be stored per message while still maintaining
 #' the general structure of one row per message. These columns should be treated as lists or unlisted first.
-#' @param path Character string containing the file path to the exported 'WhatsApp' chat log as a .txt file.
-#' @param os Operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the OS. Also supports "android" or "iOS".
+#' @param path Character string containing the file path to the exported 'WhatsApp' chat log as a .txt file or .zip folder.
+#' @param os Operating system of the phone the chat was exported from. Default "auto" tries to automatically detect the OS. Also supports "android" or "ios".
 #' @param language Indicates the language setting of the phone with which the messages were exported. Default is "auto" trying to match either 'English' or 'German'. More languages might be supported in the future.
 #' @param anonymize TRUE results in the vector of sender names being anonymized and columns containing personal identifiable information to be deleted or restricted, FALSE displays the actual names and all content, "add" adds
 #' anonomized columns to the full info columns. Do not blindly trust this and always double check.
@@ -42,14 +42,29 @@ parse_chat <- function(path,
 
   # Input checking
   if (!file.exists(path)) {stop("'path' must be a valid file path to an exported 'WhatsApp' chatlog in .txt format")}
-  if (!(os == "auto" | os == "android" | os == "android")) {stop("'os' must either be 'android','ios', or 'auto'")}
+  if (!(os == "auto" | os == "android" | os == "ios")) {stop("'os' must either be 'android','ios', or 'auto'")}
   if (!(language == "auto" | language == "english" | language == "german")) {stop("'language' must be either 'english', 'german', or 'auto'")}
   if (!(is.logical(anonymize) | anonymize == "add")) {stop("'anonymize' must be either TRUE, FALSE, or 'add'")}
-  if (!(is.character(consent) | is.na(consent))) {stop("'consent' must bei either NA or a character vector")}
+  if (!(is.character(consent) | is.na(consent))) {stop("'consent' must be either NA or a character vector")}
   if (!(emoji_dictionary == "internal" | file.exists(emoji_dictionary))) {stop("'emoji_dictionary' must be 'internal' or valid path to a dictionary scraped using download_emoji()")}# TODO
   if (!(smilie_dictionary == "emoticons" | smilie_dictionary == "wikipedia")) {stop("'smilie_dictionary' must be 'emoticons' or 'wikipedia'")}
   if (!is.character(rpnl)) {stop("'rpnl' must be a character string")}
   if (!is.logical(verbose)) {stop("'verbose' must be either TRUE or FALSE")}
+
+    # accept .txt or .zip (containing one or more .txt)
+    if (!file.exists(path)) stop("'path' must be a valid path to a .txt or .zip file with a WhatsApp chat export")
+    if (grepl("\\.zip$", path, ignore.case = TRUE)) {
+      z <- utils::unzip(path, list = TRUE)
+      txt <- z$Name[grepl("\\.txt$", z$Name, ignore.case = TRUE)]
+      if (!length(txt)) stop("No .txt found inside the .zip export.")
+      tmpdir <- file.path(tempdir(), "whatsr_zip")
+      utils::unzip(path, files = txt, exdir = tmpdir, overwrite = TRUE)
+      # If multiple txts exist, choose the largest by size (usually the chat)
+      files <- file.path(tmpdir, txt)
+      sizes <- file.info(files)$size
+      path <- files[which.max(sizes)]
+      if (verbose) cat(sprintf("Detected chat log file: %s\n", basename(path)))
+    }
 
   # Importing raw chat file
   RawChat <- readChar(path, file.info(path)$size)

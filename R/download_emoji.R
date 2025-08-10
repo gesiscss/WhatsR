@@ -21,7 +21,7 @@
 
 
 # Function to scrape an emoji dictionary from https://www.unicode.org/
-download_emoji <- function(unicode_page = "https://www.unicode.org/Public/emoji/15.1/emoji-test.txt",
+download_emoji <- function(unicode_page = "https://www.unicode.org/Public/draft/emoji/emoji-test.txt",
                            delete_header = 32,
                            nlines = -1L) {
 
@@ -78,7 +78,10 @@ download_emoji <- function(unicode_page = "https://www.unicode.org/Public/emoji/
   description <- gsub(" ","_",description)
 
   # Combining into data frame
-  EmojiDF <- data.frame(R.native = emoji,Desc = description)
+  EmojiDF <- data.frame(R.native = emoji,
+                        Desc = description,
+                        Bytestring = hex_codepoints,
+                        status = status)
 
   # saving original order
   EmojiDF$OriginalOrder <- as.numeric(rownames(EmojiDF))
@@ -89,10 +92,9 @@ download_emoji <- function(unicode_page = "https://www.unicode.org/Public/emoji/
   # Combining manually added emoji with the rest
   EmojiDF <- rbind.data.frame(EmojiDF,ManAdd[3:4,])
 
-  # Matching the keycap exceptions
-  # TODO: This doesn't work when not using the Full document with nlines!
-  EmojiDF[c(4648,4649),] <- ManAdd[1:2,]
-  EmojiDF$OriginalOrder[4648:4649] <- c(4648,4649)
+  # Adding the WhatsApp special Emoji manually
+  EmojiDF[EmojiDF$Bytestring == "0023 20E3",] <- ManAdd[1,]
+  EmojiDF[EmojiDF$Bytestring == "0023 FE0F 20E3",] <- ManAdd[2,]
 
   # ordering from longest to shortest (prevents partial matching of shorter strings further down the line)
   EmojiDF <- EmojiDF[rev(order(nchar(as.character(EmojiDF$R.native)))), ]

@@ -5,7 +5,7 @@
 \title{Scraping a dictionary of emoji from https://www.unicode.org/}
 \usage{
 download_emoji(
-  unicode_page = "https://www.unicode.org/Public/emoji/15.1/emoji-test.txt",
+  unicode_page = "https://www.unicode.org/Public/draft/emoji/emoji-test.txt",
   delete_header = 32,
   nlines = -1L
 )

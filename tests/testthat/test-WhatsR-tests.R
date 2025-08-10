@@ -33,7 +33,7 @@ test_that("Updating emoji dictionary",{
   expect_equal(class(emoji_dictionary), "data.frame")
 
   # testing if columns are contained
-  expect_named(emoji_dictionary,c("R.native","Desc","OriginalOrder"))
+  expect_named(emoji_dictionary,c('R.native', 'Desc', 'Bytestring', 'status', 'OriginalOrder'))
 
 
 })
