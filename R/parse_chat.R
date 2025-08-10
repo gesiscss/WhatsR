@@ -58,16 +58,7 @@ parse_chat <- function(path,
   if (verbose) {cat("Imported raw chat file \U2713 \n")}
 
   # Regex that detects 24h/ampm, american date format, european date format and all combinations for ios and android
-
-  # TODO: This is the current best working version
-  # TimeRegex_android <- "(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}/\\d{1,2}/\\d{2,4})),\\s\\d{1,2}:\\d{2}(?:\\s*\\p{Zs}*\\s*(AM|PM))?\\s-)"
-  # TimeRegex_ios <- c("(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2,4})),\\s\\d{1,2}\\:\\d{2}((\\:\\d{2}\\s(?i:(pm|am)))|(\\s(?i:(pm|am)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])")
-
-  # TODO: This is an alternative version that doesnt work as well
-  #TimeRegex_android <- c("(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2,4})),\\s\\d{2}\\:\\d{2}((\\s\\-)|(\\s(?i:(am|pm))\\s\\-)))")
-  #TimeRegex_ios <-  TimeRegex_ios <- "(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}[\\/\\-]\\d{1,2}[\\/\\-]\\d{2,4})),\\s\\d{1,2}\\:\\d{2}((\\:\\d{2}\\s(?i:(pm|am)))|(\\s(?i:(pm|am)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])"
-
-  # TODO: This is the new version, also accounting for German AM/PM translations
+  # This is the new version, also accounting for German AM/PM translations [See github history for older verisons]
   TimeRegex_android <- "(?!^)(?=((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}/\\d{1,2}/\\d{2,4})),\\s\\d{1,2}:\\d{2}(?:\\s*\\p{Zs}*\\s*(?i:(AM|PM|morgens|vorm\\.|mittags|nachm\\.|abends|nachts)))?\\s-)"
   TimeRegex_ios <- "(?!^)(?=\\[((\\d{2}\\.\\d{2}\\.\\d{2})|(\\d{1,2}\\/\\d{1,2}\\/\\d{2,4})),\\s\\d{1,2}:\\d{2}((\\:\\d{2}\\s(?i:(pm|am|morgens|vorm\\.|mittags|nachm\\.|abends|nachts)))|(\\s(?i:(pm|am|morgens|vorm\\.|mittags|nachm\\.|abends|nachts)))|(\\:\\d{2}\\])|(\\:\\d{2})|(\\s))\\])"
 
@@ -97,7 +88,7 @@ parse_chat <- function(path,
       TimeRegex <- TimeRegex_android
     } else if (android_stamps == ios_stamps) {
 
-      cat("Operating System could not be detected automatically, please enter either 'ios' or 'android' without quatation marks and press enter")
+      cat("Operating System could not be detected automatically, please enter either 'ios' or 'android' without quotation marks and press enter")
       os <- readline(prompt = "Enter operating system: ")
 
       if (os == "android") {
@@ -134,6 +125,8 @@ parse_chat <- function(path,
     stringsAsFactors = F,
     fileEncoding = "UTF-8"
   )
+
+  # TODO: something goes wrong here
 
   # trying to auto-detect language
   if (language == "auto") {
@@ -312,6 +305,8 @@ parse_chat <- function(path,
     AdminNow,
     NoAdminNow
   )
+
+  # TODO: This is where the last testing chat fails!
 
   # checking whether a WhatsApp message was parsed into the sender column
   WAMessagePresent <- unlist(stri_extract_all_regex(str = ParsedChat$Sender, pattern = paste(WAStrings, collapse = "|")))
@@ -650,7 +645,7 @@ parse_chat <- function(path,
     Emoji = I(Emoji),
     EmojiDescriptions = I(EmojiDescriptions),
     Smilies = I(Smilies),
-    SystemMessage = SystemMessage,
+    SystemMessage = SystemMessage, # Why is this NULL?
     stringsAsFactors = FALSE
   )
 

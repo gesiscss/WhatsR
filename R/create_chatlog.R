@@ -205,32 +205,53 @@ create_chatlog <- function(n_messages = 250,
 
   #### Formatting Timestamps ####
 
+  # TODO: Fix the German ampm thing!
+
   if (language == "german") {
     if (os == "android") {
       if (time_format == "24h") {
+        # German, Android, 24h
         ts <- strftime(ts, format = "%d.%m.%y, %H:%M - ", tz = "UTC")
       } else {
+        # German, Android, AMPM
         ts <- strftime(ts, format = "%d.%m.%y, %I:%M %p - ", tz = "UTC")
-        ts <- {m <- gregexpr("AM|PM", ts); regmatches(ts, m) <- lapply(regmatches(ts, m), \(x) sapply(x, \(y) sample(if(y == "AM") c("morgens","vorm.","mittags") else c("nachm.","abends","nachts"),1)))}
+
+        # Fixing german translations for German, Android, AMPM
+        ts <- {
+          m <- gregexpr("AM|PM", ts)
+          regmatches(ts, m) <- lapply(regmatches(ts, m), function(x)
+            sapply(x, function(y)
+              sample(if (y == "AM") c("morgens","vorm.","mittags")
+                     else           c("nachm.","abends","nachts"), 1)
+            )
+          )
+          ts
+        }
       }
     } else {
       if (time_format == "24h") {
+        # German, IOS,  24h
         ts <- strftime(ts, format = "[%d.%m.%y, %H:%M:%S] ", tz = "UTC")
       } else {
+        # German, IOS, AMPM
         ts <- strftime(ts, format = "[%m/%d/%y, %I:%M:%S %p] ", tz = "UTC")
       }
     }
   } else {
     if (os == "android") {
       if (time_format == "24h") {
+        # English, Android, 24h
         ts <- strftime(ts, format = "%m/%d/%y, %H:%M - ", tz = "UTC")
       } else {
+        # English, Android, AMPM
         ts <- strftime(ts, format = "%m/%d/%y, %I:%M %p - ", tz = "UTC")
       }
     } else {
       if (time_format == "24h") {
+        # English, IOS, 24h
         ts <- strftime(ts, format = "[%m/%d/%y, %H:%M:%S] ", tz = "UTC")
       } else {
+        # English, IOS, AMPM
         ts <- strftime(ts, format = "[%m/%d/%y, %I:%M:%S %p] ", tz = "UTC")
       }
     }
@@ -335,6 +356,7 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[1] <- gsub("(","",WAStrings[1],fixed = TRUE)
       WAStrings[1] <- gsub(")","",WAStrings[1],fixed = TRUE)
       WAStrings[1] <- sample(unlist(strsplit(WAStrings[1],"|",fixed = TRUE)),1)
+      if (WAStrings[1] == "Nachrichten und Anrufe sind Ende-zu-Ende-verschlüsselt. Nur Personen in diesem Chat können sie lesen, anhören oder teilen. Mehru00A0erfahren") {WAStrings[1] <- "Nachrichten und Anrufe sind Ende-zu-Ende-verschlüsselt. Nur Personen in diesem Chat können sie lesen, anhören oder teilen. Mehr\u00A0erfahren"}
       Messages[1] <- WAStrings[1]
 
       WAStrings[2] <- gsub("(","",WAStrings[2],fixed = TRUE)
@@ -414,8 +436,6 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[2] <- gsub(")","",WAStrings[2],fixed = TRUE)
       WAStrings[2] <- sample(unlist(strsplit(WAStrings[2],"|",fixed = TRUE)),1)
 
-      #
-
       WAStrings[c(4)] <- sample(c(paste(c("Bild","Audio","Video","Videonachricht","GIF","Sticker"),"weggelassen"),"Kontaktkarte ausgelassen"),1)
 
       WAStrings[7] <- gsub("(","",WAStrings[7],fixed = TRUE)
@@ -433,8 +453,6 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[21] <- gsub("(","",WAStrings[21],fixed = TRUE)
       WAStrings[21] <- gsub(")","",WAStrings[21],fixed = TRUE)
       WAStrings[21] <- sample(unlist(strsplit(WAStrings[21],"|",fixed = TRUE)),1)
-
-      #
 
       WAStrings[22] <- gsub("(","",WAStrings[22],fixed = TRUE)
       WAStrings[22] <- gsub(")","",WAStrings[22],fixed = TRUE)
@@ -460,10 +478,9 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[33] <-  gsub("(?:","",WAStrings[33],fixed = TRUE)
       WAStrings[33] <-  gsub(")?","",WAStrings[33],fixed = TRUE)
 
-      WAStrings[37] <-  gsub("\\s+"," ",WAStrings[37],fixed = TRUE)
-      WAStrings[37] <-  gsub("start_newline","\n",WAStrings[37],fixed = TRUE)
+      WAStrings[37] <- "Meta\xC2\xA0AI ist ein optionaler Dienst von Meta, der KI-Modelle verwendet, um Antworten bereitzustellen. Teile keine Informationen, insbesondere nicht zu sensiblen Themen, über Dritte oder dich selbst, von denen du nicht möchtest, dass die KI sie speichert und verwendet. Meta teilt Informationen mit ausgewählten Partnern, damit Meta\xC2\xA0AI relevante Antworten liefern kann. Deine Interaktionen mit KIs werden nicht verwendet, um die KI bei Meta zu verbessern. Erfahre mehr über die Meta-Datenschutzrichtlinie und deine Rechte.\n\nDeine Nutzung von WhatsApp unterliegt der Datenschutzrichtlinie von WhatsApp. Durch die Nutzung von Meta\xC2\xA0AI stimmst du den KI-Nutzungsbedingungen von Meta zu. *Nutzungsbedingungen und Richtlinien ansehen*"
 
-      WAStrings[38] <- paste0("Nur Nachrichten, die @Meta", "\u00A0", "AI erwähnen oder die Personen mit Meta", "\u00A0", "AI teilen, können von Meta gelesen werden.")
+      WAStrings[38] <- "Nur Nachrichten, die @Meta AI erwähnen oder die Personen mit Meta AI teilen, können von Meta gelesen werden. Meta kann keine anderen Nachrichten in diesem Chat lesen, da deine persönlichen Nachrichten Ende-zu-Ende-verschlüsselt bleiben.\n\nNachrichten werden von einer KI generiert. Einige können falsch oder unangemessen sein."
 
       WAStrings[39] <-  gsub(" .*? "," 7 Tage ",WAStrings[39],fixed = TRUE)
       WAStrings[39] <-  gsub(".*? ","Bob ",WAStrings[39],fixed = TRUE)
@@ -476,11 +493,12 @@ create_chatlog <- function(n_messages = 250,
 
       WAStrings[41] <- gsub(".+?","Bob",WAStrings[41],fixed = TRUE)
 
-      WAStrings[42] <- gsub(".+?","Bob",WAStrings[42],fixed = TRUE)
+      WAStrings[42] <- gsub(".*?","Bob",WAStrings[42],fixed = TRUE)
 
       WAStrings[43] <-  gsub("(?:","",WAStrings[43],fixed = TRUE)
       WAStrings[43] <-  gsub(")?","",WAStrings[43],fixed = TRUE)
       WAStrings[43] <-  gsub(".*?","Bob",WAStrings[43],fixed = TRUE)
+      WAStrings[43] <-  gsub("\\*","*",WAStrings[43],fixed = TRUE)
 
       WAStrings[44] <- gsub(".*?","Bob",WAStrings[44],fixed = TRUE)
 
@@ -654,6 +672,7 @@ create_chatlog <- function(n_messages = 250,
 
       WAStrings[42] <- gsub(".*?","Bob",WAStrings[42],fixed = TRUE)
 
+      # TODO: FIX THIUS!
       WAStrings[43] <-  gsub("(?:","",WAStrings[43],fixed = TRUE)
       WAStrings[43] <-  gsub(")?","",WAStrings[43],fixed = TRUE)
       WAStrings[43] <-  gsub(".*?","Bob",WAStrings[43],fixed = TRUE)
@@ -861,15 +880,19 @@ create_chatlog <- function(n_messages = 250,
 
 
   #### Pasting timestamps, names and messages together, based on OS structure
-  # TODO: CONTINUE HERE
 
   if (os == "ios") {
 
+    # IOS
+
+    # removing non-system-message lines
+    sm_rows <- sm_rows[1:(length(sm_rows) - 4)]
+
     # system messages with names
-    Messages[sm_rows][c(1:4, 14:17, 19)] <- paste0(ts[sm_rows][c(1:4, 14:17, 19)], Names[sm_rows][c(1:4, 14:17, 19)], Messages[sm_rows][c(1:4, 14:17, 19)])
+    Messages[sm_rows][c(1:46)] <- paste0(ts[sm_rows][c(1:46)], Names[sm_rows][c(1:46)], Messages[sm_rows][c(1:46)])
 
     # system messages without names
-    Messages[sm_rows][c(5:13,18,20)] <- paste0(ts[sm_rows][c(5:13,18,20)], Messages[sm_rows][c(5:13,18,20)])
+    #Messages[sm_rows][c(5:13,18,20)] <- paste0(ts[sm_rows][c(5:13,18,20)], Messages[sm_rows][c(5:13,18,20)])
 
     # other messages (with names)
     Messages[-c(1, sm_rows)] <- paste0(ts[-c(1, sm_rows)], Names[c(-c(1, sm_rows))], Messages[c(-c(1, sm_rows))])
@@ -879,11 +902,16 @@ create_chatlog <- function(n_messages = 250,
 
   } else {
 
+    # ANDROID
+
+    # removing non-system-message lines
+    sm_rows <- sm_rows[1:(length(sm_rows) - 4)]
+
     # system messages with names
-    Messages[sm_rows][c(1:4, 15:17, 19)] <- paste0(ts[sm_rows][c(1:4, 15:17, 19)], Names[sm_rows][c(1:4, 15:17, 19)], Messages[sm_rows][c(1:4, 15:17, 19)])
+    Messages[sm_rows][c(1:4, 14,15,16,18, 20:26,29,31,32)] <- paste0(ts[sm_rows][c(1:4, 14,15,16,18, 20:26,29,31,32)], Names[sm_rows][c(1:4, 14,15,16,18, 20:26,29,31,32)], Messages[sm_rows][c(1:4, 14,15,16,18, 20:26,29,31,32)])
 
     # system messages without names
-    Messages[sm_rows][c(5:14,18,20)] <- paste0(ts[sm_rows][c(5:14,18,20)], Messages[sm_rows][c(5:14,18,20)])
+    Messages[sm_rows][c(5:13,17,19,27,28,30,33:46)] <- paste0(ts[sm_rows][c(5:13,17,19,27,28,30,33:46)], Messages[sm_rows][c(5:13,17,19,27,28,30,33:46)])
 
     # other messages (with names)
     Messages[-c(1, sm_rows)] <- paste0(ts[-c(1, sm_rows)], Names[c(-c(1, sm_rows))], Messages[c(-c(1, sm_rows))])
