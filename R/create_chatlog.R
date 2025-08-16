@@ -326,7 +326,9 @@ create_chatlog <- function(n_messages = 250,
   #### Adding System messages
 
   # sample messages to replace with WhatsApp system messages
-  sm_rows <- sample(2:n_messages, 50)
+  # Ensuring that system messages are within the first 200 messages
+  # so that they are picked up reliably by the excerpt in parse_chat()
+  sm_rows <- sample(2:200, 50)
 
   # transpose WAStrings for easier handling
   WAStrings <- t(WAStrings)
@@ -670,7 +672,6 @@ create_chatlog <- function(n_messages = 250,
 
       WAStrings[42] <- gsub(".*?","Bob",WAStrings[42],fixed = TRUE)
 
-      # TODO: FIX THIUS!
       WAStrings[43] <-  gsub("(?:","",WAStrings[43],fixed = TRUE)
       WAStrings[43] <-  gsub(")?","",WAStrings[43],fixed = TRUE)
       WAStrings[43] <-  gsub(".*?","Bob",WAStrings[43],fixed = TRUE)
