@@ -147,10 +147,10 @@ parse_chat <- function(path,
   if (language == "auto") {
 
     # checking presence of indicator strings
-    german_a <- sum(!is.na(unlist(stri_extract_all(excerpt, regex = gsub("$", "", gsub("^", "", WAStrings[1, ], fixed = TRUE), fixed = TRUE)[3:25]))))
-    german_i <- sum(!is.na(unlist(stri_extract_all(excerpt, regex = gsub("$", "", gsub("^", "", WAStrings[2, ], fixed = TRUE), fixed = TRUE)[3:25]))))
-    english_a <- sum(!is.na(unlist(stri_extract_all(excerpt, regex = gsub("$", "", gsub("^", "", WAStrings[3, ], fixed = TRUE), fixed = TRUE)[3:25]))))
-    english_i <- sum(!is.na(unlist(stri_extract_all(excerpt, regex = gsub("$", "", gsub("^", "", WAStrings[4, ], fixed = TRUE), fixed = TRUE)[3:25]))))
+    german_a <- sum(!is.na(unlist(stri_extract_all(excerpt, regex = gsub("$", "", gsub("^", "", WAStrings[1,c(3:18,21:28,33:51)], fixed = TRUE), fixed = TRUE)[c(3:18,21:28,33:51)]))))
+    german_i <- sum(!is.na(unlist(stri_extract_all(excerpt, regex = gsub("$", "", gsub("^", "", WAStrings[2, ], fixed = TRUE), fixed = TRUE)[3:51]))))
+    english_a <- sum(!is.na(unlist(stri_extract_all(excerpt, regex = gsub("$", "", gsub("^", "", WAStrings[3,c(3:18,21:28,33:51)], fixed = TRUE), fixed = TRUE)[c(3:18,21:28,33:51)]))))
+    english_i <- sum(!is.na(unlist(stri_extract_all(excerpt, regex = gsub("$", "", gsub("^", "", WAStrings[4, ], fixed = TRUE), fixed = TRUE)[3:51]))))
 
     # Best guess about language based on presence of indicator strings
     guess <- WAStrings[which(c(german_a, german_i, english_a, english_i) == max(c(german_a, german_i, english_a, english_i))), 1]
