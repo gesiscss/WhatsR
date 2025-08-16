@@ -141,8 +141,6 @@ parse_chat <- function(path,
     fileEncoding = "UTF-8"
   )
 
-  # TODO: something goes wrong here
-
   # trying to auto-detect language
   if (language == "auto") {
 

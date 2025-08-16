@@ -356,7 +356,7 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[1] <- gsub("(","",WAStrings[1],fixed = TRUE)
       WAStrings[1] <- gsub(")","",WAStrings[1],fixed = TRUE)
       WAStrings[1] <- sample(unlist(strsplit(WAStrings[1],"|",fixed = TRUE)),1)
-      if (WAStrings[1] == "Nachrichten und Anrufe sind Ende-zu-Ende-verschlüsselt. Nur Personen in diesem Chat können sie lesen, anhören oder teilen. Mehru00A0erfahren") {WAStrings[1] <- "Nachrichten und Anrufe sind Ende-zu-Ende-verschlüsselt. Nur Personen in diesem Chat können sie lesen, anhören oder teilen. Mehr\u00A0erfahren"}
+      if (WAStrings[1] == "Nachrichten und Anrufe sind Ende-zu-Ende-verschl\u00FCsselt. Nur Personen in diesem Chat k\u00F6nnen sie lesen, anh\u00F6ren oder teilen. Mehru00A0erfahren") {WAStrings[1] <- "Nachrichten und Anrufe sind Ende-zu-Ende-verschl\u00FCsselt. Nur Personen in diesem Chat k\u00F6nnen sie lesen, anh\u00F6ren oder teilen. Mehr\u00A0erfahren"}
       Messages[1] <- WAStrings[1]
 
       WAStrings[2] <- gsub("(","",WAStrings[2],fixed = TRUE)
@@ -375,8 +375,8 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[7] <- sample(unlist(strsplit(WAStrings[7],"|", fixed = TRUE)),1)
 
       WAStrings[9] <- gsub("?s*","",WAStrings[9],fixed = TRUE)
-      WAStrings[9] <- gsub("(.+?)","„Bockwurst“",WAStrings[9],fixed = TRUE)
-      WAStrings[9] <- gsub("[\"„“”](.*?)[\"„“”]",'"Bockwurst"',WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("(.+?)","\u201EBockwurst\u201C",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("[\"\\u201E\\u201C\\u201D](.*?)[\"\\u201E\\u201C\\u201D]",'"Bockwurst"',WAStrings[9],fixed = TRUE)
 
       WAStrings[11] <- gsub("?s*","",WAStrings[11],fixed = TRUE)
 
@@ -403,7 +403,7 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[45] <- gsub(".*","Bob",WAStrings[45],fixed = TRUE)
 
       WAStrings[46] <- gsub(".*?","Bob",WAStrings[46],fixed = TRUE)
-      WAStrings[46] <- gsub("„.*?“","„Gruppennamne“",WAStrings[46],fixed = TRUE)
+      WAStrings[46] <- gsub("\u201E.*?\u201C","\u201EGruppennamne\u201C",WAStrings[46],fixed = TRUE)
 
       WAStrings[49] <- gsub(".*","Bob",WAStrings[49],fixed = TRUE)
 
@@ -446,7 +446,7 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[9] <- gsub("?\\s*","",WAStrings[9],fixed = TRUE)
       WAStrings[9] <- gsub("(.+?)",' "Bockwurst" ',WAStrings[9],fixed = TRUE)
       WAStrings[9] <- gsub("(.+?)","Bob",WAStrings[9],fixed = TRUE)
-      WAStrings[9] <- gsub(" „Bockwurst“ .","„Bockwurst“.",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub(" \u201EBockwurst\u201C .","\u201EBockwurst\u201C.",WAStrings[9],fixed = TRUE)
 
       WAStrings[11] <- gsub("?\\s*","",WAStrings[11],fixed = TRUE)
 
@@ -478,9 +478,9 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[33] <-  gsub("(?:","",WAStrings[33],fixed = TRUE)
       WAStrings[33] <-  gsub(")?","",WAStrings[33],fixed = TRUE)
 
-      WAStrings[37] <- "Meta\xC2\xA0AI ist ein optionaler Dienst von Meta, der KI-Modelle verwendet, um Antworten bereitzustellen. Teile keine Informationen, insbesondere nicht zu sensiblen Themen, über Dritte oder dich selbst, von denen du nicht möchtest, dass die KI sie speichert und verwendet. Meta teilt Informationen mit ausgewählten Partnern, damit Meta\xC2\xA0AI relevante Antworten liefern kann. Deine Interaktionen mit KIs werden nicht verwendet, um die KI bei Meta zu verbessern. Erfahre mehr über die Meta-Datenschutzrichtlinie und deine Rechte.\n\nDeine Nutzung von WhatsApp unterliegt der Datenschutzrichtlinie von WhatsApp. Durch die Nutzung von Meta\xC2\xA0AI stimmst du den KI-Nutzungsbedingungen von Meta zu. *Nutzungsbedingungen und Richtlinien ansehen*"
+      WAStrings[37] <- "Meta\u00A0AI ist ein optionaler Dienst von Meta, der KI-Modelle verwendet, um Antworten bereitzustellen. Teile keine Informationen, insbesondere nicht zu sensiblen Themen, \u00FCber Dritte oder dich selbst, von denen du nicht m\u00F6chtest, dass die KI sie speichert und verwendet. Meta teilt Informationen mit ausgew\u00E4hlten Partnern, damit Meta\u00A0AI relevante Antworten liefern kann. Deine Interaktionen mit KIs werden nicht verwendet, um die KI bei Meta zu verbessern. Erfahre mehr \u00FCber die Meta-Datenschutzrichtlinie und deine Rechte.\n\nDeine Nutzung von WhatsApp unterliegt der Datenschutzrichtlinie von WhatsApp. Durch die Nutzung von Meta\u00A0AI stimmst du den KI-Nutzungsbedingungen von Meta zu. *Nutzungsbedingungen und Richtlinien ansehen*"
 
-      WAStrings[38] <- "Nur Nachrichten, die @Meta AI erwähnen oder die Personen mit Meta AI teilen, können von Meta gelesen werden. Meta kann keine anderen Nachrichten in diesem Chat lesen, da deine persönlichen Nachrichten Ende-zu-Ende-verschlüsselt bleiben.\n\nNachrichten werden von einer KI generiert. Einige können falsch oder unangemessen sein."
+      WAStrings[38] <- "Nur Nachrichten, die @Meta AI erw\u00E4hnen oder die Personen mit Meta AI teilen, k\u00F6nnen von Meta gelesen werden. Meta kann keine anderen Nachrichten in diesem Chat lesen, da deine pers\u00F6nlichen Nachrichten Ende-zu-Ende-verschl\u00FCsselt bleiben.\n\nNachrichten werden von einer KI generiert. Einige k\u00F6nnen falsch oder unangemessen sein."
 
       WAStrings[39] <-  gsub(" .*? "," 7 Tage ",WAStrings[39],fixed = TRUE)
       WAStrings[39] <-  gsub(".*? ","Bob ",WAStrings[39],fixed = TRUE)
@@ -505,7 +505,7 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[45] <- gsub(".*","Bob",WAStrings[45],fixed = TRUE)
 
       WAStrings[46] <- gsub(".*?","Bob",WAStrings[46],fixed = TRUE)
-      WAStrings[46] <- gsub("„.*?“","„Gruppennamne“",WAStrings[46],fixed = TRUE)
+      WAStrings[46] <- gsub("\u201E.*?\u201C","\u201EGruppennamne\u201C",WAStrings[46],fixed = TRUE)
 
       WAStrings[49] <- gsub(".*","Bob",WAStrings[49],fixed = TRUE)
 
@@ -551,8 +551,8 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[7] <- sample(unlist(strsplit(WAStrings[7],"|", fixed = TRUE)),1)
 
       WAStrings[9] <- gsub("?s*","",WAStrings[9],fixed = TRUE)
-      WAStrings[9] <- gsub(" (.+?) "," „Bockwurst“ ",WAStrings[9],fixed = TRUE)
-      WAStrings[9] <- gsub("[\"„“”](.*?)[\"„“”]","„Bockwurst“",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub(" (.+?) "," \u201EBockwurst\u201C ",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("[\"\\u201E\\u201C\\u201D](.*?)[\"\\u201E\\u201C\\u201D]","\u201EBockwurst\u201C",WAStrings[9],fixed = TRUE)
       WAStrings[9] <- gsub("(.+?) ","Bob ",WAStrings[9], fixed = TRUE)
 
       WAStrings[11] <- gsub("?s*","",WAStrings[11],fixed = TRUE)
@@ -582,9 +582,6 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[44] <- gsub(".*?","Bob",WAStrings[44],fixed = TRUE)
 
       WAStrings[45] <- gsub(".*?","Bob",WAStrings[45],fixed = TRUE)
-
-      #WAStrings[46] <- gsub(".*?","Bob",WAStrings[46],fixed = TRUE) # TODO: FIX THIS
-      #WAStrings[46] <- gsub("„.*?“","„Gruppennamne“",WAStrings[46],fixed = TRUE) # TODO: FIX THIS
 
       WAStrings[49] <- gsub(".*?","Bob",WAStrings[49],fixed = TRUE)
 
@@ -627,8 +624,8 @@ create_chatlog <- function(n_messages = 250,
 
       WAStrings[9] <- gsub("?s*","",WAStrings[9],fixed = TRUE)
       WAStrings[9] <- gsub("(.+?)",'Bob',WAStrings[9],fixed = TRUE)
-      WAStrings[9] <- gsub("(.*?)"," „Bockwurst“ ",WAStrings[9],fixed = TRUE)
-      WAStrings[9] <- gsub("  „Bockwurst“ ."," „Bockwurst“.",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("(.*?)"," \u201EBockwurst\u201C ",WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub("  \u201EBockwurst\u201C ."," \u201EBockwurst\u201C.",WAStrings[9],fixed = TRUE)
 
       WAStrings[11] <- gsub("?\\s*","",WAStrings[11],fixed = TRUE)
 
@@ -657,7 +654,8 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[37] <-  gsub("\\s+"," ",WAStrings[37],fixed = TRUE)
       WAStrings[37] <-  gsub("start_newline","\n",WAStrings[37],fixed = TRUE)
 
-      WAStrings[38] <- "Only messages that mention or people share with @Meta AI can be read by Meta. Meta can’t read any other messages in this chat, as your personal messages remain end-to-end encrypted.Messages are generated by AI. Some may be inaccurate or inappropriate."
+      WAStrings[38] <- "Only messages that mention or people share with @Meta AI can be read by Meta. Meta can\u2019t read any other messages in this chat, as your personal messages remain end-to-end encrypted.Messages are generated by AI. Some may be inaccurate or inappropriate."
+
 
       WAStrings[39] <-  gsub(" .*? "," 7 days ",WAStrings[39],fixed = TRUE)
       WAStrings[39] <-  gsub(".*? ","Bob ",WAStrings[39],fixed = TRUE)
@@ -680,9 +678,6 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[44] <- gsub(".*?","Bob",WAStrings[44],fixed = TRUE)
 
       WAStrings[45] <- gsub(".*?","Bob",WAStrings[45],fixed = TRUE)
-
-      #WAStrings[46] <- gsub(".*?","Bob",WAStrings[46],fixed = TRUE) # TODO: FIX THIS
-      #WAStrings[46] <- gsub("„.*?“","„Gruppennamne“",WAStrings[46],fixed = TRUE) # TODO: FIX THIS
 
       WAStrings[49] <- gsub(".*?","Bob",WAStrings[49],fixed = TRUE)
 
@@ -922,7 +917,9 @@ create_chatlog <- function(n_messages = 250,
 
   # write simulated chat log to file
   if (!is.na(path)) {
-    writeLines(Messages, paste0(path,"/",chatname, ".txt"))
+    con <- file(file.path(path, paste0(chatname, ".txt")), open = "wb")
+    writeLines(enc2utf8(Messages), con, useBytes = TRUE)
+    close(con)
   }
 
   # returning results
