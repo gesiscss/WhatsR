@@ -610,6 +610,8 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[1] <- gsub("(","",WAStrings[1],fixed = TRUE)
       WAStrings[1] <- gsub(")","",WAStrings[1],fixed = TRUE)
       WAStrings[1] <- sample(unlist(strsplit(WAStrings[1],"|",fixed = TRUE)),1)
+      WAStrings[1] <- gsub("?","",WAStrings[1],fixed = TRUE)
+      WAStrings[1] <- gsub(":","",WAStrings[1],fixed = TRUE)
       Messages[1] <- WAStrings[1]
 
       WAStrings[2] <- gsub("(","",WAStrings[2],fixed = TRUE)
