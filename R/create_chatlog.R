@@ -205,8 +205,6 @@ create_chatlog <- function(n_messages = 250,
 
   #### Formatting Timestamps ####
 
-  # TODO: Fix the German ampm thing!
-
   if (language == "german") {
     if (os == "android") {
       if (time_format == "24h") {
@@ -378,7 +376,7 @@ create_chatlog <- function(n_messages = 250,
 
       WAStrings[9] <- gsub("?s*","",WAStrings[9],fixed = TRUE)
       WAStrings[9] <- gsub("(.+?)","\u201EBockwurst\u201C",WAStrings[9],fixed = TRUE)
-      WAStrings[9] <- gsub("[\"\\u201E\\u201C\\u201D](.*?)[\"\\u201E\\u201C\\u201D]",'"Bockwurst"',WAStrings[9],fixed = TRUE)
+      WAStrings[9] <- gsub('["\u201E\u201C\u201D](.*?)["\u201E\u201C\u201D]', "\u201EBockwurst\u201C", WAStrings[9], fixed = TRUE)
 
       WAStrings[11] <- gsub("?s*","",WAStrings[11],fixed = TRUE)
 
@@ -552,10 +550,12 @@ create_chatlog <- function(n_messages = 250,
       WAStrings[7] <- gsub(".*?","Bockwurst",WAStrings[7],fixed = TRUE)
       WAStrings[7] <- sample(unlist(strsplit(WAStrings[7],"|", fixed = TRUE)),1)
 
+      # TODO: Fix this so it's properly replaced
       WAStrings[9] <- gsub("?s*","",WAStrings[9],fixed = TRUE)
       WAStrings[9] <- gsub(" (.+?) "," \u201EBockwurst\u201C ",WAStrings[9],fixed = TRUE)
       WAStrings[9] <- gsub("[\"\\u201E\\u201C\\u201D](.*?)[\"\\u201E\\u201C\\u201D]","\u201EBockwurst\u201C",WAStrings[9],fixed = TRUE)
       WAStrings[9] <- gsub("(.+?) ","Bob ",WAStrings[9], fixed = TRUE)
+      WAStrings[9] <- gsub(paste0('["', "\u201E\u201C\u201D", '](.*?)["', "\u201E\u201C\u201D", ']'),"\u201EBockwurst\u201C", WAStrings[9], fixed=TRUE)
 
       WAStrings[11] <- gsub("?s*","",WAStrings[11],fixed = TRUE)
 
