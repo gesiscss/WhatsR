@@ -82,6 +82,12 @@ plot_emoji <- function(data,
   # importing Emoji dictionary
   Dictionary <- read.csv(system.file("EmojiDictionary.csv", package = "WhatsR"))
 
+  # dedpulicating dictionary
+  Dictionary <- Dictionary[Dictionary$status != "minimally-qualified" & Dictionary$status != "unqualified" ,]
+
+  # absolutely ensure deduplication
+  Dictionary <- Dictionary[!duplicated(Dictionary$Desc),]
+
   # setting starttime
   if (as.POSIXct(starttime,tz="UTC") <= min(data$DateTime)) {
     starttime <- min(data$DateTime)
@@ -160,7 +166,6 @@ plot_emoji <- function(data,
   NewFrame <- cbind.data.frame(NewDates,NewSender,NewEmoji)
 
   # creating time data
-  # TODO: Maybe this is where it goes wrong?
   NewFrame$hour <- as.POSIXlt(NewFrame$NewDates,tz = "UTC")$hour
   NewFrame$year <- as.POSIXlt(NewFrame$NewDates,tz = "UTC")$year + 1900
   NewFrame$day <- weekdays(as.POSIXlt(NewFrame$NewDates,tz = "UTC"), abbreviate = FALSE)
