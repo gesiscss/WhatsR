@@ -80,6 +80,11 @@ plot_replytimes <- function(data,
     endtime <- as.POSIXct(endtime,tz = "UTC")
   }
 
+  # checking names
+  if (length(names) < 2 & names[1] != "all") {
+    stop("At least two names have to be provided To compute reply times")
+  }
+
   # setting names argument
   if (length(names) == 1 && names == "all") {
     if (exclude_sm == TRUE) {
@@ -180,6 +185,8 @@ plot_replytimes <- function(data,
     Sessionframe,
     RepliedToAfter
   )
+
+  # TODO: Only do the subsetting here?
 
   if (plot == "box") {
     if (type == "replytime") {
