@@ -8,7 +8,7 @@ test_that("Updating emoji dictionary",{
   emoji_dictionary <- tryCatch(
     {
 
-      # downloading emoji dictionary
+     # downloading emoji dictionary
       emoji_dictionary <- download_emoji(nlines = 50)
 
     },

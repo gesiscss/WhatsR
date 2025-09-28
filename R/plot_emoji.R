@@ -345,7 +345,7 @@ plot_emoji <- function(data,
       theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.2), legend.position = "none") +
       geom_label(aes(label = Glyph),
                  family = font_family,
-                 label.size = NA,
+                 linewidth = NA,
                  fill = alpha(c("white"),0),
                  size = emoji_size)
 
@@ -395,7 +395,7 @@ plot_emoji <- function(data,
       theme(legend.title = element_text("Emoji")) +
       geom_label(aes(label = Glyph, fill = Emoji),
                  family = font_family,
-                 label.size = NA,
+                 linewidth = NA,
                  fill = alpha(c("white"),0),
                  size = emoji_size,
                  position = position_dodge2(width = 0.9, preserve = "single"))

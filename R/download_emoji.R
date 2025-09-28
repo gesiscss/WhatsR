@@ -21,7 +21,7 @@
 
 
 # Function to scrape an emoji dictionary from https://www.unicode.org/
-download_emoji <- function(unicode_page = "https://www.unicode.org/Public/draft/emoji/emoji-test.txt",
+download_emoji <- function(unicode_page = "https://www.unicode.org/Public/emoji/latest/emoji-test.txt",
                            delete_header = 32,
                            nlines = -1L) {
 
