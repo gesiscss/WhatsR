@@ -319,8 +319,6 @@ parse_chat <- function(path,
     NoAdminNow
   )
 
-  # TODO: This is where the last testing chat fails!
-
   # checking whether a WhatsApp message was parsed into the sender column
   WAMessagePresent <- unlist(stri_extract_all_regex(str = ParsedChat$Sender, pattern = paste(WAStrings, collapse = "|")))
   ParsedChat$SystemMessage[!is.na(WAMessagePresent)] <- WAMessagePresent[!is.na(WAMessagePresent)]
