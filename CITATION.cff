@@ -1,0 +1,27 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: WhatsR
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Julian
+    family-names: Kohne
+    email: julian.kohne@gesis.org
+    affiliation: GESIS - Leibniz-Institut für Sozialwissenschaften
+    orcid: 'https://orcid.org/0000-0002-6710-7545'
+  - given-names: Christian
+    family-names: Montag
+    orcid: 'https://orcid.org/0000-0001-8112-0837'
+    affiliation: University of Macau
+    email: cmontag@um.edu.mo
+identifiers:
+  - type: doi
+    value: 10.3758/s13428-023-02276-1
+  - type: doi
+    value: 10.5281/zenodo.7875621
+repository-code: 'https://github.com/gesiscss/WhatsR'
+license: GPL-3.0
